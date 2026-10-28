@@ -1,0 +1,10 @@
+{
+  "name": "snowflake-sop-guide-manager",
+  "version": "1.0.0",
+  "description": "Snowflake-Schema Documentation Platform for Task-First Processes, Tools, and SOPs",
+  "scripts": {
+    "start": "npx --yes serve . -l 3000",
+    "validate": "node scripts/validate-guides.js",
+    "new-guide": "node scripts/new-guide.js"
+  }
+}

@@ -1,0 +1,229 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Snowflake SOP & Guide Manager Data Schema",
+  "description": "Relational Snowflake Schema linking central Process Hubs to reusable Tools, Roles, Plain-Language Glossary terms, and Task-Focused SOPs.",
+  "type": "object",
+  "required": ["meta", "glossary", "roles", "tools", "processes", "sops"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["organization", "version", "strictWordLimit"],
+      "properties": {
+        "organization": { "type": "string" },
+        "version": { "type": "string" },
+        "strictWordLimit": {
+          "type": "integer",
+          "default": 20,
+          "description": "Maximum words allowed per SOP action sentence (Simplified Technical English standard)."
+        }
+      }
+    },
+    "glossary": {
+      "type": "object",
+      "description": "Dimension 1: Zero-Jargon Dictionary. Maps banned acronyms or technical terms to plain-language expansions.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["term", "plainText", "definition"],
+        "properties": {
+          "term": { "type": "string" },
+          "plainText": { "type": "string", "description": "Plain English replacement automatically shown in steps." },
+          "definition": { "type": "string" }
+        }
+      }
+    },
+    "roles": {
+      "type": "object",
+      "description": "Dimension 2: Reusable Roles for RACI and task ownership.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["id", "title", "department", "color"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "department": { "type": "string" },
+          "color": { "type": "string" }
+        }
+      }
+    },
+    "tools": {
+      "type": "object",
+      "description": "Dimension 3: Normalized Tool Nodes. Update a tool once and every SOP referencing it updates automatically.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["id", "name", "category", "purpose", "accessUrl", "gettingStarted", "troubleshooting"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^TOL-[0-9]{3}$" },
+          "name": { "type": "string" },
+          "category": { "type": "string" },
+          "purpose": { "type": "string", "description": "Task-focused description of what the user achieves with this tool." },
+          "accessUrl": { "type": "string" },
+          "ownerRoleId": { "type": "string" },
+          "gettingStarted": {
+            "type": "array",
+            "description": "One-time setup steps isolated from daily operations.",
+            "items": { "type": "string" }
+          },
+          "quickCommands": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["goal", "command"],
+              "properties": {
+                "goal": { "type": "string" },
+                "command": { "type": "string" }
+              }
+            }
+          },
+          "troubleshooting": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["symptom", "cause", "fix"],
+              "properties": {
+                "symptom": { "type": "string" },
+                "cause": { "type": "string" },
+                "fix": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "processes": {
+      "type": "object",
+      "description": "Central Fact Hub: End-to-end user outcomes linking ordered SOPs, Tools, and RACI.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["id", "title", "userGoal", "trigger", "finalOutcome", "raci", "stages"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^PRC-[0-9]{3}$" },
+          "title": { "type": "string", "description": "Task-focused title (what the user wants to achieve)." },
+          "category": { "type": "string" },
+          "userGoal": { "type": "string", "description": "1-sentence core mandate (< 20 words)." },
+          "trigger": { "type": "string" },
+          "finalOutcome": { "type": "string" },
+          "valueAddCoaching": { "type": "string", "description": "How to get the best possible outcome (Kodak/Harry's benchmark)." },
+          "raci": {
+            "type": "object",
+            "properties": {
+              "responsible": { "type": "string" },
+              "accountable": { "type": "string" },
+              "consulted": { "type": "array", "items": { "type": "string" } },
+              "informed": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "stages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["stageNumber", "name", "sopId", "toolIds", "summary"],
+              "properties": {
+                "stageNumber": { "type": "integer" },
+                "name": { "type": "string" },
+                "sopId": { "type": "string" },
+                "toolIds": { "type": "array", "items": { "type": "string" } },
+                "summary": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "sops": {
+      "type": "object",
+      "description": "Dimension 4: Atomic SOP Leaf Nodes with annotated visuals, <=20-word active-voice steps, and coaching.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["id", "title", "processId", "roleId", "toolIds", "estimatedTime", "gettingStarted", "steps", "troubleshooting"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^SOP-[0-9]{3}$" },
+          "title": { "type": "string", "description": "Task-focused action title (e.g., 'Deploy a Hotfix Without Downtime')." },
+          "processId": { "type": "string" },
+          "roleId": { "type": "string" },
+          "toolIds": { "type": "array", "items": { "type": "string" } },
+          "estimatedTime": { "type": "string" },
+          "stationLocation": { "type": "string", "description": "Where the quick-reference poster or contextual overlay is placed." },
+          "userGoal": { "type": "string" },
+          "gettingStarted": {
+            "type": "array",
+            "description": "One-time setup isolated from everyday operation.",
+            "items": { "type": "string" }
+          },
+          "steps": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["stepNumber", "action", "visual"],
+              "properties": {
+                "stepNumber": { "type": "integer" },
+                "action": {
+                  "type": "string",
+                  "description": "Active-voice imperative command, strictly <= 20 words, zero raw acronyms."
+                },
+                "detail": {
+                  "type": "string",
+                  "description": "Concise supporting context or verification check."
+                },
+                "toolId": { "type": "string" },
+                "coachingTip": {
+                  "type": "string",
+                  "description": "Value-add coaching to get the best possible outcome (not just how the machine works)."
+                },
+                "visual": {
+                  "type": "object",
+                  "description": "Declarative visual canvas with target highlights, arrows, and callout badges.",
+                  "required": ["type", "caption", "elements", "annotation"],
+                  "properties": {
+                    "type": { "type": "string", "enum": ["ui-mockup", "hardware-panel", "terminal", "diagram"] },
+                    "caption": { "type": "string" },
+                    "elements": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "kind": { "type": "string", "enum": ["window", "button", "input", "badge", "valve", "gauge", "code-line", "card"] },
+                          "label": { "type": "string" },
+                          "x": { "type": "number" },
+                          "y": { "type": "number" },
+                          "w": { "type": "number" },
+                          "h": { "type": "number" },
+                          "state": { "type": "string", "enum": ["default", "active", "success", "warning", "danger"] }
+                        }
+                      }
+                    },
+                    "annotation": {
+                      "type": "object",
+                      "required": ["targetX", "targetY", "arrowFromX", "arrowFromY", "label"],
+                      "properties": {
+                        "targetX": { "type": "number" },
+                        "targetY": { "type": "number" },
+                        "targetW": { "type": "number" },
+                        "targetH": { "type": "number" },
+                        "arrowFromX": { "type": "number" },
+                        "arrowFromY": { "type": "number" },
+                        "label": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "troubleshooting": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["symptom", "fix"],
+              "properties": {
+                "symptom": { "type": "string" },
+                "cause": { "type": "string" },
+                "fix": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

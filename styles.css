@@ -1,0 +1,716 @@
+:root {
+  /* Official Siemens Energy Brand Tokens */
+  --se-dark-purple: #1B1534;
+  --se-medium-purple: #4D217A;
+  --se-purple: #641E8C;
+  --se-bright-purple: #8A00E5;
+  --se-petrol: #009999;
+  --se-petrol-dark: #007A7A;
+  --se-white: #FFFFFF;
+  --se-canvas-subtle: #F8FAFC;
+  --se-gray-0: #EAF4F8;
+  --se-gray-1: #D7E4EE;
+  --se-gray-5: #54646E;
+  --se-blue-0: #CAF9FF;
+  --se-blue-2: #21C0FF;
+  --se-blue-4: #0057C6;
+  --se-green-3: #27B66D;
+  --se-green-4: #009B55;
+  --se-critical: #DA1E28;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--se-white);
+  color: var(--se-dark-purple);
+  font-size: 15px;
+  line-height: 1.65;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 1. Top Header Bar — Official Siemens Energy 90° Gradient (#1B1534 -> #4D217A) */
+.top-header {
+  height: 54px;
+  background: linear-gradient(90deg, #1B1534 0%, #4D217A 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  flex-shrink: 0;
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--se-white);
+  cursor: pointer;
+}
+
+.petrol-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 99px;
+  background: var(--se-petrol);
+  box-shadow: 0 0 10px var(--se-petrol);
+  display: inline-block;
+}
+
+.se-wordmark {
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  color: var(--se-white);
+}
+
+.lean-pill {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--se-petrol);
+  color: var(--se-white);
+  letter-spacing: 0.04em;
+}
+
+.doc-badge {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--se-gray-0);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-wrapper {
+  position: relative;
+  width: 310px;
+}
+
+.search-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(234, 244, 248, 0.28);
+  border-radius: 6px;
+  padding: 7px 34px;
+  color: var(--se-white);
+  font-size: 13.5px;
+  transition: all 0.15s ease;
+}
+
+.search-input::placeholder {
+  color: rgba(234, 244, 248, 0.72);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--se-petrol);
+  box-shadow: 0 0 0 2px rgba(0, 153, 153, 0.35);
+  background: rgba(27, 21, 52, 0.85);
+}
+
+.search-icon {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--se-gray-0);
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.search-slash {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  color: var(--se-gray-0);
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: ui-monospace, monospace;
+}
+
+.header-btn {
+  background: var(--se-bright-purple);
+  color: var(--se-white);
+  border: none;
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.header-btn:hover {
+  background: var(--se-purple);
+}
+
+.header-btn.secondary {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(234, 244, 248, 0.3);
+}
+
+.header-btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* Signature Siemens Energy Fading Petrol Line */
+.se-fading-line {
+  height: 2px;
+  background: linear-gradient(90deg, #009999 0%, rgba(0, 153, 153, 0.4) 60%, transparent 100%);
+  flex-shrink: 0;
+}
+
+/* 2. Secondary Horizontal Category Bar (Snowflake Structural Pattern on Deep Purple) */
+.sub-navbar {
+  height: 44px;
+  background: var(--se-dark-purple);
+  border-bottom: 1px solid #2e2552;
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
+  gap: 28px;
+  flex-shrink: 0;
+}
+
+.sub-tab {
+  height: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #cbd5e1;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.sub-tab:hover {
+  color: var(--se-white);
+}
+
+.sub-tab.active {
+  color: var(--se-white);
+  font-weight: 600;
+  border-bottom-color: var(--se-petrol);
+}
+
+/* 3. Main 2-Column Layout (Left Navigation Tree + Generous White Canvas) */
+.portal-layout {
+  display: grid;
+  grid-template-columns: 285px 1fr;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Left Sidebar Tree */
+.left-sidebar {
+  background: var(--se-canvas-subtle);
+  border-right: 1px solid var(--se-gray-1);
+  overflow-y: auto;
+  padding: 20px 14px 36px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--se-gray-5);
+  padding: 8px 10px 4px;
+}
+
+.sidebar-divider {
+  height: 1px;
+  background: var(--se-gray-1);
+  margin: 12px 8px;
+}
+
+.tree-item {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--se-dark-purple);
+  text-align: left;
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.35;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.tree-item:hover {
+  background: var(--se-gray-0);
+}
+
+.tree-item.active {
+  background: var(--se-dark-purple);
+  color: var(--se-white);
+  font-weight: 600;
+}
+
+.tree-chevron {
+  font-size: 13px;
+  color: var(--se-gray-5);
+}
+
+.tree-item.active .tree-chevron {
+  color: var(--se-petrol);
+}
+
+.tree-children {
+  padding-left: 12px;
+  margin: 4px 0 8px 12px;
+  border-left: 2px solid var(--se-gray-1);
+}
+
+.tree-child {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--se-gray-5);
+  text-align: left;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+  display: block;
+}
+
+.tree-child:hover {
+  color: var(--se-dark-purple);
+  background: var(--se-gray-0);
+}
+
+.tree-child.active {
+  color: var(--se-bright-purple);
+  font-weight: 600;
+  background: rgba(138, 0, 229, 0.06);
+}
+
+.filing-callout {
+  margin-top: 20px;
+  background: var(--se-dark-purple);
+  color: var(--se-white);
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 12px;
+  line-height: 1.45;
+  border-left: 4px solid var(--se-petrol);
+}
+
+/* Center Scrollable Stage — Generous White Space (#FFFFFF) */
+.content-stage {
+  overflow-y: auto;
+  padding: 52px 68px 96px;
+  background: var(--se-white);
+}
+
+.content-container {
+  max-width: 1060px;
+  margin: 0 auto;
+}
+
+.eyebrow-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--se-petrol-dark);
+  background: var(--se-gray-0);
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.page-title {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--se-dark-purple);
+  line-height: 1.18;
+  margin-bottom: 12px;
+}
+
+.page-subtitle {
+  font-size: 16px;
+  color: var(--se-gray-5);
+  max-width: 720px;
+  margin-bottom: 48px;
+}
+
+/* Split Feature Section (Snowflake Editorial Pattern) */
+.feature-split {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 56px;
+  align-items: start;
+  margin-bottom: 72px;
+  padding-bottom: 56px;
+  border-bottom: 1px solid var(--se-gray-1);
+}
+
+.section-h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--se-dark-purple);
+  letter-spacing: -0.015em;
+  margin-bottom: 12px;
+}
+
+.section-lead {
+  font-size: 15px;
+  color: var(--se-gray-5);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.see-all-link,
+.learn-more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--se-bright-purple);
+  font-size: 14px;
+  font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 24px;
+}
+
+.learn-more-link {
+  margin-top: 12px;
+  margin-bottom: 0;
+  font-size: 13.5px;
+}
+
+.see-all-link:hover,
+.learn-more-link:hover {
+  color: var(--se-purple);
+  text-decoration: underline;
+}
+
+/* Clean Bottom-Border Accordions */
+.accordion-list {
+  border-top: 1px solid var(--se-gray-1);
+}
+
+.accordion-item {
+  border-bottom: 1px solid var(--se-gray-1);
+}
+
+.accordion-trigger {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 16px 4px;
+  color: var(--se-dark-purple);
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.accordion-trigger:hover {
+  color: var(--se-bright-purple);
+}
+
+.accordion-chevron {
+  font-size: 12px;
+  color: var(--se-gray-5);
+  transition: transform 0.2s ease;
+}
+
+.accordion-item.open .accordion-chevron {
+  transform: rotate(180deg);
+}
+
+.accordion-body {
+  display: none;
+  padding: 0 4px 18px 4px;
+  color: var(--se-gray-5);
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+
+.accordion-item.open .accordion-body {
+  display: block;
+}
+
+/* Right Soft Ice-Blue Architectural Illustration Card (#EAF4F8) */
+.illustration-card {
+  background: var(--se-gray-0);
+  border: 1px solid var(--se-gray-1);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 12px 32px rgba(27, 21, 52, 0.06);
+}
+
+.illus-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Breadcrumbs & Metadata Strip */
+.breadcrumb-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--se-gray-5);
+  margin-bottom: 14px;
+}
+
+.breadcrumb-link {
+  color: var(--se-bright-purple);
+  font-weight: 600;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 13px;
+}
+
+.breadcrumb-link:hover {
+  text-decoration: underline;
+}
+
+.meta-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  padding: 16px 20px;
+  background: var(--se-canvas-subtle);
+  border: 1px solid var(--se-gray-1);
+  border-radius: 10px;
+  margin-bottom: 40px;
+  font-size: 13.5px;
+  color: var(--se-gray-5);
+}
+
+.meta-strip strong {
+  color: var(--se-dark-purple);
+  font-weight: 700;
+}
+
+.editorial-section {
+  margin-bottom: 52px;
+}
+
+.editorial-h3 {
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--se-dark-purple);
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+
+.clean-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.clean-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: var(--se-dark-purple);
+  font-size: 15px;
+  padding: 10px 14px;
+  background: var(--se-canvas-subtle);
+  border: 1px solid var(--se-gray-1);
+  border-radius: 8px;
+}
+
+.clean-list input[type="checkbox"] {
+  margin-top: 5px;
+  accent-color: var(--se-petrol);
+}
+
+/* Step Split Row (Left <=20-Word Active Action + Right Annotated Illustration) */
+.step-split-row {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 48px;
+  padding: 36px 0;
+  border-bottom: 1px solid var(--se-gray-1);
+  align-items: center;
+}
+
+.step-kicker {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--se-petrol-dark);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.step-headline {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--se-dark-purple);
+  line-height: 1.38;
+  margin-bottom: 10px;
+}
+
+.step-subtext {
+  font-size: 14.5px;
+  color: var(--se-gray-5);
+  margin-bottom: 16px;
+}
+
+.step-note {
+  border-left: 3px solid var(--se-petrol);
+  background: var(--se-gray-0);
+  padding: 10px 14px;
+  border-radius: 0 6px 6px 0;
+  font-size: 13.5px;
+  color: var(--se-dark-purple);
+}
+
+/* Clean Siemens Energy Data Table */
+.clean-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+.clean-table th {
+  text-align: left;
+  padding: 12px 16px;
+  background: var(--se-canvas-subtle);
+  border-bottom: 2px solid var(--se-gray-1);
+  color: var(--se-dark-purple);
+  font-weight: 700;
+}
+
+.clean-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--se-gray-1);
+  color: var(--se-gray-5);
+  vertical-align: top;
+}
+
+/* Interactive Sandbox Card */
+.sandbox-card {
+  background: var(--se-dark-purple);
+  color: var(--se-white);
+  border-radius: 14px;
+  padding: 24px;
+  margin-top: 24px;
+}
+
+/* Modal for JSON Data Loader */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(27, 21, 52, 0.72);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+}
+
+.modal-backdrop.hidden {
+  display: none;
+}
+
+.modal-dialog {
+  width: min(920px, 92vw);
+  background: var(--se-white);
+  border: 1px solid var(--se-gray-1);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(27, 21, 52, 0.35);
+}
+
+.modal-top {
+  padding: 16px 24px;
+  background: linear-gradient(90deg, #1B1534 0%, #4D217A 100%);
+  color: var(--se-white);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 20px;
+  padding: 20px 24px;
+}
+
+.code-editor {
+  width: 100%;
+  height: 360px;
+  background: var(--se-dark-purple);
+  color: var(--se-blue-0);
+  border: 1px solid var(--se-gray-1);
+  border-radius: 8px;
+  padding: 14px;
+  font-family: ui-monospace, monospace;
+  font-size: 12.5px;
+}
+
+@media print {
+  .top-header,
+  .sub-navbar,
+  .left-sidebar {
+    display: none !important;
+  }
+  .portal-layout {
+    grid-template-columns: 1fr;
+  }
+  body,
+  .content-stage {
+    height: auto;
+    overflow: visible;
+    padding: 0;
+  }
+}

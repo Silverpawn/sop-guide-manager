@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Siemens Energy • Lean@GS Documentation — SOPs, Guides &amp; Reference</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Row 1: Official Siemens Energy Brand Gradient Header (#1B1534 -> #4D217A) -->
+  <header class="top-header">
+    <div class="brand-lockup" onclick="showOverview()">
+      <span class="petrol-dot" aria-hidden="true"></span>
+      <span class="se-wordmark">SIEMENS ENERGY</span>
+      <span class="lean-pill">LEAN@GS</span>
+      <span class="doc-badge">DOCUMENTATION</span>
+    </div>
+
+    <div class="header-right">
+      <div class="search-wrapper">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input
+          type="text"
+          id="searchInput"
+          class="search-input"
+          aria-label="Search guides, 28 questions, Gateways, or tools"
+          placeholder="Search guides, Q10, Metro, VOC..."
+        />
+        <span class="search-slash" aria-hidden="true">/</span>
+      </div>
+      <button type="button" class="header-btn secondary" onclick="window.print()">Print Guide</button>
+      <button type="button" class="header-btn" id="openBuilderBtn">{ } Load JSON Payload</button>
+    </div>
+  </header>
+
+  <!-- Signature Siemens Energy Fading Petrol Line -->
+  <div class="se-fading-line" aria-hidden="true"></div>
+
+  <!-- Row 2: Snowflake-Style Secondary Category Navigation Bar -->
+  <nav class="sub-navbar" id="topCategoryBar" aria-label="Documentation Categories">
+    <button type="button" class="sub-tab active" data-tab="overview" onclick="switchTopTab('overview')">
+      User Guides Overview
+    </button>
+    <button type="button" class="sub-tab" data-tab="part1" onclick="switchTopTab('part1')">
+      Part 1: PM Maturity Hub (v6.0.0)
+    </button>
+    <button type="button" class="sub-tab" data-tab="part2" onclick="switchTopTab('part2')">
+      Part 2: Navigator Toolkit (v2.4.4)
+    </button>
+    <button type="button" class="sub-tab" data-tab="questions" onclick="switchTopTab('questions')">
+      28 Questions &amp; Gateways
+    </button>
+    <button type="button" class="sub-tab" data-tab="calculator" onclick="switchTopTab('calculator')">
+      Gateway Score Calculator
+    </button>
+    <button type="button" class="sub-tab" data-tab="charter" onclick="switchTopTab('charter')">
+      1-Page Charter Template
+    </button>
+  </nav>
+
+  <!-- Main 2-Column Snowflake Layout on Generous Siemens Energy White Canvas -->
+  <div class="portal-layout">
+    <aside class="left-sidebar" id="leftSidebar"></aside>
+    <main class="content-stage" id="mainCanvas"></main>
+  </div>
+
+  <!-- JSON Payload Loader & Validator Modal -->
+  <div id="jsonModal" class="modal-backdrop hidden">
+    <div class="modal-dialog">
+      <div class="modal-top">
+        <div>
+          <strong>Load or Edit Siemens Energy Lean@GS JSON Payload (`data/guides.json`)</strong>
+        </div>
+        <button type="button" class="header-btn secondary" id="closeModalBtn">Close ✕</button>
+      </div>
+      <div class="modal-grid">
+        <div>
+          <textarea id="jsonEditor" class="code-editor" spellcheck="false" aria-label="JSON Payload Editor"></textarea>
+        </div>
+        <div style="display:flex;flex-direction:column;justify-content:space-between;">
+          <div>
+            <h4 style="margin-bottom:10px;color:#1B1534;">Snowflake Schema &amp; Usability Audit</h4>
+            <div id="liveAuditReport" style="font-size:13.5px;color:#54646E;"></div>
+            <div style="margin-top:16px;">
+              <label for="jsonFileInput" style="font-size:12.5px;font-weight:600;color:#1B1534;display:block;margin-bottom:6px;">
+                Upload JSON Payload File:
+              </label>
+              <input type="file" id="jsonFileInput" accept=".json" style="font-size:12px;color:#54646E;" />
+            </div>
+          </div>
+          <button type="button" class="header-btn" id="applyJsonBtn" style="padding:11px;font-size:13.5px;">
+            Apply JSON &amp; Render Documentation
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="data/fallback-db.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
