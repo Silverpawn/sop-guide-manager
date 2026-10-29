@@ -685,7 +685,7 @@ window.FALLBACK_GUIDES_DB = {
         }
       ]
     }
-  ],
+  },
   "questions28": [
     { "id": 1, "text": "Is there a clear business reason driving this Lean Programme?", "theme": "Foundation", "level": 0, "gateway": true },
     { "id": 2, "text": "Is leadership committed and actively invested in being involved?", "theme": "Foundation", "level": 0, "gateway": true },
