@@ -142,6 +142,11 @@ Overview stage cards must **NEVER** look like database records, audit checklists
     - Always lead with concrete **Business & Operational Priorities** (**Lead Time, Quality, Throughput, Cost, Overheads, Inventory, Complexity**) and position **Maturity Development** (including Foundation Gateways ★) as the *enabling capability* required to achieve and sustain those business results.
 12. **Post-Upload UI State Rule:**
     - When documenting tools that require a data file to reveal their workspace (such as `Navigator Toolkit → Analysis Report`), always load a valid sample `.json` assessment file into the app before capturing screenshots and writing steps so the post-upload action selection controls are visible.
+13. **Mandatory Assessment Header Rule (`Org` Code & `Date of Assessment`):**
+    - In the Maturity Assessment (`Navigator Toolkit → Maturity Assessment` and `Standalone GS Lean Maturity`), getting the **`Org`** (`Org Code`, e.g. `GS-TI-EUW-BER01`) and **`Date of Assessment`** (`YYYY-MM-DD`) right in the top User Data Plate is critical:
+      1. The application uses `Org` and `Date of Assessment` to automatically name exported files (`<OrgCode>_<YYYY-MM-DD>_Lean_Assessment.json`, `.csv`, and `_Report.pdf`). Leaving them blank produces generic `Org_Date_Lean_Assessment.json` files that overwrite each other.
+      2. The **GS Dashboard** and the `'600 Maturity Submissions'` folder index and track baseline vs. re-assessment progress using the exact `Org` code and `Date of Assessment`.
+      3. Downstream tools (`Analysis Report`, `Charter & Roadmaps`, `PM Maturity Hub`) read `Org` and `Date of Assessment` directly from the uploaded `.json` header to stamp all reports and charters.
 
 ---
 

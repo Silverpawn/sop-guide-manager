@@ -182,11 +182,15 @@ window.FALLBACK_GUIDES_DB = {
       "secondaryLiveLabel": "Maturity Model Storybook ↗",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
+        "CRITICAL HEADER RULE: Before scoring any cards, enter your exact Organisation Code in the 'Org' box (for example, GS-TI-EUW-BER01) and the exact 'Date of Assessment' in the top User Data Plate—these two fields auto-generate your exported filenames (<OrgCode>_<YYYY-MM-DD>_Lean_Assessment.json), link your site on the GS Dashboard, and stamp every downstream report.",
         "First-Time Assessment: Complete with your Lean Core Team partner to learn the 28-question rubric and evidence standard.",
-        "Ongoing Assessments: Complete directly with your Site Leadership Team as a capability self-assessment (not an audit; Core Team optional).",
-        "Open 'Maturity Assessment' (and its sub-items '↳ Maturity Explainer' and '↳ Interactive Roadmap') in Navigator Toolkit, confirm 'New Standard' is active, and fill the User Data Plate."
+        "Ongoing Assessments: Complete directly with your Site Leadership Team as a capability self-assessment (not an audit; Core Team optional)."
       ],
       "quickCommands": [
+        {
+          "goal": "Set Mandatory Header Key (Before Scoring)",
+          "command": "Enter exact Org Code in 'Org' + exact 'Date of Assessment' (auto-names <OrgCode>_<Date>_Lean_Assessment.json)"
+        },
         {
           "goal": "Pass a starred Gateway question (★ Gold Border)",
           "command": "Score >= 3 with real workplace proof across ~70% of site teams"
@@ -197,6 +201,16 @@ window.FALLBACK_GUIDES_DB = {
         }
       ],
       "buttonsReference": [
+        {
+          "button": "Org (Organisation Code — Critical Header Field)",
+          "where": "User Data Plate (Top-Right Input Box)",
+          "whatItDoes": "CRITICAL: Enter your exact official Organisation Code (for example, GS-TI-EUW-BER01). The app uses this field to name your exported files (<OrgCode>_<YYYY-MM-DD>_Lean_Assessment.json / .csv / .pdf), match your site on the GS Dashboard, index official submissions in '600 Maturity Submissions', and stamp all downstream reports."
+        },
+        {
+          "button": "Date of Assessment (Critical Header Field)",
+          "where": "User Data Plate (Second Row, Left Date Picker)",
+          "whatItDoes": "CRITICAL: Select the exact date of the assessment (YYYY-MM-DD). Together with the Org Code, this date stamps your exported filenames, tracks baseline vs. re-assessment progress over time on the GS Dashboard, and populates downstream Analysis Report and Charter headers."
+        },
         {
           "button": "View Dashboard",
           "where": "Top Action Bar (Maturity Assessment)",
@@ -259,6 +273,11 @@ window.FALLBACK_GUIDES_DB = {
         }
       ],
       "troubleshooting": [
+        {
+          "symptom": "Exported file is named 'Org_Date_Lean_Assessment.json' or fails to match our site on the GS Dashboard.",
+          "cause": "The 'Org' (Organisation Code) or 'Date of Assessment' box in the top User Data Plate was left blank or mistyped before exporting.",
+          "fix": "Scroll up to the User Data Plate, enter your exact Organisation Code in 'Org' and the date in 'Date of Assessment', then click 'Export Assessment (.json & .csv)' again."
+        },
         {
           "symptom": "We had a score of 4 last year, but the habit stopped when a manager left.",
           "cause": "Workplace habits regressed below the 70% site threshold.",
@@ -915,11 +934,15 @@ window.FALLBACK_GUIDES_DB = {
       "secondaryLiveLabel": "Maturity Model Storybook ↗",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
+        "CRITICAL HEADER RULE: Before scoring any cards, confirm 'New Standard' is active and enter your exact Organisation Code in the 'Org' box (for example, GS-TI-EUW-BER01) and the exact 'Date of Assessment' in the top User Data Plate—these two fields auto-name your exported files (<OrgCode>_<YYYY-MM-DD>_Lean_Assessment.json), index your baseline on the GS Dashboard and in '600 Maturity Submissions', and stamp all downstream reports.",
         "Open the Standalone GS Lean Maturity app and click 'Maturity Model Storybook' or 'Maturity Explainer' to review the 5 maturity levels and 10 themes before scoring.",
-        "Confirm the top-right toggle is set to 'New Standard' and complete the top assessment details (Project/Department Name, Org, Date, Assessed By, Local PM, Scope).",
         "First-time baseline assessments are completed with your Lean Core Team partner; ongoing assessments are completed directly with your Site Leadership Team as a self-assessment."
       ],
       "quickCommands": [
+        {
+          "goal": "Set Mandatory Header Key (Before Scoring)",
+          "command": "Enter exact Org Code in 'Org' + exact 'Date of Assessment' in the top User Data Plate"
+        },
         {
           "goal": "Open the 5-Level & 10-Theme Flashcards",
           "command": "Click 'Maturity Model Storybook' or 'Maturity Explainer' in the top action bar"
@@ -934,6 +957,16 @@ window.FALLBACK_GUIDES_DB = {
         }
       ],
       "buttonsReference": [
+        {
+          "button": "Org (Organisation Code — Critical Header Field)",
+          "where": "User Data Plate (Top-Right Input Box)",
+          "whatItDoes": "CRITICAL: Enter your exact official Organisation Code (for example, GS-TI-EUW-BER01). The app uses this field to name your exported files (<OrgCode>_<YYYY-MM-DD>_Lean_Assessment.json / .csv / .pdf), match your site on the GS Dashboard, index official submissions in '600 Maturity Submissions', and stamp all downstream reports."
+        },
+        {
+          "button": "Date of Assessment (Critical Header Field)",
+          "where": "User Data Plate (Second Row, Left Date Picker)",
+          "whatItDoes": "CRITICAL: Select the exact date of the assessment (YYYY-MM-DD). Together with the Org Code, this date stamps your exported filenames, tracks baseline vs. re-assessment progress over time on the GS Dashboard, and populates downstream Analysis Report and Charter headers."
+        },
         {
           "button": "✦ Maturity Model Storybook",
           "where": "Top Header / Left Sidebar Launcher",
@@ -986,6 +1019,11 @@ window.FALLBACK_GUIDES_DB = {
         }
       ],
       "troubleshooting": [
+        {
+          "symptom": "Exported file is named 'Org_Date_Lean_Assessment.json' or fails to match our site on the GS Dashboard.",
+          "cause": "The 'Org' (Organisation Code) or 'Date of Assessment' box in the top User Data Plate was left blank or mistyped before exporting.",
+          "fix": "Scroll up to the User Data Plate, enter your exact Organisation Code in 'Org' and the date in 'Date of Assessment', then click 'Export Assessment (.json & .csv)' again."
+        },
         {
           "symptom": "Our overall maturity level on the Radar Dashboard stays at Level 1 despite several 4/5 scores.",
           "cause": "One or more Starred Gateway questions (★) in Level 1 scored below 3, capping the site's overall maturity level.",
@@ -1251,27 +1289,28 @@ window.FALLBACK_GUIDES_DB = {
       },
       "userGoal": "Establish your site's baseline Lean capability across all 28 questions—completed with a Lean Core Team partner on your first assessment to learn the tool, and directly with your Site Leadership Team on ongoing assessments.",
       "gettingStarted": [
+        "CRITICAL — Get the Org Code & Date Right in the Header: Confirm the top-right toggle is on 'New Standard' and enter your exact Organisation Code in the 'Org' field (for example, GS-TI-EUW-BER01) and the exact 'Date of Assessment' in the top User Data Plate (alongside Project/Department Name, Assessed By, For OE Local PM, GS Dashboard Yes/No, and Scope). These two fields automatically name your exported files (<OrgCode>_<YYYY-MM-DD>_Lean_Assessment.json), index your submission for the GS Dashboard and '600 Maturity Submissions', and stamp all downstream reports.",
         "First-Time Assessment (Learning the Tool): Complete the assessment together with a Lean Core Team partner to learn how the 28 questions and workplace evidence work.",
-        "Ongoing Assessments (Leadership Self-Assessment): Complete the assessment directly with your Site Leadership Team as a self-assessment of capability (not an audit), with Core Team support available when needed.",
-        "Confirm the top-right toggle is set to 'New Standard', fill the User Data Plate (Project/Department Name, Org, Date, Assessed By, For OE Local PM, Scope), and open Maturity Explainer flashcards alongside the 28 cards."
+        "Ongoing Assessments (Leadership Self-Assessment): Complete the assessment directly with your Site Leadership Team as a self-assessment of capability (not an audit), with Core Team support available when needed."
       ],
       "steps": [
         {
           "stepNumber": 1,
-          "action": "Select 'New Standard', fill the User Data Plate, and review all 28 questions with Maturity Explainer.",
-          "detail": "First-time assessments: complete with your Lean Core Team partner to learn the tool. Ongoing assessments: complete directly with your Site Leadership Team as a self-assessment.",
+          "action": "Select 'New Standard' and enter your exact Org Code and Date of Assessment in the header.",
+          "detail": "CRITICAL: In the top User Data Plate, enter your exact Organisation Code in 'Org' (for example, GS-TI-EUW-BER01) and the exact 'Date of Assessment'—alongside Project/Department Name, Assessed By, For OE Local PM, Applicable for GS Dashboard (Yes/No), and Scope. First-time assessments are completed with your Lean Core Team partner; ongoing assessments are completed directly with your Site Leadership Team.",
           "toolId": "TOL-001",
-          "coachingTip": "Treat scoring as an open self-assessment of capability, never an audit—the goal is to see where teams need support, not to chase a higher score.",
+          "coachingTip": "Getting the Org Code and Date of Assessment right in the header is critical: the app uses these two fields to name your exported files (<OrgCode>_<YYYY-MM-DD>_Lean_Assessment.json), match your site on the GS Dashboard, and stamp every downstream Analysis Report and Charter.",
           "visual": {
             "type": "image",
             "imageSrc": "assets/screenshots/nav-maturity.png",
-            "caption": "Lean@GS Navigator Toolkit — Maturity Assessment (New Standard Toggle, Maturity Explainer & User Data Plate)",
+            "src": "assets/screenshots/nav-maturity.png",
+            "caption": "Lean@GS Navigator Toolkit — Maturity Assessment Header: Critical 'Org' Code & 'Date of Assessment' Highlighted",
             "hotspot": {
-              "xPercent": 33,
-              "yPercent": 21,
-              "widthPercent": 34,
-              "heightPercent": 7,
-              "label": "1. Select 'New Standard' & Fill Data Plate"
+              "xPercent": 3.5,
+              "yPercent": 28,
+              "widthPercent": 93,
+              "heightPercent": 20,
+              "label": "1. Critical: Enter Exact 'Org' Code & 'Date of Assessment' in Header"
             }
           }
         },
@@ -1334,6 +1373,11 @@ window.FALLBACK_GUIDES_DB = {
         }
       ],
       "troubleshooting": [
+        {
+          "symptom": "Exported file downloads as 'Org_Date_Lean_Assessment.json' or cannot be matched on the GS Dashboard.",
+          "cause": "The 'Org' (Organisation Code) or 'Date of Assessment' field in the top User Data Plate was left blank or mistyped before exporting.",
+          "fix": "Enter your exact official Organisation Code in the 'Org' box and the exact date in 'Date of Assessment' in the top User Data Plate, then click 'Export Assessment (.json & .csv)' again."
+        },
         {
           "symptom": "A manager insists a single high-performing cell justifies a score of 3 for the whole site.",
           "cause": "Confusing a local pilot (Score 2) with a site-wide standard (Score 3).",
@@ -1915,9 +1959,9 @@ window.FALLBACK_GUIDES_DB = {
       },
       "userGoal": "Explore the 5 maturity levels and 10 themes in the Maturity Model Storybook and Maturity Explainer flashcards, set up the assessment header, and score all 28 questions using the 70% site rule.",
       "gettingStarted": [
+        "CRITICAL — Get the Org Code & Date Right in the Header: Confirm the top-right toggle is on 'New Standard' and enter your exact Organisation Code in the 'Org' field (for example, GS-TI-EUW-BER01) and the exact 'Date of Assessment' in the top User Data Plate (alongside Project/Department Name, Assessed By, For OE Local PM, GS Dashboard Yes/No, and Scope). These two fields automatically name your exported files (<OrgCode>_<YYYY-MM-DD>_Lean_Assessment.json), index your baseline for the GS Dashboard and '600 Maturity Submissions', and stamp all downstream reports.",
         "Open the Maturity Model Storybook and click 'Maturity Explainer' in the Standalone GS Lean Maturity app to review the 5 maturity levels (Awareness to Lean Enterprise), 10 themes, and 17 Starred Gateways (★).",
-        "First-time assessment: complete together with your Lean Core Team partner to learn the 28-question rubric. Ongoing assessments: complete directly with your Site Leadership Team as a self-assessment.",
-        "Confirm the top-right toggle is on 'New Standard' and fill in Project/Department Name, Org, Date, Assessed By, Local PM, and Scope."
+        "First-time assessment: complete together with your Lean Core Team partner to learn the 28-question rubric. Ongoing assessments: complete directly with your Site Leadership Team as a self-assessment."
       ],
       "steps": [
         {
@@ -1941,20 +1985,21 @@ window.FALLBACK_GUIDES_DB = {
         },
         {
           "stepNumber": 2,
-          "action": "Confirm the toggle is on 'New Standard' and fill in the top assessment details.",
-          "detail": "Enter Project/Department Name, Org, Date, Assessed By, For OE Local PM, and Scope across the top header bar.",
+          "action": "Confirm 'New Standard' is active and enter your exact Org Code and Date of Assessment in the header.",
+          "detail": "CRITICAL: In the top User Data Plate, enter your exact Organisation Code in 'Org' (for example, GS-TI-EUW-BER01) and the exact 'Date of Assessment'—alongside Project/Department Name, Assessed By, For OE Local PM, Applicable for GS Dashboard (Yes/No), and Scope.",
           "toolId": "TOL-012",
-          "coachingTip": "First-time assessments are completed with your Lean Core Team partner; ongoing assessments are completed directly with your Site Leadership Team.",
+          "coachingTip": "Getting the Org Code and Date of Assessment right in the header is critical: the app uses these two fields to name your exported files (<OrgCode>_<YYYY-MM-DD>_Lean_Assessment.json), track your site on the GS Dashboard, and stamp every downstream report.",
           "visual": {
             "type": "image",
             "imageSrc": "assets/screenshots/nav-maturity.png",
-            "caption": "Standalone GS Lean Maturity — Top Action Bar ('New Standard' Toggle & User Data Plate)",
+            "src": "assets/screenshots/nav-maturity.png",
+            "caption": "Standalone GS Lean Maturity — User Data Plate Header: Critical 'Org' Code & 'Date of Assessment' Highlighted",
             "hotspot": {
-              "xPercent": 33,
-              "yPercent": 21,
-              "widthPercent": 34,
-              "heightPercent": 7,
-              "label": "2. Select 'New Standard' & Complete Header"
+              "xPercent": 3.5,
+              "yPercent": 28,
+              "widthPercent": 93,
+              "heightPercent": 20,
+              "label": "2. Critical: Enter Exact 'Org' Code & 'Date of Assessment' in Header"
             }
           }
         },
@@ -1979,6 +2024,11 @@ window.FALLBACK_GUIDES_DB = {
         }
       ],
       "troubleshooting": [
+        {
+          "symptom": "Exported file downloads as 'Org_Date_Lean_Assessment.json' or cannot be matched on the GS Dashboard.",
+          "cause": "The 'Org' (Organisation Code) or 'Date of Assessment' field in the top User Data Plate was left blank or mistyped before exporting.",
+          "fix": "Enter your exact official Organisation Code in the 'Org' box and the exact date in 'Date of Assessment' in the top User Data Plate, then click 'Export Assessment (.json & .csv)' again."
+        },
         {
           "symptom": "A team wants to award Level 3 because one pilot cell has a great visual board.",
           "cause": "A single pilot area represents Level 2 (Emerging), not Level 3 (Structured across ~70% of teams).",

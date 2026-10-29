@@ -37,7 +37,7 @@ let state = {
   matrixMode: "full" // "full" | "compact"
 };
 
-const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V18";
+const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V19";
 let DEFAULT_DB_SNAPSHOT = null;
 
 async function initApp() {
@@ -1322,7 +1322,8 @@ function getButtonBadgeStyle(buttonName) {
     name.includes("new standard") ||
     name.includes("save") ||
     name.includes("auto-select") ||
-    name.includes("+ add")
+    name.includes("+ add") ||
+    name.includes("critical header field")
   ) {
     return "background:#009999;color:#FFFFFF;border:1px solid #007A7A;";
   }
