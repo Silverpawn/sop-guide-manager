@@ -33,7 +33,7 @@ let state = {
   studioSavedSvgVisual: null
 };
 
-const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V7";
+const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V8";
 let DEFAULT_DB_SNAPSHOT = null;
 
 async function initApp() {
@@ -705,7 +705,8 @@ function renderJourneyPage(plb, canvas) {
               const isDimmed =
                 state.journeyRoleFilter !== "all" &&
                 st.leadRoleId !== state.journeyRoleFilter &&
-                st.supportRoleId !== state.journeyRoleFilter;
+                st.supportRoleId !== state.journeyRoleFilter &&
+                !(st.involvedRoleIds || []).includes(state.journeyRoleFilter);
               const leadRoleObj = DB.roles[st.leadRoleId];
               const toolObj = DB.tools[st.toolId];
               const whoText = st.whoIsInvolved || st.whoAndDuration || st.leadRoleLabel || leadRoleObj?.title || "";
@@ -782,7 +783,7 @@ function renderJourneyPage(plb, canvas) {
               <div>
                 <div class="job-card-top">
                   <span class="time-pill">⏱ ${escapeHtml(proc.durationBadge || "")}</span>
-                  <span class="muted-code-pill">${escapeHtml(proc.appName || "")} • ${escapeHtml(proc.versionBadge || "")}</span>
+                  <span class="muted-code-pill">${escapeHtml(proc.appName || "")}</span>
                 </div>
                 <h2 class="job-card-title">${escapeHtml(proc.title)}</h2>
                 <div class="job-meta-list">
@@ -922,9 +923,7 @@ function renderSOPPage(sop, plb, canvas) {
           <div class="inline-tool-drawer">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
               <div>
-                <span class="muted-code-pill">${escapeHtml(activeInlineTool.suite || "")} ${escapeHtml(
-                activeInlineTool.versionBadge || ""
-              )}</span>
+                <span class="muted-code-pill">${escapeHtml(activeInlineTool.suite || "")}</span>
                 <strong style="font-size:15px;color:#1B1534;margin-left:6px;">${escapeHtml(activeInlineTool.name)}</strong>
               </div>
               <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
@@ -1411,9 +1410,17 @@ function renderTemplatePage(tpl, plb, canvas) {
     <div class="content-container">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
         <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
             <span class="eyebrow-tag" style="margin-bottom:0;">${escapeHtml(tpl.eyebrow || "")}</span>
-            <span class="muted-code-pill">${escapeHtml(tpl.badge || "")}</span>
+            ${
+              tpl.liveUrl
+                ? `<a href="${escapeHtml(tpl.liveUrl)}" target="_blank" rel="noopener noreferrer" class="live-tool-btn compact">
+                    ${escapeHtml(tpl.liveLabel || "Launch " + (tpl.badge || "Live Tool") + " ↗")}
+                  </a>`
+                : tpl.badge
+                ? `<span class="muted-code-pill">${escapeHtml(tpl.badge)}</span>`
+                : ""
+            }
           </div>
           <h1 class="page-title" style="margin-bottom:4px;">${escapeHtml(tpl.title)}</h1>
         </div>
@@ -1607,8 +1614,7 @@ function renderProcessPage(proc, plb, canvas) {
       <div class="breadcrumb-row">
         <button type="button" class="breadcrumb-link" onclick="showOverview()">1. End-to-End Journey</button>
         <span>/</span>
-        <span class="muted-code-pill">${escapeHtml(proc.appName || "")} ${escapeHtml(proc.versionBadge || "")}</span>
-        <span class="muted-code-pill">${escapeHtml(proc.id)}</span>
+        <span class="muted-code-pill">${escapeHtml(proc.appName || "")}</span>
       </div>
 
       <div class="feature-split">
@@ -1664,7 +1670,7 @@ function renderToolPage(tool, plb, canvas) {
       <div class="breadcrumb-row">
         <button type="button" class="breadcrumb-link" onclick="showOverview()">1. End-to-End Journey</button>
         <span>/</span>
-        <span class="muted-code-pill">${escapeHtml(tool.suite || "")} ${escapeHtml(tool.versionBadge || "")}</span>
+        <span class="muted-code-pill">${escapeHtml(tool.suite || "")}</span>
       </div>
 
       <h1 class="page-title">${escapeHtml(tool.name)}</h1>
@@ -1672,7 +1678,7 @@ function renderToolPage(tool, plb, canvas) {
 
       <div class="meta-strip" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
         <div style="display:flex;gap:18px;flex-wrap:wrap;">
-          <div><strong>Application:</strong> ${escapeHtml(tool.suite || "-")} <span class="muted-code-pill">${escapeHtml(tool.versionBadge || "")}</span></div>
+          <div><strong>Application:</strong> ${escapeHtml(tool.suite || "-")}</div>
           <div><strong>Where to find it:</strong> ${escapeHtml(tool.accessUrl)}</div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
