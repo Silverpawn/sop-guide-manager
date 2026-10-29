@@ -37,7 +37,7 @@ let state = {
   matrixMode: "full" // "full" | "compact"
 };
 
-const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V16";
+const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V17";
 let DEFAULT_DB_SNAPSHOT = null;
 
 async function initApp() {
@@ -538,20 +538,7 @@ function renderSidebar() {
     </div>
 
     <div>
-      ${
-        plb.crossRef && plb.crossRef.targetPlaybookId
-          ? `<div class="sidebar-launcher-card" style="background:linear-gradient(135deg,#2E1065 0%,#4C1D95 100%);border-color:#A855F7;margin-bottom:10px;">
-              <div class="sidebar-launcher-title" style="color:#E9D5FF;">🔀 Sister Playbook Cross-Reference</div>
-              <div style="font-size:11.5px;color:#F3E8FF;line-height:1.4;margin-bottom:8px;">
-                ${escapeHtml(plb.crossRef.title)}
-              </div>
-              <button type="button" class="cross-ref-primary-btn" style="width:100%;justify-content:center;font-size:11.5px;padding:6px 10px;"
-                      onclick="switchPlaybookAndOpen('${escapeHtml(plb.crossRef.targetPlaybookId)}', 'journey', '')">
-                ${escapeHtml(plb.crossRef.primaryButtonLabel || "Switch Playbook →")}
-              </button>
-            </div>`
-          : ""
-      }
+      ${renderSidebarThreeWayCrossRef(plb)}
       ${
         getActiveLiveTools(plb).length > 0
           ? `<div class="sidebar-launcher-card" aria-label="Live Lean@GS Intranet Tool Launcher">
@@ -575,6 +562,113 @@ function renderSidebar() {
   `;
 
   sidebar.innerHTML = html;
+}
+
+const OPERATIONAL_PLAYBOOK_CARDS = [
+  {
+    id: "PLB-MATURITY",
+    badge: "Standalone Assessment & Storybook",
+    title: "Standalone GS Lean Maturity Guide",
+    desc: "Just doing a standalone 28-question assessment or exploring the Storybook? Open the Standalone Maturity Guide →",
+    cta: "Open Standalone Maturity Guide →",
+    liveUrl: "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+    accent: "#0D9488"
+  },
+  {
+    id: "PLB-001",
+    badge: "6-Stage Leadership Process",
+    title: "Lean@GS Navigator Toolkit Guide",
+    desc: "Combining your maturity assessment with Voice of the Customer to run a Leadership Workshop & 1-Page Charter? Open the Navigator Guide →",
+    cta: "Open Navigator Toolkit Guide →",
+    liveUrl: "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
+    accent: "#009999"
+  },
+  {
+    id: "PLB-PMHUB",
+    badge: "3-Phase Standalone Suite",
+    title: "Lean@GS PM Maturity Hub Guide",
+    desc: "Need the Score Explainer maths, Metro Journey, 4 Pillars, Strategy Builder, Score Simulator, or CSV-to-JSON Fixer? Open the PM Maturity Hub Guide →",
+    cta: "Open PM Maturity Hub Guide →",
+    liveUrl: "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
+    accent: "#8A00E5"
+  }
+];
+
+function renderSidebarThreeWayCrossRef(plb) {
+  if (!plb || plb.id === "PLB-DEMO") return "";
+  const others = OPERATIONAL_PLAYBOOK_CARDS.filter((c) => c.id !== plb.id);
+  return `
+    <div class="sidebar-launcher-card" style="background:linear-gradient(135deg,#1B1534 0%,#2E1065 100%);border-color:#A855F7;margin-bottom:10px;">
+      <div class="sidebar-launcher-title" style="color:#E9D5FF;">🔀 Related Lean@GS Playbooks</div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        ${others
+          .map(
+            (card) => `
+          <button type="button" class="cross-ref-primary-btn"
+                  style="width:100%;justify-content:space-between;font-size:11px;padding:6px 9px;background:${card.accent};text-align:left;"
+                  onclick="switchPlaybookAndOpen('${escapeHtml(card.id)}', 'journey', '')">
+            <span>${escapeHtml(card.title)}</span>
+            <span>→</span>
+          </button>`
+          )
+          .join("")}
+      </div>
+    </div>
+  `;
+}
+
+function renderThreeWayCrossRefCards(plb) {
+  if (!plb || plb.id === "PLB-DEMO") return "";
+  return `
+    <section class="cross-ref-callout-card" role="region" aria-label="Related Lean@GS Playbooks (1-Click Cross-Reference)" style="margin-bottom:22px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+        <div>
+          <span class="cross-ref-kicker">Related Lean@GS Playbooks • 1-Click Cross-Reference</span>
+          <h3 class="cross-ref-title" style="margin-bottom:0;">Which Lean@GS Web Application Are You Using Today?</h3>
+        </div>
+        <span class="muted-code-pill">3 Operational Playbooks Kept Separate</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:14px;">
+        ${OPERATIONAL_PLAYBOOK_CARDS.map((card) => {
+          const isCurrent = card.id === plb.id;
+          return `
+            <div style="background:${isCurrent ? "#F0FDFA" : "#FFFFFF"};border:${
+            isCurrent ? `2px solid ${card.accent}` : "1px solid #D8B4FE"
+          };border-radius:10px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;gap:10px;">
+              <div>
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:6px;">
+                  <span style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;color:${card.accent};">
+                    ${escapeHtml(card.badge)}
+                  </span>
+                  ${
+                    isCurrent
+                      ? `<span style="background:${card.accent};color:#FFFFFF;font-size:10px;font-weight:800;padding:2px 7px;border-radius:99px;">ACTIVE PLAYBOOK</span>`
+                      : ""
+                  }
+                </div>
+                <h4 style="font-size:15px;font-weight:800;color:#1B1534;margin-bottom:6px;">
+                  ${escapeHtml(card.title)}
+                </h4>
+                <p style="font-size:12.5px;color:#54646E;line-height:1.45;margin-bottom:0;">
+                  ${escapeHtml(card.desc)}
+                </p>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+                ${
+                  isCurrent
+                    ? `<span style="font-size:12px;font-weight:700;color:${card.accent};">✓ Viewing this Playbook</span>`
+                    : `<button type="button" class="cross-ref-primary-btn" style="background:${card.accent};font-size:12px;padding:7px 12px;"
+                               onclick="switchPlaybookAndOpen('${escapeHtml(card.id)}', 'journey', '')">
+                         ${escapeHtml(card.cta)}
+                       </button>`
+                }
+              </div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    </section>
+  `;
 }
 
 function renderMain() {
@@ -670,41 +764,8 @@ function renderJourneyPage(plb, canvas) {
           : ""
       }
 
-      <!-- Stage 10: Cross-Reference Callout Card Between PLB-001 (Navigator) & PLB-PMHUB (PM Maturity Hub) -->
-      ${
-        plb.crossRef && plb.crossRef.targetPlaybookId
-          ? `
-        <div class="cross-ref-callout-card" role="region" aria-label="Sister Playbook Cross-Reference">
-          <div class="cross-ref-header-row">
-            <div>
-              <span class="cross-ref-kicker">${escapeHtml(plb.crossRef.kicker || "Related Playbook")}</span>
-              <h3 class="cross-ref-title">${escapeHtml(plb.crossRef.title)}</h3>
-            </div>
-            <button type="button" class="cross-ref-primary-btn"
-                    onclick="switchPlaybookAndOpen('${escapeHtml(plb.crossRef.targetPlaybookId)}', 'journey', '')">
-              ${escapeHtml(plb.crossRef.primaryButtonLabel || "Switch Playbook →")}
-            </button>
-          </div>
-          <p class="cross-ref-desc">${escapeHtml(plb.crossRef.desc || "")}</p>
-          ${
-            Array.isArray(plb.crossRef.deepLinks) && plb.crossRef.deepLinks.length > 0
-              ? `<div class="cross-ref-btn-group">
-                  <span style="font-size:11.5px;font-weight:800;color:#4C1D95;">Jump directly to:</span>
-                  ${plb.crossRef.deepLinks
-                    .map(
-                      (dl) => `
-                    <button type="button" class="cross-ref-deep-btn"
-                            onclick="switchPlaybookAndOpen('${escapeHtml(dl.playbookId)}', '${escapeHtml(dl.view)}', '${escapeHtml(dl.id)}')">
-                      ${escapeHtml(dl.label)}
-                    </button>`
-                    )
-                    .join("")}
-                </div>`
-              : ""
-          }
-        </div>`
-          : ""
-      }
+      <!-- Stage 10: 3-Way Cross-Reference Switcher Cards Across PLB-001, PLB-MATURITY & PLB-PMHUB -->
+      ${renderThreeWayCrossRefCards(plb)}
 
       <!-- Connected End-to-End Process Map Driven by activePlaybook.journeyMap -->
       <section class="journey-map-section" aria-label="Connected End-to-End Process Map">
@@ -910,7 +971,7 @@ function renderJourneyPage(plb, canvas) {
       ${
         rulesKey
           ? `
-        <div class="plain-key-box">
+        <div class="plain-key-box" style="margin-bottom:22px;">
           <div class="plain-key-header">
             <span class="plain-key-title">${escapeHtml(rulesKey.title)}</span>
             <span style="font-size:12px;color:var(--se-gray-5);">${escapeHtml(rulesKey.subtitle || "")}</span>
@@ -929,6 +990,9 @@ function renderJourneyPage(plb, canvas) {
         </div>`
           : ""
       }
+
+      <!-- Bottom 3-Way Cross-Reference Switcher Cards -->
+      ${renderThreeWayCrossRefCards(plb)}
     </div>
   `;
 }
@@ -1337,6 +1401,11 @@ function renderDecisionToolPage(dec, plb, canvas) {
             .join("")}
         </div>`
       : "";
+
+  if (dec.kind === "scoring-matrix-1page") {
+    renderScoringMatrixWidget(dec, plb, canvas, switcherPills);
+    return;
+  }
 
   if (dec.kind === "score-calculator") {
     const levelNames = dec.levelNames || [];
@@ -1947,6 +2016,197 @@ async function exportMatrixSlidePDF() {
   pdf.save(`Lean_Maturity_Assessment_1Page_${state.matrixStandard.toUpperCase()}.pdf`);
 }
 
+function renderScoringMatrixWidget(ref, plb, canvas, switcherBarHtml) {
+  const q = state.searchQuery.toLowerCase().trim();
+  const dataset = state.matrixStandard === "new" ? MATRIX_DATA_NEW_STANDARD : MATRIX_DATA_OLD_STANDARD;
+  const fontSizeStyle = state.matrixMode === "compact" ? "font-size: 10.4px; line-height: 1.24;" : "";
+  const filteredDataset = dataset.filter((item) => {
+    const isGateway = item.g.includes("★");
+    const matchFlag = state.referenceFilter === "all" || (state.referenceFilter === "flagged" && isGateway);
+    const matchQ =
+      !q ||
+      `q${item.n}`.includes(q) ||
+      item.t.toLowerCase().includes(q) ||
+      item.q.toLowerCase().includes(q) ||
+      item.s1.toLowerCase().includes(q) ||
+      item.s3.toLowerCase().includes(q) ||
+      item.s5.toLowerCase().includes(q);
+    return matchFlag && matchQ;
+  });
+
+  const matrixRowsHtml = filteredDataset
+    .map((item) => {
+      const isGateway = item.g.includes("★");
+      const rowClass = isGateway ? "gateway-row" : "";
+      const gateBadge = isGateway
+        ? `<span style="display:inline-block;background:#FBBF24;color:#0F172A;font-weight:800;padding:2px 5px;border-radius:4px;font-size:8.5px;">${escapeHtml(
+            item.g
+          )}</span>`
+        : `<span style="color:#64748B;font-weight:700;font-size:8.5px;">${escapeHtml(item.g)}</span>`;
+
+      const s1 = state.matrixMode === "compact" ? condenseMatrixText(item.s1) : item.s1;
+      const s2 = state.matrixMode === "compact" ? condenseMatrixText(item.s2) : item.s2;
+      const s3 = state.matrixMode === "compact" ? condenseMatrixText(item.s3) : item.s3;
+      const s4 = state.matrixMode === "compact" ? condenseMatrixText(item.s4) : item.s4;
+      const s5 = state.matrixMode === "compact" ? condenseMatrixText(item.s5) : item.s5;
+
+      if (item.s2 === "BINARY") {
+        return `
+          <tr class="${rowClass}">
+            <td style="text-align:center;font-weight:800;color:#334155;${fontSizeStyle}">${item.n}</td>
+            <td class="${escapeHtml(item.tc)}" style="${fontSizeStyle}">${escapeHtml(item.t)}</td>
+            <td style="text-align:center;">${gateBadge}</td>
+            <td style="font-weight:700;color:#0F172A;${fontSizeStyle}">${escapeHtml(item.q)}</td>
+            <td style="${fontSizeStyle}">${escapeHtml(s1)}</td>
+            <td colspan="3" class="binary-cell">Binary Foundation Gate — Scored as 1 [No / Absent] or 5 [Yes / Embedded]</td>
+            <td style="font-weight:600;color:#134E4A;background:#F0FDFA;${fontSizeStyle}">${escapeHtml(s5)}</td>
+          </tr>
+        `;
+      }
+
+      return `
+        <tr class="${rowClass}">
+          <td style="text-align:center;font-weight:800;color:#334155;${fontSizeStyle}">${item.n}</td>
+          <td class="${escapeHtml(item.tc)}" style="${fontSizeStyle}">${escapeHtml(item.t)}</td>
+          <td style="text-align:center;">${gateBadge}</td>
+          <td style="font-weight:700;color:#0F172A;${fontSizeStyle}">${escapeHtml(item.q)}</td>
+          <td style="${fontSizeStyle}">${escapeHtml(s1)}</td>
+          <td style="${fontSizeStyle}">${escapeHtml(s2)}</td>
+          <td style="background:#F0FDFA;${fontSizeStyle}">${escapeHtml(s3)}</td>
+          <td style="${fontSizeStyle}">${escapeHtml(s4)}</td>
+          <td style="background:#FAF5FF;${fontSizeStyle}">${escapeHtml(s5)}</td>
+        </tr>
+      `;
+    })
+    .join("");
+
+  canvas.innerHTML = `
+    <div class="content-container" style="max-width:1760px;">
+      ${switcherBarHtml || ""}
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+        <span class="eyebrow-tag" style="margin-bottom:0;">${escapeHtml(ref.eyebrow || "16:9 Slide One-Pager")}</span>
+        <span class="muted-code-pill">${escapeHtml(ref.badge || "28 Questions & 17 Gateways")}</span>
+      </div>
+      <h1 class="page-title" style="margin-bottom:6px;">${escapeHtml(ref.title)}</h1>
+      <p class="page-subtitle" style="margin-bottom:14px;">
+        ${escapeHtml(ref.subtitle || "")}
+      </p>
+
+      <!-- Interactive Top Control & Export Bar -->
+      <div class="matrix-control-bar">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span style="background:#009999;color:#FFFFFF;font-size:11px;font-weight:800;padding:4px 9px;border-radius:5px;text-transform:uppercase;letter-spacing:0.05em;">
+            16:9 Slide One-Pager
+          </span>
+          <div class="matrix-toggle-group" role="group" aria-label="Filter All vs Gateways">
+            <button type="button" class="matrix-toggle-btn ${state.referenceFilter === "all" ? "active-petrol" : ""}"
+                    onclick="setReferenceFilter('all')">
+              All 28 Questions
+            </button>
+            <button type="button" class="matrix-toggle-btn ${state.referenceFilter === "flagged" ? "active-petrol" : ""}"
+                    onclick="setReferenceFilter('flagged')">
+              ★ 17 Gateways Only
+            </button>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
+          <!-- Standard Switcher -->
+          <div class="matrix-toggle-group" role="group" aria-label="Assessment Standard Switcher">
+            <button type="button" class="matrix-toggle-btn ${state.matrixStandard === "new" ? "active-petrol" : ""}"
+                    onclick="setMatrixStandard('new')">
+              New Standard (2026)
+            </button>
+            <button type="button" class="matrix-toggle-btn ${state.matrixStandard === "old" ? "active-petrol" : ""}"
+                    onclick="setMatrixStandard('old')">
+              Old Standard
+            </button>
+          </div>
+
+          <!-- Text Density / Concise Toggle -->
+          <div class="matrix-toggle-group" role="group" aria-label="Text Density Switcher">
+            <button type="button" class="matrix-toggle-btn ${state.matrixMode === "full" ? "active-indigo" : ""}"
+                    onclick="setMatrixMode('full')">
+              Full Verbatim Text
+            </button>
+            <button type="button" class="matrix-toggle-btn ${state.matrixMode === "compact" ? "active-indigo" : ""}"
+                    onclick="setMatrixMode('compact')">
+              Executive Concise (Larger Font)
+            </button>
+          </div>
+
+          <!-- Working Export Buttons -->
+          <button type="button" onclick="exportMatrixToPPTX(true)" class="matrix-export-btn" style="background:#F59E0B;color:#0F172A;">
+            <span>⬇ Export 1-Slide PowerPoint (.pptx)</span>
+          </button>
+          <button type="button" onclick="exportMatrixToPPTX(false)" class="matrix-export-btn" style="background:#8A00E5;color:#FFFFFF;" title="Splits the 28 rows across 2 slides for larger font in PowerPoint">
+            <span>⬇ Export 2-Slide PPTX (Large Font)</span>
+          </button>
+          <button type="button" onclick="exportMatrixHighResPNG()" class="matrix-export-btn" style="background:#009999;color:#FFFFFF;">
+            <span>🖼 Download 4K Slide Image (.png)</span>
+          </button>
+          <button type="button" onclick="exportMatrixSlidePDF()" class="matrix-export-btn" style="background:#E11D48;color:#FFFFFF;">
+            <span>📄 Export 1-Page PDF</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 16:9 WIDESCREEN ONE-PAGER SLIDE CANVAS -->
+      <div id="matrix-slide-canvas" class="matrix-slide-wrapper">
+        <div class="matrix-slide-banner">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <strong style="font-size:13.5px;letter-spacing:0.01em;color:#FFFFFF;">
+              LEAN MATURITY ASSESSMENT — COMPLETE 28-QUESTION &amp; 1–5 SCORING RUBRIC
+            </strong>
+            <span style="background:#009999;color:#FFFFFF;font-size:10px;font-weight:800;padding:2px 8px;border-radius:4px;">
+              ${state.matrixStandard === "new" ? "NEW STANDARD (2026)" : "OLD STANDARD"}
+            </strong>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;font-size:10.5px;flex-wrap:wrap;">
+            <span>
+              <span style="display:inline-block;width:9px;height:9px;background:#FBBF24;border-radius:99px;margin-right:4px;"></span>
+              <strong>★ Gateway Question:</strong> Must score ≥ 3 (or 5 for Q1–Q3) to unlock next Maturity Stage
+            </span>
+            <span style="color:#CBD5E1;">
+              Stages: 1. Awareness | 2. Basic Implementation | 3. Structured Approach | 4. Integrated Culture | 5. Lean Enterprise
+            </span>
+          </div>
+        </div>
+
+        <table class="matrix-table">
+          <colgroup>
+            <col style="width:2.5%;" />
+            <col style="width:9.0%;" />
+            <col style="width:3.8%;" />
+            <col style="width:14.7%;" />
+            <col style="width:14.0%;" />
+            <col style="width:14.0%;" />
+            <col style="width:14.0%;" />
+            <col style="width:14.0%;" />
+            <col style="width:14.0%;" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th style="text-align:center;">#</th>
+              <th>Theme</th>
+              <th style="text-align:center;">Gate</th>
+              <th>Assessment Question</th>
+              <th style="background-color:#334155;">1: Absent</th>
+              <th style="background-color:#475569;">2: Emerging</th>
+              <th style="background-color:#0f766e;">3: Structured (Target Gate)</th>
+              <th style="background-color:#009999;">4: Consistent</th>
+              <th style="background-color:#4D217A;">5: Embedded</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${matrixRowsHtml}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
 /**
  * Tab 4B: Universal Reference Table Renderer (Driven by activePlaybook.referenceTables)
  * Supports the full interactive 16:9 1-Page 28-Question & 1–5 Scoring Rubric Matrix (REF-001)
@@ -1980,193 +2240,7 @@ function renderReferenceTablePage(ref, plb, canvas) {
       : "";
 
   if (ref.kind === "scoring-matrix-1page" || ref.id === "REF-001") {
-    const dataset = state.matrixStandard === "new" ? MATRIX_DATA_NEW_STANDARD : MATRIX_DATA_OLD_STANDARD;
-    const fontSizeStyle = state.matrixMode === "compact" ? "font-size: 10.4px; line-height: 1.24;" : "";
-    const filteredDataset = dataset.filter((item) => {
-      const isGateway = item.g.includes("★");
-      const matchFlag = state.referenceFilter === "all" || (state.referenceFilter === "flagged" && isGateway);
-      const matchQ =
-        !q ||
-        `q${item.n}`.includes(q) ||
-        item.t.toLowerCase().includes(q) ||
-        item.q.toLowerCase().includes(q) ||
-        item.s1.toLowerCase().includes(q) ||
-        item.s3.toLowerCase().includes(q) ||
-        item.s5.toLowerCase().includes(q);
-      return matchFlag && matchQ;
-    });
-
-    const matrixRowsHtml = filteredDataset
-      .map((item) => {
-        const isGateway = item.g.includes("★");
-        const rowClass = isGateway ? "gateway-row" : "";
-        const gateBadge = isGateway
-          ? `<span style="display:inline-block;background:#FBBF24;color:#0F172A;font-weight:800;padding:2px 5px;border-radius:4px;font-size:8.5px;">${escapeHtml(
-              item.g
-            )}</span>`
-          : `<span style="color:#64748B;font-weight:700;font-size:8.5px;">${escapeHtml(item.g)}</span>`;
-
-        const s1 = state.matrixMode === "compact" ? condenseMatrixText(item.s1) : item.s1;
-        const s2 = state.matrixMode === "compact" ? condenseMatrixText(item.s2) : item.s2;
-        const s3 = state.matrixMode === "compact" ? condenseMatrixText(item.s3) : item.s3;
-        const s4 = state.matrixMode === "compact" ? condenseMatrixText(item.s4) : item.s4;
-        const s5 = state.matrixMode === "compact" ? condenseMatrixText(item.s5) : item.s5;
-
-        if (item.s2 === "BINARY") {
-          return `
-            <tr class="${rowClass}">
-              <td style="text-align:center;font-weight:800;color:#334155;${fontSizeStyle}">${item.n}</td>
-              <td class="${escapeHtml(item.tc)}" style="${fontSizeStyle}">${escapeHtml(item.t)}</td>
-              <td style="text-align:center;">${gateBadge}</td>
-              <td style="font-weight:700;color:#0F172A;${fontSizeStyle}">${escapeHtml(item.q)}</td>
-              <td style="${fontSizeStyle}">${escapeHtml(s1)}</td>
-              <td colspan="3" class="binary-cell">Binary Foundation Gate — Scored as 1 [No / Absent] or 5 [Yes / Embedded]</td>
-              <td style="font-weight:600;color:#134E4A;background:#F0FDFA;${fontSizeStyle}">${escapeHtml(s5)}</td>
-            </tr>
-          `;
-        }
-
-        return `
-          <tr class="${rowClass}">
-            <td style="text-align:center;font-weight:800;color:#334155;${fontSizeStyle}">${item.n}</td>
-            <td class="${escapeHtml(item.tc)}" style="${fontSizeStyle}">${escapeHtml(item.t)}</td>
-            <td style="text-align:center;">${gateBadge}</td>
-            <td style="font-weight:700;color:#0F172A;${fontSizeStyle}">${escapeHtml(item.q)}</td>
-            <td style="${fontSizeStyle}">${escapeHtml(s1)}</td>
-            <td style="${fontSizeStyle}">${escapeHtml(s2)}</td>
-            <td style="background:#F0FDFA;${fontSizeStyle}">${escapeHtml(s3)}</td>
-            <td style="${fontSizeStyle}">${escapeHtml(s4)}</td>
-            <td style="background:#FAF5FF;${fontSizeStyle}">${escapeHtml(s5)}</td>
-          </tr>
-        `;
-      })
-      .join("");
-
-    canvas.innerHTML = `
-      <div class="content-container" style="max-width:1760px;">
-        ${refSwitcherBar}
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
-          <span class="eyebrow-tag" style="margin-bottom:0;">${escapeHtml(ref.eyebrow || "16:9 Slide One-Pager")}</span>
-          <span class="muted-code-pill">${escapeHtml(ref.badge || "28 Questions & 17 Gateways")}</span>
-        </div>
-        <h1 class="page-title" style="margin-bottom:6px;">${escapeHtml(ref.title)}</h1>
-        <p class="page-subtitle" style="margin-bottom:14px;">
-          ${escapeHtml(ref.subtitle || "")}
-        </p>
-
-        <!-- Interactive Top Control & Export Bar -->
-        <div class="matrix-control-bar">
-          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-            <span style="background:#009999;color:#FFFFFF;font-size:11px;font-weight:800;padding:4px 9px;border-radius:5px;text-transform:uppercase;letter-spacing:0.05em;">
-              16:9 Slide One-Pager
-            </span>
-            <div class="matrix-toggle-group" role="group" aria-label="Filter All vs Gateways">
-              <button type="button" class="matrix-toggle-btn ${state.referenceFilter === "all" ? "active-petrol" : ""}"
-                      onclick="setReferenceFilter('all')">
-                All 28 Questions
-              </button>
-              <button type="button" class="matrix-toggle-btn ${state.referenceFilter === "flagged" ? "active-petrol" : ""}"
-                      onclick="setReferenceFilter('flagged')">
-                ★ 17 Gateways Only
-              </button>
-            </div>
-          </div>
-
-          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
-            <!-- Standard Switcher -->
-            <div class="matrix-toggle-group" role="group" aria-label="Assessment Standard Switcher">
-              <button type="button" class="matrix-toggle-btn ${state.matrixStandard === "new" ? "active-petrol" : ""}"
-                      onclick="setMatrixStandard('new')">
-                New Standard (2026)
-              </button>
-              <button type="button" class="matrix-toggle-btn ${state.matrixStandard === "old" ? "active-petrol" : ""}"
-                      onclick="setMatrixStandard('old')">
-                Old Standard
-              </button>
-            </div>
-
-            <!-- Text Density / Concise Toggle -->
-            <div class="matrix-toggle-group" role="group" aria-label="Text Density Switcher">
-              <button type="button" class="matrix-toggle-btn ${state.matrixMode === "full" ? "active-indigo" : ""}"
-                      onclick="setMatrixMode('full')">
-                Full Verbatim Text
-              </button>
-              <button type="button" class="matrix-toggle-btn ${state.matrixMode === "compact" ? "active-indigo" : ""}"
-                      onclick="setMatrixMode('compact')">
-                Executive Concise (Larger Font)
-              </button>
-            </div>
-
-            <!-- Working Export Buttons -->
-            <button type="button" onclick="exportMatrixToPPTX(true)" class="matrix-export-btn" style="background:#F59E0B;color:#0F172A;">
-              <span>⬇ Export 1-Slide PowerPoint (.pptx)</span>
-            </button>
-            <button type="button" onclick="exportMatrixToPPTX(false)" class="matrix-export-btn" style="background:#8A00E5;color:#FFFFFF;" title="Splits the 28 rows across 2 slides for larger font in PowerPoint">
-              <span>⬇ Export 2-Slide PPTX (Large Font)</span>
-            </button>
-            <button type="button" onclick="exportMatrixHighResPNG()" class="matrix-export-btn" style="background:#009999;color:#FFFFFF;">
-              <span>🖼 Download 4K Slide Image (.png)</span>
-            </button>
-            <button type="button" onclick="exportMatrixSlidePDF()" class="matrix-export-btn" style="background:#E11D48;color:#FFFFFF;">
-              <span>📄 Export 1-Page PDF</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- 16:9 WIDESCREEN ONE-PAGER SLIDE CANVAS -->
-        <div id="matrix-slide-canvas" class="matrix-slide-wrapper">
-          <div class="matrix-slide-banner">
-            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-              <strong style="font-size:13.5px;letter-spacing:0.01em;color:#FFFFFF;">
-                LEAN MATURITY ASSESSMENT — COMPLETE 28-QUESTION &amp; 1–5 SCORING RUBRIC
-              </strong>
-              <span style="background:#009999;color:#FFFFFF;font-size:10px;font-weight:800;padding:2px 8px;border-radius:4px;">
-                ${state.matrixStandard === "new" ? "NEW STANDARD (2026)" : "OLD STANDARD"}
-              </span>
-            </div>
-            <div style="display:flex;align-items:center;gap:14px;font-size:10.5px;flex-wrap:wrap;">
-              <span>
-                <span style="display:inline-block;width:9px;height:9px;background:#FBBF24;border-radius:99px;margin-right:4px;"></span>
-                <strong>★ Gateway Question:</strong> Must score ≥ 3 (or 5 for Q1–Q3) to unlock next Maturity Stage
-              </span>
-              <span style="color:#CBD5E1;">
-                Stages: 1. Awareness | 2. Basic Implementation | 3. Structured Approach | 4. Integrated Culture | 5. Lean Enterprise
-              </span>
-            </div>
-          </div>
-
-          <table class="matrix-table">
-            <colgroup>
-              <col style="width:2.5%;" />
-              <col style="width:9.0%;" />
-              <col style="width:3.8%;" />
-              <col style="width:14.7%;" />
-              <col style="width:14.0%;" />
-              <col style="width:14.0%;" />
-              <col style="width:14.0%;" />
-              <col style="width:14.0%;" />
-              <col style="width:14.0%;" />
-            </colgroup>
-            <thead>
-              <tr>
-                <th style="text-align:center;">#</th>
-                <th>Theme</th>
-                <th style="text-align:center;">Gate</th>
-                <th>Assessment Question</th>
-                <th style="background-color:#334155;">1: Absent</th>
-                <th style="background-color:#475569;">2: Emerging</th>
-                <th style="background-color:#0f766e;">3: Structured (Target Gate)</th>
-                <th style="background-color:#009999;">4: Consistent</th>
-                <th style="background-color:#4D217A;">5: Embedded</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${matrixRowsHtml}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    `;
+    renderScoringMatrixWidget(ref, plb, canvas, refSwitcherBar);
     return;
   }
 

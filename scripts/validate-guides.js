@@ -156,15 +156,19 @@ for (const plb of db.playbooks || []) {
       }
     }
   }
-  if (plb.id === "PLB-PMHUB") {
+  if (plb.id === "PLB-PMHUB" || plb.id === "PLB-MATURITY") {
     if (!plb.crossRef || plb.crossRef.targetPlaybookId !== "PLB-001") {
-      errors.push(`[PLB-PMHUB] Missing mandatory crossRef object linking to PLB-001.`);
+      errors.push(`[${plb.id}] Missing mandatory crossRef object linking to PLB-001.`);
     }
   }
-  if (plb.id === "PLB-001" || plb.id === "PLB-PMHUB") {
+  if (plb.id === "PLB-001" || plb.id === "PLB-MATURITY" || plb.id === "PLB-PMHUB") {
     const hasMatrixRef = (plb.referenceTables || []).some((r) => r.id === "REF-001" && r.kind === "scoring-matrix-1page");
     if (!hasMatrixRef) {
       errors.push(`[${plb.id}] Missing shared 1-Page 28-Question Scoring Matrix ('REF-001' with kind = 'scoring-matrix-1page') in Tab 4.`);
+    }
+    const hasMatrixDec = (plb.decisionTools || []).some((d) => d.kind === "scoring-matrix-1page");
+    if (!hasMatrixDec) {
+      errors.push(`[${plb.id}] Missing shared 1-Page 28-Question Scoring Matrix (kind = 'scoring-matrix-1page') in Tab 3.`);
     }
   }
   for (const st of stages) {

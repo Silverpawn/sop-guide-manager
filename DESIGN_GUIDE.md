@@ -128,15 +128,15 @@ Overview stage cards must **NEVER** look like database records, audit checklists
      - **Deep Plum / Indigo (`#2E1065` bg, white text):** `View Dashboard`, `Import Assessment (.json / .csv)`, `? User Guide`, `View Key`.
      - **Danger Red (`#DC2626` bg, white text):** `Reset Progress`, `Clear Session`.
      - **Dark Sidebar Slate (`#1E1B4B` bg, `#e2e8f0` text):** Sidebar navigation items & session buttons.
-9. **Separate Playbooks with Explicit Cross-References (Do NOT Merge) & All 3 Live Corporate Intranet Links Accessible:**
-   - Keep **`PLB-001` (`Lean@GS Navigator Toolkit Guide`)**, **`PLB-PMHUB` (`Lean@GS PM Maturity Hub Guide`)**, and **`PLB-DEMO` (`Demo Example: The Office Brew Run`)** as separate, dedicated playbooks in the top Playbook Switcher.
-   - Include prominent **Cross-Reference Callout Cards & 1-Click Playbook Switcher Buttons** so a user inside the Navigator guide can switch directly to the `PM Maturity Hub Guide` (for standalone `Score Explainer`, `Metro Journey`, `4 Pillars`, `Strategy Builder & Simulator`, or `CSV to JSON Fixer`), and vice versa.
-   - Always make all 3 live corporate intranet application links accessible from the top intranet launcher bar:
-     - **Standalone GS Lean Maturity App:** `https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/`
-     - **Lean@GS Navigator Toolkit:** `https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/`
-     - **Lean@GS PM Maturity Hub:** `https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/`
-10. **Shared 1-Page 28-Question & 1–5 Scoring Rubric Matrix (`REF-001`):**
-    - In Tab 4 (`Templates & Reference`), embed the full interactive **16:9 1-Page 28-Question & 1–5 Scoring Rubric Matrix** across both `PLB-001` and `PLB-PMHUB`, with `New Standard (2026)` / `Old Standard` toggle, `Full Verbatim Text` / `Executive Concise (Larger Font)` toggle, and working `.pptx`, `.png`, and `.pdf` exports.
+9. **Four Distinct Playbooks in the Switcher (3 Operational + 1 Demo) with 3-Way Cross-References:**
+   - Keep **`PLB-001` (`Lean@GS Navigator Toolkit Guide`)**, **`PLB-MATURITY` (`Standalone GS Lean Maturity & Storybook Guide`)**, **`PLB-PMHUB` (`Lean@GS PM Maturity Hub Guide`)**, and **`PLB-DEMO` (`Demo Example: The Office Brew Run`)** as four separate, dedicated playbooks in the top Playbook Switcher:
+     - **`PLB-001` (`Lean@GS Navigator Toolkit Guide`):** `https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/`
+     - **`PLB-MATURITY` (`Standalone GS Lean Maturity & Storybook Guide`):** `https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/`
+     - **`PLB-PMHUB` (`Lean@GS PM Maturity Hub Guide`):** `https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/`
+     - **`PLB-DEMO` (`Demo Example: The Office Brew Run`):** Neutral stakeholder walkthrough.
+   - Do **NOT** merge the 3 operational playbooks. Keep each focused on its own web application and provide **3-Way 1-Click Cross-Reference Cards** on Tab 1 and in the left sidebar so users can jump between `Standalone Maturity`, `Navigator Toolkit`, and `PM Maturity Hub` in one click.
+10. **Shared 1-Page 28-Question & 1–5 Scoring Criteria Rubric Across All 3 Operational Playbooks:**
+    - Tab 4 (`4. Templates & Reference`) and Tab 3 (`3. Decision & Scoring Tools`) in `PLB-001`, `PLB-MATURITY`, and `PLB-PMHUB` **MUST** include the complete, verbatim **16:9 1-Page Scoring & Criteria Guide** (`dataNewStandard` and `dataOldStandard` for all 28 questions, Q1–Q3 binary gates, 17 ★ gateways, `New/Old Standard` toggle, `Full/Concise` toggle, and working `.pptx`, `.png`, and `.pdf` exports).
 
 ---
 

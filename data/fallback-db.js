@@ -871,6 +871,97 @@ window.FALLBACK_GUIDES_DB = {
           "fix": "Leave teabag in boiling water for 3 full minutes before adding milk."
         }
       ]
+    },
+    "TOL-012": {
+      "id": "TOL-012",
+      "name": "Standalone GS Lean Maturity App & Storybook",
+      "suite": "Standalone GS Lean Maturity",
+      "versionBadge": "",
+      "category": "Standalone 28-Question Assessment & Storybook",
+      "purpose": "Explore the 5 maturity levels in the Maturity Model Storybook and Maturity Explainer flashcards, score all 28 questions against the 70% site rule, inspect the Radar Dashboard & Gateway caps, and export local assessment files.",
+      "accessUrl": "GS Lean Maturity (https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/)",
+      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+      "secondaryLiveUrl": "https://share.gemini.google/UjLQiIQXFbgc",
+      "secondaryLiveLabel": "Maturity Model Storybook ↗",
+      "ownerRoleId": "ROL-001",
+      "gettingStarted": [
+        "Open the Standalone GS Lean Maturity app and click 'Maturity Model Storybook' or 'Maturity Explainer' to review the 5 maturity levels and 10 themes before scoring.",
+        "Confirm the top-right toggle is set to 'New Standard' and complete the top assessment details (Project/Department Name, Org, Date, Assessed By, Local PM, Scope).",
+        "First-time baseline assessments are completed with your Lean Core Team partner; ongoing assessments are completed directly with your Site Leadership Team as a self-assessment."
+      ],
+      "quickCommands": [
+        {
+          "goal": "Open the 5-Level & 10-Theme Flashcards",
+          "command": "Click 'Maturity Model Storybook' or 'Maturity Explainer' in the top action bar"
+        },
+        {
+          "goal": "Inspect the 10-Theme Radar Chart & Gateway Status",
+          "command": "Click 'View Dashboard' in the top action bar (includes 'Export to PDF')"
+        },
+        {
+          "goal": "Export assessment files & share with Core Team",
+          "command": "Click 'Export Assessment (.json & .csv)' → Save locally and send a copy to your Lean Core Team partner for '600 Maturity Submissions'"
+        }
+      ],
+      "buttonsReference": [
+        {
+          "button": "✦ Maturity Model Storybook",
+          "where": "Top Header / Left Sidebar Launcher",
+          "whatItDoes": "Opens the interactive Maturity Model Storybook (https://share.gemini.google/UjLQiIQXFbgc) to explain the 5 maturity levels (Awareness to Lean Enterprise) and how Lean capability and business need fit together."
+        },
+        {
+          "button": "Maturity Explainer",
+          "where": "Top Action Bar (Bright Purple Button)",
+          "whatItDoes": "Opens the plain-English flashcard reference guide covering all 5 maturity levels, 10 themes, and 28 questions."
+        },
+        {
+          "button": "New Standard / Old Standard",
+          "where": "Top Action Bar (Right Toggle — Petrol Active)",
+          "whatItDoes": "Switches between the active New Standard (2026) scoring rubric and legacy Old Standard text. Always keep set to 'New Standard'."
+        },
+        {
+          "button": "View Dashboard",
+          "where": "Top Action Bar (Deep Plum Button)",
+          "whatItDoes": "Opens the Assessment Dashboard modal displaying the 10-theme radar chart, category bar chart, overall maturity level, and Gateway Status table (with 'Export to PDF')."
+        },
+        {
+          "button": "Export Assessment (.json & .csv)",
+          "where": "Top Action Bar (Petrol Button)",
+          "whatItDoes": "Downloads your assessment as both a .json data file (ready to load into Navigator Toolkit or PM Maturity Hub) and a .csv spreadsheet. Send a copy to your Lean Core Team partner for official archiving in '600 Maturity Submissions'."
+        },
+        {
+          "button": "Import Assessment (.json / .csv)",
+          "where": "Top Action Bar (Deep Plum Button)",
+          "whatItDoes": "Reloads a previously saved .json or .csv assessment file into the 28-card grid so you can inspect or update ratings."
+        },
+        {
+          "button": "? User Guide",
+          "where": "Top Action Bar (Deep Plum Button)",
+          "whatItDoes": "Opens the built-in assessment facilitation guide explaining the 1–5 scoring scale, the 70% site coverage rule, and binary foundation gates."
+        },
+        {
+          "button": "Reset Progress",
+          "where": "Top Action Bar (Danger Red Button)",
+          "whatItDoes": "Clears all entered question ratings, evidence notes, and header fields back to an unassessed state."
+        },
+        {
+          "button": "View Key",
+          "where": "Top Action Bar (Deep Plum Button)",
+          "whatItDoes": "Opens the Visual Key modal explaining card borders: Gold border = Starred Gateway Question (★); Petrol border = Evaluated card."
+        },
+        {
+          "button": "Question Card Modal: Mark as Evaluated",
+          "where": "Inside Open Question Card Modal (Bottom-Right Bright Purple Button)",
+          "whatItDoes": "Saves your 1–5 score (or Binary 1/5 on Q1–Q3) and workplace evidence notes, marking the card with a petrol border on the grid."
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "Our overall maturity level on the Radar Dashboard stays at Level 1 despite several 4/5 scores.",
+          "cause": "One or more Starred Gateway questions (★) in Level 1 scored below 3, capping the site's overall maturity level.",
+          "fix": "Click 'View Dashboard' and inspect the Gateway Status list to see which Starred Gateway (★) is currently below 3."
+        }
+      ]
     }
   },
   "processes": {
@@ -1021,6 +1112,44 @@ window.FALLBACK_GUIDES_DB = {
           "sopId": "SOP-008",
           "toolIds": ["TOL-008"],
           "summary": "Combine orders with real fridge supplies, lock a 2–3 mug batch on the tray, and brew for 3 full minutes."
+        }
+      ]
+    },
+    "PRC-005": {
+      "id": "PRC-005",
+      "playbookId": "PLB-MATURITY",
+      "title": "Run a Standalone 28-Question Maturity Assessment & Explore the Storybook",
+      "appName": "Standalone GS Lean Maturity",
+      "versionBadge": "",
+      "durationBadge": "60–90 mins",
+      "whenToUse": "When completing a standalone 28-question assessment, exploring the Maturity Model Storybook & Explainer flashcards, or reviewing the Radar Dashboard before choosing your next path.",
+      "cardOutput": "Completed 28-question capability baseline, Radar Dashboard review & exported local assessment files.",
+      "ctaLabel": "Start Standalone Maturity Guide",
+      "category": "Standalone GS Lean Maturity & Storybook",
+      "userGoal": "Explore the 5 maturity levels and 10 themes in the Storybook and Maturity Explainer, score all 28 questions against the 70% site rule, inspect the Radar Dashboard & Gateway caps, and export your assessment.",
+      "trigger": "Local Programme Manager wants to understand the 5 levels in the Storybook or run a standalone 28-question capability baseline.",
+      "finalOutcome": "Exported Assessment files saved locally (ready to load into Navigator Toolkit or PM Maturity Hub), with a copy sent to your Lean Core Team partner for official archiving in '600 Maturity Submissions'.",
+      "valueAddCoaching": "Treat the 28-question check as a supportive capability self-assessment, never an audit. First-time assessments are completed with your Lean Core Team partner; ongoing assessments are completed directly with your Site Leadership Team.",
+      "raci": {
+        "responsible": "ROL-001",
+        "accountable": "ROL-003",
+        "consulted": ["ROL-002"],
+        "informed": ["ROL-003"]
+      },
+      "stages": [
+        {
+          "stageNumber": 1,
+          "name": "Stages 1 & 2: Explore Storybook, Set Up Header & Score the 28 Questions",
+          "sopId": "SOP-009",
+          "toolIds": ["TOL-012"],
+          "summary": "Walk through the Maturity Model Storybook and Maturity Explainer flashcards, fill in the header details, and score all 28 cards using the 70% site rule."
+        },
+        {
+          "stageNumber": 2,
+          "name": "Stages 3 & 4: Review the Radar Dashboard & Export Assessment Files",
+          "sopId": "SOP-010",
+          "toolIds": ["TOL-012"],
+          "summary": "Click 'View Dashboard' to inspect the 10-theme radar chart and Gateway caps, then export your assessment files and choose your next path."
         }
       ]
     }
@@ -1640,6 +1769,162 @@ window.FALLBACK_GUIDES_DB = {
           "fix": "Leave teabag in for 3 full minutes before adding milk."
         }
       ]
+    },
+    "SOP-009": {
+      "id": "SOP-009",
+      "title": "Stages 1 & 2: Explore Storybook, Set Up Header & Score the 28 Questions",
+      "processId": "PRC-005",
+      "roleId": "ROL-001",
+      "toolIds": ["TOL-012"],
+      "estimatedTime": "60 mins",
+      "stationLocation": "Standalone GS Lean Maturity App & Storybook",
+      "kitBag": {
+        "leadRole": "Lead: Local Programme Manager (LPM) with Site Leadership Team",
+        "supportRole": "1st time: with Lean Core Team partner; Ongoing: Core Team optional",
+        "mandatoryStatus": "Stages 1 & 2 • Storybook & 28-Question Scoring",
+        "inputNeeded": "Workplace Evidence (~70% of Site Teams)",
+        "outputProduced": "Evaluated 28-Card Grid with Evidence Notes"
+      },
+      "userGoal": "Explore the 5 maturity levels and 10 themes in the Maturity Model Storybook and Maturity Explainer flashcards, set up the assessment header, and score all 28 questions using the 70% site rule.",
+      "gettingStarted": [
+        "Open the Maturity Model Storybook and click 'Maturity Explainer' in the Standalone GS Lean Maturity app to review the 5 maturity levels (Awareness to Lean Enterprise), 10 themes, and 17 Starred Gateways (★).",
+        "First-time assessment: complete together with your Lean Core Team partner to learn the 28-question rubric. Ongoing assessments: complete directly with your Site Leadership Team as a self-assessment.",
+        "Confirm the top-right toggle is on 'New Standard' and fill in Project/Department Name, Org, Date, Assessed By, Local PM, and Scope."
+      ],
+      "steps": [
+        {
+          "stepNumber": 1,
+          "action": "Open the Maturity Model Storybook and Maturity Explainer flashcards to review the five levels.",
+          "detail": "Walk through the 5 maturity levels (1. Awareness to 5. Lean Enterprise), 10 themes, and 17 Starred Gateways (★) before scoring.",
+          "toolId": "TOL-012",
+          "coachingTip": "Reviewing the flashcards first helps leaders see the difference between an isolated pilot (Level 2) and a consistent site habit (Level 3).",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/nav-maturity-explainer.png",
+            "caption": "Standalone GS Lean Maturity — Maturity Explainer Flashcards (5 Levels & 10 Themes)",
+            "hotspot": {
+              "xPercent": 15,
+              "yPercent": 18,
+              "widthPercent": 70,
+              "heightPercent": 35,
+              "label": "1. Review 5 Levels & 10 Themes in Maturity Explainer"
+            }
+          }
+        },
+        {
+          "stepNumber": 2,
+          "action": "Confirm the toggle is on 'New Standard' and fill in the top assessment details.",
+          "detail": "Enter Project/Department Name, Org, Date, Assessed By, For OE Local PM, and Scope across the top header bar.",
+          "toolId": "TOL-012",
+          "coachingTip": "First-time assessments are completed with your Lean Core Team partner; ongoing assessments are completed directly with your Site Leadership Team.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/nav-maturity.png",
+            "caption": "Standalone GS Lean Maturity — Top Action Bar ('New Standard' Toggle & User Data Plate)",
+            "hotspot": {
+              "xPercent": 33,
+              "yPercent": 21,
+              "widthPercent": 34,
+              "heightPercent": 7,
+              "label": "2. Select 'New Standard' & Complete Header"
+            }
+          }
+        },
+        {
+          "stepNumber": 3,
+          "action": "Click each of the 28 question cards to score 1 to 5 and record evidence.",
+          "detail": "Foundation questions Q1 to Q3 score as Binary 1 (No) or 5 (Yes); questions Q4 to Q28 require workplace proof across roughly 70% of teams to score 3 or higher.",
+          "toolId": "TOL-012",
+          "coachingTip": "Click 'Mark as Evaluated' inside each Question Card Modal so the card turns petrol-bordered on the 28-card grid.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/nav-question-modal.png",
+            "caption": "Standalone GS Lean Maturity — Open Question Scoring Modal (1–5 Criteria, Evidence Notes & Mark as Evaluated)",
+            "hotspot": {
+              "xPercent": 50,
+              "yPercent": 20,
+              "widthPercent": 33,
+              "heightPercent": 37,
+              "label": "3. Score 1–5 (~70% Site Rule) & Mark as Evaluated"
+            }
+          }
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "A team wants to award Level 3 because one pilot cell has a great visual board.",
+          "cause": "A single pilot area represents Level 2 (Emerging), not Level 3 (Structured across ~70% of teams).",
+          "fix": "Score the card as 2 today and record the pilot cell in the Comments & Actions box so it can be scaled across the site."
+        }
+      ]
+    },
+    "SOP-010": {
+      "id": "SOP-010",
+      "title": "Stages 3 & 4: Review the Radar Dashboard, Inspect Gateway Caps & Export Files",
+      "processId": "PRC-005",
+      "roleId": "ROL-001",
+      "toolIds": ["TOL-012"],
+      "estimatedTime": "30 mins",
+      "stationLocation": "Standalone GS Lean Maturity App → View Dashboard & Export Assessment",
+      "kitBag": {
+        "leadRole": "Lead: Local Programme Manager (LPM) with Site Leadership Team",
+        "supportRole": "Lean Core Team partner (files official copy in '600 Maturity Submissions')",
+        "mandatoryStatus": "Stages 3 & 4 • Radar Dashboard & Export",
+        "inputNeeded": "28 Evaluated Question Cards",
+        "outputProduced": "Radar Dashboard PDF & Local Assessment Files (.json & .csv)"
+      },
+      "userGoal": "Click 'View Dashboard' to inspect the 10-theme radar chart, category bar chart, and Starred Gateway (★) caps, then export your .json and .csv files and choose your next path.",
+      "gettingStarted": [
+        "Confirm all 28 question cards are marked as evaluated on the assessment grid.",
+        "Have your local Programme Manager folder ready to save your exported .json and .csv assessment files."
+      ],
+      "steps": [
+        {
+          "stepNumber": 1,
+          "action": "Click 'View Dashboard' to inspect the radar chart, category bars, and Starred Gateway caps.",
+          "detail": "Review the Overall Maturity Level banner, the 10-theme radar chart, and the Gateway Status list showing which Starred Gateways (★) are capping the site's level.",
+          "toolId": "TOL-012",
+          "coachingTip": "Click 'Export to PDF' inside the Assessment Dashboard modal if you want a standalone one-page visual summary for leadership.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/nav-dashboard-modal.png",
+            "caption": "Standalone GS Lean Maturity — Open Assessment Dashboard Modal (Radar Chart, Category Bars & Gateway Status)",
+            "hotspot": {
+              "xPercent": 16,
+              "yPercent": 15,
+              "widthPercent": 68,
+              "heightPercent": 68,
+              "label": "1. Inspect Radar Chart, Overall Level & Gateway Caps"
+            }
+          }
+        },
+        {
+          "stepNumber": 2,
+          "action": "Click 'Export Assessment (.json & .csv)' to save your files locally and share with Core Team.",
+          "detail": "Save both files locally, and send a copy to your Lean Core Team partner when an official baseline needs to be archived in '600 Maturity Submissions'.",
+          "toolId": "TOL-012",
+          "coachingTip": "Only Lean Core Team members upload official submissions into '600 Maturity Submissions'. Keep your local .json file ready to load into Navigator Toolkit or PM Maturity Hub.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/nav-maturity.png",
+            "caption": "Standalone GS Lean Maturity — Click 'Export Assessment (.json & .csv)' in the Top Action Bar",
+            "hotspot": {
+              "xPercent": 19.5,
+              "yPercent": 15.5,
+              "widthPercent": 21,
+              "heightPercent": 6,
+              "label": "2. Click 'Export Assessment (.json & .csv)'"
+            }
+          }
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "We finished the standalone assessment and want to run a leadership workshop or simulate score unlocks.",
+          "cause": "The standalone GS Lean Maturity app focuses purely on the 28-question assessment and Radar Dashboard.",
+          "fix": "Load your exported .json file into Lean@GS Navigator Toolkit (for Analysis Report, VOC, Workshop & 1-Page Charter) or into Lean@GS PM Maturity Hub (for Score Explainer, Metro Journey & Simulator)."
+        }
+      ]
     }
   },
   "questions28": [
@@ -1920,6 +2205,15 @@ window.FALLBACK_GUIDES_DB = {
             "3 (Integrated Lean Culture)",
             "4 (Strategic Mastery)"
           ]
+        },
+        {
+          "id": "DEC-MAT-001",
+          "kind": "scoring-matrix-1page",
+          "navTitle": "1-Page 28-Question & 1–5 Scoring Rubric",
+          "eyebrow": "Shared 16:9 One-Page Scoring & Criteria Matrix",
+          "badge": "Navigator Toolkit / GS Lean Maturity / PM Maturity Hub",
+          "title": "All 28 Questions, 17 Gateways (★) & 1–5 Scoring Guide",
+          "subtitle": "Interactive 1-Page 28-Question & 1–5 Scoring Rubric Matrix with New Standard (2026) / Old Standard toggle, Full Verbatim / Executive Concise toggle, and native PowerPoint (.pptx), 4K Image (.png), and 1-Page PDF exports."
         }
       ],
       "templates": [
@@ -2054,11 +2348,289 @@ window.FALLBACK_GUIDES_DB = {
       ]
     },
     {
+      "id": "PLB-MATURITY",
+      "code": "PLB-MATURITY",
+      "title": "Standalone GS Lean Maturity & Storybook Guide (28-Question Assessment)",
+      "shortTitle": "Standalone GS Lean Maturity Guide",
+      "eyebrow": "Siemens Energy • Lean@GS Playbook #2",
+      "subtitle": "Dedicated guide for the standalone GS Lean Maturity web app and the Maturity Model Storybook—covering the 5 maturity levels, 10 themes, 28-question scoring rubric, Radar Dashboard, and file export.",
+      "goldenPrinciple": {
+        "quote": "Treat the 28-question assessment as a supportive capability self-assessment—never an audit.",
+        "explanation": "First-time assessments are completed together with a Lean Core Team partner to learn the 28-question rubric and 70% site coverage rule. Ongoing assessments are completed directly with your Site Leadership Team to see where teams need support."
+      },
+      "convergenceBanner": {
+        "input1Title": "Stages 1 & 2: Storybook & 28-Card Scoring",
+        "input1Desc": "Explore the 5 maturity levels in the Storybook & Explainer flashcards, then score all 28 cards using the 70% site rule.",
+        "input2Title": "Stages 3 & 4: Radar Dashboard & File Export",
+        "input2Desc": "Inspect the 10-theme Radar Dashboard & Starred Gateway caps, then export your local assessment files.",
+        "combinedTitle": "Ready for Navigator Toolkit or PM Maturity Hub",
+        "combinedDesc": "Archive official baselines via your Lean Core Team partner, or load your file into Navigator Toolkit or PM Maturity Hub."
+      },
+      "filingRule": "Only Lean Core Team members upload official submissions into '600 Maturity Submissions'. Local Programme Managers save exported files locally and send a copy to their Core Team partner.",
+      "processIds": ["PRC-005"],
+      "sopIds": ["SOP-009", "SOP-010"],
+      "toolIds": ["TOL-012"],
+      "liveToolIds": ["LIVE-PORTAL", "LIVE-STORYBOOK", "LIVE-NAVIGATOR", "LIVE-HUB"],
+      "crossRef": {
+        "kicker": "Related Playbooks • Choose Your Next Path",
+        "title": "Finished your standalone 28-question assessment? Jump to Navigator Toolkit or PM Maturity Hub in one click:",
+        "desc": "Your exported assessment file loads directly into either sister application—use Lean@GS Navigator Toolkit to combine your assessment with Voice of the Customer for a 1-Page Charter, or Lean@GS PM Maturity Hub for Score Explainer, Metro Journey, and Simulator.",
+        "targetPlaybookId": "PLB-001",
+        "primaryButtonLabel": "Open Lean@GS Navigator Toolkit Guide →",
+        "deepLinks": [
+          { "label": "Navigator Stage 2 Analysis Report →", "playbookId": "PLB-001", "view": "sop", "id": "SOP-002" },
+          { "label": "Navigator Stage 3–6 VOC, Workshop & Charter →", "playbookId": "PLB-001", "view": "sop", "id": "SOP-003" },
+          { "label": "PM Maturity Hub: Score Explainer & Metro Journey →", "playbookId": "PLB-PMHUB", "view": "sop", "id": "SOP-005" },
+          { "label": "PM Maturity Hub: Strategy Builder & Simulator →", "playbookId": "PLB-PMHUB", "view": "sop", "id": "SOP-006" }
+        ]
+      },
+      "chooserLabel": "Which part of the standalone maturity assessment are you doing today?",
+      "rulesKey": {
+        "title": "Before You Start: 3 Ground-Truth Rules for the Standalone 28-Question Assessment",
+        "subtitle": "Hosted at GS Lean Maturity & Maturity Model Storybook",
+        "items": [
+          {
+            "term": "🤝 1. First-Time with Core Team • Ongoing with Leadership Team",
+            "desc": "Complete your first baseline together with a Lean Core Team partner to learn the 28-question rubric. Complete ongoing assessments directly with your Site Leadership Team as a self-assessment (never an audit)."
+          },
+          {
+            "term": "🏭 2. The 70% Site Rule & 17 Starred Gateways (★)",
+            "desc": "Foundation Q1–Q3 are Binary (1 = No, 5 = Yes). For Q4–Q28, a habit must be visible across roughly 70% of teams to score 3 or higher. All 17 Starred Gateways (★) must score ≥ 3 (or 5 on Q1–Q3) to unlock the next level."
+          },
+          {
+            "term": "📁 3. Official Filing Rule ('600 Maturity Submissions')",
+            "desc": "Only Lean Core Team members upload official submissions into the '600 Maturity Submissions' folder. LPMs save exported files locally and send a copy to their Core Team partner."
+          }
+        ]
+      },
+      "journeyMap": {
+        "formulaBanner": "1. Explore 5 Levels & 10 Themes (Storybook) → 2. Score 28 Questions → 3. Review Radar Dashboard & Gateway Caps → 4. Export & Choose Next Path",
+        "mapHeading": "The 4-Stage Standalone GS Lean Maturity & Storybook Journey",
+        "roleFilters": [
+          { "id": "all", "label": "All Roles" },
+          { "id": "ROL-001", "label": "Local Programme Manager (LPM)" },
+          { "id": "ROL-003", "label": "Site Leadership Team" },
+          { "id": "ROL-002", "label": "Lean Core Team Partner" }
+        ],
+        "briefingButtonLabel": "⏱ Overview of Standalone Maturity & Storybook (60-Sec Pitch)",
+        "briefingTitle": "60-Second Overview: Standalone GS Lean Maturity & Maturity Model Storybook",
+        "briefingEquation": "Stage 1: Storybook & Explainer → Stage 2: Score 28 Cards (~70% Rule) → Stage 3: Radar Dashboard → Stage 4: Export & Handover",
+        "briefingBullets": [
+          "1. Stage 1 (Storybook & Explainer): Review the 5 maturity levels (1. Awareness to 5. Lean Enterprise), 10 themes, and 17 Starred Gateways (★) before scoring.",
+          "2. Stage 2 (Score 28 Questions): Confirm 'New Standard' is active, fill in the header, and score all 28 cards using the 70% site coverage rule.",
+          "3. Stages 3 & 4 (Dashboard & Export): Click 'View Dashboard' to inspect the 10-theme radar chart and Gateway caps, then export your local files to share with your Core Team partner or load into Navigator Toolkit / PM Maturity Hub."
+        ],
+        "stages": [
+          {
+            "stageNumber": 1,
+            "title": "Explore the 5 Levels & 10 Themes (Maturity Model Storybook)",
+            "summary": "Walk through the Maturity Model Storybook and Maturity Explainer flashcards to understand the 5 maturity levels (1. Awareness → 5. Lean Enterprise), 10 themes, and 17 Starred Gateways (★) before scoring.",
+            "whoIsInvolved": "Lead: Local Programme Manager (LPM) with Site Leadership Team & Lean Core Team partner",
+            "leadRoleId": "ROL-001",
+            "supportRoleId": "ROL-002",
+            "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
+            "toolId": "TOL-012",
+            "toolLabel": "Maturity Model Storybook & Maturity Explainer",
+            "liveUrl": "https://share.gemini.google/UjLQiIQXFbgc",
+            "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+            "secondaryLiveLabel": "Standalone GS Lean Maturity App ↗",
+            "outputArtifact": "Shared understanding of the 5 maturity levels, 10 themes & 70% site rule",
+            "targetView": { "type": "sop", "id": "SOP-009", "cta": "Open Stage 1 Storybook & Explainer Guide →" }
+          },
+          {
+            "stageNumber": 2,
+            "title": "Set Up & Score the 28 Questions (Standalone Maturity Assessment)",
+            "summary": "Confirm the toggle is on 'New Standard', fill in the top assessment details (Project/Dept, Org, Date, Assessed By, Local PM, Scope), and click each of the 28 cards to score 1–5 (or Binary 1/5 on Q1–Q3) and record workplace evidence notes.",
+            "whoIsInvolved": "Lead: Local Programme Manager (LPM) with Site Leadership Team (1st time: with Lean Core Team partner)",
+            "leadRoleId": "ROL-001",
+            "supportRoleId": "ROL-003",
+            "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
+            "toolId": "TOL-012",
+            "toolLabel": "Standalone GS Lean Maturity → 28-Question Assessment Grid",
+            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+            "secondaryLiveUrl": "https://share.gemini.google/UjLQiIQXFbgc",
+            "secondaryLiveLabel": "Maturity Model Storybook ↗",
+            "outputArtifact": "All 28 question cards evaluated with workplace evidence notes",
+            "targetView": { "type": "sop", "id": "SOP-009", "cta": "Open Stage 2 Scoring Guide →" }
+          },
+          {
+            "stageNumber": 3,
+            "title": "Review the Radar Dashboard & Gateway Caps (View Dashboard)",
+            "summary": "Click 'View Dashboard' to inspect the 10-theme radar chart, category bar chart, overall maturity level, and which Starred Gateway questions (★) are currently capping the site's level.",
+            "whoIsInvolved": "Lead: Local Programme Manager (LPM) with Site Leadership Team",
+            "leadRoleId": "ROL-001",
+            "supportRoleId": "ROL-003",
+            "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
+            "toolId": "TOL-012",
+            "toolLabel": "Standalone GS Lean Maturity → View Dashboard Modal",
+            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+            "outputArtifact": "10-theme Radar Dashboard review & Starred Gateway cap diagnosis",
+            "targetView": { "type": "sop", "id": "SOP-010", "cta": "Open Stage 3 Radar Dashboard Guide →" }
+          },
+          {
+            "stageNumber": 4,
+            "title": "Export Files & Choose Your Next Path (Export Assessment)",
+            "summary": "Click 'Export Assessment' to save your data locally, send a copy to your Lean Core Team partner for official archiving in '600 Maturity Submissions', and optionally load your file into Navigator Toolkit or PM Maturity Hub.",
+            "whoIsInvolved": "Lead: Local Programme Manager (LPM) • Official Archiving: Lean Core Team Partner",
+            "leadRoleId": "ROL-001",
+            "supportRoleId": "ROL-002",
+            "involvedRoleIds": ["ROL-001", "ROL-002"],
+            "toolId": "TOL-012",
+            "toolLabel": "Standalone GS Lean Maturity → Export Assessment",
+            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+            "crossRefNote": {
+              "text": "Ready to use your exported assessment in a Leadership Workshop or in the Score Simulator?",
+              "cta": "Open Navigator Toolkit Guide →",
+              "targetPlaybookId": "PLB-001",
+              "targetView": "sop",
+              "targetId": "SOP-002"
+            },
+            "outputArtifact": "Exported local assessment files & official Core Team submission copy",
+            "targetView": { "type": "sop", "id": "SOP-010", "cta": "Open Stage 4 Export & Handover Guide →" }
+          }
+        ]
+      },
+      "decisionTools": [
+        {
+          "id": "DEC-MAT-002",
+          "kind": "score-calculator",
+          "navTitle": "Gateway Score Cap Calculator",
+          "eyebrow": "Stage 3 Radar Dashboard & Gateway Status • Interactive Calculator",
+          "title": "How Starred Gateway Caps Work on the Assessment Dashboard",
+          "subtitle": "See why all 17 Starred Gateways (★) at your current level must score at least 3 (or 5 on Foundation Q1–Q3) before higher-level question scores unlock the next maturity stage.",
+          "stepsTitle": "How Your Overall Maturity Level Is Calculated",
+          "steps": [
+            "1. Check Foundation Gates (Q1–Q3): All three Binary Foundation gates must score 5 (Yes) to unlock Level 1.",
+            "2. Check Starred Gateways (★): Find the highest level where every Starred Gateway question scored at least 3 across ~70% of teams.",
+            "3. Count Unlocked Questions: Only include questions up to your unlocked level when calculating the active average.",
+            "4. Inspect 'View Dashboard': Open the Assessment Dashboard modal to see your Radar Chart and which Starred Gateways are Passed vs. Capped."
+          ],
+          "levelNames": [
+            "0 (Lean Awareness)",
+            "1 (Basic Implementation)",
+            "2 (Structured Approach)",
+            "3 (Integrated Lean Culture)",
+            "4 (Strategic Mastery)"
+          ]
+        },
+        {
+          "id": "DEC-MAT-001",
+          "kind": "scoring-matrix-1page",
+          "navTitle": "1-Page 28-Question & 1–5 Scoring Rubric",
+          "eyebrow": "Shared 16:9 One-Page Scoring & Criteria Matrix",
+          "badge": "GS Lean Maturity / Navigator Toolkit / PM Maturity Hub",
+          "title": "All 28 Questions, 17 Gateways (★) & 1–5 Scoring Guide",
+          "subtitle": "Interactive 1-Page 28-Question & 1–5 Scoring Rubric Matrix with New Standard (2026) / Old Standard toggle, Full Verbatim / Executive Concise toggle, and native PowerPoint (.pptx), 4K Image (.png), and 1-Page PDF exports."
+        }
+      ],
+      "templates": [
+        {
+          "id": "TPL-MAT-001",
+          "kind": "action-charter",
+          "navTitle": "Standalone Assessment Header, Evidence & Handover Guide",
+          "eyebrow": "STAGES 2 & 4 REFERENCE • ANNOTATED EXAMPLE & HANDOVER GUIDE",
+          "badge": "Standalone GS Lean Maturity",
+          "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+          "liveLabel": "Launch Standalone GS Lean Maturity App ↗",
+          "title": "Standalone Assessment Header, Evidence Notes & Next-Path Handover Guide",
+          "subtitle": "Annotated example showing how to complete the Top User Data Plate, write concrete 70% workplace evidence notes inside each Question Card Modal, and hand over your exported files.",
+          "appLocation": "Standalone GS Lean Maturity → User Data Plate, Question Card Modal & Export Assessment",
+          "fieldGuide": [
+            {
+              "section": "1. Top User Data Plate (6 Fields)",
+              "appField": "Project/Dept, Org, Date, Assessed By, Local PM, Scope",
+              "guidance": "Fill in all 6 header fields before scoring so your exported .json, .csv, and Radar Dashboard PDF carry complete site metadata."
+            },
+            {
+              "section": "2. Workplace Evidence Notes (~70% Rule)",
+              "appField": "Question Card Modal → Comments & Actions Box",
+              "guidance": "Record specific physical proof (e.g., which cells run daily huddles, board locations, or which pilot area is at Level 2) before clicking 'Mark as Evaluated'."
+            },
+            {
+              "section": "3. Export & Next-Path Handover",
+              "appField": "Top Action Bar → Export Assessment (.json & .csv)",
+              "guidance": "Save locally to load into Navigator Toolkit or PM Maturity Hub, and send a copy to your Lean Core Team partner for official filing in '600 Maturity Submissions'."
+            }
+          ],
+          "metaFields": [
+            { "label": "Project / Department", "value": "Example: Gas Services Turbine Assembly" },
+            { "label": "Assessment Date", "value": "2026-Q1 Baseline (New Standard)" },
+            { "label": "Assessed By", "value": "Local Programme Manager + Site Leadership Team" },
+            { "label": "Core Team Partner", "value": "Lean Core Team Partner (Official Filing)" }
+          ],
+          "leftBoxTitle": "1. What Strong Workplace Evidence Notes Look Like (Comments & Actions)",
+          "leftBoxBullets": [
+            "Q1–Q3 (Binary Gates): Document the specific business problem (True North), active sponsor routines, and core team training completed.",
+            "Score 3+ (~70% Site Rule): Name the operational areas where visual boards, standard work, or daily huddles are visibly running (e.g., 'Active in 6 of 8 assembly cells').",
+            "Score 2 (Isolated Pilot): Note the single pilot cell so leadership can scale it across the site next quarter."
+          ],
+          "rightBoxTitle": "2. Choosing Your Next Path After Exporting (.json & .csv)",
+          "rightBoxPrimary": "Official Archive: Send copy to Lean Core Team partner for '600 Maturity Submissions'",
+          "rightBoxSecondaryPrefix": "Next App Options",
+          "rightBoxSecondaryValue": "Load .json into Navigator Toolkit (Analysis & Workshop) OR PM Maturity Hub (Score Explainer & Simulator)",
+          "tableHeaders": {
+            "code": "Card",
+            "action": "Example Question Score & Verifiable Workplace Evidence Note",
+            "lift": "Gateway Status",
+            "tag": "Theme",
+            "due": "Score",
+            "owner": "Next Action / Path"
+          },
+          "objectiveRowCode": "EVID",
+          "objectiveRowText": "Annotated Example: High-Clarity Evidence Notes Recorded in Standalone GS Lean Maturity",
+          "exampleRows": [
+            {
+              "code": "Q1 ★",
+              "action": "Yes (5/5) — Clear business reason: Reduce turbine rotor assembly lead time from 18 to 12 days.",
+              "note": "Binary Foundation Gate (1 or 5) • Communicated at monthly townhall and shift boards",
+              "lift": "★ L1 Gate Passed",
+              "tag": "Foundation",
+              "due": "5 / 5",
+              "owner": "Site Sponsor & LPM"
+            },
+            {
+              "code": "Q10 ★",
+              "action": "Emerging (2/5) — Pilot A3 experiment running in Rotor Cell 1, but not yet tracked across 70% of cells.",
+              "note": "Honest Score 2 identifies why Level 1 is currently capped • Ready to promote in Navigator or Simulator",
+              "lift": "★ L2 Gate Capped (<3)",
+              "tag": "Tools & KPIs",
+              "due": "2 / 5",
+              "owner": "Load into Navigator / Hub"
+            },
+            {
+              "code": "Q14 ★",
+              "action": "Structured (3/5) — Fixed 08:15 AM daily huddles active in 6 of 8 shop-floor teams (75% coverage).",
+              "note": "Verified on gemba walk with active blocker escalation log",
+              "lift": "★ L3 Gate Passed",
+              "tag": "Daily Mgmt & CI",
+              "due": "3 / 5",
+              "owner": "Shift Team Leaders"
+            }
+          ]
+        }
+      ],
+      "referenceTables": [
+        {
+          "id": "REF-001",
+          "kind": "scoring-matrix-1page",
+          "navTitle": "All 28 Questions, 17 Gateways (★) & 1–5 Scoring Guide",
+          "eyebrow": "Shared 16:9 One-Page Scoring & Criteria Matrix",
+          "badge": "GS Lean Maturity / Navigator Toolkit / PM Maturity Hub",
+          "title": "All 28 Questions, 17 Gateways (★) & 1–5 Scoring Guide",
+          "subtitle": "Interactive 1-Page 28-Question & 1–5 Scoring Rubric Matrix with New Standard (2026) / Old Standard toggle, Full Verbatim / Executive Concise toggle, and native PowerPoint (.pptx), 4K Image (.png), and 1-Page PDF exports.",
+          "filterAllLabel": "All Questions (28)",
+          "filterFlaggedLabel": "★ Starred Gateways Only (17)",
+          "columns": ["#", "Assessment Question", "Topic", "Level", "Gateway?"],
+          "rows": []
+        }
+      ]
+    },
+    {
       "id": "PLB-PMHUB",
       "code": "PLB-PMHUB",
       "title": "Lean@GS PM Maturity Hub Guide (3-Phase Standalone Suite)",
       "shortTitle": "Lean@GS PM Maturity Hub Guide",
-      "eyebrow": "Siemens Energy • Lean@GS Playbook #2",
+      "eyebrow": "Siemens Energy • Lean@GS Playbook #3",
       "subtitle": "Guides for the standalone Lean@GS PM Maturity Hub web app—structured around its 3 Phases (Phase 1: Assess, Phase 2: Visualize, Phase 3: Plan) plus Utilities (CSV to JSON Fixer).",
       "goldenPrinciple": {
         "quote": "Use PM Maturity Hub to diagnose gateway score caps, visualise the Metro Journey & 4 Pillars, and simulate local action plans.",
@@ -2235,6 +2807,15 @@ window.FALLBACK_GUIDES_DB = {
               "whyItFails": "Produces an unrealistic roadmap that ignores the sequential Gateway cap mechanics and cannot be executed by site teams."
             }
           }
+        },
+        {
+          "id": "DEC-MAT-001",
+          "kind": "scoring-matrix-1page",
+          "navTitle": "1-Page 28-Question & 1–5 Scoring Rubric",
+          "eyebrow": "Shared 16:9 One-Page Scoring & Criteria Matrix",
+          "badge": "PM Maturity Hub / GS Lean Maturity / Navigator Toolkit",
+          "title": "All 28 Questions, 17 Gateways (★) & 1–5 Scoring Guide",
+          "subtitle": "Interactive 1-Page 28-Question & 1–5 Scoring Rubric Matrix with New Standard (2026) / Old Standard toggle, Full Verbatim / Executive Concise toggle, and native PowerPoint (.pptx), 4K Image (.png), and 1-Page PDF exports."
         }
       ],
       "templates": [
