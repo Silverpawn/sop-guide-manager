@@ -34,13 +34,30 @@ Every screen must make immediate sense within **10 seconds** to a colleague who 
      - **Ongoing Assessments:** LPM completes it with their Site Leadership Team as a capability self-assessment (not an audit).
    - **LPM Owns the Process (Core Team is Optional Support):** The **Local Programme Manager (LPM)** is the primary owner and driver of all 6 stages of the Navigator Process—including leading the Stage 4 Navigator Workshop and Stage 5 Charter with their Site Leadership Team. After the first-time Maturity Assessment calibration, the **Lean Core Team** is always **optional support / coaching**, never mandatory.
 
-5. **Official Corporate Intranet Tool Links & Strict Tool Boundary Rule:**
+5. **Official Corporate Intranet Tool Links & Ground-Truth Menu Alignment Rule:**
    - Always store and render clickable **`"Launch Live Tool ↗"`** buttons (`target="_blank" rel="noopener noreferrer"`) on Stage Cards, Kit Bags, and Tool Reference drawers using these exact corporate URLs:
-     - **GS Lean Maturity Portal:** `https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/`
-     - **PM Maturity Hub:** `https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/`
-     - **Navigator Toolkit:** `https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/`
-   - **Navigator Process (`PLB-001`) Uses `Navigator Toolkit` / `GS Lean Maturity` Only:** The 6-stage Navigator Process (1. Maturity Assessment → 2. Analysis → 3. Voice of the Customer (VOC) → 4. Navigator Workshop → 5. Charter → 6. Action Plan) runs entirely in the **Navigator Toolkit** (`https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/`) and **GS Lean Maturity** (`https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/`). **NEVER** link `PM Maturity Hub` or its sub-tools (`Metro Journey & 4 Pillars`, `Score Explainer`, `Strategy Builder`, `Simulator & CSV Fixer`) inside the Navigator Process (`PLB-001`).
-   - **PM Maturity Hub Is a Separate System (`PLB-PMHUB`):** `PM Maturity Hub` (`https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/`) has its own distinct tools and does not participate in the Navigator Workshop. Keep its guides and tools in a dedicated Playbook (`PLB-PMHUB: PM Maturity Hub Standalone Guide`) in the Playbook Switcher.
+     - **Maturity Model Storybook (GS Lean Maturity Portal):** `https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/`
+     - **Lean@GS Navigator Toolkit:** `https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/`
+     - **Lean@GS PM Maturity Hub:** `https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/`
+   - **A. `Lean@GS Navigator Toolkit` (`PLB-001`) Ground-Truth Menu (`https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/`):**
+     Contains these exact menu items (and **NEVER** `Score Explainer`, `Metro Journey`, `4 Pillars`, `Strategy Builder`, `Simulator`, or `CSV to JSON Fixer`):
+     - `Maturity Model Storybook` (`https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/`)
+     - `Orientation`
+     - `Process Overview`
+     - `Maturity Assessment` (with sub-items: `↳ Maturity Explainer` and `↳ Interactive Roadmap`)
+     - `Analysis Report`
+     - `VOC Input`
+     - `Workshop Guide`
+     - `Charter Input`
+     - `Charter & Roadmaps`
+     - `Action Log`
+   - **B. `Lean@GS PM Maturity Hub` (`PLB-PMHUB`) Ground-Truth Menu (`https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/`):**
+     Organized into 3 Phases + Utilities (and **NEVER** participates in the Navigator Workshop, VOC Input, or Charter):
+     - `Maturity Model Storybook` (`https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/`)
+     - **PHASE 1: ASSESS:** `Maturity Assessment`, `Maturity Explainer`, `Score Explainer`
+     - **PHASE 2: VISUALIZE:** `Metro Journey`, `The 4 Pillars (Live)`, `Pillars (Static)`
+     - **PHASE 3: PLAN:** `Strategy Builder`, `↳ Simulator`
+     - **UTILITIES:** `CSV to JSON Fixer`
 
 6. **Neutral Demo Playbook Standard (`PLB-DEMO`):**
    - Maintain a neutral, everyday-life example playbook (`PLB-DEMO`: *"Demo Example: The Office Brew Run (How This Guide System Works)"*) in the Playbook Switcher so stakeholders can evaluate the platform UX and authoring features without getting distracted by internal process debates.

@@ -7,25 +7,25 @@ window.FALLBACK_GUIDES_DB = {
     "filingRule": "Save finished .csv and .json files in '600 Maturity Submissions'. Never move or delete files in that folder.",
     "liveTools": [
       {
+        "id": "LIVE-NAVIGATOR",
+        "name": "Lean@GS Navigator Toolkit",
+        "shortLabel": "Navigator Toolkit ↗",
+        "url": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
+        "description": "Orientation, Process Overview, Maturity Assessment, Analysis Report, VOC Input, Workshop Guide, Charter Input, Charter & Roadmaps, Action Log"
+      },
+      {
         "id": "LIVE-PORTAL",
-        "name": "GS Lean Maturity Portal",
-        "shortLabel": "GS Lean Maturity ↗",
+        "name": "Maturity Model Storybook (GS Lean Maturity)",
+        "shortLabel": "Maturity Model Storybook ↗",
         "url": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
-        "description": "Standalone 28-Question Assessment & Gateway Scoring Engine"
+        "description": "Maturity Model Storybook & Standalone 28-Question Assessment Portal"
       },
       {
         "id": "LIVE-HUB",
-        "name": "PM Maturity Hub",
+        "name": "Lean@GS PM Maturity Hub",
         "shortLabel": "PM Maturity Hub ↗",
         "url": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
-        "description": "Phase 1 Assess, Score Explainer, Metro Journey, 4 Pillars & Strategy Builder"
-      },
-      {
-        "id": "LIVE-NAVIGATOR",
-        "name": "Navigator Toolkit",
-        "shortLabel": "Navigator Toolkit ↗",
-        "url": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
-        "description": "Analysis Report, VOC Input, Workshop Guide, 1-Page Charter & Action Log"
+        "description": "Phase 1: Assess (Score Explainer), Phase 2: Visualize (Metro Journey & 4 Pillars), Phase 3: Plan (Strategy Builder & Simulator), Utilities (CSV to JSON Fixer)"
       }
     ]
   },
@@ -96,22 +96,56 @@ window.FALLBACK_GUIDES_DB = {
     }
   },
   "tools": {
+    "TOL-000": {
+      "id": "TOL-000",
+      "name": "Orientation & Process Overview",
+      "suite": "Lean@GS Navigator Toolkit",
+      "versionBadge": "",
+      "category": "Before You Start: Orientation",
+      "purpose": "Review the Navigator Orientation and Process Overview screens inside Lean@GS Navigator Toolkit (plus the Maturity Model Storybook) before starting Stage 1.",
+      "accessUrl": "Navigator Toolkit → Orientation & Process Overview",
+      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
+      "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+      "secondaryLiveLabel": "Maturity Model Storybook ↗",
+      "ownerRoleId": "ROL-001",
+      "gettingStarted": [
+        "Open Lean@GS Navigator Toolkit and click 'Orientation' and 'Process Overview' in the left navigation menu.",
+        "Open 'Maturity Model Storybook' to review the 5 maturity levels and how Lean capability and business need work together."
+      ],
+      "quickCommands": [
+        {
+          "goal": "Open the Navigator Process Overview",
+          "command": "Navigator Toolkit → Click 'Orientation' or 'Process Overview'"
+        },
+        {
+          "goal": "Open the Maturity Model Storybook",
+          "command": "Navigator Toolkit → Click 'Maturity Model Storybook'"
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "Stakeholders think the Maturity Assessment is the entire Navigator process.",
+          "cause": "Confusing Input 1 (Maturity Assessment) with the 6-stage Navigator journey.",
+          "fix": "Open 'Process Overview' in Navigator Toolkit to show how Capability (Stages 1–2) and VOC Business Need (Stage 3) converge in the Workshop (Stage 4)."
+        }
+      ]
+    },
     "TOL-001": {
       "id": "TOL-001",
       "name": "Maturity Assessment & Explainer",
-      "suite": "Navigator Toolkit / GS Lean Maturity",
+      "suite": "Lean@GS Navigator Toolkit",
       "versionBadge": "",
-      "category": "Stage 1: Assess",
-      "purpose": "Score all 28 site Lean questions using the New Standard rubric, inspect Maturity Explainer flashcards, and click 'Export Assessment (.json & .csv)'.",
-      "accessUrl": "Navigator Toolkit → Maturity Assessment (or GS Lean Maturity Portal)",
-      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
-      "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
-      "secondaryLiveLabel": "Open Navigator Toolkit ↗",
+      "category": "Stage 1: Maturity Assessment",
+      "purpose": "Score all 28 site Lean questions using the New Standard rubric, inspect ↳ Maturity Explainer flashcards and ↳ Interactive Roadmap, and export your assessment.",
+      "accessUrl": "Navigator Toolkit → Maturity Assessment (↳ Maturity Explainer & Interactive Roadmap)",
+      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
+      "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+      "secondaryLiveLabel": "Maturity Model Storybook ↗",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
         "First-Time Assessment: Complete with your Lean Core Team partner to learn the 28-question rubric and evidence standard.",
         "Ongoing Assessments: Complete directly with your Site Leadership Team as a capability self-assessment (not an audit; Core Team optional).",
-        "Confirm the top-right standard toggle is set to 'New Standard' and fill out the User Data Plate (Project/Department Name, Org, Assessed By, For OE Local PM, Scope)."
+        "Open 'Maturity Assessment' (and its sub-items '↳ Maturity Explainer' and '↳ Interactive Roadmap') in Navigator Toolkit, confirm 'New Standard' is active, and fill the User Data Plate."
       ],
       "quickCommands": [
         {
@@ -133,16 +167,16 @@ window.FALLBACK_GUIDES_DB = {
     },
     "TOL-002": {
       "id": "TOL-002",
-      "name": "Analysis Report (10-Stage Diagnostic)",
-      "suite": "Navigator Toolkit",
+      "name": "Analysis Report",
+      "suite": "Lean@GS Navigator Toolkit",
       "versionBadge": "",
-      "category": "Stage 2: Analyze",
-      "purpose": "Upload your completed assessment into Analysis Report to review the 10-stage diagnostic, identify 2–3 priority Gateway gaps, and export executive gap slides.",
+      "category": "Stage 2: Analysis",
+      "purpose": "Upload your completed assessment into Navigator Toolkit → Analysis Report to review the 10-stage diagnostic, identify 2–3 priority Gateway gaps, and export executive gap slides.",
       "accessUrl": "Navigator Toolkit → Analysis Report",
       "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
-        "Open 'Analysis Report' in the left sidebar of Navigator Toolkit and click 'Upload Assessment (.json / .csv)'.",
+        "Open 'Analysis Report' in the left sidebar of Lean@GS Navigator Toolkit and click 'Upload Assessment (.json / .csv)'.",
         "Enter 'Analysed By' and 'Analysis Date', then expand the 10 roadmap stages or click 'View Action Report'."
       ],
       "quickCommands": [
@@ -163,56 +197,24 @@ window.FALLBACK_GUIDES_DB = {
         }
       ]
     },
-    "TOL-003": {
-      "id": "TOL-003",
-      "name": "Score Explainer, Metro Journey & 4 Pillars",
-      "suite": "PM Maturity Hub",
-      "versionBadge": "",
-      "category": "Phase 1 & Phase 2: Visualize",
-      "purpose": "Understand how foundation Gateway questions affect your site level in Score Explainer, see where the train stops on Metro Journey, and view The 4 Pillars (Live & Static).",
-      "accessUrl": "PM Maturity Hub → Score Explainer & Phase 2: Visualize",
-      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
-      "ownerRoleId": "ROL-001",
-      "gettingStarted": [
-        "Click 'Load JSON / CSV' in the left sidebar of PM Maturity Hub (or score directly in Maturity Assessment—your assessment syncs automatically).",
-        "If uploading a legacy Excel .csv file fails, run it through 'CSV to JSON Fixer' under Utilities."
-      ],
-      "quickCommands": [
-        {
-          "goal": "Capped Score Formula",
-          "command": "Compressed = OperatingLevel + [(RawValidAvg - 1) / 4] • Final = min(RawValidAvg, Compressed)"
-        },
-        {
-          "goal": "Visualise Gateway roadblocks for leadership",
-          "command": "Open 'Metro Journey' & 'The 4 Pillars (Live)' under Phase 2: Visualize"
-        }
-      ],
-      "troubleshooting": [
-        {
-          "symptom": "High scores on Level 2 and Level 3 questions did not raise our 1.6 total score.",
-          "cause": "A Level 1 Gateway question (such as Q10) scored below 3, locking your Operating Level ceiling at Level 1.",
-          "fix": "Open Score Explainer to inspect the Gateway Ceiling and Blinkers Filter, then raise the failed Gateway to 3 across 70% of teams."
-        }
-      ]
-    },
     "TOL-004": {
       "id": "TOL-004",
-      "name": "VOC Input (Voice of the Customer)",
-      "suite": "Navigator Toolkit",
+      "name": "VOC Input",
+      "suite": "Lean@GS Navigator Toolkit",
       "versionBadge": "",
-      "category": "Stage 3: Prepare",
-      "purpose": "Turn your maturity capability gaps and leadership interview notes into a focused briefing pack for your Navigator Workshop.",
+      "category": "Stage 3: Voice of the Customer (VOC)",
+      "purpose": "Capture leadership business priorities, operational bottlenecks, and measures of breakthrough success inside Navigator Toolkit → VOC Input.",
       "accessUrl": "Navigator Toolkit → VOC Input",
       "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
-        "Schedule 20-minute pre-workshop interviews with site leaders and open 'VOC Input' in the Navigator Toolkit sidebar.",
+        "Schedule 20-minute pre-workshop interviews with site leaders and open 'VOC Input' in the Lean@GS Navigator Toolkit sidebar.",
         "Ask the primary guiding question: 'If you could fix one thing in the next 12 months to significantly improve operational performance and flow, what would it be?'"
       ],
       "quickCommands": [
         {
           "goal": "Capture Voice of the Customer (VOC) interviews",
-          "command": "VOC Input → Record interview insights → Click 'Export VOC to CSV'"
+          "command": "Navigator Toolkit → VOC Input → Record interview insights → Click 'Export VOC to CSV'"
         },
         {
           "goal": "Save combined Analysis + VOC workshop prep state",
@@ -229,16 +231,49 @@ window.FALLBACK_GUIDES_DB = {
     },
     "TOL-005": {
       "id": "TOL-005",
-      "name": "Workshop Guide, Charter Input, Charter & Roadmaps + Action Log",
-      "suite": "Navigator Toolkit",
+      "name": "Workshop Guide",
+      "suite": "Lean@GS Navigator Toolkit",
       "versionBadge": "",
-      "category": "Stages 4–6: Align, Create & Communicate",
-      "purpose": "Facilitate the 3-module alignment workshop, draft Top 3 Leadership Priorities and 2–3 focus initiatives in Charter Input, export the 1-Page Charter, and track owners in Action Log.",
-      "accessUrl": "Navigator Toolkit → Workshop Guide / Charter Input / Charter & Roadmaps / Action Log",
+      "category": "Stage 4: Navigator Workshop",
+      "purpose": "Facilitate the 3-module alignment workshop in Navigator Toolkit → Workshop Guide to connect Lean capability gaps (Stages 1–2) with business needs (Stage 3).",
+      "accessUrl": "Navigator Toolkit → Workshop Guide",
       "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
-        "Load your full workshop session via 'Load Session (.leansession)' in the Navigator Toolkit sidebar so Analysis and VOC insights auto-populate Charter Input."
+        "Load your full workshop session via 'Load Session (.leansession)' in the Navigator Toolkit sidebar.",
+        "Open 'Workshop Guide' to lead your Site Leadership Team through the 3 alignment modules."
+      ],
+      "quickCommands": [
+        {
+          "goal": "Run Module 1 & Module 2 alignment",
+          "command": "Navigator Toolkit → Workshop Guide → Connect VOC business needs to foundation Gateways"
+        },
+        {
+          "goal": "Transition from Workshop to Charter drafting",
+          "command": "Complete Module 3 in Workshop Guide → Open 'Charter Input'"
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "Workshop discussion gets stuck debating a single question score from the site check.",
+          "cause": "Re-litigating individual scores instead of focusing on strategic bottlenecks.",
+          "fix": "Remind the room that the assessment is one input; pivot immediately to which foundational Gateway unlocks the leader's top 3 business priorities."
+        }
+      ]
+    },
+    "TOL-009": {
+      "id": "TOL-009",
+      "name": "Charter Input & Roadmaps",
+      "suite": "Lean@GS Navigator Toolkit",
+      "versionBadge": "",
+      "category": "Stage 5: Charter",
+      "purpose": "Draft Top 3 Leadership Priorities, measurable Objectives & Key Results, and 2–3 focus initiatives in Charter Input, then view and export the executive 1-Page Charter in Charter & Roadmaps.",
+      "accessUrl": "Navigator Toolkit → Charter Input & Charter & Roadmaps",
+      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
+      "ownerRoleId": "ROL-001",
+      "gettingStarted": [
+        "Open 'Charter Input' in the Lean@GS Navigator Toolkit sidebar to enter your agreed Top 3 Leadership Priorities and 2–3 focus initiatives.",
+        "Open 'Charter & Roadmaps' to review the 1-Page Charter infographic and export to PowerPoint."
       ],
       "quickCommands": [
         {
@@ -246,8 +281,8 @@ window.FALLBACK_GUIDES_DB = {
           "command": "Pattern: [Measure] from [Start] to [Target] by [Date] (e.g., 25% to 75% by Q3)"
         },
         {
-          "goal": "Backup full workshop state & export action matrix",
-          "command": "Click 'Save Session (.leansession)' in sidebar + 'Export Action Matrix (CSV)' in Action Log"
+          "goal": "Export 1-Page Navigator Charter slides",
+          "command": "Open 'Charter & Roadmaps' → Click 'Export to PowerPoint'"
         }
       ],
       "troubleshooting": [
@@ -258,66 +293,160 @@ window.FALLBACK_GUIDES_DB = {
         }
       ]
     },
-    "TOL-006": {
-      "id": "TOL-006",
-      "name": "Strategy Builder, Simulator & CSV to JSON Fixer",
-      "suite": "PM Maturity Hub",
+    "TOL-010": {
+      "id": "TOL-010",
+      "name": "Action Log",
+      "suite": "Lean@GS Navigator Toolkit",
       "versionBadge": "",
-      "category": "Phase 3: Plan & Utilities",
-      "purpose": "Select Light, Standard, Intense, or Custom initiative templates for failed Gateways in Strategy Builder, model score improvements in Simulator, and fix legacy CSVs.",
-      "accessUrl": "PM Maturity Hub → Phase 3: Plan & Utilities",
-      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
+      "category": "Stage 6: Action Plan",
+      "purpose": "Assign single-point action owners, target dates, and status tracking in Navigator Toolkit → Action Log, and display your local visual roadmap via Charter & Roadmaps.",
+      "accessUrl": "Navigator Toolkit → Action Log & Charter & Roadmaps",
+      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
-        "Load your site's .json assessment file via 'Load JSON / CSV' in the PM Maturity Hub sidebar."
+        "Open 'Action Log' in the Lean@GS Navigator Toolkit sidebar after agreeing your 2–3 focus initiatives in Charter Input.",
+        "Assign a single named owner and target date to every action and click 'Save Session (.leansession)'."
       ],
       "quickCommands": [
         {
-          "goal": "Fix broken Excel semicolon CSV exports",
-          "command": "Open Utilities → 'CSV to JSON Fixer' → Convert ';' to clean .json"
+          "goal": "Export owned action plan for monthly reviews",
+          "command": "Navigator Toolkit → Action Log → Click 'Export Action Matrix (CSV)'"
         },
         {
-          "goal": "Build a targeted local action plan & test score impact",
-          "command": "Open 'Strategy Builder' → Select Light/Standard/Intense template → Test sliders in 'Simulator'"
+          "goal": "Backup complete Navigator session",
+          "command": "Click 'Save Session (.leansession)' in the Navigator Toolkit sidebar"
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "An action in the Action Log lists two departments as co-owners.",
+          "cause": "Shared ownership means nobody owns the deadline.",
+          "fix": "Assign one named person as the single-point owner and list supporting colleagues in the notes."
+        }
+      ]
+    },
+    "TOL-007": {
+      "id": "TOL-007",
+      "name": "Phase 1: Assess",
+      "suite": "Lean@GS PM Maturity Hub",
+      "versionBadge": "",
+      "category": "PM Maturity Hub • Phase 1: Assess",
+      "purpose": "Score the 28 questions in Maturity Assessment, review the Maturity Explainer flashcards, and diagnose gateway score caps in Score Explainer.",
+      "accessUrl": "PM Maturity Hub → Phase 1: Assess (Maturity Assessment, Maturity Explainer, Score Explainer)",
+      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
+      "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+      "secondaryLiveLabel": "Maturity Model Storybook ↗",
+      "ownerRoleId": "ROL-001",
+      "gettingStarted": [
+        "Open Lean@GS PM Maturity Hub and expand 'PHASE 1: ASSESS' in the left sidebar.",
+        "Select 'Maturity Assessment', 'Maturity Explainer', or 'Score Explainer', or click 'Load JSON / CSV' in the Session Data box."
+      ],
+      "quickCommands": [
+        {
+          "goal": "Inspect Gateway Ceiling & Blinkers Filter math",
+          "command": "Phase 1: Assess → Open 'Score Explainer'"
+        },
+        {
+          "goal": "Capped Score Formula",
+          "command": "Compressed = OperatingLevel + [(RawValidAvg - 1) / 4] • Final = min(RawValidAvg, Compressed)"
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "High scores on Level 2 and Level 3 questions did not raise our 1.6 total score.",
+          "cause": "A Level 1 Gateway question (such as Q10) scored below 3, locking your Operating Level ceiling at Level 1.",
+          "fix": "Open 'Score Explainer' under Phase 1: Assess to inspect the Gateway Ceiling and Blinkers Filter."
+        }
+      ]
+    },
+    "TOL-003": {
+      "id": "TOL-003",
+      "name": "Phase 2: Visualize",
+      "suite": "Lean@GS PM Maturity Hub",
+      "versionBadge": "",
+      "category": "PM Maturity Hub • Phase 2: Visualize",
+      "purpose": "Visualize your site's Lean progression along the Metro Journey map and across The 4 Pillars (Live) and Pillars (Static).",
+      "accessUrl": "PM Maturity Hub → Phase 2: Visualize (Metro Journey, The 4 Pillars Live, Pillars Static)",
+      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
+      "ownerRoleId": "ROL-001",
+      "gettingStarted": [
+        "Click 'Load JSON / CSV' in the left sidebar of Lean@GS PM Maturity Hub so 'Data Active' appears.",
+        "Under 'PHASE 2: VISUALIZE', select 'Metro Journey', 'The 4 Pillars (Live)', or 'Pillars (Static)'."
+      ],
+      "quickCommands": [
+        {
+          "goal": "See which failed Gateway stops the Digital Twin train",
+          "command": "Phase 2: Visualize → Click 'Metro Journey'"
+        },
+        {
+          "goal": "Compare live capability across the 4 Lean pillars",
+          "command": "Phase 2: Visualize → Click 'The 4 Pillars (Live)' or 'Pillars (Static)'"
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "Metro Journey or The 4 Pillars (Live) shows empty stations.",
+          "cause": "No assessment file has been loaded into the PM Maturity Hub session.",
+          "fix": "Click 'Load JSON / CSV' in the bottom-left Session Data box of PM Maturity Hub."
+        }
+      ]
+    },
+    "TOL-006": {
+      "id": "TOL-006",
+      "name": "Phase 3: Plan",
+      "suite": "Lean@GS PM Maturity Hub",
+      "versionBadge": "",
+      "category": "PM Maturity Hub • Phase 3: Plan",
+      "purpose": "Build a local maturity improvement plan in Strategy Builder and test how fixing specific gateways unlocks your score in the ↳ Simulator.",
+      "accessUrl": "PM Maturity Hub → Phase 3: Plan (Strategy Builder & ↳ Simulator)",
+      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
+      "ownerRoleId": "ROL-001",
+      "gettingStarted": [
+        "Ensure 'Data Active' appears in the PM Maturity Hub sidebar.",
+        "Under 'PHASE 3: PLAN', click 'Strategy Builder' or its sub-item '↳ Simulator'."
+      ],
+      "quickCommands": [
+        {
+          "goal": "Select Light, Standard, Intense, or Custom templates",
+          "command": "Phase 3: Plan → Open 'Strategy Builder'"
+        },
+        {
+          "goal": "Model what-if Gateway score unlocks",
+          "command": "Phase 3: Plan → Open '↳ Simulator' and drag Gateway sliders"
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "Dragging non-gateway sliders in Simulator barely changes the total score.",
+          "cause": "An earlier starred Gateway question is still below 3, capping the Operating Level.",
+          "fix": "Raise the red starred Gateway slider to 3 first so the next maturity level unlocks."
+        }
+      ]
+    },
+    "TOL-011": {
+      "id": "TOL-011",
+      "name": "Utilities: CSV to JSON Fixer",
+      "suite": "Lean@GS PM Maturity Hub",
+      "versionBadge": "",
+      "category": "PM Maturity Hub • Utilities",
+      "purpose": "Repair or convert legacy .csv assessment exports into valid .json files using the CSV to JSON Fixer utility.",
+      "accessUrl": "PM Maturity Hub → Utilities: CSV to JSON Fixer",
+      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
+      "ownerRoleId": "ROL-001",
+      "gettingStarted": [
+        "Open Lean@GS PM Maturity Hub and click 'CSV to JSON Fixer' under the 'UTILITIES' section at the bottom of the left sidebar."
+      ],
+      "quickCommands": [
+        {
+          "goal": "Convert semicolon-delimited Excel CSV to clean JSON",
+          "command": "Utilities → Click 'CSV to JSON Fixer' → Upload .csv → Download .json"
         }
       ],
       "troubleshooting": [
         {
           "symptom": "CSV file fails to load into Score Explainer or Strategy Builder.",
           "cause": "Regional Excel settings saved semicolons (;) instead of commas (,).",
-          "fix": "Open 'CSV to JSON Fixer' in Utilities and convert the file into a clean .json file."
-        }
-      ]
-    },
-    "TOL-007": {
-      "id": "TOL-007",
-      "name": "Maturity Assessment & Explainer (PM Maturity Hub)",
-      "suite": "PM Maturity Hub",
-      "versionBadge": "",
-      "category": "Phase 1: Assess",
-      "purpose": "Score the 28-question assessment inside the standalone PM Maturity Hub, review Maturity Explainer cards, and sync session data into Score Explainer and Strategy Builder.",
-      "accessUrl": "PM Maturity Hub → Phase 1: Assess",
-      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
-      "ownerRoleId": "ROL-001",
-      "gettingStarted": [
-        "Open PM Maturity Hub and select 'Maturity Assessment' or 'Maturity Explainer' under Phase 1: Assess.",
-        "Confirm 'New Standard' is selected and complete the User Data Plate before scoring."
-      ],
-      "quickCommands": [
-        {
-          "goal": "Sync scores across all PM Maturity Hub tools",
-          "command": "Score cards in Maturity Assessment or click 'Load JSON / CSV' in the Hub sidebar"
-        },
-        {
-          "goal": "Export completed assessment files",
-          "command": "Click 'Export Assessment (.json & .csv)' in the top header bar"
-        }
-      ],
-      "troubleshooting": [
-        {
-          "symptom": "Session data badge in the Hub sidebar does not show 'Data Active'.",
-          "cause": "No assessment file has been loaded or scored in the current browser session.",
-          "fix": "Click 'Load JSON / CSV' in the bottom-left Session Data box of PM Maturity Hub."
+          "fix": "Run the file through 'CSV to JSON Fixer' under Utilities to download a clean .json file."
         }
       ]
     },
@@ -379,22 +508,22 @@ window.FALLBACK_GUIDES_DB = {
           "stageNumber": 1,
           "name": "Stage 1: Complete the Site Maturity Assessment",
           "sopId": "SOP-001",
-          "toolIds": ["TOL-001"],
-          "summary": "Score all 28 questions using the 70% site rule (1st time with Core Team partner; ongoing with Site Leadership Team)."
+          "toolIds": ["TOL-000", "TOL-001"],
+          "summary": "Review Orientation & Process Overview, then score all 28 questions using the 70% site rule (1st time with Core Team partner; ongoing with Site Leadership Team)."
         },
         {
           "stageNumber": 2,
           "name": "Stage 2: Analysis — Strengths, Gaps & Gateway Caps",
           "sopId": "SOP-002",
           "toolIds": ["TOL-002"],
-          "summary": "Upload your assessment into Navigator Toolkit (Analysis Report) to inspect the 10-stage diagnostic and focus on 2–3 priority Gateway gaps."
+          "summary": "Upload your assessment into Navigator Toolkit → Analysis Report to inspect the 10-stage diagnostic and focus on 2–3 priority Gateway gaps."
         }
       ]
     },
     "PRC-002": {
       "id": "PRC-002",
       "title": "Run the Navigator Workshop, Charter & Action Plan",
-      "appName": "Navigator Toolkit",
+      "appName": "Lean@GS Navigator Toolkit",
       "versionBadge": "",
       "durationBadge": "Half Day",
       "whenToUse": "After completing your Maturity Assessment & Analysis (Stages 1–2).",
@@ -417,26 +546,26 @@ window.FALLBACK_GUIDES_DB = {
           "name": "Stage 3: Voice of the Customer (VOC)",
           "sopId": "SOP-003",
           "toolIds": ["TOL-004"],
-          "summary": "Capture leadership business priorities and pain points inside Navigator Toolkit (VOC Input)."
+          "summary": "Capture leadership business priorities and pain points inside Navigator Toolkit → VOC Input."
         },
         {
           "stageNumber": 2,
           "name": "Stages 4–6: Navigator Workshop, 1-Page Charter & Action Plan",
           "sopId": "SOP-004",
-          "toolIds": ["TOL-005"],
-          "summary": "Facilitate the 3-module Workshop Guide, draft 2–3 focus initiatives in Charter Input, and assign owners in Action Log."
+          "toolIds": ["TOL-005", "TOL-009", "TOL-010"],
+          "summary": "Facilitate the 3-module Workshop Guide, draft 2–3 focus initiatives in Charter Input & Charter & Roadmaps, and assign owners in Action Log."
         }
       ]
     },
     "PRC-003": {
       "id": "PRC-003",
       "playbookId": "PLB-PMHUB",
-      "title": "Run the Standalone PM Maturity Hub Suite",
-      "appName": "PM Maturity Hub",
+      "title": "Run the Standalone Lean@GS PM Maturity Hub Suite",
+      "appName": "Lean@GS PM Maturity Hub",
       "versionBadge": "",
       "durationBadge": "60 mins",
-      "whenToUse": "When using the standalone PM Maturity Hub for Score Explainer, Metro Journey, 4 Pillars, Strategy Builder, Simulator, or CSV fixing.",
-      "cardOutput": "Score Explainer diagnostic, Metro Journey & 4 Pillars visualisations, Strategy Builder templates & Simulator model.",
+      "whenToUse": "When using the standalone PM Maturity Hub for Phase 1: Assess (Score Explainer), Phase 2: Visualize (Metro Journey & 4 Pillars), Phase 3: Plan (Strategy Builder & Simulator), or Utilities (CSV to JSON Fixer).",
+      "cardOutput": "Score Explainer diagnostic, Metro Journey & 4 Pillars visualisations, Strategy Builder plan & Simulator model.",
       "ctaLabel": "Start PM Maturity Hub Guide",
       "category": "Standalone PM Maturity Hub Suite",
       "userGoal": "Use the standalone PM Maturity Hub tools to inspect Gateway score caps in Score Explainer, visualise Metro Journey and The 4 Pillars, and model local plans in Strategy Builder and Simulator.",
@@ -452,16 +581,16 @@ window.FALLBACK_GUIDES_DB = {
       "stages": [
         {
           "stageNumber": 1,
-          "name": "Phases 1 & 2: Score Explainer, Metro Journey & The 4 Pillars",
+          "name": "Phases 1 & 2: Assess (Score Explainer) & Visualize (Metro Journey & 4 Pillars)",
           "sopId": "SOP-005",
           "toolIds": ["TOL-007", "TOL-003"],
           "summary": "Load your assessment into PM Maturity Hub to inspect Score Explainer and view Metro Journey and The 4 Pillars."
         },
         {
           "stageNumber": 2,
-          "name": "Phase 3 & Utilities: Strategy Builder, Simulator & CSV to JSON Fixer",
+          "name": "Phase 3 & Utilities: Plan (Strategy Builder & Simulator) & CSV to JSON Fixer",
           "sopId": "SOP-006",
-          "toolIds": ["TOL-006"],
+          "toolIds": ["TOL-006", "TOL-011"],
           "summary": "Select Light, Standard, or Intense templates in Strategy Builder, test sliders in Simulator, and fix legacy CSV files."
         }
       ]
@@ -511,9 +640,9 @@ window.FALLBACK_GUIDES_DB = {
       "title": "Stage 1: Complete the Site Maturity Assessment",
       "processId": "PRC-001",
       "roleId": "ROL-001",
-      "toolIds": ["TOL-001"],
+      "toolIds": ["TOL-000", "TOL-001"],
       "estimatedTime": "90 mins",
-      "stationLocation": "Navigator Toolkit → Maturity Assessment (or GS Lean Maturity Portal)",
+      "stationLocation": "Navigator Toolkit → Maturity Assessment (↳ Maturity Explainer & Interactive Roadmap)",
       "kitBag": {
         "leadRole": "Lead: Local Programme Manager (LPM) with Site Leadership Team",
         "supportRole": "1st time: with Lean Core Team partner; Ongoing: Core Team optional",
@@ -836,7 +965,7 @@ window.FALLBACK_GUIDES_DB = {
       "title": "Stages 4–6: Navigator Workshop, 1-Page Charter & Action Plan",
       "processId": "PRC-002",
       "roleId": "ROL-001",
-      "toolIds": ["TOL-005"],
+      "toolIds": ["TOL-005", "TOL-009", "TOL-010"],
       "estimatedTime": "Half Day Workshop + Monthly Review",
       "stationLocation": "Navigator Toolkit → Workshop Guide, Charter Input, Charter & Roadmaps, Action Log",
       "kitBag": {
@@ -882,7 +1011,7 @@ window.FALLBACK_GUIDES_DB = {
           "stepNumber": 2,
           "action": "Enter Top 3 Leadership Priorities and 2–3 measurable Key Results inside Charter Input.",
           "detail": "Use the left 'Recommended Actions' reference panel in Charter Input and follow: [Measure] from [Start] to [Target] by [Date].",
-          "toolId": "TOL-005",
+          "toolId": "TOL-009",
           "coachingTip": "All fields in Charter Input auto-save to your session and immediately populate the executive Charter & Roadmaps infographic.",
           "visual": {
             "type": "ui-mockup",
@@ -908,7 +1037,7 @@ window.FALLBACK_GUIDES_DB = {
           "stepNumber": 3,
           "action": "Open Charter & Roadmaps to export slides, then assign owners and dates in Action Log.",
           "detail": "Export the 1-Page Charter PowerPoint, assign single-point Owners and Target Due Dates in Action Log, and click 'Export Action Matrix (CSV)'.",
-          "toolId": "TOL-005",
+          "toolId": "TOL-010",
           "coachingTip": "Click 'Save Session (.leansession)' in the sidebar before leaving the room so the entire workshop state is backed up in one file.",
           "visual": {
             "type": "ui-mockup",
@@ -1026,9 +1155,9 @@ window.FALLBACK_GUIDES_DB = {
       "title": "Phase 3 & Utilities: Build Local Plans in Strategy Builder, Test Simulator & Fix CSVs",
       "processId": "PRC-003",
       "roleId": "ROL-001",
-      "toolIds": ["TOL-006"],
+      "toolIds": ["TOL-006", "TOL-011"],
       "estimatedTime": "30 mins",
-      "stationLocation": "PM Maturity Hub → Phase 3: Plan & Utilities",
+      "stationLocation": "PM Maturity Hub → Phase 3: Plan & Utilities: CSV to JSON Fixer",
       "kitBag": {
         "leadRole": "Lead: Local Programme Manager (LPM)",
         "supportRole": "Optional Support: Lean Core Team partner",
@@ -1039,7 +1168,7 @@ window.FALLBACK_GUIDES_DB = {
       "userGoal": "Select Light, Standard, Intense, or Custom initiative templates in Strategy Builder, test score improvements in the Simulator Sandbox, and repair legacy Excel CSV files.",
       "gettingStarted": [
         "Ensure 'Data Active' is shown in the PM Maturity Hub sidebar.",
-        "Select 'Strategy Builder' or 'Simulator' under Phase 3: Plan, or 'CSV to JSON Fixer' under Utilities."
+        "Select 'Strategy Builder' or '↳ Simulator' under Phase 3: Plan, or 'CSV to JSON Fixer' under Utilities."
       ],
       "steps": [
         {
@@ -1050,11 +1179,11 @@ window.FALLBACK_GUIDES_DB = {
           "coachingTip": "Keep your simulation focused on 2 to 3 key capability actions at a time—raising Q10 from 2 to 3 immediately unlocks all Level-2 questions.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "PM Maturity Hub — Phase 3: Strategy Builder & Simulator",
+            "caption": "PM Maturity Hub — Phase 3: Strategy Builder & ↳ Simulator",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "Strategy Builder & Simulator (lean_strategy_builder.html)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "w1", "kind": "window", "label": "Strategy Builder & ↳ Simulator (lean_strategy_builder.html)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
               { "id": "c1", "kind": "card", "label": "Gap Q10 → [Standard Template ✓]", "x": 35, "y": 60, "w": 230, "h": 48, "state": "active" },
-              { "id": "c2", "kind": "button", "label": "Test in Simulator Sandbox", "x": 280, "y": 60, "w": 180, "h": 48, "state": "success" },
+              { "id": "c2", "kind": "button", "label": "Test in ↳ Simulator Sandbox", "x": 280, "y": 60, "w": 180, "h": 48, "state": "success" },
               { "id": "c3", "kind": "badge", "label": "Simulator Sliders: Fixing Q10 Unlocks Level 2 Ceiling (1.6 → 2.6)", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
             ],
             "annotation": {
@@ -1072,7 +1201,7 @@ window.FALLBACK_GUIDES_DB = {
           "stepNumber": 2,
           "action": "Open 'CSV to JSON Fixer' under Utilities if a legacy Excel file fails to load.",
           "detail": "Upload any semicolon-delimited Excel CSV into CSV to JSON Fixer and download a clean JSON file.",
-          "toolId": "TOL-006",
+          "toolId": "TOL-011",
           "coachingTip": "Regional European Excel settings often export semicolons instead of commas—CSV to JSON Fixer repairs the file in one click.",
           "visual": {
             "type": "ui-mockup",
@@ -1354,30 +1483,30 @@ window.FALLBACK_GUIDES_DB = {
     {
       "id": "PLB-001",
       "code": "PLB-001",
-      "title": "The Lean@GS Navigator & Maturity Process",
+      "title": "Lean@GS Navigator Toolkit Guide (6-Stage Navigator & Maturity Process)",
       "eyebrow": "Siemens Energy • Lean@GS Playbook #1",
-      "subtitle": "A practical journey from understanding your organisation's current Lean capability to agreeing what Lean should actually do for the business. Note: The maturity assessment is not the Navigator process—it is one of Navigator's two principal inputs.",
+      "subtitle": "A practical journey from understanding your organisation's current Lean capability to agreeing what Lean should actually do for the business. Start with Navigator Toolkit → Orientation & Process Overview (and the Maturity Model Storybook). Note: The maturity assessment is not the Navigator process—it is one of Navigator's two principal inputs.",
       "goldenPrinciple": {
         "quote": "The goal isn't to improve the maturity score. The goal is to improve the business.",
         "explanation": "The Maturity Assessment tells you what capability you have and what may need developing. The Voice of the Customer tells you what the business needs. Navigator brings the two together so your organisation can decide where Lean should focus."
       },
       "convergenceBanner": {
         "input1Title": "Input 1: Lean Capability (Stages 1 & 2)",
-        "input1Desc": "Where are we capable of operating today? (Maturity Assessment & Analysis)",
+        "input1Desc": "Where are we capable of operating today? (Maturity Assessment & Analysis Report)",
         "input2Title": "Input 2: Business Need (Stage 3)",
-        "input2Desc": "What does the business need us to improve? (Voice of the Customer / VOC)",
+        "input2Desc": "What does the business need us to improve? (Voice of the Customer / VOC Input)",
         "combinedTitle": "Combined in Stage 4 (Navigator Workshop)",
         "combinedDesc": "Turning Lean capability [1–2] + business need [3] into an agreed Charter (Stage 5) & Action Plan (Stage 6)."
       },
       "filingRule": "Save finished .csv and .json files in '600 Maturity Submissions'. Never move or delete files in that folder.",
       "processIds": ["PRC-001", "PRC-002"],
       "sopIds": ["SOP-001", "SOP-002", "SOP-003", "SOP-004"],
-      "toolIds": ["TOL-001", "TOL-002", "TOL-004", "TOL-005"],
-      "liveToolIds": ["LIVE-PORTAL", "LIVE-NAVIGATOR"],
+      "toolIds": ["TOL-000", "TOL-001", "TOL-002", "TOL-004", "TOL-005", "TOL-009", "TOL-010"],
+      "liveToolIds": ["LIVE-NAVIGATOR", "LIVE-PORTAL"],
       "chooserLabel": "Which part of the journey are you working on today?",
       "rulesKey": {
-        "title": "Before You Start: 3 Helpful Principles for Scoring & Prioritising",
-        "subtitle": "How the Maturity Assessment & Navigator work together",
+        "title": "Before You Start: Orientation & 3 Helpful Principles for Scoring & Prioritising",
+        "subtitle": "Start in Navigator Toolkit → Orientation & Process Overview (plus Maturity Model Storybook)",
         "items": [
           {
             "term": "🤝 1. First-Time vs. Ongoing Assessments (Not an Audit)",
@@ -1420,23 +1549,23 @@ window.FALLBACK_GUIDES_DB = {
             "supportRoleId": "ROL-003",
             "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
             "toolId": "TOL-001",
-            "toolLabel": "Navigator Toolkit / GS Lean Maturity (Maturity Assessment)",
-            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
-            "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
-            "secondaryLiveLabel": "Navigator Toolkit ↗",
+            "toolLabel": "Navigator Toolkit → Maturity Assessment (↳ Maturity Explainer & Interactive Roadmap)",
+            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
+            "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+            "secondaryLiveLabel": "Maturity Model Storybook ↗",
             "outputArtifact": "Baseline picture of current Lean capability & gaps",
             "targetView": { "type": "sop", "id": "SOP-001", "cta": "Open Stage 1 Assessment Guide →" }
           },
           {
             "stageNumber": 2,
             "title": "Analysis",
-            "summary": "Understand strengths, gaps, and foundation gateway caps. Load your assessment into the Analysis Report view and keep it focused—aim for 2 or 3 key capability actions at a time, not a huge list.",
+            "summary": "Understand strengths, gaps, and foundation gateway caps. Load your assessment into Analysis Report and keep it focused—aim for 2 or 3 key capability actions at a time, not a huge list.",
             "whoIsInvolved": "Lead: Local Programme Manager (LPM) • Optional Support: Lean Core Team partner",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-002",
             "involvedRoleIds": ["ROL-001", "ROL-002"],
             "toolId": "TOL-002",
-            "toolLabel": "Navigator Toolkit (Analysis Report)",
+            "toolLabel": "Navigator Toolkit → Analysis Report",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
             "outputArtifact": "Focused view of 2–3 priority capability gaps & foundation gateway caps",
             "targetView": { "type": "sop", "id": "SOP-002", "cta": "Open Stage 2 Analysis Guide →" }
@@ -1450,7 +1579,7 @@ window.FALLBACK_GUIDES_DB = {
             "supportRoleId": "ROL-003",
             "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
             "toolId": "TOL-004",
-            "toolLabel": "Navigator Toolkit (VOC Input)",
+            "toolLabel": "Navigator Toolkit → VOC Input",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
             "outputArtifact": "Clear business priorities & leadership pain points (VOC)",
             "targetView": { "type": "sop", "id": "SOP-003", "cta": "Open Stage 3 VOC Guide →" }
@@ -1464,7 +1593,7 @@ window.FALLBACK_GUIDES_DB = {
             "supportRoleId": "ROL-003",
             "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
             "toolId": "TOL-005",
-            "toolLabel": "Navigator Toolkit (Workshop Guide)",
+            "toolLabel": "Navigator Toolkit → Workshop Guide",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
             "outputArtifact": "Aligned strategic direction connecting Lean capability to business problems",
             "targetView": { "type": "sop", "id": "SOP-004", "cta": "Open Stage 4 Workshop Guide →" }
@@ -1477,8 +1606,8 @@ window.FALLBACK_GUIDES_DB = {
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-003",
             "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
-            "toolId": "TOL-005",
-            "toolLabel": "Navigator Toolkit (Charter Input)",
+            "toolId": "TOL-009",
+            "toolLabel": "Navigator Toolkit → Charter Input & Charter & Roadmaps",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
             "outputArtifact": "Agreed 1-Page Navigator Charter with 2–3 focus initiatives",
             "targetView": { "type": "template", "id": "TPL-001", "cta": "Open Stage 5 Charter →" }
@@ -1491,8 +1620,8 @@ window.FALLBACK_GUIDES_DB = {
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-002",
             "involvedRoleIds": ["ROL-001", "ROL-002"],
-            "toolId": "TOL-005",
-            "toolLabel": "Navigator Toolkit (Action Log)",
+            "toolId": "TOL-010",
+            "toolLabel": "Navigator Toolkit → Action Log & Charter & Roadmaps",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
             "outputArtifact": "Active improvement plan with owners, target dates & local visual roadmap",
             "targetView": { "type": "sop", "id": "SOP-004", "cta": "Open Stage 6 Action Plan Guide →" }
@@ -1710,7 +1839,7 @@ window.FALLBACK_GUIDES_DB = {
           "id": "DEC-002",
           "kind": "score-calculator",
           "navTitle": "Gateway Score Cap Calculator",
-          "eyebrow": "Score Explainer • Interactive Calculator",
+          "eyebrow": "Stage 2 Analysis & Maturity Explainer • Interactive Calculator",
           "title": "How Gateway Score Caps Work",
           "subtitle": "Why high scores on Level 2–4 questions do not raise your total score if a Level 1 Starred Gateway (such as Q10: Pilot Experiments) scores below 3.",
           "stepsTitle": "How Your Site Score Is Worked Out",
@@ -1815,49 +1944,49 @@ window.FALLBACK_GUIDES_DB = {
     {
       "id": "PLB-PMHUB",
       "code": "PLB-PMHUB",
-      "title": "PM Maturity Hub (Standalone Programme Manager Tools)",
-      "shortTitle": "PM Maturity Hub (Standalone Tools)",
-      "eyebrow": "Siemens Energy • Standalone Programme Manager Suite",
-      "subtitle": "Guides for the standalone PM Maturity Hub web app—covering Score Explainer, Metro Journey & The 4 Pillars, Strategy Builder, Simulator, and the CSV to JSON Fixer utility.",
+      "title": "Lean@GS PM Maturity Hub Guide (3-Phase Standalone Suite)",
+      "shortTitle": "Lean@GS PM Maturity Hub Guide",
+      "eyebrow": "Siemens Energy • Lean@GS Playbook #2",
+      "subtitle": "Guides for the standalone Lean@GS PM Maturity Hub web app—structured around its 3 Phases (Phase 1: Assess, Phase 2: Visualize, Phase 3: Plan) plus Utilities (CSV to JSON Fixer).",
       "goldenPrinciple": {
-        "quote": "Use PM Maturity Hub to visualise 4-pillar capability, simulate gateway unlocks, and convert legacy CSV files.",
-        "explanation": "PM Maturity Hub is a standalone Programme Manager suite. It provides interactive visualisations (Metro Journey & 4 Pillars), what-if score simulation, and CSV-to-JSON conversion—completely separate from the 6-stage Navigator Workshop."
+        "quote": "Use PM Maturity Hub to diagnose gateway score caps, visualise the Metro Journey & 4 Pillars, and simulate local action plans.",
+        "explanation": "Lean@GS PM Maturity Hub is a standalone Programme Manager suite organized into Phase 1: Assess (Score Explainer), Phase 2: Visualize (Metro Journey & 4 Pillars), Phase 3: Plan (Strategy Builder & Simulator), and Utilities (CSV to JSON Fixer)."
       },
       "convergenceBanner": {
-        "input1Title": "Phase 1 & 2: Assess & Visualise (Stages 1–3)",
-        "input1Desc": "Review Score Explainer math and inspect the Metro Journey & 4 Pillars (Live) views.",
-        "input2Title": "Phase 3 & Utilities: Plan & Convert (Stage 4)",
-        "input2Desc": "Test what-if gateway unlocks in Simulator, build strategies, or repair legacy CSV exports.",
-        "combinedTitle": "Standalone PM Maturity Hub Suite",
-        "combinedDesc": "Interactive Programme Manager utilities hosted at the PM Maturity Hub corporate intranet address."
+        "input1Title": "Phase 1 & Phase 2: Assess & Visualize (Stages 1–2)",
+        "input1Desc": "Score the 28 questions, inspect Score Explainer, and view the Metro Journey & 4 Pillars.",
+        "input2Title": "Phase 3 & Utilities: Plan & Convert (Stages 3–4)",
+        "input2Desc": "Build local improvement plans in Strategy Builder, test sliders in Simulator, and repair legacy CSVs.",
+        "combinedTitle": "Standalone Lean@GS PM Maturity Hub Suite",
+        "combinedDesc": "Interactive Programme Manager suite hosted at the PM Maturity Hub corporate intranet address."
       },
       "filingRule": "Export converted JSON files or Strategy Builder slides to your local Programme Manager folder.",
       "processIds": ["PRC-003"],
       "sopIds": ["SOP-005", "SOP-006"],
-      "toolIds": ["TOL-007", "TOL-003", "TOL-006"],
-      "liveToolIds": ["LIVE-HUB"],
-      "chooserLabel": "Which PM Maturity Hub module are you using today?",
+      "toolIds": ["TOL-007", "TOL-003", "TOL-006", "TOL-011"],
+      "liveToolIds": ["LIVE-HUB", "LIVE-PORTAL"],
+      "chooserLabel": "Which PM Maturity Hub phase or utility are you using today?",
       "rulesKey": {
-        "title": "Before You Start: 3 Tips for Using PM Maturity Hub",
-        "subtitle": "How the standalone PM Maturity Hub modules work",
+        "title": "Before You Start: How Lean@GS PM Maturity Hub Is Organised",
+        "subtitle": "3 Phases + Utilities ( plus the Maturity Model Storybook)",
         "items": [
           {
-            "term": "🧭 1. Separate from the Navigator Process",
-            "desc": "PM Maturity Hub is a standalone exploration and simulation suite for Programme Managers. For the official 6-stage Navigator Process, use Navigator Toolkit (Playbook #1)."
+            "term": "📊 1. Phase 1 (Assess) & Phase 2 (Visualize)",
+            "desc": "Score the 28 questions with Maturity Explainer, diagnose gateway caps in Score Explainer, and visualize progression on Metro Journey and The 4 Pillars."
           },
           {
-            "term": "🚇 2. Metro Journey & The 4 Pillars (Live)",
-            "desc": "Load an assessment file into Phase 2: Visualize to view the interactive Metro Journey map and live 4-pillar capability breakdown."
+            "term": "🎯 2. Phase 3: Plan (Strategy Builder & ↳ Simulator)",
+            "desc": "Build a local maturity improvement plan in Strategy Builder and drag sliders in the Simulator to test how fixing specific gateways unlocks your score."
           },
           {
-            "term": "🛠️ 3. Simulator & CSV to JSON Fixer",
-            "desc": "Use the Simulator to test how raising starred Gateway scores unlocks higher maturity levels, or use the CSV to JSON Fixer utility to convert legacy spreadsheet files."
+            "term": "🛠️ 3. Utilities: CSV to JSON Fixer",
+            "desc": "Use the CSV to JSON Fixer utility to repair or convert legacy spreadsheet exports into valid assessment files."
           }
         ]
       },
       "journeyMap": {
-        "formulaBanner": "1. Maturity Assessment & Explainer → 2. Score Explainer → 3. Metro Journey & 4 Pillars → 4. Strategy Builder, Simulator & CSV Fixer",
-        "mapHeading": "The 4 Standalone Modules Inside PM Maturity Hub",
+        "formulaBanner": "1. Phase 1: Assess → 2. Phase 2: Visualize → 3. Phase 3: Plan → 4. Utilities (CSV to JSON Fixer)",
+        "mapHeading": "The 4 Sections Inside Lean@GS PM Maturity Hub",
         "roleFilters": [
           { "id": "all", "label": "All Roles" },
           { "id": "ROL-001", "label": "Local Programme Manager (LPM)" },
@@ -1865,69 +1994,71 @@ window.FALLBACK_GUIDES_DB = {
           { "id": "ROL-002", "label": "Lean Core Team (Optional Support)" }
         ],
         "briefingButtonLabel": "⏱ Overview of PM Maturity Hub (60-Sec Pitch)",
-        "briefingTitle": "60-Second Overview: What Is Inside PM Maturity Hub?",
-        "briefingEquation": "Phase 1: Assess (Score Explainer) + Phase 2: Visualize (Metro & 4 Pillars) + Phase 3: Plan (Strategy Builder & Simulator) + Utilities (CSV Fixer)",
+        "briefingTitle": "60-Second Overview: The 3 Phases + Utilities of Lean@GS PM Maturity Hub",
+        "briefingEquation": "Phase 1: Assess (Score Explainer) → Phase 2: Visualize (Metro & 4 Pillars) → Phase 3: Plan (Strategy Builder & Simulator) → Utilities (CSV Fixer)",
         "briefingBullets": [
-          "1. Phase 1 (Assess): Includes Maturity Assessment, Maturity Explainer, and Score Explainer to show how the 17 starred Gateways cap the overall score.",
-          "2. Phase 2 (Visualize): Includes the interactive Metro Journey map, The 4 Pillars (Live), and Pillars (Static) views for visualising capability across the 4 Lean pillars.",
-          "3. Phase 3 (Plan) & Utilities: Includes Strategy Builder, Simulator for testing what-if score changes, and the CSV to JSON Fixer utility."
+          "1. Phase 1 (Assess): Score the 28 questions using the Maturity Explainer flashcards and diagnose gateway score caps in Score Explainer.",
+          "2. Phase 2 (Visualize): Visualize your site's Lean progression along the Metro Journey map and across The 4 Pillars (Live) and Pillars (Static).",
+          "3. Phase 3 (Plan) & Utilities: Build a local maturity improvement plan in Strategy Builder, test gateway unlocks in Simulator, and repair legacy spreadsheet exports in CSV to JSON Fixer."
         ],
         "stages": [
           {
             "stageNumber": 1,
-            "title": "Maturity Assessment & Explainer",
-            "summary": "Open Phase 1: Assess in PM Maturity Hub to review the 28 assessment questions and read the Maturity Explainer level descriptions.",
+            "title": "PHASE 1: ASSESS (Maturity Assessment, Maturity Explainer, Score Explainer)",
+            "summary": "Score the 28 questions using the Maturity Explainer flashcards and diagnose gateway score caps in Score Explainer.",
             "whoIsInvolved": "Lead: Local Programme Manager (LPM) • Optional Support: Lean Core Team",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-002",
             "involvedRoleIds": ["ROL-001", "ROL-002"],
             "toolId": "TOL-007",
-            "toolLabel": "PM Maturity Hub (Assessment & Explainer)",
+            "toolLabel": "PM Maturity Hub → Phase 1: Assess",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
-            "outputArtifact": "Completed or loaded assessment in PM Maturity Hub",
-            "targetView": { "type": "sop", "id": "SOP-005", "cta": "Open Phase 1 & 2 Guide →" }
+            "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+            "secondaryLiveLabel": "Maturity Model Storybook ↗",
+            "outputArtifact": "Completed 28-question assessment & Score Explainer gateway cap diagnosis",
+            "targetView": { "type": "sop", "id": "SOP-005", "cta": "Open Phase 1 Assess Guide →" }
           },
           {
             "stageNumber": 2,
-            "title": "Score Explainer",
-            "summary": "Inspect the Score Explainer tab in Phase 1: Assess to see which starred Gateway questions are capping the current maturity level.",
-            "whoIsInvolved": "Lead: Local Programme Manager (LPM) • Optional Support: Lean Core Team",
-            "leadRoleId": "ROL-001",
-            "supportRoleId": "ROL-002",
-            "involvedRoleIds": ["ROL-001", "ROL-002"],
-            "toolId": "TOL-007",
-            "toolLabel": "PM Maturity Hub (Score Explainer)",
-            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
-            "outputArtifact": "Clear view of active Gateway score caps",
-            "targetView": { "type": "sop", "id": "SOP-005", "cta": "Open Score Explainer Guide →" }
-          },
-          {
-            "stageNumber": 3,
-            "title": "Metro Journey & 4 Pillars",
-            "summary": "Switch to Phase 2: Visualize to explore the interactive Metro Journey map, The 4 Pillars (Live), and Pillars (Static) capability views.",
+            "title": "PHASE 2: VISUALIZE (Metro Journey, The 4 Pillars Live & Static)",
+            "summary": "Visualize your site's Lean progression along the Metro Journey map and across The 4 Pillars (Live) and Pillars (Static).",
             "whoIsInvolved": "Lead: Local Programme Manager (LPM) with Site Leadership Team • Optional Support: Lean Core Team",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-003",
             "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
             "toolId": "TOL-003",
-            "toolLabel": "PM Maturity Hub (Metro Journey & 4 Pillars)",
+            "toolLabel": "PM Maturity Hub → Phase 2: Visualize",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
-            "outputArtifact": "Visual Metro Journey & 4-Pillar capability snapshot",
-            "targetView": { "type": "sop", "id": "SOP-005", "cta": "Open Metro & 4 Pillars Guide →" }
+            "outputArtifact": "Visual Metro Journey map & 4-Pillar capability snapshot",
+            "targetView": { "type": "sop", "id": "SOP-005", "cta": "Open Phase 2 Visualize Guide →" }
           },
           {
-            "stageNumber": 4,
-            "title": "Strategy Builder, Simulator & CSV Fixer",
-            "summary": "Use Phase 3: Plan to test what-if score changes in Simulator, draft priorities in Strategy Builder, or convert legacy files with CSV to JSON Fixer.",
+            "stageNumber": 3,
+            "title": "PHASE 3: PLAN (Strategy Builder & ↳ Simulator)",
+            "summary": "Build a local maturity improvement plan in Strategy Builder and test how fixing specific gateways unlocks your score in the Simulator.",
             "whoIsInvolved": "Lead: Local Programme Manager (LPM) • Optional Support: Lean Core Team",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-002",
             "involvedRoleIds": ["ROL-001", "ROL-002"],
             "toolId": "TOL-006",
-            "toolLabel": "PM Maturity Hub (Strategy Builder, Simulator & CSV Fixer)",
+            "toolLabel": "PM Maturity Hub → Phase 3: Plan",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
-            "outputArtifact": "Simulated score scenario, Strategy Builder slide, or repaired JSON",
-            "targetView": { "type": "sop", "id": "SOP-006", "cta": "Open Simulator & CSV Fixer Guide →" }
+            "outputArtifact": "Local Strategy Builder improvement plan & simulated score unlock",
+            "targetView": { "type": "sop", "id": "SOP-006", "cta": "Open Phase 3 Plan Guide →" }
+          },
+          {
+            "stageNumber": 4,
+            "title": "UTILITIES (CSV to JSON Fixer)",
+            "summary": "Repair or convert legacy spreadsheet assessment exports into valid assessment files using the CSV to JSON Fixer.",
+            "whoIsInvolved": "Lead: Local Programme Manager (LPM) • Optional Support: Lean Core Team",
+            "leadRoleId": "ROL-001",
+            "supportRoleId": "ROL-002",
+            "involvedRoleIds": ["ROL-001", "ROL-002"],
+            "toolId": "TOL-011",
+            "toolLabel": "PM Maturity Hub → Utilities: CSV to JSON Fixer",
+            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
+            "outputArtifact": "Repaired assessment file ready to load into any Hub module",
+            "targetView": { "type": "sop", "id": "SOP-006", "cta": "Open CSV to JSON Fixer Guide →" }
           }
         ]
       },

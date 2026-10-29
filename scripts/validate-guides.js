@@ -96,7 +96,10 @@ for (const plb of db.playbooks || []) {
     }
 
     // Strict Tool Boundary Rule: PLB-001 must never reference PM Maturity Hub or its sub-tools
-    const plb001BannedPattern = /PM Maturity Hub|pm-maturity-hub|Metro Journey|CSV to JSON Fixer/i;
+    const plb001BannedPattern = /PM Maturity Hub|pm-maturity-hub|Score Explainer|Strategy Builder|Simulator|Metro Journey|4 Pillars|CSV to JSON Fixer/i;
+    if (plb001BannedPattern.test(JSON.stringify(plb))) {
+      errors.push(`[PLB-001] Violates Strict Tool Boundary Rule (references PM Maturity Hub or its sub-tools inside PLB-001).`);
+    }
     for (const st of stages) {
       const stageRaw = JSON.stringify(st);
       if (plb001BannedPattern.test(stageRaw)) {
