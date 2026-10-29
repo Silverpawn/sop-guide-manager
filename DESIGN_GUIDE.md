@@ -1,7 +1,7 @@
 # Siemens Energy • Lean@GS Documentation & Playbook Platform
 ## Living Design & Plain-English Style Guide (`DESIGN_GUIDE.md`)
 
-> **Status:** Mandatory Architectural & Editorial Standard (Stage 6 Locked)  
+> **Status:** Mandatory Architectural & Editorial Standard (Stage 7 Locked)  
 > **Enforcement:** Automated via [`scripts/validate-guides.js`](./scripts/validate-guides.js) and surfaced inside the in-app **Guide Authoring Studio (⚙️ → Tab 4: Design & Style Guide)**.  
 > **Golden Rule:** Every prompt, playbook, journey map, decision tool, template, and SOP step MUST obey this document before code or JSON is written.
 
@@ -32,6 +32,16 @@ Every screen must make immediate sense within **10 seconds** to a colleague who 
      - **First-Time Assessment:** Local Programme Manager (LPM) scores together with a Lean Core Team partner to learn the tool and evidence standard.
      - **Ongoing Assessments:** LPM completes it with their Site Leadership Team as a capability self-assessment (not an audit).
 
+5. **Official Corporate Intranet Tool Links:**
+   - Always store and render clickable **`"Launch Live Tool ↗"`** buttons (`target="_blank" rel="noopener noreferrer"`) on Stage Cards, Kit Bags, and Tool Reference drawers using these exact corporate URLs:
+     - **GS Lean Maturity Portal:** `https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/`
+     - **PM Maturity Hub:** `https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/`
+     - **Navigator Toolkit:** `https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/`
+   - Maintain a compact **"Live Lean@GS Tool Launcher"** quick-links bar so users can jump straight to any of the 3 corporate web apps in one click.
+
+6. **Neutral Demo Playbook Standard (`PLB-DEMO`):**
+   - Maintain a neutral, everyday-life example playbook (`PLB-DEMO`: *"Demo Example: The Office Brew Run (How This Guide System Works)"*) in the Playbook Switcher so stakeholders can evaluate the platform UX and authoring features without getting distracted by internal process debates.
+
 ---
 
 ## Section B: Strict Card Density Standard (Clean 4-Element Stage Cards)
@@ -42,8 +52,8 @@ Overview stage cards must **NEVER** look like database records, audit checklists
    - e.g., *"Stage 1: Maturity Assessment"*, *"Stage 3: Voice of the Customer (VOC)"*, *"Stage 4: Navigator Workshop"*.
 2. **What Happens (Plain-English Summary):**
    - Clear, conversational explanation of what happens in that stage without compliance stamps.
-3. **Who Is Involved & Tool Used:**
-   - Clean human role line and clickable tool link (never use double labels like `Lead: Owner: LPM`).
+3. **Who Is Involved & Tool Used (with Live Intranet Launcher):**
+   - Clean human role line, clickable tool reference link, and direct **`Launch Live Tool ↗`** button when a corporate `liveUrl` is configured.
 4. **What You Finish With:**
    - Human outcome (e.g., *"Baseline picture of current Lean capability & gaps"*).
    - Never display raw file extensions (`.csv`, `.json`) or technical handoff labels (`Input → Output:`) on overview cards.
@@ -59,7 +69,7 @@ Overview stage cards must **NEVER** look like database records, audit checklists
   - *"Focus on **2 to 3 key actions at a time** (with a hard ceiling of 5) so teams finish what they start instead of building a giant wishlist."*
 - **Rule 3 (Mandatory Plain-English Replacements):**
 
-| ❌ Never Write This on Overviews (Tech Speak / Policing) | ✅ Always Write This Instead (Stage 6 Approved Copy) |
+| ❌ Never Write This on Overviews (Tech Speak / Policing) | ✅ Always Write This Instead (Stage 7 Approved Copy) |
 | :--- | :--- |
 | *"Self / Pair Calibration & Scoring — Never score alone"* | **"Stage 1: Maturity Assessment (1st Time: LPM + Core Team Partner • Ongoing: LPM + Site Leadership Team)"** |
 | *"Gateway Cap & Gap Diagnosis"* | **"Stage 2: Analysis (Understand strengths, gaps & foundation gateway caps)"** |
@@ -78,13 +88,14 @@ Overview stage cards must **NEVER** look like database records, audit checklists
 4. **Value-Add Coaching Tip:** Every step includes a `coachingTip` explaining how to get the best real-world result.
 5. **Flexible 3-Mode Visuals (M365 Ready):**
    - `type: "image"`: Custom screenshot (Base64 data URI from `Ctrl+V` Snipping Tool paste or URL) with optional percentage-based highlight box (`hotspot`).
-   - `type: "svg"`: Declarative SVG diagram with callout arrow.
+   - `type: "svg"`: Declarative SVG diagram with callout arrow reflecting real production UI labels.
    - `type: "none"` (or omitted): Cleanly renders without an empty placeholder box, elevating the `coachingTip` card to balance the 2-column rhythm.
 
 ---
 
 ## Section E: Siemens Energy Visual Tokens
 
+- **Official Siemens Energy Wordmark:** Stacked two-line geometric SVG wordmark (**SIEMENS** in Petrol `#009999` + **energy** in crisp `#FFFFFF` on dark header `#1B1534`) paired with a clean vertical divider before `LEAN@GS DOCUMENTATION`.
 - **Header Gradient:** `linear-gradient(90deg, #1B1534 0%, #4D217A 100%)` with Siemens Petrol (`#009999`) precision accents and signature fading petrol line.
 - **Backgrounds & Text:** `#FFFFFF` / `#F8FAFC` generous light canvas, `#1B1534` deep purple headings and primary text, `#54646E` secondary copy.
 - **Interactive Accents:** Siemens Energy Bright Purple (`#8A00E5`), hover `#641E8C`, ice-blue visual cards (`#EAF4F8`), accessible petrol text (`#007A7A`).

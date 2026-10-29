@@ -10,9 +10,24 @@
   <!-- Row 1: Official Siemens Energy Brand Gradient Header (#1B1534 -> #4D217A) -->
   <header class="top-header">
     <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
-      <div class="brand-lockup" onclick="showOverview()">
-        <span class="petrol-dot" aria-hidden="true"></span>
-        <span class="se-wordmark">SIEMENS ENERGY</span>
+      <div class="brand-lockup" onclick="showOverview()" role="button" tabindex="0" title="Return to Playbook Journey Overview" aria-label="Siemens Energy Lean@GS Documentation Home">
+        <!-- Official Siemens Energy Stacked Two-Line Geometric Wordmark SVG -->
+        <svg class="se-official-logo-svg" viewBox="0 0 186 42" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Siemens Energy">
+          <title>Siemens Energy</title>
+          <!-- Brand Accent Bar (Petrol #009999 -> Bright Purple #8A00E5) -->
+          <rect x="0" y="3" width="3.5" height="36" rx="1.75" fill="url(#seBrandAccentGrad)" />
+          <defs>
+            <linearGradient id="seBrandAccentGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#009999" />
+              <stop offset="100%" stop-color="#8A00E5" />
+            </linearGradient>
+          </defs>
+          <!-- Row 1: SIEMENS (Bold Geometric Uppercase in Siemens Petrol #009999) -->
+          <text x="11" y="18" fill="#009999" font-family="'Arial Black', 'Inter', 'Segoe UI', Helvetica, sans-serif" font-size="17.5" font-weight="900" letter-spacing="1.6">SIEMENS</text>
+          <!-- Row 2: energy (Clean Geometric Lowercase in High-Contrast White #FFFFFF on #1B1534) -->
+          <text x="11" y="36.5" fill="#FFFFFF" font-family="'Inter', 'Segoe UI', Roboto, Helvetica, sans-serif" font-size="19.5" font-weight="500" letter-spacing="2.4">energy</text>
+        </svg>
+        <span class="brand-divider" aria-hidden="true"></span>
         <span class="lean-pill">LEAN@GS</span>
         <span class="doc-badge">DOCUMENTATION</span>
       </div>
@@ -369,7 +384,7 @@
       <div id="studioTabDesign" class="studio-body hidden">
         <div class="plain-key-box" style="margin-bottom:18px;">
           <div class="plain-key-header">
-            <span class="plain-key-title">📐 Section A: Stage 6 Architecture, N-Stage Journeys &amp; Coaching Progression</span>
+            <span class="plain-key-title">📐 Section A: Stage 7 Architecture, Intranet Tool Links &amp; Demo Playbook Standard</span>
             <span class="muted-code-pill">Enforced by DESIGN_GUIDE.md &amp; validate-guides.js</span>
           </div>
           <div class="plain-key-grid">
@@ -390,12 +405,17 @@
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;">
           <div style="background:#F8FAFC;border:1px solid #D7E4EE;border-radius:10px;padding:16px;">
-            <h4 style="color:#1B1534;margin-bottom:8px;">Section B: Two-Step Scoring Progression &amp; 4-Element Stage Cards</h4>
+            <h4 style="color:#1B1534;margin-bottom:8px;">Section B: Corporate Intranet Tool Links &amp; Demo Playbook Rule</h4>
             <ol style="padding-left:18px;font-size:13px;color:#54646E;display:flex;flex-direction:column;gap:6px;">
-              <li><strong style="color:#1B1534;">First-Time Assessment (Coaching First):</strong> Local Programme Manager (LPM) scores together with a Lean Core Team partner to learn the tool and evidence standard.</li>
-              <li><strong style="color:#1B1534;">Ongoing Assessments (Leadership Self-Assessment):</strong> LPM completes it with their Site Leadership Team as a capability self-assessment (not an audit).</li>
-              <li><strong style="color:#1B1534;">VOC &amp; Gateway Nuance:</strong> Allow <code>Voice of the Customer (VOC)</code> when paired with its full name on first/header use.</li>
-              <li><strong style="color:#1B1534;">Clean 4-Element Stage Cards:</strong> Stage Title, What Happens, Who Is Involved + Tool Used, and What You Finish With (zero <code>.csv/.json</code> or <code>MANDATORY/OPTIONAL</code> stamps).</li>
+              <li><strong style="color:#1B1534;">Official Corporate Intranet Tool Links:</strong> Always store and render clickable <code>Launch Live Tool ↗</code> buttons (<code>target="_blank" rel="noopener noreferrer"</code>) on Stage Cards, Kit Bags, and Tool Reference drawers using these exact corporate URLs:
+                <ul style="padding-left:16px;margin-top:4px;">
+                  <li><strong>GS Lean Maturity Portal:</strong> <code>https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/</code></li>
+                  <li><strong>PM Maturity Hub:</strong> <code>https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/</code></li>
+                  <li><strong>Navigator Toolkit:</strong> <code>https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/</code></li>
+                </ul>
+              </li>
+              <li><strong style="color:#1B1534;">Neutral Demo Playbook Standard (<code>PLB-DEMO</code>):</strong> Maintain a neutral, everyday-life example playbook (<em>"Demo Example: The Office Brew Run"</em>) in the Playbook Switcher so stakeholders can evaluate the platform UX and authoring features without getting distracted by internal process debates.</li>
+              <li><strong style="color:#1B1534;">Two-Step Scoring Progression:</strong> 1st Time: LPM + Core Team Partner (learn the tool). Ongoing: LPM + Site Leadership Team (capability self-assessment, not an audit).</li>
             </ol>
           </div>
 
@@ -405,12 +425,12 @@
               <li><strong style="color:#1B1534;">Focus on 2–3 Key Actions (Max 5 Ceiling):</strong> Focus on <strong>2 to 3 key actions at a time</strong> (with a hard ceiling of 5) so teams finish what they start instead of building a giant wishlist.</li>
               <li><strong style="color:#1B1534;">≤20-Word Rule &amp; Active Verb Start:</strong> Every SOP step action must be ≤20 words and start with a direct action verb.</li>
               <li><strong style="color:#1B1534;">Flexible 3-Mode Visuals (M365 Ready):</strong> Supports <code>image</code> (Ctrl+V Snipping Tool Base64 + hotspot), <code>svg</code>, or <code>none</code>.</li>
-              <li><strong style="color:#1B1534;">Siemens Energy Brand Tokens:</strong> Header <code>#1B1534 → #4D217A</code>, Petrol <code>#009999</code>, Bright Purple CTA <code>#8A00E5</code>, Ice-Blue cards <code>#EAF4F8</code>.</li>
+              <li><strong style="color:#1B1534;">Official Siemens Energy Wordmark &amp; Tokens:</strong> Stacked two-line geometric SVG wordmark (<code>#009999</code> Petrol + <code>#FFFFFF</code> White on <code>#1B1534 → #4D217A</code> gradient), Bright Purple CTA <code>#8A00E5</code>.</li>
             </ul>
           </div>
         </div>
 
-        <h4 style="color:#1B1534;margin-bottom:6px;">Section C: Progressive Disclosure &amp; "The Red Pen Lexicon" (Stage 6 Approved Copy)</h4>
+        <h4 style="color:#1B1534;margin-bottom:6px;">Section C: Progressive Disclosure &amp; "The Red Pen Lexicon" (Stage 7 Approved Copy)</h4>
         <table class="clean-table" style="margin-top:6px;">
           <thead>
             <tr>

@@ -33,7 +33,7 @@ let state = {
   studioSavedSvgVisual: null
 };
 
-const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V6";
+const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V7";
 let DEFAULT_DB_SNAPSHOT = null;
 
 async function initApp() {
@@ -503,6 +503,22 @@ function renderSidebar() {
     </div>
 
     <div>
+      ${
+        (DB.meta?.liveTools || []).length > 0
+          ? `<div class="sidebar-launcher-card" aria-label="Live Lean@GS Intranet Tool Launcher">
+              <div class="sidebar-launcher-title">🚀 Live Lean@GS Tool Launcher</div>
+              ${(DB.meta.liveTools || [])
+                .map(
+                  (lt) => `
+                <a href="${escapeHtml(lt.url)}" target="_blank" rel="noopener noreferrer" class="sidebar-launcher-link" title="${escapeHtml(lt.description || lt.name)}">
+                  <span>${escapeHtml(lt.name)}</span>
+                  <span>↗</span>
+                </a>`
+                )
+                .join("")}
+            </div>`
+          : ""
+      }
       <button type="button" class="quiet-admin-link" onclick="openAdminModal()">
         ⚙️ Playbook &amp; SOP Authoring Studio
       </button>
@@ -576,6 +592,31 @@ function renderJourneyPage(plb, canvas) {
           <div class="golden-principle-kicker">Core Navigator Principle</div>
           <div class="golden-principle-quote">“${escapeHtml(gp.quote)}”</div>
           <div class="golden-principle-desc">${escapeHtml(gp.explanation || "")}</div>
+        </div>`
+          : ""
+      }
+
+      <!-- Stage 7: Live Lean@GS Corporate Intranet Tool Launcher Bar -->
+      ${
+        plb.id === "PLB-001" && (DB.meta?.liveTools || []).length > 0
+          ? `
+        <div class="live-tool-launcher-bar" role="region" aria-label="Live Lean@GS Intranet Tool Launcher">
+          <div class="live-tool-launcher-label">
+            <span>🚀 Live Lean@GS Intranet Tools</span>
+          </div>
+          <div class="live-tool-launcher-links">
+            ${(DB.meta.liveTools || [])
+              .map(
+                (lt) => `
+              <a href="${escapeHtml(lt.url)}" target="_blank" rel="noopener noreferrer" class="live-tool-btn" title="${escapeHtml(
+                  lt.description || lt.name
+                )}">
+                <span>Launch ${escapeHtml(lt.name)}</span>
+                <span aria-hidden="true">↗</span>
+              </a>`
+              )
+              .join("")}
+          </div>
         </div>`
           : ""
       }
@@ -668,6 +709,8 @@ function renderJourneyPage(plb, canvas) {
               const leadRoleObj = DB.roles[st.leadRoleId];
               const toolObj = DB.tools[st.toolId];
               const whoText = st.whoIsInvolved || st.whoAndDuration || st.leadRoleLabel || leadRoleObj?.title || "";
+              const liveUrl = st.liveUrl || toolObj?.liveUrl || "";
+              const secondaryLiveUrl = st.secondaryLiveUrl || toolObj?.secondaryLiveUrl || "";
 
               return `
               <div class="stage-flow-card ${isDimmed ? "dimmed" : ""}">
@@ -683,12 +726,30 @@ function renderJourneyPage(plb, canvas) {
                   <p class="stage-summary-text">${escapeHtml(st.summary || "")}</p>
                   <div class="stage-meta-rows">
                     <div><strong>Who is involved:</strong> ${escapeHtml(whoText)}</div>
-                    <div>
-                      <strong>Tool used:</strong>
-                      <button type="button" class="breadcrumb-link" style="font-size:12px;"
-                              onclick="selectTool('${escapeHtml(st.toolId)}')">
-                        ${escapeHtml(st.toolLabel || toolObj?.name || st.toolId)}
-                      </button>
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;">
+                      <div>
+                        <strong>Tool used:</strong>
+                        <button type="button" class="breadcrumb-link" style="font-size:12px;"
+                                onclick="selectTool('${escapeHtml(st.toolId)}')">
+                          ${escapeHtml(st.toolLabel || toolObj?.name || st.toolId)}
+                        </button>
+                      </div>
+                      <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                        ${
+                          liveUrl
+                            ? `<a href="${escapeHtml(liveUrl)}" target="_blank" rel="noopener noreferrer" class="live-tool-btn compact" title="Open live tool in a new browser tab">
+                                Launch Live Tool ↗
+                              </a>`
+                            : ""
+                        }
+                        ${
+                          secondaryLiveUrl
+                            ? `<a href="${escapeHtml(secondaryLiveUrl)}" target="_blank" rel="noopener noreferrer" class="live-tool-btn secondary compact" title="Open GS Lean Maturity Portal in a new browser tab">
+                                GS Portal ↗
+                              </a>`
+                            : ""
+                        }
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -820,14 +881,23 @@ function renderSOPPage(sop, plb, canvas) {
 
           <div class="kit-bag-cell">
             <div class="kit-bag-label">Point-of-Use Tool (Click for Quick Fixes)</div>
-            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;align-items:center;">
               ${tools
                 .map(
                   (t) => `
                   <button type="button" class="funnel-chip ${state.openInlineToolId === t.id ? "active" : ""}"
                           onclick="toggleInlineToolDrawer('${escapeHtml(t.id)}')">
                     🔧 ${escapeHtml(t.name)} ${state.openInlineToolId === t.id ? "▴" : "▾"}
-                  </button>`
+                  </button>
+                  ${
+                    t.liveUrl
+                      ? `<a href="${escapeHtml(t.liveUrl)}" target="_blank" rel="noopener noreferrer" class="live-tool-btn compact" title="Open ${escapeHtml(
+                          t.suite || t.name
+                        )} in a new browser tab">
+                          Launch Live Tool ↗
+                        </a>`
+                      : ""
+                  }`
                 )
                 .join("")}
             </div>
@@ -857,7 +927,21 @@ function renderSOPPage(sop, plb, canvas) {
               )}</span>
                 <strong style="font-size:15px;color:#1B1534;margin-left:6px;">${escapeHtml(activeInlineTool.name)}</strong>
               </div>
-              <div style="display:flex;gap:8px;">
+              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                ${
+                  activeInlineTool.liveUrl
+                    ? `<a href="${escapeHtml(activeInlineTool.liveUrl)}" target="_blank" rel="noopener noreferrer" class="live-tool-btn compact">
+                        Launch Live Tool (${escapeHtml(activeInlineTool.suite || activeInlineTool.name)}) ↗
+                      </a>`
+                    : ""
+                }
+                ${
+                  activeInlineTool.secondaryLiveUrl
+                    ? `<a href="${escapeHtml(activeInlineTool.secondaryLiveUrl)}" target="_blank" rel="noopener noreferrer" class="live-tool-btn secondary compact">
+                        ${escapeHtml(activeInlineTool.secondaryLiveLabel || "Open Secondary Portal ↗")}
+                      </a>`
+                    : ""
+                }
                 <button type="button" class="breadcrumb-link" onclick="selectTool('${escapeHtml(activeInlineTool.id)}')">Open Full Tool Page →</button>
                 <button type="button" class="header-btn secondary" style="padding:3px 10px;font-size:12px;color:#1B1534;" onclick="toggleInlineToolDrawer('${escapeHtml(
                   activeInlineTool.id
@@ -1586,9 +1670,27 @@ function renderToolPage(tool, plb, canvas) {
       <h1 class="page-title">${escapeHtml(tool.name)}</h1>
       <p class="page-subtitle" style="margin-bottom:24px;">${escapeHtml(tool.purpose)}</p>
 
-      <div class="meta-strip">
-        <div><strong>Application:</strong> ${escapeHtml(tool.suite || "-")} <span class="muted-code-pill">${escapeHtml(tool.versionBadge || "")}</span></div>
-        <div><strong>Where to find it:</strong> ${escapeHtml(tool.accessUrl)}</div>
+      <div class="meta-strip" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <div style="display:flex;gap:18px;flex-wrap:wrap;">
+          <div><strong>Application:</strong> ${escapeHtml(tool.suite || "-")} <span class="muted-code-pill">${escapeHtml(tool.versionBadge || "")}</span></div>
+          <div><strong>Where to find it:</strong> ${escapeHtml(tool.accessUrl)}</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          ${
+            tool.liveUrl
+              ? `<a href="${escapeHtml(tool.liveUrl)}" target="_blank" rel="noopener noreferrer" class="live-tool-btn">
+                  Launch Live Tool (${escapeHtml(tool.suite || tool.name)}) ↗
+                </a>`
+              : ""
+          }
+          ${
+            tool.secondaryLiveUrl
+              ? `<a href="${escapeHtml(tool.secondaryLiveUrl)}" target="_blank" rel="noopener noreferrer" class="live-tool-btn secondary">
+                  ${escapeHtml(tool.secondaryLiveLabel || "Launch Secondary Portal ↗")}
+                </a>`
+              : ""
+          }
+        </div>
       </div>
 
       <section class="editorial-section">

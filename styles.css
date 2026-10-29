@@ -52,9 +52,26 @@ body {
 .brand-lockup {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 11px;
   color: var(--se-white);
   cursor: pointer;
+}
+
+.se-official-logo-svg {
+  height: 36px;
+  width: auto;
+  display: block;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
+}
+
+.brand-divider {
+  width: 1.5px;
+  height: 24px;
+  background: rgba(234, 244, 248, 0.32);
+  border-radius: 1px;
+  display: inline-block;
+  flex-shrink: 0;
 }
 
 .petrol-dot {
@@ -1662,6 +1679,118 @@ body {
   line-height: 1.5;
   color: var(--se-gray-5);
   margin-bottom: 12px;
+}
+
+/* Stage 7: Live Corporate Intranet Tool Launcher & External Tool Links */
+.live-tool-launcher-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: linear-gradient(90deg, #1B1534 0%, #2E1D59 100%);
+  border: 1.5px solid var(--se-petrol);
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin-bottom: 20px;
+  color: var(--se-white);
+}
+
+.live-tool-launcher-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--se-blue-0);
+}
+
+.live-tool-launcher-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.live-tool-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--se-petrol);
+  color: var(--se-white) !important;
+  text-decoration: none;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 5px 11px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  transition: background 0.15s ease, transform 0.12s ease;
+  white-space: nowrap;
+}
+
+.live-tool-btn:hover {
+  background: var(--se-petrol-dark);
+  transform: translateY(-1px);
+}
+
+.live-tool-btn.compact {
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 5px;
+}
+
+.live-tool-btn.purple {
+  background: var(--se-bright-purple);
+}
+
+.live-tool-btn.purple:hover {
+  background: var(--se-purple);
+}
+
+.sidebar-launcher-card {
+  margin-top: 12px;
+  background: linear-gradient(135deg, #1B1534 0%, #381B63 100%);
+  border: 1px solid rgba(0, 153, 153, 0.55);
+  border-radius: 9px;
+  padding: 11px 12px;
+  color: var(--se-white);
+}
+
+.sidebar-launcher-title {
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--se-blue-0);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sidebar-launcher-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--se-white);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 8px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  margin-bottom: 5px;
+  transition: background 0.14s ease;
+}
+
+.sidebar-launcher-link:last-child {
+  margin-bottom: 0;
+}
+
+.sidebar-launcher-link:hover {
+  background: var(--se-petrol);
 }
 
 @media (max-width: 1024px) {

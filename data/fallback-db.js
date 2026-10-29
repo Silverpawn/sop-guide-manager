@@ -2,9 +2,32 @@ window.FALLBACK_GUIDES_DB = {
   "meta": {
     "organization": "Siemens Energy • Lean@GS",
     "programme": "Maturity Assessment & Navigator Workshop",
-    "version": "6.0.0 / 2.4.4",
+    "version": "6.1.1 / 2.4.7",
     "strictWordLimit": 20,
-    "filingRule": "Save finished .csv and .json files in '600 Maturity Submissions'. Never move or delete files in that folder."
+    "filingRule": "Save finished .csv and .json files in '600 Maturity Submissions'. Never move or delete files in that folder.",
+    "liveTools": [
+      {
+        "id": "LIVE-PORTAL",
+        "name": "GS Lean Maturity Portal",
+        "shortLabel": "GS Lean Maturity ↗",
+        "url": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+        "description": "Standalone 28-Question Assessment & Dual-Lock v1.0 Scoring Engine"
+      },
+      {
+        "id": "LIVE-HUB",
+        "name": "PM Maturity Hub",
+        "shortLabel": "PM Maturity Hub ↗",
+        "url": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
+        "description": "Phase 1 Assess, Score Explainer, Metro Journey, 4 Pillars & Strategy Builder"
+      },
+      {
+        "id": "LIVE-NAVIGATOR",
+        "name": "Navigator Toolkit",
+        "shortLabel": "Navigator Toolkit ↗",
+        "url": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
+        "description": "Analysis Report, VOC Input, Workshop Guide, 1-Page Charter & Action Log"
+      }
+    ]
   },
   "glossary": {
     "voc": {
@@ -52,6 +75,24 @@ window.FALLBACK_GUIDES_DB = {
       "title": "Frontline Team Leader",
       "department": "Cell & Shift Operations",
       "color": "#27B66D"
+    },
+    "ROL-D01": {
+      "id": "ROL-D01",
+      "title": "Designated Brew Maker",
+      "department": "Office Kitchen Lead",
+      "color": "#009999"
+    },
+    "ROL-D02": {
+      "id": "ROL-D02",
+      "title": "Kitchen Spotter / Tray Helper",
+      "department": "Door & Supply Buddy",
+      "color": "#8A00E5"
+    },
+    "ROL-D03": {
+      "id": "ROL-D03",
+      "title": "Thirsty Desk Colleagues",
+      "department": "Morning Standup Team",
+      "color": "#0057C6"
     }
   },
   "tools": {
@@ -59,23 +100,27 @@ window.FALLBACK_GUIDES_DB = {
       "id": "TOL-001",
       "name": "Maturity Assessment & Explainer",
       "suite": "PM Maturity Hub",
-      "versionBadge": "v6.0.0",
+      "versionBadge": "v6.1.1",
       "category": "Phase 1: Assess",
-      "purpose": "Score all 28 site Lean questions in pairs, view plain-English Level 1–5 flashcards, and export your .json and .csv files.",
-      "accessUrl": "PM Maturity Hub → Phase 1: Assess",
+      "purpose": "Score all 28 site Lean questions using the New Standard rubric, inspect Maturity Explainer flashcards, and click 'Export Assessment (.json & .csv)'.",
+      "accessUrl": "PM Maturity Hub → Phase 1: Assess (or GS Lean Maturity Portal)",
+      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
+      "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+      "secondaryLiveLabel": "Open GS Lean Maturity Portal ↗",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
-        "Book a 90-minute scoring session with your Lean Core Team partner—never score alone.",
-        "Open the Maturity Explainer flashcards alongside the 28 questions to check what Level 3 proof looks like."
+        "First-Time Assessment: Complete with your Lean Core Team partner to learn the 28-question rubric and evidence standard.",
+        "Ongoing Assessments: Complete directly with your Site Leadership Team as a capability self-assessment (not an audit).",
+        "Confirm the top-right standard toggle is set to 'New Standard' and fill out the User Data Plate (Project/Department Name, Org, Assessed By, For OE Local PM, Scope)."
       ],
       "quickCommands": [
         {
-          "goal": "Pass a starred Gateway question (★)",
+          "goal": "Pass a starred Gateway question (★ Gold Border)",
           "command": "Score >= 3 with real workplace proof across ~70% of site teams"
         },
         {
-          "goal": "Archive completed assessment files",
-          "command": "Save Data.json and Data.csv inside folder: 600 Maturity Submissions"
+          "goal": "Export & archive completed assessment files",
+          "command": "Click 'Export Assessment (.json & .csv)' → Save inside 600 Maturity Submissions"
         }
       ],
       "troubleshooting": [
@@ -90,60 +135,62 @@ window.FALLBACK_GUIDES_DB = {
       "id": "TOL-002",
       "name": "Score Explainer, Metro Journey & 4 Pillars",
       "suite": "PM Maturity Hub",
-      "versionBadge": "v6.0.0",
-      "category": "Phase 2: Visualize",
-      "purpose": "Show leaders visually which Gateways passed or failed, where the Metro train stops, and how the 1–4 level cap works.",
-      "accessUrl": "PM Maturity Hub → Phase 2: Visualize",
+      "versionBadge": "v6.1.1",
+      "category": "Phase 1 & Phase 2: Visualize",
+      "purpose": "Inspect the 4-stage Dual-Lock v1.0 math in Score Explainer, see where the Digital Twin train stops on Metro Journey, and view The 4 Pillars (Live & Static).",
+      "accessUrl": "PM Maturity Hub → Score Explainer & Phase 2: Visualize",
+      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
-        "Have your saved Assessment .json file ready to upload.",
-        "If uploading an Excel .csv file fails, run it through the CSV to JSON Fixer utility first."
+        "Click 'Load JSON / CSV' in the left sidebar of PM Maturity Hub (or score directly in Maturity Assessment—session_sync.js automatically syncs your data).",
+        "If uploading a legacy Excel .csv file fails, run it through 'CSV to JSON Fixer' under Phase 4: Utilities."
       ],
       "quickCommands": [
         {
-          "goal": "Calculate capped maturity score",
-          "command": "Final Score = Unlocked Level + [(Unlocked Average - 1) / 4]"
+          "goal": "Dual-Lock v1.0 Capped Score Formula",
+          "command": "Compressed = OperatingLevel + [(RawValidAvg - 1) / 4] • Final = min(RawValidAvg, Compressed)"
         },
         {
-          "goal": "Export subway-style visual map for leaders",
-          "command": "Open Metro Journey → Click 'Save PDF'"
+          "goal": "Visualise Gateway roadblocks for leadership",
+          "command": "Open 'Metro Journey' & 'The 4 Pillars (Live)' under Phase 2: Visualize"
         }
       ],
       "troubleshooting": [
         {
           "symptom": "High scores on Level 2 and Level 3 questions did not raise our 1.6 total score.",
-          "cause": "A Level 1 Gateway question (such as Q10) scored below 3, pausing all higher-level questions.",
-          "fix": "Open Score Explainer to spot the red Level 1 Gateway and raise it to 3 across 70% of teams."
+          "cause": "A Level 1 Gateway question (such as Q10) scored below 3, locking your Operating Level ceiling at Level 1.",
+          "fix": "Open Score Explainer to inspect the Gateway Ceiling and Blinkers Filter, then raise the failed Gateway to 3 across 70% of teams."
         }
       ]
     },
     "TOL-003": {
       "id": "TOL-003",
-      "name": "Strategy Builder, Simulator & CSV Fixer",
+      "name": "Strategy Builder, Simulator & CSV to JSON Fixer",
       "suite": "PM Maturity Hub",
-      "versionBadge": "v6.0.0",
-      "category": "Phase 3: Plan & Utilities",
-      "purpose": "Simulate how fixing red Gateways raises your score and export a local site improvement plan without needing a full workshop.",
-      "accessUrl": "PM Maturity Hub → Phase 3: Plan",
+      "versionBadge": "v6.1.1",
+      "category": "Phase 3: Plan & Simulate + Phase 4: Utilities",
+      "purpose": "Select Light, Standard, Intense, or Custom initiative templates for failed Gateways in Strategy Builder and model score improvements in the Simulator Sandbox.",
+      "accessUrl": "PM Maturity Hub → Phase 3: Plan & Simulate",
+      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
-        "Load your site's .json assessment file into Strategy Builder or Simulator."
+        "Load your site's .json assessment file via 'Load JSON / CSV' in the PM Maturity Hub sidebar."
       ],
       "quickCommands": [
         {
           "goal": "Fix broken Excel semicolon CSV exports",
-          "command": "Open Utilities → CSV to JSON Fixer → Convert ';' to clean .json"
+          "command": "Open Phase 4: Utilities → 'CSV to JSON Fixer' → Convert ';' to clean .json"
         },
         {
-          "goal": "Build a standalone local action plan",
-          "command": "Select Pilot, Standardization, or System Integration for each gap → Click 'Export Plan'"
+          "goal": "Build a targeted local action plan & test score impact",
+          "command": "Open 'Strategy Builder' → Select Light/Standard/Intense template → Test sliders in 'Simulator'"
         }
       ],
       "troubleshooting": [
         {
           "symptom": "CSV file fails to load into Score Explainer or Strategy Builder.",
           "cause": "Regional Excel settings saved semicolons (;) instead of commas (,).",
-          "fix": "Open CSV to JSON Fixer in Utilities and convert the file into a clean .json file."
+          "fix": "Open 'CSV to JSON Fixer' in Utilities and convert the file into a clean .json file."
         }
       ]
     },
@@ -151,53 +198,55 @@ window.FALLBACK_GUIDES_DB = {
       "id": "TOL-004",
       "name": "Analysis Report & VOC Input",
       "suite": "Navigator Toolkit",
-      "versionBadge": "v2.4.4",
-      "category": "Steps 2 & 3: Analyze & Prepare",
-      "purpose": "Turn low Maturity scores into suggested Stage 0–9 actions and capture leader interview priorities before the workshop.",
+      "versionBadge": "v2.4.7",
+      "category": "Assess, Analyze & Prepare",
+      "purpose": "Evaluate 28 ratings across 10 roadmap stages in Analysis Report (with optional Co-pilot AI Agent synthesis) and record executive interviews in VOC Input.",
       "accessUrl": "Navigator Toolkit → Analysis Report / VOC Input",
+      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
-        "Complete your Site Maturity Assessment and save your Data.json file before opening Analysis Report.",
-        "Schedule 20-minute pre-workshop interviews with key site leaders to ask for their top 3 operational headaches."
+        "Click 'Upload Assessment (.json / .csv)' inside Analysis Report (or 'Load Session (.leansession)' in the left sidebar).",
+        "Schedule 20-minute pre-workshop interviews with site leaders and ask the primary guiding question in VOC Input."
       ],
       "quickCommands": [
         {
-          "goal": "Generate draft gap slides from Maturity JSON",
-          "command": "Analysis Report → Upload .json → Add notes → Click 'Export to PowerPoint'"
+          "goal": "Generate executive gap slides & radar chart",
+          "command": "Analysis Report → 'Upload Assessment (.json / .csv)' → Click 'Export to PowerPoint'"
         },
         {
-          "goal": "Export leadership Voice of the Customer pack",
-          "command": "VOC Input → Enter leader pain points → Download Briefing Pack.pptx & VOC Log.csv"
+          "goal": "Capture Voice of the Customer (VOC) interviews",
+          "command": "VOC Input → Record insights → Click 'Export VOC to CSV' & 'Save Session (.leansession)'"
         }
       ],
       "troubleshooting": [
         {
           "symptom": "Leaders bring up 15 different priorities during interviews.",
           "cause": "Unfiltered wish lists dilute the half-day workshop.",
-          "fix": "Group interview notes inside VOC Input into the Top 3 recurring operational problems."
+          "fix": "Synthesise interview entries inside VOC Input into the Top 3 recurring Leadership Priorities."
         }
       ]
     },
     "TOL-005": {
       "id": "TOL-005",
-      "name": "Workshop Guide, Charter Input & Action Log",
+      "name": "Workshop Guide, Charter Input, Charter & Roadmaps + Action Log",
       "suite": "Navigator Toolkit",
-      "versionBadge": "v2.4.4",
-      "category": "Steps 4–6: Align, Charter & Track",
-      "purpose": "Facilitate the 3-part leadership workshop, lock 12-month OKRs into a 1-page Charter, and track monthly completion.",
-      "accessUrl": "Navigator Toolkit → Workshop Guide / Charter & Action Log",
+      "versionBadge": "v2.4.7",
+      "category": "Align, Create & Communicate",
+      "purpose": "Facilitate the 3-module alignment workshop, draft Top 3 Leadership Priorities and OKRs in Charter Input, export the 1-Page Charter Infographic, and track owners in Action Log.",
+      "accessUrl": "Navigator Toolkit → Workshop Guide / Charter Input / Charter & Roadmaps / Action Log",
+      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
-        "Have your Briefing Pack.pptx (Leader Needs) and Action Report.pptx (Maturity Gaps) ready on screen."
+        "Load your full workshop session via 'Load Session (.leansession)' in the Navigator Toolkit sidebar so Analysis and VOC insights auto-populate Charter Input."
       ],
       "quickCommands": [
         {
-          "goal": "Write a strong, measurable Key Result",
+          "goal": "Write a strong, measurable Key Result in Charter Input",
           "command": "Pattern: [Measure] from [Start] to [Target] by [Date] (e.g., 25% to 75% by Q3)"
         },
         {
-          "goal": "Run monthly governance follow-up",
-          "command": "Open Action Log → Check off completed tasks and update owners with site leaders"
+          "goal": "Backup full workshop state & export action matrix",
+          "command": "Click 'Save Session (.leansession)' in sidebar + 'Export Action Matrix (CSV)' in Action Log"
         }
       ],
       "troubleshooting": [
@@ -269,6 +318,37 @@ window.FALLBACK_GUIDES_DB = {
           "fix": "Enforce the 10:00 AM Feedback Rule: the Local Programme Manager walks back to the cell board to confirm the assigned owner and fix time."
         }
       ]
+    },
+    "TOL-008": {
+      "id": "TOL-008",
+      "name": "Office Kitchen Kettle, Fridge & 4-Mug Tray",
+      "suite": "Office Brew Sandbox",
+      "versionBadge": "v1.0 Demo",
+      "category": "Everyday Neutral Walkthrough",
+      "purpose": "Boil fresh water, check milk and teabag supplies in the fridge, and carry up to 4 hot mugs safely back to the team.",
+      "accessUrl": "Office Kitchen Counter & Breakroom Fridge",
+      "ownerRoleId": "ROL-001",
+      "gettingStarted": [
+        "Check that the kettle has fresh cold water above the 4-cup minimum line before flicking the switch.",
+        "Open the fridge and check both dairy milk and oat milk expiry dates before taking any drink orders."
+      ],
+      "quickCommands": [
+        {
+          "goal": "Pass the Kitchen Foundation Gateway (★)",
+          "command": "Working kettle + Fresh milk in fridge + Clean mugs >= 3"
+        },
+        {
+          "goal": "Brew a proper builder's tea",
+          "command": "Steep teabag in 100°C water for 3 full minutes BEFORE adding milk"
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "Tea tastes like dishwater.",
+          "cause": "Brewed for 4 seconds or milk poured in before the teabag steeped.",
+          "fix": "Leave teabag in boiling water for 3 full minutes before adding milk."
+        }
+      ]
     }
   },
   "processes": {
@@ -276,16 +356,16 @@ window.FALLBACK_GUIDES_DB = {
       "id": "PRC-001",
       "title": "Check Your Site's Current Score",
       "appName": "PM Maturity Hub",
-      "versionBadge": "v6.0.0",
+      "versionBadge": "v6.1.1",
       "durationBadge": "90 mins",
-      "whenToUse": "Every quarter with a Lean Core Team partner.",
-      "cardOutput": "Completed 28-question health check & local action plan.",
-      "ctaLabel": "Start Site Assessment Guide",
-      "category": "Standalone Site Health Check",
-      "userGoal": "Score your site's 28 Lean questions fairly in pairs, verify real workplace proof across 70% of teams, and build a local improvement plan.",
-      "trigger": "Quarterly site Lean health check or preparation before a leadership Navigator Workshop.",
-      "finalOutcome": "Calibrated Data.json and Data.csv saved in '600 Maturity Submissions' plus a visual Metro Journey and local Strategy Builder plan.",
-      "valueAddCoaching": "Treat the assessment as a helpful coaching conversation, never an audit. Lowering an old score when a habit stops is a win because it directs help to the real bottleneck.",
+      "whenToUse": "1st Time: With a Lean Core Team partner • Ongoing: With your Site Leadership Team.",
+      "cardOutput": "Completed 28-question capability baseline & focused 2–3 gap analysis.",
+      "ctaLabel": "Start Stage 1 Assessment Guide",
+      "category": "Stages 1 & 2: Capability Baseline & Analysis",
+      "userGoal": "Establish your site's baseline Lean capability across all 28 questions, verify real workplace proof across ~70% of teams, and identify 2–3 priority Gateway gaps.",
+      "trigger": "First-time site baseline (with Core Team partner) or ongoing leadership self-assessment before a Navigator Workshop.",
+      "finalOutcome": "Exported Assessment (.json & .csv) archived in '600 Maturity Submissions' plus Score Explainer, Metro Journey, and Strategy Builder plan.",
+      "valueAddCoaching": "Treat the assessment as a helpful self-assessment of capability, never an audit. Lowering an old score when a habit stops is a win because it directs help to the real bottleneck.",
       "raci": {
         "responsible": "ROL-001",
         "accountable": "ROL-003",
@@ -295,34 +375,34 @@ window.FALLBACK_GUIDES_DB = {
       "stages": [
         {
           "stageNumber": 1,
-          "name": "Score All 28 Questions Together in a Pair",
+          "name": "Stage 1: Complete the Site Maturity Assessment",
           "sopId": "SOP-001",
           "toolIds": ["TOL-001"],
-          "summary": "Score together with a Core Team partner using the 70% site rule and real workplace proof."
+          "summary": "Score all 28 questions using the 70% site rule (1st time with Core Team partner; ongoing with Site Leadership Team)."
         },
         {
           "stageNumber": 2,
-          "name": "Check Starred Gateways & Build a Local Action Plan",
+          "name": "Stage 2: Analysis — Strengths, Gaps & Gateway Caps",
           "sopId": "SOP-002",
           "toolIds": ["TOL-002", "TOL-003"],
-          "summary": "See which starred Gateways cap your level, export the Metro Journey PDF, and build a local plan in Strategy Builder."
+          "summary": "Inspect Dual-Lock v1.0 Gateway caps in Score Explainer, view Metro Journey, and select 2–3 focus actions in Strategy Builder."
         }
       ]
     },
     "PRC-002": {
       "id": "PRC-002",
-      "title": "Run a Leadership Action Workshop",
+      "title": "Run the Navigator Workshop, Charter & Action Plan",
       "appName": "Navigator Toolkit",
-      "versionBadge": "v2.4.4",
+      "versionBadge": "v2.4.7",
       "durationBadge": "Half Day",
-      "whenToUse": "After completing your site check.",
-      "cardOutput": "Signed 1-page action charter & 12-month roadmap.",
-      "ctaLabel": "Start Workshop Guide",
-      "category": "6-Step Leadership Alignment",
-      "userGoal": "Combine your site's Maturity gap scores with leadership business priorities to agree on a 1-page Charter, measurable goals, and a 12-month roadmap.",
-      "trigger": "Site is ready to align leadership priorities and Lean resources for the next 6 to 12 months.",
-      "finalOutcome": "Signed 1-Page Navigator Charter with 2–3 measurable Key Results, a Q1–Q4 Interactive Roadmap, and monthly tracking in the Action Log.",
-      "valueAddCoaching": "Never walk into a Navigator Workshop with only Maturity scores. Pairing red Gateway gaps with the Site Leader's top 3 business headaches turns 'Lean tasks' into urgent business solutions.",
+      "whenToUse": "After completing your Maturity Assessment & Analysis (Stages 1–2).",
+      "cardOutput": "Voice of the Customer (VOC), 1-Page Navigator Charter & owned Action Log.",
+      "ctaLabel": "Start Stages 3–6 Navigator Guide",
+      "category": "Stages 3–6: VOC, Workshop, Charter & Action Plan",
+      "userGoal": "Capture leadership Voice of the Customer (VOC) priorities and combine them with your Lean capability gaps to agree a 1-Page Charter (2–3 key initiatives) and Action Plan.",
+      "trigger": "Site is ready to connect Lean capability (Stages 1–2) with business needs (Stage 3) for the next 6 to 12 months.",
+      "finalOutcome": "Saved Workshop Session (.leansession), 1-Page Navigator Charter Infographic (.pptx) with 2–3 focus initiatives, and owned Action Log (.csv).",
+      "valueAddCoaching": "Never walk into a Navigator Workshop with only Maturity scores. Pairing foundational Gateway gaps with the Site Leader's top 3 business headaches turns 'Lean tasks' into urgent business solutions.",
       "raci": {
         "responsible": "ROL-001",
         "accountable": "ROL-003",
@@ -332,17 +412,17 @@ window.FALLBACK_GUIDES_DB = {
       "stages": [
         {
           "stageNumber": 1,
-          "name": "Prepare Gap Slides & Interview Site Leaders",
+          "name": "Stage 3: Voice of the Customer (VOC) & Analysis Report",
           "sopId": "SOP-003",
           "toolIds": ["TOL-004"],
-          "summary": "Upload your site score .json into Analysis Report and interview site leaders to build the pre-workshop Briefing Pack."
+          "summary": "Upload your assessment into Analysis Report and capture leadership interviews inside VOC Input."
         },
         {
           "stageNumber": 2,
-          "name": "Facilitate the Workshop, Lock Goals & Track Monthly",
+          "name": "Stages 4–6: Navigator Workshop, 1-Page Charter & Action Plan",
           "sopId": "SOP-004",
           "toolIds": ["TOL-005"],
-          "summary": "Run the 3-part agenda, write measurable goals in Charter Input, and review monthly in Action Log."
+          "summary": "Facilitate the 3-module Workshop Guide, draft 2–3 focus initiatives in Charter Input, and assign owners in Action Log."
         }
       ]
     },
@@ -383,6 +463,44 @@ window.FALLBACK_GUIDES_DB = {
           "summary": "Filter cross-department blockers down to at most 3 red tags for Tier 2 and close the loop back to the shop floor."
         }
       ]
+    },
+    "PRC-004": {
+      "id": "PRC-004",
+      "playbookId": "PLB-DEMO",
+      "title": "Run the Morning Office Brew Round Without Spilling",
+      "appName": "Office Brew Sandbox",
+      "versionBadge": "v1.0 Demo",
+      "durationBadge": "10 mins",
+      "whenToUse": "Whenever the team hits the 10:00 AM caffeine slump (or when demoing this Guide System to stakeholders).",
+      "cardOutput": "2–3 properly steeped hot drinks delivered on a stable tray without dishwater tea.",
+      "ctaLabel": "Start Office Brew Guide",
+      "category": "Neutral Stakeholder Walkthrough",
+      "userGoal": "Check kitchen supplies, match colleague drink requests to actual fridge stock, and deliver a safe 2–3 mug batch within 10 minutes.",
+      "trigger": "Morning stand-up finishes or a colleague asks 'Anyone putting the kettle on?'",
+      "finalOutcome": "Happy, caffeinated colleagues and zero spilled mugs on the office carpet.",
+      "valueAddCoaching": "Never take 9 drink orders before looking inside the fridge. Checking your kitchen baseline first prevents promising oat-milk lattes when you only have three teabags and a splash of semi-skimmed.",
+      "raci": {
+        "responsible": "ROL-001",
+        "accountable": "ROL-003",
+        "consulted": ["ROL-002"],
+        "informed": ["ROL-004"]
+      },
+      "stages": [
+        {
+          "stageNumber": 1,
+          "name": "Stages 1–3: Check Kitchen Baseline, Spot Gaps & Take Orders",
+          "sopId": "SOP-007",
+          "toolIds": ["TOL-008"],
+          "summary": "Check water, milk, and clean mugs first, then capture what colleagues actually want to drink."
+        },
+        {
+          "stageNumber": 2,
+          "name": "Stages 4–6: Match Orders, Lock Tray Charter & Deliver Drinks",
+          "sopId": "SOP-008",
+          "toolIds": ["TOL-008"],
+          "summary": "Combine orders with real fridge supplies, lock a 2–3 mug batch on the tray, and brew for 3 full minutes."
+        }
+      ]
     }
   },
   "sops": {
@@ -393,7 +511,7 @@ window.FALLBACK_GUIDES_DB = {
       "roleId": "ROL-001",
       "toolIds": ["TOL-001"],
       "estimatedTime": "90 mins",
-      "stationLocation": "PM Maturity Hub → Phase 1: Assess",
+      "stationLocation": "PM Maturity Hub → Phase 1: Assess → Maturity Assessment",
       "kitBag": {
         "leadRole": "Local Programme Manager (LPM)",
         "supportRole": "1st Time: With Lean Core Team Partner • Ongoing: With Site Leadership Team",
@@ -405,23 +523,23 @@ window.FALLBACK_GUIDES_DB = {
       "gettingStarted": [
         "First-Time Assessment (Learning the Tool): Complete the assessment together with a Lean Core Team partner to learn how the 28 questions and workplace evidence work.",
         "Ongoing Assessments (Leadership Self-Assessment): Complete the assessment directly with your Site Leadership Team as a self-assessment of capability (not an audit), with Core Team support available when needed.",
-        "Gather physical workplace evidence: team huddle boards, meeting logs, and 3–6 months of trend charts."
+        "Confirm the top-right toggle is set to 'New Standard', fill the User Data Plate (Project/Department Name, Org, Date, Assessed By, For OE Local PM, Scope), and open Maturity Explainer flashcards alongside the 28 cards."
       ],
       "steps": [
         {
           "stepNumber": 1,
-          "action": "Review all 28 questions using the Maturity Explainer flashcards to establish your baseline.",
+          "action": "Select 'New Standard', fill the User Data Plate, and review all 28 questions with Maturity Explainer.",
           "detail": "First-time assessments: complete with your Lean Core Team partner to learn the tool. Ongoing assessments: complete directly with your Site Leadership Team as a self-assessment.",
           "toolId": "TOL-001",
           "coachingTip": "Treat scoring as an open self-assessment of capability, never an audit—the goal is to see where teams need support, not to chase a higher score.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "Stage 1: Maturity Assessment — Coaching Progression (1st Run vs. Ongoing)",
+            "caption": "PM Maturity Hub (maturity.html) — New Standard Toggle & User Data Plate",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "PM Maturity Hub • Stage 1: Maturity Self-Assessment", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "w1", "kind": "window", "label": "Interactive Lean Maturity Assessment • [New Standard ✓]", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
               { "id": "b1", "kind": "card", "label": "1st Time: LPM + Core Team (Learn Tool)", "x": 35, "y": 58, "w": 210, "h": 50, "state": "active" },
               { "id": "b2", "kind": "button", "label": "Ongoing: LPM + Leadership Team", "x": 255, "y": 58, "w": 205, "h": 50, "state": "success" },
-              { "id": "b3", "kind": "badge", "label": "Self-Assessment (Not an Audit) • Core Team support available whenever needed", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
+              { "id": "b3", "kind": "badge", "label": "User Data Plate: Project/Dept Name • Org • Assessed By • For OE Local PM", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
             ],
             "annotation": {
               "targetX": 255,
@@ -430,21 +548,21 @@ window.FALLBACK_GUIDES_DB = {
               "targetH": 50,
               "arrowFromX": 300,
               "arrowFromY": 26,
-              "label": "1. Self-Assess Capability Openly"
+              "label": "1. Self-Assess Under 'New Standard'"
             }
           }
         },
         {
           "stepNumber": 2,
           "action": "Apply the 70% site rule before awarding any score of 3, 4, or 5.",
-          "detail": "A habit must be working across roughly 70% of the site with real boards and logs to score 3 or higher.",
+          "detail": "Gold-bordered Gateway cards (★) and standard cards must work across roughly 70% of the site with real boards and logs to score 3 or higher.",
           "toolId": "TOL-001",
           "coachingTip": "One enthusiastic pilot area or a written slide deck that nobody uses scores a 2 (Just Starting), never a 3.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "The 70% Site Rule & 1–5 Evidence Scale",
+            "caption": "28-Card Grid — Gold Gateway Border (★) & Petrol Evaluated Border",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "1–5 Rating Scale • Passing Starred Gateways (★)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "w1", "kind": "window", "label": "1–5 Flashcard Rubric • Passing Gold Gateway Cards (★)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
               { "id": "c1", "kind": "card", "label": "Score 2: 1 Pilot Only (Fails ★)", "x": 38, "y": 60, "w": 185, "h": 48, "state": "danger" },
               { "id": "c2", "kind": "button", "label": "Score 3: ~70% of Site (Passes ★)", "x": 240, "y": 60, "w": 220, "h": 48, "state": "success" },
               { "id": "c3", "kind": "badge", "label": "Score 4: Daily Habit (3–6m trends) | Score 5: Self-Running", "x": 38, "y": 124, "w": 422, "h": 34, "state": "default" }
@@ -462,17 +580,17 @@ window.FALLBACK_GUIDES_DB = {
         },
         {
           "stepNumber": 3,
-          "action": "Review draft scores with site leaders and update only when shown real proof.",
-          "detail": "Walk leaders through the draft ratings and adjust a score only if physical workplace evidence proves it.",
+          "action": "Click 'View Dashboard' to review draft ratings with leaders and update only with real proof.",
+          "detail": "Walk leaders through the 10-theme radar chart and adjust a card rating only if physical workplace evidence proves it.",
           "toolId": "TOL-001",
           "coachingTip": "If a habit scored 4 last year but stopped working, lower the score openly so the site gets support to rebuild it.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "Leader Evidence Review & Calibration Sign-Off",
+            "caption": "Header Action Bar — 'View Dashboard' & 'View Key' Calibration",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "Steps 3 & 4 • Leader Calibration & Workplace Proof", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Step 3: Discuss Draft with Leaders", "x": 40, "y": 60, "w": 200, "h": 48, "state": "default" },
-              { "id": "c2", "kind": "button", "label": "Step 4: Update Only With Proof", "x": 255, "y": 60, "w": 205, "h": 48, "state": "active" },
+              { "id": "w1", "kind": "window", "label": "Assessment Dashboard • Radar Chart & Evidence Check", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Click: [View Dashboard] Radar", "x": 40, "y": 60, "w": 200, "h": 48, "state": "default" },
+              { "id": "c2", "kind": "button", "label": "Update Card Only With Proof", "x": 255, "y": 60, "w": 205, "h": 48, "state": "active" },
               { "id": "c3", "kind": "badge", "label": "Required Proof: Working boards, meeting logs, 3-6 month action history", "x": 40, "y": 124, "w": 420, "h": 34, "state": "default" }
             ],
             "annotation": {
@@ -488,27 +606,27 @@ window.FALLBACK_GUIDES_DB = {
         },
         {
           "stepNumber": 4,
-          "action": "Download the finished .json and .csv files into the 600 Maturity Submissions folder.",
+          "action": "Click 'Export Assessment (.json & .csv)' and save both files inside 600 Maturity Submissions.",
           "detail": "Never move, rename, or delete historical files inside the 600 Maturity Submissions folder.",
           "toolId": "TOL-001",
-          "coachingTip": "Always export both .json and .csv—the .json file loads cleanly into Score Explainer and Navigator Toolkit without Excel formatting bugs.",
+          "coachingTip": "The exported <Org>_<Date>_Lean_Assessment.json file automatically strips image bloat and loads cleanly into both PM Maturity Hub and Navigator Toolkit.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "Official Filing Rule — 600 Maturity Submissions",
+            "caption": "Header Button — 'Export Assessment (.json & .csv)'",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "Step 5 • Export & Archive Official Submission", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "button", "label": "Download Data.json & Data.csv", "x": 40, "y": 60, "w": 210, "h": 48, "state": "success" },
-              { "id": "c2", "kind": "card", "label": "Folder: 600 Maturity Submissions", "x": 265, "y": 60, "w": 195, "h": 48, "state": "active" },
-              { "id": "c3", "kind": "badge", "label": "ARCHIVE RULE: Never move or delete files in 600 Maturity Submissions", "x": 40, "y": 124, "w": 420, "h": 34, "state": "default" }
+              { "id": "w1", "kind": "window", "label": "Export & Archive Official Submission (Compact JSON + CSV)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "button", "label": "Export Assessment (.json & .csv)", "x": 35, "y": 60, "w": 220, "h": 48, "state": "success" },
+              { "id": "c2", "kind": "card", "label": "Folder: 600 Maturity Submissions", "x": 268, "y": 60, "w": 192, "h": 48, "state": "active" },
+              { "id": "c3", "kind": "badge", "label": "ARCHIVE RULE: Never move or delete files in 600 Maturity Submissions", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
             ],
             "annotation": {
-              "targetX": 265,
+              "targetX": 35,
               "targetY": 60,
-              "targetW": 195,
+              "targetW": 220,
               "targetH": 48,
-              "arrowFromX": 310,
+              "arrowFromX": 145,
               "arrowFromY": 26,
-              "label": "4. Save in 600 Maturity Submissions"
+              "label": "4. Click 'Export Assessment (.json & .csv)'"
             }
           }
         }
@@ -528,7 +646,7 @@ window.FALLBACK_GUIDES_DB = {
       "roleId": "ROL-001",
       "toolIds": ["TOL-002", "TOL-003"],
       "estimatedTime": "45 mins",
-      "stationLocation": "PM Maturity Hub → Phases 2 & 3",
+      "stationLocation": "PM Maturity Hub → Score Explainer, Phase 2 (Visualize) & Phase 3 (Plan)",
       "kitBag": {
         "leadRole": "Local Programme Manager (LPM)",
         "supportRole": "Recommended: Work through together with your Lean Core Team Partner",
@@ -536,26 +654,26 @@ window.FALLBACK_GUIDES_DB = {
         "inputNeeded": "Completed Site Maturity Assessment",
         "outputProduced": "Focused View of 2–3 Priority Capability Gaps & Foundation Gateway Caps"
       },
-      "userGoal": "Identify which starred Gateway questions cap your site's level and export a targeted local action plan.",
+      "userGoal": "Inspect how the Dual-Lock v1.0 engine evaluates your 17 starred Gateways, visualise roadblocks on the Metro Journey map, and focus on 2–3 priority capability gaps.",
       "gettingStarted": [
-        "Locate your saved Data.json file from your site assessment.",
-        "Open Score Explainer, Metro Journey, and Strategy Builder inside the PM Maturity Hub."
+        "Click 'Load JSON / CSV' in the left sidebar of PM Maturity Hub to load your saved assessment into all Hub tools at once.",
+        "Open Score Explainer (Phase 1), Metro Journey & The 4 Pillars (Phase 2), and Strategy Builder & Simulator (Phase 3)."
       ],
       "steps": [
         {
           "stepNumber": 1,
-          "action": "Upload your .json file into Score Explainer to see which Gateways cap your level.",
-          "detail": "All 17 starred Gateway questions (★) in your level must score at least 3 before higher-level questions count.",
+          "action": "Click 'Load JSON / CSV' and open Score Explainer to see which Gateways cap your level.",
+          "detail": "Score Explainer walks through the 4-step Dual-Lock v1.0 check: Gateway Ceiling, Blinkers Filter, Raw Valid Average, and Compressed Score.",
           "toolId": "TOL-002",
-          "coachingTip": "If Gateway #10 (Pilot Experiments) scores 2/5, your site is capped at Level 1 (e.g., 1.6/4.0) even if Level 2 questions score 4.",
+          "coachingTip": "If Gateway #10 (Pilot Experiments) scores 2/5, your Operating Level is locked at Level 1 (e.g., 1.6/4.0) even if Level 2 questions score 4.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "Gateway Score Cap — Why Q10 = 2/5 Caps Total Score at 1.6",
+            "caption": "Score Explainer (lean_score_explainer.html) — Dual-Lock v1.0 Breakdown",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "Score Explainer • Level Cap Formula: Level + [(Avg - 1) / 4]", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "w1", "kind": "window", "label": "Score Explainer • Compressed = OperatingLevel + [(RawValidAvg - 1) / 4]", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
               { "id": "c1", "kind": "card", "label": "Level 0 Gateways (Q1–Q5 >= 3) ✓", "x": 35, "y": 58, "w": 195, "h": 48, "state": "success" },
-              { "id": "c2", "kind": "button", "label": "Gateway Q10 = 2/5 ✗ (Capped L1)", "x": 245, "y": 58, "w": 215, "h": 48, "state": "danger" },
-              { "id": "c3", "kind": "badge", "label": "Levels 2–4 Paused Until Q10 >= 3  •  Final Score: 1.6 / 4.0", "x": 35, "y": 122, "w": 425, "h": 36, "state": "active" }
+              { "id": "c2", "kind": "button", "label": "Gateway Q10 = 2/5 ✗ (Ceiling L1)", "x": 245, "y": 58, "w": 215, "h": 48, "state": "danger" },
+              { "id": "c3", "kind": "badge", "label": "Blinkers Filter Active: Levels 2–4 Ignored Until Q10 >= 3 • Final: 1.6", "x": 35, "y": 122, "w": 425, "h": 36, "state": "active" }
             ],
             "annotation": {
               "targetX": 245,
@@ -564,59 +682,59 @@ window.FALLBACK_GUIDES_DB = {
               "targetH": 48,
               "arrowFromX": 295,
               "arrowFromY": 26,
-              "label": "1. Spot Red Gateway Blocking Level 2"
+              "label": "1. Inspect Gateway Ceiling & Cap"
             }
           }
         },
         {
           "stepNumber": 2,
-          "action": "Open Metro Journey and click 'Save PDF' to show leaders where the train stops.",
-          "detail": "Pair the Metro Journey map with 'The 4 Pillars (Live)' view to highlight green PASS and red GAP badges.",
+          "action": "Open Metro Journey and The 4 Pillars (Live) to show leaders where the train stops.",
+          "detail": "Metro Journey displays your Digital Twin train stopping at the exact failed Gateway station alongside The 4 Pillars diagnostic view.",
           "toolId": "TOL-002",
           "coachingTip": "Leaders grasp the subway map in ten seconds—point directly to the red station blocking the train from advancing.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "Phase 2: Visualize — Metro Journey & 4 Pillars Live",
+            "caption": "Phase 2: Visualize — Metro Journey & The 4 Pillars (Live)",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "Metro Journey & The 4 Pillars (Live View)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Metro Line: L0 PASS ──● Q10 STOP", "x": 40, "y": 60, "w": 245, "h": 48, "state": "active" },
-              { "id": "c2", "kind": "button", "label": "Save PDF Map", "x": 300, "y": 60, "w": 160, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "4 Pillars Live: Shows Green [PASS] and Red [GAP] Badges by Pillar", "x": 40, "y": 124, "w": 420, "h": 34, "state": "default" }
+              { "id": "w1", "kind": "window", "label": "Phase 2: Visualize • Metro Journey & The 4 Pillars (Live)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Metro Line: L0 PASS ──● Q10 STOP", "x": 35, "y": 60, "w": 235, "h": 48, "state": "active" },
+              { "id": "c2", "kind": "button", "label": "The 4 Pillars (Live) View", "x": 285, "y": 60, "w": 175, "h": 48, "state": "success" },
+              { "id": "c3", "kind": "badge", "label": "4 Pillars: Strategy & Alignment • Leadership • Daily Execution • Scaling", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
             ],
             "annotation": {
-              "targetX": 300,
+              "targetX": 285,
               "targetY": 60,
-              "targetW": 160,
+              "targetW": 175,
               "targetH": 48,
-              "arrowFromX": 320,
+              "arrowFromX": 315,
               "arrowFromY": 26,
-              "label": "2. Click 'Save PDF' on Metro Map"
+              "label": "2. View Metro Journey & 4 Pillars"
             }
           }
         },
         {
           "stepNumber": 3,
-          "action": "Select actions for each red Gateway inside Strategy Builder and click 'Export Plan'.",
-          "detail": "Choose Pilot, Standardization, or System Integration for each gap and test the impact in Simulator.",
+          "action": "Select initiative templates inside Strategy Builder, test scores in Simulator, and export your local plan.",
+          "detail": "Choose Light, Standard, Intense, or Custom initiative cards for 2–3 priority Gateway gaps and model the score lift in Simulator.",
           "toolId": "TOL-003",
-          "coachingTip": "Fix current-level red Gateways first—raising Q10 from 2 to 3 immediately unlocks all 12 Level-2 questions.",
+          "coachingTip": "Keep analysis focused on 2 to 3 key capability actions at a time—raising Q10 from 2 to 3 immediately unlocks all Level-2 questions.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "Phase 3: Plan — Strategy Builder & Score Simulator",
+            "caption": "Phase 3: Plan & Simulate — Strategy Builder & Simulator Sandbox",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "Strategy Builder • Local Action Plan Generator", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Gap Q10 → Pick: [Standardization ▾]", "x": 40, "y": 60, "w": 245, "h": 48, "state": "active" },
-              { "id": "c2", "kind": "button", "label": "Export Plan", "x": 300, "y": 60, "w": 160, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Simulator Preview: Fixing Q10 Unlocks Level 2 (1.6 → 2.6)", "x": 40, "y": 124, "w": 420, "h": 34, "state": "default" }
+              { "id": "w1", "kind": "window", "label": "Strategy Builder & Simulator (Lean_Strategy_builder.html)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Gap Q10 → [Standard Template ✓]", "x": 35, "y": 60, "w": 230, "h": 48, "state": "active" },
+              { "id": "c2", "kind": "button", "label": "Test in Simulator Sandbox", "x": 280, "y": 60, "w": 180, "h": 48, "state": "success" },
+              { "id": "c3", "kind": "badge", "label": "Simulator Sliders: Fixing Q10 Unlocks Level 2 Ceiling (1.6 → 2.6)", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
             ],
             "annotation": {
-              "targetX": 300,
+              "targetX": 280,
               "targetY": 60,
-              "targetW": 160,
+              "targetW": 180,
               "targetH": 48,
-              "arrowFromX": 320,
+              "arrowFromX": 315,
               "arrowFromY": 26,
-              "label": "3. Pick Action & Click 'Export Plan'"
+              "label": "3. Pick Template & Test Simulator"
             }
           }
         }
@@ -625,7 +743,7 @@ window.FALLBACK_GUIDES_DB = {
         {
           "symptom": "Uploading the Excel .csv file into Score Explainer gives a format error.",
           "cause": "Excel saved semicolons (;) instead of commas (,).",
-          "fix": "Click 'CSV to JSON Fixer' under Utilities in the PM Maturity Hub to convert the file to a clean .json."
+          "fix": "Click 'CSV to JSON Fixer' under Phase 4: Utilities in the PM Maturity Hub to convert the file to a clean .json."
         }
       ]
     },
@@ -636,69 +754,69 @@ window.FALLBACK_GUIDES_DB = {
       "roleId": "ROL-001",
       "toolIds": ["TOL-004"],
       "estimatedTime": "2 hours (Pre-Work)",
-      "stationLocation": "Navigator Toolkit → Steps 1 to 3",
+      "stationLocation": "Navigator Toolkit → Analysis Report & VOC Input",
       "kitBag": {
         "leadRole": "Local Programme Manager (LPM) + Site Leadership",
         "supportRole": "Lean Core Team Partner",
         "mandatoryStatus": "Stage 3 • Voice of the Customer (VOC)",
         "inputNeeded": "Leader & Stakeholder Interviews",
-        "outputProduced": "Clear Business Priorities & Leadership Pain Points (VOC Briefing Pack)"
+        "outputProduced": "Clear Business Priorities & Leadership Pain Points (VOC Entries & Session Backup)"
       },
-      "userGoal": "Prepare the two mandatory workshop inputs: the Maturity Gap Action Report and the Leader Priorities Briefing Pack.",
+      "userGoal": "Prepare the two principal inputs for the Navigator Workshop: the 10-stage Maturity Analysis Report (Input 1: Capability) and the Voice of the Customer executive interviews (Input 2: Business Need).",
       "gettingStarted": [
-        "Have your completed Site Maturity Data.json file ready.",
-        "Complete short 1-on-1 interviews with site leaders to ask for their top 3 business headaches."
+        "Open Navigator Toolkit and click 'Upload Assessment (.json / .csv)' on the Analysis Report page.",
+        "Schedule short 1-on-1 interviews with site leaders and open 'VOC Input' to ask the primary guiding question: 'If you could fix one thing in the next 12 months to significantly improve operational performance and flow, what would it be?'"
       ],
       "steps": [
         {
           "stepNumber": 1,
-          "action": "Upload your site score .json file into Analysis Report and click 'Export to PowerPoint'.",
-          "detail": "Review the suggested actions across Stages 0–9 and add local Lean Core Team notes before exporting.",
+          "action": "Click 'Upload Assessment (.json / .csv)' in Analysis Report and click 'Export to PowerPoint'.",
+          "detail": "Enter 'Analysed By' and 'Analysis Date', inspect the 10 roadmap stages (or launch the optional Co-pilot AI Agent), and export your slides.",
           "toolId": "TOL-004",
           "coachingTip": "Highlight the exact 2 or 3 red Gateway questions that block the next maturity level so leaders don't drown in all 28 questions.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "Navigator Step 2 (ANALYZE) — Analysis Report Tool",
+            "caption": "Navigator Toolkit (analysis.html) — Upload Assessment & Export PowerPoint",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "Navigator Toolkit • Analysis Report (Step 2)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Input 1: Maturity Data.json Loaded ✓", "x": 40, "y": 60, "w": 230, "h": 48, "state": "active" },
-              { "id": "c2", "kind": "button", "label": "Export to PowerPoint", "x": 285, "y": 60, "w": 175, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Files Out: Action Report.pptx + Summary.csv (Stages 0–9)", "x": 40, "y": 124, "w": 420, "h": 34, "state": "default" }
+              { "id": "w1", "kind": "window", "label": "Lean Maturity Analysis • 10-Stage Diagnostic & Co-pilot Agent", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Upload Assessment (.json / .csv)", "x": 35, "y": 60, "w": 230, "h": 48, "state": "active" },
+              { "id": "c2", "kind": "button", "label": "Export to PowerPoint", "x": 280, "y": 60, "w": 180, "h": 48, "state": "success" },
+              { "id": "c3", "kind": "badge", "label": "Also Available: View Action Report • Export Full Report (PDF) • Next: VOC →", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
             ],
             "annotation": {
-              "targetX": 285,
+              "targetX": 280,
               "targetY": 60,
-              "targetW": 175,
+              "targetW": 180,
               "targetH": 48,
               "arrowFromX": 310,
               "arrowFromY": 26,
-              "label": "1. Export Action Report.pptx"
+              "label": "1. Upload JSON & Export PowerPoint"
             }
           }
         },
         {
           "stepNumber": 2,
-          "action": "Type leader interview pain points into VOC Input and download the Briefing Pack.",
-          "detail": "Downloads both the VOC Log.csv and the pre-workshop Briefing Pack.pptx showing leadership's top priorities.",
+          "action": "Record leader interviews inside VOC Input, click 'Export VOC to CSV', and save your '.leansession' file.",
+          "detail": "Fill in Interview Details and Record Insights for each leader, then click 'Save Session (.leansession)' in the left sidebar.",
           "toolId": "TOL-004",
-          "coachingTip": "Use the leaders' own words for lead-time delays, repeat quality defects, or handoff friction so they immediately recognize their priorities in the room.",
+          "coachingTip": "Entries saved in VOC Input automatically synthesise into the Top 3 Leadership Priorities inside Charter Input.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "Navigator Step 3 (PREPARE) — VOC Input Tool",
+            "caption": "Navigator Toolkit (voc.html) — Voice of Customer & Save Session (.leansession)",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "Navigator Toolkit • VOC Input (Leader Needs)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Input 2: Top 3 Leader Pain Points", "x": 40, "y": 60, "w": 230, "h": 48, "state": "active" },
-              { "id": "c2", "kind": "button", "label": "Download Briefing Pack.pptx", "x": 285, "y": 60, "w": 175, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Combines Input 1 (Maturity JSON) + Input 2 (Leader Priorities)", "x": 40, "y": 124, "w": 420, "h": 34, "state": "default" }
+              { "id": "w1", "kind": "window", "label": "Voice of Customer (VOC) • Pre-Workshop Diagnostic", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Add Interview Entry (VOC Input)", "x": 35, "y": 60, "w": 215, "h": 48, "state": "active" },
+              { "id": "c2", "kind": "button", "label": "Save Session (.leansession)", "x": 265, "y": 60, "w": 195, "h": 48, "state": "success" },
+              { "id": "c3", "kind": "badge", "label": "Auto-Syncs VOC Entries into Charter Input & Exports VOC CSV", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
             ],
             "annotation": {
-              "targetX": 285,
+              "targetX": 265,
               "targetY": 60,
-              "targetW": 175,
+              "targetW": 195,
               "targetH": 48,
-              "arrowFromX": 310,
+              "arrowFromX": 305,
               "arrowFromY": 26,
-              "label": "2. Download VOC Briefing Pack.pptx"
+              "label": "2. Save Session (.leansession)"
             }
           }
         }
@@ -718,7 +836,7 @@ window.FALLBACK_GUIDES_DB = {
       "roleId": "ROL-001",
       "toolIds": ["TOL-005"],
       "estimatedTime": "Half Day Workshop + Monthly Review",
-      "stationLocation": "Navigator Toolkit → Steps 4 to 6",
+      "stationLocation": "Navigator Toolkit → Workshop Guide, Charter Input, Charter & Roadmaps, Action Log",
       "kitBag": {
         "leadRole": "Site Leadership Team + Local Programme Manager (LPM)",
         "supportRole": "Lean Core Team Facilitator & Coach",
@@ -726,26 +844,26 @@ window.FALLBACK_GUIDES_DB = {
         "inputNeeded": "Capability Gaps (Stages 1–2) + Business Needs / VOC (Stage 3)",
         "outputProduced": "Aligned Direction (Stage 4), 1-Page Charter (Stage 5) & Action Plan (Stage 6)"
       },
-      "userGoal": "Guide leaders through the 3-part agenda, lock 2–3 measurable goals into the 1-Page Charter, and track monthly in Action Log.",
+      "userGoal": "Facilitate the 3-module alignment workshop, formalise Top 3 Leadership Priorities and 2–3 focus initiatives in Charter Input, and assign single-point owners and due dates in Action Log.",
       "gettingStarted": [
-        "Open Workshop Guide on the main projector screen with the Site Leader Sponsor and Lean Core Team.",
-        "Have Charter Input and Interactive Roadmap open in adjacent tabs to capture decisions live."
+        "Click 'Load Session (.leansession)' in the Navigator Toolkit sidebar so your Analysis Report and VOC Input entries are active.",
+        "Open Workshop Guide on the main projector screen and keep Charter Input, Charter & Roadmaps, and Action Log ready in the sidebar."
       ],
       "steps": [
         {
           "stepNumber": 1,
-          "action": "Run Part 1 (45m) and Part 2 (60m) to connect leader problems to failed Gateways.",
-          "detail": "Part 1 locks the Top 3 business problems; Part 2 connects those problems to red Gateway gaps.",
+          "action": "Open Workshop Guide and run Modules 1 and 2 to connect business needs to Gateways.",
+          "detail": "Module 1 aligns on the Top 3 business problems from VOC; Module 2 connects those problems to foundational Gateway gaps.",
           "toolId": "TOL-005",
-          "coachingTip": "Show how fixing Gateway #10 (Pilot Experiments) or #14 (Daily Huddles) directly solves the leader's lead-time or defect headache.",
+          "coachingTip": "Show how strengthening Gateway #10 (Pilot Experiments) or #14 (Daily Huddles) directly unlocks the business performance leaders asked for.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "Navigator Step 4 (ALIGN) — 3-Part Workshop Agenda (180 Mins)",
+            "caption": "Stage 4 (Workshop Guide) — Connecting Business Need + Lean Capability",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "Workshop Guide • Live Half-Day Session Agenda", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Part 1 (45m): Top 3 Leader Needs", "x": 35, "y": 60, "w": 200, "h": 48, "state": "default" },
-              { "id": "c2", "kind": "button", "label": "Part 2 (60m): Link to Red Gateways", "x": 250, "y": 60, "w": 210, "h": 48, "state": "active" },
-              { "id": "c3", "kind": "badge", "label": "Next: Part 3 (75m) Agree on 2–3 Programme Objectives & Key Results", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
+              { "id": "w1", "kind": "window", "label": "Workshop Guide (workshop.html) • 3-Module Facilitator Agenda", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Mod 1: Top 3 VOC Business Needs", "x": 35, "y": 60, "w": 200, "h": 48, "state": "default" },
+              { "id": "c2", "kind": "button", "label": "Mod 2: Connect to Red Gateways", "x": 250, "y": 60, "w": 210, "h": 48, "state": "active" },
+              { "id": "c3", "kind": "badge", "label": "Mod 3: Draft 2–3 Focus Objectives & Key Results in Charter Input", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
             ],
             "annotation": {
               "targetX": 250,
@@ -760,53 +878,53 @@ window.FALLBACK_GUIDES_DB = {
         },
         {
           "stepNumber": 2,
-          "action": "Write 2–3 Objectives and measurable Key Results inside Charter Input during Part 3 (75m).",
-          "detail": "Follow the strict goal pattern: [Measure] from [Start] to [Target] by [Date], then place tasks into Q1–Q4.",
+          "action": "Enter Top 3 Leadership Priorities and 2–3 measurable Key Results inside Charter Input.",
+          "detail": "Use the left 'Recommended Actions' reference panel in Charter Input and follow: [Measure] from [Start] to [Target] by [Date].",
           "toolId": "TOL-005",
-          "coachingTip": "Never write 'Train 30 people'. Write: 'Increase daily shift huddles solving issues within 48h from 25% to 75% by Q3'.",
+          "coachingTip": "All fields in Charter Input auto-save to your session and immediately populate the executive Charter & Roadmaps infographic.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "Navigator Step 5 (CREATE) — Charter Input & Strong Goal Pattern",
+            "caption": "Stage 5 (charter_input.html) — Leadership Priorities & Measurable OKRs",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "Charter Input • Objectives & Key Results (Part 3: 75m)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Weak: 'Train 30 people' ✗", "x": 35, "y": 60, "w": 175, "h": 48, "state": "danger" },
-              { "id": "c2", "kind": "button", "label": "Strong: 'Huddles 25% → 75% by Q3' ✓", "x": 225, "y": 60, "w": 235, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Also Lock KR 1.1: Raise Gateway #10 from 2/5 to 3/5 across 70% by Q2", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
+              { "id": "w1", "kind": "window", "label": "Navigator Charter Input • Priorities, Gap & OKRs (Auto-Save)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Left Panel: Recommended Actions", "x": 35, "y": 60, "w": 185, "h": 48, "state": "default" },
+              { "id": "c2", "kind": "button", "label": "OKR: 'Huddles 25% → 75% by Q3' ✓", "x": 235, "y": 60, "w": 225, "h": 48, "state": "success" },
+              { "id": "c3", "kind": "badge", "label": "Focus on 2–3 Key Initiatives • Auto-populates Charter & Roadmaps", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
             ],
             "annotation": {
-              "targetX": 225,
+              "targetX": 235,
               "targetY": 60,
-              "targetW": 235,
+              "targetW": 225,
               "targetH": 48,
               "arrowFromX": 285,
               "arrowFromY": 26,
-              "label": "2. Use [Measure] [Start]→[Target] [Date]"
+              "label": "2. Draft 2–3 Measurable OKRs"
             }
           }
         },
         {
           "stepNumber": 3,
-          "action": "Download the 1-Page Charter poster and review progress monthly inside Action Log.",
-          "detail": "Open Charter & Roadmaps to export the Final Deck.pptx, then track task completion monthly in Action Log.",
+          "action": "Open Charter & Roadmaps to export slides, then assign owners and dates in Action Log.",
+          "detail": "Export the 1-Page Charter PowerPoint, assign single-point Owners and Target Due Dates in Action Log, and click 'Export Action Matrix (CSV)'.",
           "toolId": "TOL-005",
-          "coachingTip": "Book the first three monthly 30-minute Action Log check-ins before leaders leave the workshop room.",
+          "coachingTip": "Click 'Save Session (.leansession)' in the sidebar before leaving the room so the entire workshop state is backed up in one file.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "Navigator Step 6 (COMMUNICATE) — 1-Page Charter & Monthly Action Log",
+            "caption": "Stage 6 (charter.html & action_log.html) — Charter & Ownership Matrix",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "Step 6 • Charter & Roadmaps + Monthly Action Log", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Export 1-Page Charter Poster", "x": 35, "y": 60, "w": 200, "h": 48, "state": "active" },
-              { "id": "c2", "kind": "button", "label": "Open Monthly Action Log", "x": 250, "y": 60, "w": 210, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Sustains Momentum for 6–12 Months Until Next Site Re-Assessment", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
+              { "id": "w1", "kind": "window", "label": "Charter & Roadmaps + Action Log & Ownership Matrix", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Charter & Roadmaps (Export PPTX)", "x": 35, "y": 60, "w": 205, "h": 48, "state": "active" },
+              { "id": "c2", "kind": "button", "label": "Export Action Matrix (CSV)", "x": 255, "y": 60, "w": 205, "h": 48, "state": "success" },
+              { "id": "c3", "kind": "badge", "label": "Backup Full Workshop: Click 'Save Session (.leansession)' in Sidebar", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
             ],
             "annotation": {
-              "targetX": 250,
+              "targetX": 255,
               "targetY": 60,
-              "targetW": 210,
+              "targetW": 205,
               "targetH": 48,
               "arrowFromX": 295,
               "arrowFromY": 26,
-              "label": "3. Track Monthly in Action Log"
+              "label": "3. Assign Owners & Export Matrix"
             }
           }
         }
@@ -815,7 +933,7 @@ window.FALLBACK_GUIDES_DB = {
         {
           "symptom": "Workshop discussion gets stuck debating a single question score from the site check.",
           "cause": "Re-litigating individual scores instead of focusing on strategic bottlenecks.",
-          "fix": "Remind the room that scores were calibrated in pairs; pivot immediately to which red Gateway blocks the leader's top 3 priorities."
+          "fix": "Remind the room that the assessment is one input; pivot immediately to which foundational Gateway unlocks the leader's top 3 business priorities."
         }
       ]
     },
@@ -1032,6 +1150,222 @@ window.FALLBACK_GUIDES_DB = {
           "symptom": "Tier 2 board is flooded with 12 red tags every morning.",
           "cause": "Tier 1 leaders are escalating issues before attempting a 2-hour cell containment.",
           "fix": "Use the Escalation Triage Filter before the meeting to return cell-fixable items and enforce the Max 3 Red Blockers cap."
+        }
+      ]
+    },
+    "SOP-007": {
+      "id": "SOP-007",
+      "title": "Stages 1–3: Check Kitchen Baseline, Spot Gaps & Take Team Orders",
+      "processId": "PRC-004",
+      "roleId": "ROL-001",
+      "toolIds": ["TOL-008"],
+      "estimatedTime": "5 mins",
+      "stationLocation": "Office Kitchen Counter & Team Desks",
+      "kitBag": {
+        "leadRole": "Designated Brew Maker (LPM)",
+        "supportRole": "1st Time: With a Seasoned Tea-Round Partner • Ongoing: Solo or With Team",
+        "mandatoryStatus": "Stages 1–3 • Kitchen Capability & Team VOC",
+        "inputNeeded": "Thirsty Colleagues & Office Kitchen Access",
+        "outputProduced": "Verified Fridge Stock & Top 2–3 Colleague Drink Orders"
+      },
+      "userGoal": "Establish what the office kitchen can actually make today (Stages 1–2) before asking colleagues what they want to drink (Stage 3: Voice of the Customer).",
+      "gettingStarted": [
+        "Walk to the office kitchen BEFORE asking anyone what they want to drink.",
+        "Check the three foundational Kitchen Gateways (★): working kettle, fresh milk in the fridge, and at least 3 clean mugs."
+      ],
+      "steps": [
+        {
+          "stepNumber": 1,
+          "action": "Check kettle water level, fridge milk expiry dates, and clean mugs before promising any drinks.",
+          "detail": "First-time brew makers: check the kitchen with a colleague to learn where spare teabags live. Ongoing rounds: check solo in 60 seconds.",
+          "toolId": "TOL-008",
+          "coachingTip": "Checking kitchen capability first prevents promising six oat-milk flat whites when the fridge only holds half a pint of semi-skimmed.",
+          "visual": {
+            "type": "ui-mockup",
+            "caption": "Stage 1: Check the Kitchen Baseline (Assess)",
+            "elements": [
+              { "id": "w1", "kind": "window", "label": "Office Kitchen Baseline Check • 3 Foundational Gateways (★)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Kettle Water >= 4 Cups ✓ (Passes ★)", "x": 35, "y": 58, "w": 205, "h": 48, "state": "success" },
+              { "id": "c2", "kind": "button", "label": "4 Clean Mugs Ready ✓ (Passes ★)", "x": 255, "y": 58, "w": 205, "h": 48, "state": "active" },
+              { "id": "c3", "kind": "badge", "label": "Rule: Never promise artisanal barista drinks before checking basic kitchen stock", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
+            ],
+            "annotation": {
+              "targetX": 255,
+              "targetY": 58,
+              "targetW": 205,
+              "targetH": 48,
+              "arrowFromX": 295,
+              "arrowFromY": 26,
+              "label": "1. Verify Clean Mugs & Kettle First"
+            }
+          }
+        },
+        {
+          "stepNumber": 2,
+          "action": "Flag missing teabags or oat milk immediately so you know your kitchen gateway limits.",
+          "detail": "If decaf bags or oat milk are empty, note that gap before walking back to the team.",
+          "toolId": "TOL-008",
+          "coachingTip": "Spotting a missing ingredient in Stage 2 saves an awkward second trip back to the desks to renegotiate orders.",
+          "visual": {
+            "type": "ui-mockup",
+            "caption": "Stage 2: Spot Supply Gaps (Analyse)",
+            "elements": [
+              { "id": "w1", "kind": "window", "label": "Kitchen Gap Analysis • What Can We Actually Brew Today?", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Yorkshire Tea + Dairy Milk: IN STOCK ✓", "x": 35, "y": 58, "w": 215, "h": 48, "state": "success" },
+              { "id": "c2", "kind": "button", "label": "Oat Milk Carton: EMPTY ✗ (Gap)", "x": 265, "y": 58, "w": 195, "h": 48, "state": "danger" },
+              { "id": "c3", "kind": "badge", "label": "Gateway Cap: Oat-milk lattes paused until someone restocks the fridge", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
+            ],
+            "annotation": {
+              "targetX": 265,
+              "targetY": 58,
+              "targetW": 195,
+              "targetH": 48,
+              "arrowFromX": 305,
+              "arrowFromY": 26,
+              "label": "2. Spot Empty Fridge Items Early"
+            }
+          }
+        },
+        {
+          "stepNumber": 3,
+          "action": "Ask colleagues for their drink orders and record mug strength and milk preferences.",
+          "detail": "Capture the Voice of the Customer: who needs an urgent caffeine boost, and whether they take milk or sugar.",
+          "toolId": "TOL-008",
+          "coachingTip": "Keep the round manageable—aim for 2 to 3 mugs per tray (with a hard ceiling of 4) so you never drop a scalding mug in the corridor.",
+          "visual": {
+            "type": "ui-mockup",
+            "caption": "Stage 3: Take Team Orders (Voice of the Customer)",
+            "elements": [
+              { "id": "w1", "kind": "window", "label": "Team Drink Orders (VOC) • What Does the Team Need?", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Sarah: Strong Builder's Tea (Milk)", "x": 35, "y": 58, "w": 205, "h": 48, "state": "active" },
+              { "id": "c2", "kind": "button", "label": "Dave: Black Americano (No Sugar)", "x": 255, "y": 58, "w": 205, "h": 48, "state": "success" },
+              { "id": "c3", "kind": "badge", "label": "Target Batch: 2–3 Mugs per Round (Max 4 Tray Capacity Ceiling)", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
+            ],
+            "annotation": {
+              "targetX": 255,
+              "targetY": 58,
+              "targetW": 205,
+              "targetH": 48,
+              "arrowFromX": 295,
+              "arrowFromY": 26,
+              "label": "3. Capture 2–3 Colleague Orders"
+            }
+          }
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "Nine colleagues shout out complicated drink orders all at once.",
+          "cause": "Trying to boil the ocean instead of capping the tray at a safe batch size.",
+          "fix": "Focus on 2 to 3 priority drinks on Tray #1 (hard ceiling of 4 mugs) so everyone gets a hot drink safely."
+        }
+      ]
+    },
+    "SOP-008": {
+      "id": "SOP-008",
+      "title": "Stages 4–6: Match Orders, Lock the 1-Page Tray Charter & Deliver Drinks",
+      "processId": "PRC-004",
+      "roleId": "ROL-001",
+      "toolIds": ["TOL-008"],
+      "estimatedTime": "5 mins",
+      "stationLocation": "Office Kitchen Counter → Team Desks",
+      "kitBag": {
+        "leadRole": "Designated Brew Maker (LPM)",
+        "supportRole": "Mug Carrier / Door Opener Partner",
+        "mandatoryStatus": "Stages 4–6 • Huddle, Tray Charter & Delivery",
+        "inputNeeded": "Kitchen Stock (Stages 1–2) + Team Orders (Stage 3)",
+        "outputProduced": "Agreed 1-Page Tray Charter & Hot Drinks Delivered in <10 Mins"
+      },
+      "userGoal": "Combine colleague drink orders with real kitchen stock, lock a safe 2–3 mug batch on the 1-Page Tray Charter, and brew for a full 3 minutes.",
+      "gettingStarted": [
+        "Switch the kettle on to boil while lining up your 2–3 clean mugs on the counter.",
+        "Open the 1-Page Tea & Coffee Round Order Sheet (Tab 4) so you don't mix up who takes sugar."
+      ],
+      "steps": [
+        {
+          "stepNumber": 1,
+          "action": "Match colleague drink orders against available kitchen supplies and select two to three priority mugs.",
+          "detail": "Combine Input 1 (what is in the fridge) with Input 2 (what colleagues asked for) inside the Brew Round Prioritiser.",
+          "toolId": "TOL-008",
+          "coachingTip": "If someone ordered an oat-milk latte and the fridge only has dairy milk, offer them a black Americano or herbal tea before pouring.",
+          "visual": {
+            "type": "ui-mockup",
+            "caption": "Stage 4: Match Orders to Supplies (Kitchen Huddle)",
+            "elements": [
+              { "id": "w1", "kind": "window", "label": "Kitchen Huddle • Combining Kitchen Stock [1–2] + Team Orders [3]", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Input 1: Kettle + Tea + Dairy Milk", "x": 35, "y": 58, "w": 205, "h": 48, "state": "default" },
+              { "id": "c2", "kind": "button", "label": "Lock 3 Matched Mugs for Tray #1 ✓", "x": 255, "y": 58, "w": 205, "h": 48, "state": "success" },
+              { "id": "c3", "kind": "badge", "label": "Result: 2 Builder's Teas + 1 Black Coffee Locked on 1-Page Tray Charter", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
+            ],
+            "annotation": {
+              "targetX": 255,
+              "targetY": 58,
+              "targetW": 205,
+              "targetH": 48,
+              "arrowFromX": 295,
+              "arrowFromY": 26,
+              "label": "1. Lock 2–3 Matched Drinks"
+            }
+          }
+        },
+        {
+          "stepNumber": 2,
+          "action": "Steep teabags in boiling water for three full minutes before pouring milk into mugs.",
+          "detail": "Never pour cold milk onto an unsteeped teabag—wait 3 minutes for full flavour extraction, then remove the bag.",
+          "toolId": "TOL-008",
+          "coachingTip": "Adding milk too early drops the water temperature and locks the tea into a pale, lifeless beige score.",
+          "visual": {
+            "type": "ui-mockup",
+            "caption": "Stage 5: Agree & Brew the Round (3-Minute Steep Rule)",
+            "elements": [
+              { "id": "w1", "kind": "window", "label": "Brew Quality Standard • Avoid 'Dishwater Tea' Failure", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "4-Sec Dip: Pale Dishwater ✗", "x": 35, "y": 58, "w": 185, "h": 48, "state": "danger" },
+              { "id": "c2", "kind": "button", "label": "3-Min Steep + Splash Milk: Gold ★", "x": 235, "y": 58, "w": 225, "h": 48, "state": "success" },
+              { "id": "c3", "kind": "badge", "label": "Sequence Rule: 100°C Water → 3-Min Steep → Remove Bag → Add Milk Last", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
+            ],
+            "annotation": {
+              "targetX": 235,
+              "targetY": 58,
+              "targetW": 225,
+              "targetH": 48,
+              "arrowFromX": 285,
+              "arrowFromY": 26,
+              "label": "2. Steep 3 Full Minutes First"
+            }
+          }
+        },
+        {
+          "stepNumber": 3,
+          "action": "Load the 1-Page Tray Charter batch onto the tray and deliver within ten minutes.",
+          "detail": "Place heavier mugs toward the center of the tray and hand each drink to its named owner while still piping hot.",
+          "toolId": "TOL-008",
+          "coachingTip": "Ask a colleague to hold the hallway fire door—teamwork prevents 90% of corridor tea spills.",
+          "visual": {
+            "type": "ui-mockup",
+            "caption": "Stage 6: Deliver Hot Drinks (Action Plan)",
+            "elements": [
+              { "id": "w1", "kind": "window", "label": "Stage 6 Action Plan • Safe Desk Delivery (<10 Mins)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Tray Balanced (3 Mugs Centered)", "x": 35, "y": 58, "w": 205, "h": 48, "state": "active" },
+              { "id": "c2", "kind": "button", "label": "Delivered to Desks (<10m) ✓", "x": 255, "y": 58, "w": 205, "h": 48, "state": "success" },
+              { "id": "c3", "kind": "badge", "label": "Close Loop: Rinse teapot and return dirty spoons to the dishwasher", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
+            ],
+            "annotation": {
+              "targetX": 255,
+              "targetY": 58,
+              "targetW": 205,
+              "targetH": 48,
+              "arrowFromX": 295,
+              "arrowFromY": 26,
+              "label": "3. Deliver Hot Mugs Within 10 Mins"
+            }
+          }
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "Tea tastes like dishwater.",
+          "cause": "Brewed for 4 seconds.",
+          "fix": "Leave teabag in for 3 full minutes before adding milk."
         }
       ]
     }
@@ -1415,6 +1749,8 @@ window.FALLBACK_GUIDES_DB = {
             "supportRoleId": "ROL-003",
             "toolId": "TOL-001",
             "toolLabel": "PM Maturity Hub (Assessment)",
+            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
+            "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
             "outputArtifact": "Baseline picture of current Lean capability & gaps",
             "targetView": { "type": "sop", "id": "SOP-001", "cta": "Open Stage 1 Assessment Guide →" }
           },
@@ -1426,7 +1762,8 @@ window.FALLBACK_GUIDES_DB = {
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-002",
             "toolId": "TOL-002",
-            "toolLabel": "Navigator Analysis & Score Explainer",
+            "toolLabel": "PM Maturity Hub (Dashboard & Score Explainer)",
+            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
             "outputArtifact": "Focused view of 2–3 priority capability gaps & foundation gateway caps",
             "targetView": { "type": "sop", "id": "SOP-002", "cta": "Open Stage 2 Analysis Guide →" }
           },
@@ -1438,7 +1775,8 @@ window.FALLBACK_GUIDES_DB = {
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-003",
             "toolId": "TOL-004",
-            "toolLabel": "Navigator Toolkit (Voice of the Customer Input)",
+            "toolLabel": "Navigator Toolkit (Strategy Builder VOC Input)",
+            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
             "outputArtifact": "Clear business priorities & leadership pain points (VOC)",
             "targetView": { "type": "sop", "id": "SOP-003", "cta": "Open Stage 3 VOC Guide →" }
           },
@@ -1450,7 +1788,8 @@ window.FALLBACK_GUIDES_DB = {
             "leadRoleId": "ROL-003",
             "supportRoleId": "ROL-002",
             "toolId": "TOL-005",
-            "toolLabel": "Navigator Toolkit (Workshop Guide)",
+            "toolLabel": "Navigator Toolkit (Metro Journey & 4 Pillars)",
+            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
             "outputArtifact": "Aligned strategic direction connecting Lean capability to business problems",
             "targetView": { "type": "sop", "id": "SOP-004", "cta": "Open Stage 4 Workshop Guide →" }
           },
@@ -1462,7 +1801,8 @@ window.FALLBACK_GUIDES_DB = {
             "leadRoleId": "ROL-003",
             "supportRoleId": "ROL-001",
             "toolId": "TOL-005",
-            "toolLabel": "Navigator Toolkit (1-Page Charter)",
+            "toolLabel": "Navigator Toolkit (Strategy Builder Charter & PPTX Export)",
+            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
             "outputArtifact": "Agreed 1-Page Navigator Charter with 2–3 focus initiatives",
             "targetView": { "type": "template", "id": "TPL-001", "cta": "Open Stage 5 Charter →" }
           },
@@ -1474,7 +1814,8 @@ window.FALLBACK_GUIDES_DB = {
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-002",
             "toolId": "TOL-005",
-            "toolLabel": "Navigator Action Log & Local Visual Roadmap",
+            "toolLabel": "Navigator Toolkit (Action Matrix & Local Visual Roadmap)",
+            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
             "outputArtifact": "Active improvement plan with owners, target dates & local visual roadmap",
             "targetView": { "type": "sop", "id": "SOP-004", "cta": "Open Stage 6 Action Plan Guide →" }
           }
@@ -2103,7 +2444,311 @@ window.FALLBACK_GUIDES_DB = {
           ]
         }
       ]
+    },
+    {
+      "id": "PLB-DEMO",
+      "code": "PLB-DEMO",
+      "title": "Demo Example: The Office Brew Run (How This Guide System Works)",
+      "shortTitle": "Demo: The Office Brew Run",
+      "eyebrow": "Siemens Energy • Neutral Demo Sandbox Playbook",
+      "subtitle": "A neutral, everyday example showing how our 6-stage Journey Map, Step-by-Step Guides, Decision Funnel, and 1-Page Charter work—so you can review the guide design without getting distracted by process debates.",
+      "goldenPrinciple": {
+        "quote": "The goal isn't to operate the kettle. The goal is to wake up the team without poisoning anyone.",
+        "explanation": "First check what the kitchen can actually make (Stages 1 & 2) and ask the team what they want to drink (Stage 3). Then match orders to your 4-mug tray limit (Stage 4), lock the 1-Page Tray Charter (Stage 5), and deliver hot drinks safely (Stage 6)."
+      },
+      "convergenceBanner": {
+        "input1Title": "Input 1: Kitchen Capability (Stages 1 & 2)",
+        "input1Desc": "What can the kitchen make right now? (Clean mugs, kettle water, fresh milk)",
+        "input2Title": "Input 2: Team Thirst / VOC (Stage 3)",
+        "input2Desc": "What do colleagues actually want before the 09:00 AM standup?",
+        "combinedTitle": "Combined in Stage 4 (Brew Workshop)",
+        "combinedDesc": "Matching kitchen supplies [1–2] + drink orders [3] into a 1-Page Tray Charter (Stage 5) & safe delivery (Stage 6)."
+      },
+      "filingRule": "Pin the 1-Page Tea & Coffee Order Sheet next to the kettle and wipe the counter before leaving.",
+      "processIds": ["PRC-004"],
+      "sopIds": ["SOP-007", "SOP-008"],
+      "toolIds": ["TOL-008"],
+      "chooserLabel": "Which part of the morning brew round are you doing right now?",
+      "rulesKey": {
+        "title": "Before You Boil: 3 Golden Rules for the Office Brew Run",
+        "subtitle": "Why this everyday example mirrors our 6-stage Navigator structure",
+        "items": [
+          {
+            "term": "🫖 1. Check the Kitchen Before Taking Orders",
+            "desc": "Never promise four milky Yorkshire Teas if the fridge milk carton is empty. Check your kitchen baseline (Stage 1) and supply gaps (Stage 2) first."
+          },
+          {
+            "term": "⏱ 2. The 3-Minute Steep Rule (No Dishwater Tea)",
+            "desc": "Leave black teabags in boiling water for 3 full minutes before adding milk so the tea brews at 98°C."
+          },
+          {
+            "term": "☕ 3. Focus on 2–3 Priority Drinks per Tray (Max 4 Ceiling)",
+            "desc": "Never carry 6 mugs balanced on top of each other. Pick 2 to 3 priority orders (maximum 4 mugs per tray) with a 15mm safety rim."
+          }
+        ]
+      },
+      "journeyMap": {
+        "formulaBanner": "1. Kitchen Check → 2. Supply Gap Analysis → 3. Voice of the Customer (VOC) → 4. Brew Workshop → 5. 1-Page Tray Charter → 6. Delivery Plan",
+        "mapHeading": "The 6-Stage End-to-End Office Brew Journey (Neutral Demo Sandbox)",
+        "roleFilters": [
+          { "id": "all", "label": "All Roles" },
+          { "id": "ROL-D01", "label": "Designated Brew Maker" },
+          { "id": "ROL-D02", "label": "Kitchen Buddy" },
+          { "id": "ROL-D03", "label": "Thirsty Desk Team" }
+        ],
+        "briefingButtonLabel": "⏱ Why Include an 'Office Brew' Demo? (30-Sec Pitch)",
+        "briefingTitle": "Why We Include a Neutral 'Office Brew Run' Demo Playbook",
+        "briefingEquation": "Kitchen Check (Stages 1–2) + Team Drink Orders (Stage 3) = Tray Selection (Stage 4) → 1-Page Order Charter (Stage 5) → Hot Drink Delivery (Stage 6)",
+        "briefingBullets": [
+          "1. When reviewing a new documentation system, colleagues often debate the business content instead of testing how the guide works.",
+          "2. Everybody knows how to make a round of tea and coffee, so this playbook lets you test the 6-stage Journey Map, annotated step visuals, and 3-step Prioritiser Funnel in 60 seconds.",
+          "3. Open the Gear Icon (top right) to see how you can edit steps, paste screenshots, or build your own playbook with zero coding."
+        ],
+        "stages": [
+          {
+            "stageNumber": 1,
+            "title": "Kitchen Check (Assessment)",
+            "summary": "Check the office kitchen baseline before promising drinks. Inspect the kettle water level, count clean mugs, and check fresh milk in the fridge.",
+            "whoIsInvolved": "Designated Brew Maker + Kitchen Buddy",
+            "leadRoleId": "ROL-D01",
+            "supportRoleId": "ROL-D02",
+            "toolId": "TOL-008",
+            "toolLabel": "Office Kitchen Kettle & Fridge",
+            "outputArtifact": "Clear picture of clean mugs, water level & fresh milk",
+            "targetView": { "type": "sop", "id": "SOP-007", "cta": "Open Stage 1 Kitchen Check Guide →" }
+          },
+          {
+            "stageNumber": 2,
+            "title": "Supply Gap Analysis",
+            "summary": "Spot critical foundation blockers before taking complex orders—such as an empty kettle, missing teabags, or expired milk that caps your brew round.",
+            "whoIsInvolved": "Designated Brew Maker",
+            "leadRoleId": "ROL-D01",
+            "supportRoleId": "ROL-D02",
+            "toolId": "TOL-008",
+            "toolLabel": "Kitchen Supply Check",
+            "outputArtifact": "Shortlist of 2–3 kitchen supply fixes needed first",
+            "targetView": { "type": "sop", "id": "SOP-007", "cta": "Open Stage 2 Gap Analysis Guide →" }
+          },
+          {
+            "stageNumber": 3,
+            "title": "Voice of the Customer (VOC)",
+            "summary": "Ask thirsty colleagues at the desk bank what they actually need right now—and who has an urgent 09:00 AM meeting.",
+            "whoIsInvolved": "Designated Brew Maker + Thirsty Team",
+            "leadRoleId": "ROL-D01",
+            "supportRoleId": "ROL-D03",
+            "toolId": "TOL-008",
+            "toolLabel": "Sticky Note Order Pad",
+            "outputArtifact": "Captured team drink requests & urgent meeting priorities",
+            "targetView": { "type": "sop", "id": "SOP-007", "cta": "Open Stage 3 Team Orders Guide →" }
+          },
+          {
+            "stageNumber": 4,
+            "title": "Brew Workshop (Match Tray)",
+            "summary": "Bring kitchen supplies [Stages 1–2] and team drink requests [Stage 3] together to pick 2 to 3 priority drinks that fit safely on the 4-mug tray.",
+            "whoIsInvolved": "Designated Brew Maker + Kitchen Buddy",
+            "leadRoleId": "ROL-D01",
+            "supportRoleId": "ROL-D02",
+            "toolId": "TOL-008",
+            "toolLabel": "4-Mug Non-Slip Tray",
+            "outputArtifact": "Agreed tray selection matching supply limits to team orders",
+            "targetView": { "type": "sop", "id": "SOP-008", "cta": "Open Stage 4 Brew Workshop Guide →" }
+          },
+          {
+            "stageNumber": 5,
+            "title": "1-Page Tray Charter",
+            "summary": "Lock the final 1-Page Tea & Coffee Round Order Sheet with mug colours, steep times, and milk amounts so nobody gets the wrong mug.",
+            "whoIsInvolved": "Designated Brew Maker + Thirsty Team",
+            "leadRoleId": "ROL-D01",
+            "supportRoleId": "ROL-D03",
+            "toolId": "TOL-008",
+            "toolLabel": "1-Page Order Sheet",
+            "outputArtifact": "Locked 1-Page Tea & Coffee Round Order Sheet",
+            "targetView": { "type": "template", "id": "TPL-003", "cta": "Open Stage 5 Tray Charter →" }
+          },
+          {
+            "stageNumber": 6,
+            "title": "Delivery Action Plan",
+            "summary": "Steep tea for 3 full minutes, pour milk to match the colour chart, and deliver mugs to desks with a door-holding buddy.",
+            "whoIsInvolved": "Designated Brew Maker + Kitchen Buddy",
+            "leadRoleId": "ROL-D01",
+            "supportRoleId": "ROL-D02",
+            "toolId": "TOL-008",
+            "toolLabel": "4-Mug Tray & Colour Chart",
+            "outputArtifact": "Delivered hot drinks & wiped kitchen counter",
+            "targetView": { "type": "sop", "id": "SOP-008", "cta": "Open Stage 6 Delivery Guide →" }
+          }
+        ]
+      },
+      "decisionTools": [
+        {
+          "id": "DEC-004",
+          "kind": "prioritiser-funnel",
+          "navTitle": "Brew Round Prioritiser (Target: 2 to 3 Drinks per Tray)",
+          "eyebrow": "Preparing for Stage 4 (Brew Workshop) • Combining Kitchen Check + Team Orders",
+          "badge": "Recommended: 2–3 Priority Items • Max 4 Tray Slots",
+          "title": "Brew Round Prioritiser (Target: 2 to 3 Drinks per Tray)",
+          "subtitle": "Preparing for Stage 4: Combine your Kitchen Supply Check (Stages 1–2) with Team Drink Requests (Stage 3) to pick 2 to 3 priority actions or drinks for your 1-Page Tray Charter (Stage 5).",
+          "recommendedMin": 2,
+          "recommendedMax": 3,
+          "maxCapacity": 4,
+          "targetTemplateId": "TPL-003",
+          "sendButtonLabel": "1-Page Order Sheet",
+          "overLimitWarning": "⚠️ Over 4-Mug Tray Limit: Carrying more than 4 mugs causes hallway spills! Keep 2–3 key items (Max 4).",
+          "withinLimitMessage": "✓ Fits Safely on the 4-Mug Non-Slip Tray",
+          "filter1": {
+            "badge": "From Stages 1 & 2 • Kitchen Gateways",
+            "title": "1. Kitchen Supply Gateways (★ Must Fix First)",
+            "desc": "You cannot pour hot tea from an empty kettle. Filter for critical kitchen supply unlocks (★) first.",
+            "allLabel": "Show All Brew Items",
+            "flaggedLabel": "★ Only Kitchen Gateway Unlocks",
+            "priorityBadgeText": "KITCHEN GATEWAY UNLOCK (★)"
+          },
+          "filter2": {
+            "badge": "From Stage 3 • Voice of the Customer (VOC)",
+            "title": "2. Align with Team Drink Need (VOC)",
+            "desc": "Match kitchen capability against the most urgent morning team need (09:00 AM Standup, Caffeine Boost, Fast Pour).",
+            "allLabel": "All Team Drink Needs",
+            "columnLabel": "Team Drink Need (VOC)",
+            "options": ["09:00 AM Standup", "Caffeine Boost", "Fast 3-Min Pour", "Afternoon Treat"]
+          },
+          "filter3": {
+            "badge": "For Stages 4 & 5 • Tray Selection",
+            "title": "3. Rank Joy vs. Effort (Select 2–3 Items)",
+            "desc": "Pick Quick Wins (3-minute steep) and defer 15-minute iced blender specials to lunchtime.",
+            "allLabel": "All Effort Levels",
+            "options": ["Quick Win", "Major Step", "Hard Slog"]
+          },
+          "candidates": [
+            {
+              "id": "BRW-G1",
+              "codeLabel": "KETTLE (Stage 1 ★ Gateway)",
+              "isPriorityFlagged": true,
+              "liftLabel": "Unlocks Boiling Water (100°C)",
+              "title": "Fill kettle to 1.5L line, place on power base, and switch on",
+              "draftText": "Boil 1.5L fresh water in kitchen kettle from cold to 100°C by 08:50 AM",
+              "tags": ["09:00 AM Standup", "Caffeine Boost", "Fast 3-Min Pour"],
+              "quadrant": "Quick Win",
+              "effort": "Low Effort (2m)",
+              "impact": "Unlocks All Hot Drinks",
+              "defaultDue": "08:50 AM",
+              "defaultOwner": "@BrewMaker",
+              "selectedByDefault": true
+            },
+            {
+              "id": "BRW-O1",
+              "codeLabel": "ORDER-1 (Stage 3 ★ VOC)",
+              "isPriorityFlagged": true,
+              "liftLabel": "Wakes Up 2 Standup Hosts",
+              "title": "Brew 2x Builders Yorkshire Tea (3-minute steep, dash of fresh milk)",
+              "draftText": "Deliver 2 mugs of 3-minute steeped Builders Tea to Sarah & Dave by 08:55 AM",
+              "tags": ["09:00 AM Standup", "Caffeine Boost", "Fast 3-Min Pour"],
+              "quadrant": "Quick Win",
+              "effort": "Low Effort (3m)",
+              "impact": "High Team Morale",
+              "defaultDue": "08:55 AM",
+              "defaultOwner": "@BrewMaker",
+              "selectedByDefault": true
+            },
+            {
+              "id": "BRW-O2",
+              "codeLabel": "ORDER-2 (Stage 3 VOC)",
+              "isPriorityFlagged": false,
+              "liftLabel": "Fixes Lead Engineer Focus",
+              "title": "Pour 1x Strong Black Americano (94°C water, zero milk, zero sugar)",
+              "draftText": "Deliver 1 mug of hot Black Americano to Lead Engineer desk by 08:55 AM",
+              "tags": ["09:00 AM Standup", "Caffeine Boost", "Fast 3-Min Pour"],
+              "quadrant": "Quick Win",
+              "effort": "Low Effort (1m)",
+              "impact": "High Focus Lift",
+              "defaultDue": "08:55 AM",
+              "defaultOwner": "@KitchenBuddy",
+              "selectedByDefault": true
+            },
+            {
+              "id": "BRW-O3",
+              "codeLabel": "ORDER-3 (Stage 3 VOC)",
+              "isPriorityFlagged": false,
+              "liftLabel": "Easy 4th Tray Slot",
+              "title": "Pour 1x Peppermint Herbal Tea (boiling water only, 15mm safety rim)",
+              "draftText": "Deliver 1 mug of Peppermint Herbal Tea with 15mm safety rim by 08:58 AM",
+              "tags": ["Fast 3-Min Pour"],
+              "quadrant": "Quick Win",
+              "effort": "Low Effort (1m)",
+              "impact": "Calm Morning Lift",
+              "defaultDue": "08:58 AM",
+              "defaultOwner": "@KitchenBuddy",
+              "selectedByDefault": false
+            },
+            {
+              "id": "BRW-O4",
+              "codeLabel": "ORDER-4 (Barista Overload)",
+              "isPriorityFlagged": false,
+              "liftLabel": "Delays Standup by 15m",
+              "title": "Blend Iced Caramel Oat-Milk Matcha Frappe with hand-whipped cinnamon foam",
+              "draftText": "Defer complex blender Frappe order to lunchtime café walk at 12:30 PM",
+              "tags": ["Afternoon Treat"],
+              "quadrant": "Hard Slog",
+              "effort": "High Effort (15m)",
+              "impact": "Blocks 09:00 AM Call",
+              "defaultDue": "12:30 PM",
+              "defaultOwner": "@SelfService",
+              "selectedByDefault": false
+            }
+          ]
+        }
+      ],
+      "templates": [
+        {
+          "id": "TPL-003",
+          "kind": "action-charter",
+          "navTitle": "1-Page Tea & Coffee Round Order Sheet",
+          "eyebrow": "Stages 5 & 6 Deliverable • Editable & Printable",
+          "badge": "Neutral Demo Template • 1-Page Tray Charter",
+          "title": "1-Page Tea & Coffee Round Order Sheet",
+          "subtitle": "Stage 5 sets the Tray Charter (2 to 3 priority orders) and Stage 6 assigns delivery owners and brew timing.",
+          "linkedDecisionId": "DEC-004",
+          "fields": {
+            "siteLabel": "Desk Bank / Floor Zone",
+            "sitePlaceholder": "e.g., Floor 2 — North Engineering Bay",
+            "sponsorLabel": "Round Sponsor (Buying the Biscuits)",
+            "sponsorPlaceholder": "e.g., Sarah Jenkins",
+            "dateLabel": "Brew Run Time",
+            "vocLabel": "Stage 3 Team Thirst Goal & 09:00 AM Deadline",
+            "vocPlaceholder": "e.g., Deliver hot tea and black coffee 5 minutes before the 09:00 AM project standup without spilling on the hallway carpet."
+          },
+          "tableHeaders": {
+            "code": "#",
+            "action": "Selected Kitchen Fix / Drink Order (Target: 2–3 Key Items)",
+            "tag": "Drink Category",
+            "due": "Deliver By",
+            "owner": "Brew Owner"
+          },
+          "objectiveRowCode": "GATEWAY",
+          "objectiveRowText": "Fill Kettle to 1.5L & Check 4 Clean Mugs Before Taking Complex Orders (Kitchen Baseline Rule)",
+          "rowCodePrefix": "MUG-"
+        }
+      ],
+      "referenceTables": [
+        {
+          "id": "REF-003",
+          "navTitle": "Standard Office Brew Strength & Steep Time Chart",
+          "eyebrow": "Kitchen Wall Reference",
+          "badge": "Office Brew Standard • v1.0.0",
+          "title": "Standard Office Tea & Coffee Steep Time & Milk Shade Guide",
+          "subtitle": "Keep this reference table by the kettle so nobody ever serves dishwater tea or scalded instant coffee.",
+          "filterAllLabel": "All Drink Standards (6)",
+          "filterFlaggedLabel": "★ Golden Brew Rules Only (3)",
+          "columns": ["Code", "Drink Name & Preparation Rule", "Category", "Steep / Pour Time", "Golden Rule"],
+          "rows": [
+            { "code": "BRW-01", "col1": "Builders Breakfast Tea — Steep teabag in boiling water for 3 full minutes before adding milk", "col2": "Black Tea", "col3": "3 Mins Steep", "flagged": true, "flagLabel": "★ Never Milk First" },
+            { "code": "BRW-02", "col1": "Light Milky Tea — Steep 2 minutes, squeeze teabag gently against mug wall, add 25ml fresh milk", "col2": "Black Tea", "col3": "2 Mins Steep", "flagged": false, "flagLabel": "Standard" },
+            { "code": "BRW-03", "col1": "Filter / Cafetiere Coffee — Wait 30 seconds after kettle boils so 94°C water does not burn grounds", "col2": "Coffee", "col3": "4 Mins Plunge", "flagged": true, "flagLabel": "★ Wait 30s Post-Boil" },
+            { "code": "BRW-04", "col1": "Instant Coffee — Dissolve granules with 15ml cold milk or warm water before pouring boiling water", "col2": "Coffee", "col3": "30 Secs Stir", "flagged": false, "flagLabel": "Standard" },
+            { "code": "BRW-05", "col1": "Herbal / Peppermint Infusion — Boiling water only; keep a 15mm safety rim below the mug top", "col2": "Herbal", "col3": "3 Mins Steep", "flagged": false, "flagLabel": "Standard" },
+            { "code": "BRW-06", "col1": "4-Mug Tray Safety Rule — Never stack mugs or carry more than 4 hot drinks in a single trip", "col2": "Tray Safety", "col3": "15mm Safety Rim", "flagged": true, "flagLabel": "★ 4-Mug Max Cap" }
+          ]
+        }
+      ]
     }
   ]
-}
-;
+};
