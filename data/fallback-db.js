@@ -388,7 +388,7 @@ window.FALLBACK_GUIDES_DB = {
   "sops": {
     "SOP-001": {
       "id": "SOP-001",
-      "title": "Calibrate and Score All 28 Site Questions in Pairs",
+      "title": "Stage 1: Complete the Site Maturity Assessment",
       "processId": "PRC-001",
       "roleId": "ROL-001",
       "toolIds": ["TOL-001"],
@@ -396,41 +396,41 @@ window.FALLBACK_GUIDES_DB = {
       "stationLocation": "PM Maturity Hub → Phase 1: Assess",
       "kitBag": {
         "leadRole": "Local Programme Manager (LPM)",
-        "supportRole": "Lean Core Team Partner",
-        "mandatoryStatus": "MANDATORY",
-        "inputNeeded": "Workplace Evidence (70% Site Rule)",
-        "outputProduced": "Raw scores.csv & Data.json in 600 Maturity Submissions"
+        "supportRole": "1st Time: With Lean Core Team Partner • Ongoing: With Site Leadership Team",
+        "mandatoryStatus": "Stage 1 • Baseline Capability",
+        "inputNeeded": "Workplace Evidence (~70% of Site Teams)",
+        "outputProduced": "Baseline Lean Capability Scorecard (28 Questions)"
       },
-      "userGoal": "Complete a fair, evidence-based 1–5 rating for all 28 Lean@GS questions and save the official submission files.",
+      "userGoal": "Establish your site's baseline Lean capability across all 28 questions—completed with a Lean Core Team partner on your first assessment to learn the tool, and directly with your Site Leadership Team on ongoing assessments.",
       "gettingStarted": [
-        "Pair the Local Programme Manager with a Lean Core Team member—new or uncertified managers must never score alone.",
-        "Open the Maturity Assessment and Maturity Explainer side-by-side inside the PM Maturity Hub.",
-        "Gather physical evidence: team huddle boards, meeting logs, and 3–6 months of trend charts."
+        "First-Time Assessment (Learning the Tool): Complete the assessment together with a Lean Core Team partner to learn how the 28 questions and workplace evidence work.",
+        "Ongoing Assessments (Leadership Self-Assessment): Complete the assessment directly with your Site Leadership Team as a self-assessment of capability (not an audit), with Core Team support available when needed.",
+        "Gather physical workplace evidence: team huddle boards, meeting logs, and 3–6 months of trend charts."
       ],
       "steps": [
         {
           "stepNumber": 1,
-          "action": "Review each question in a pair and check the Maturity Explainer flashcards.",
-          "detail": "The Local Programme Manager and Lean Core Team partner review all 28 questions together before showing leaders.",
+          "action": "Review all 28 questions using the Maturity Explainer flashcards to establish your baseline.",
+          "detail": "First-time assessments: complete with your Lean Core Team partner to learn the tool. Ongoing assessments: complete directly with your Site Leadership Team as a self-assessment.",
           "toolId": "TOL-001",
-          "coachingTip": "Treat scoring as a helpful coaching conversation to find where teams need support—never push just to chase a higher number.",
+          "coachingTip": "Treat scoring as an open self-assessment of capability, never an audit—the goal is to see where teams need support, not to chase a higher score.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "5-Step Calibration Flow — Step 1: Score in a Pair",
+            "caption": "Stage 1: Maturity Assessment — Coaching Progression (1st Run vs. Ongoing)",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "PM Maturity Hub • Calibration Workflow", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "b1", "kind": "card", "label": "STEP 1: Score in a Pair (Programme Mgr + Core Team)", "x": 40, "y": 58, "w": 255, "h": 50, "state": "active" },
-              { "id": "b2", "kind": "button", "label": "Open Explainer Cards", "x": 310, "y": 58, "w": 150, "h": 50, "state": "success" },
-              { "id": "b3", "kind": "badge", "label": "Rule: Never score alone • Certified Core Team partner required", "x": 40, "y": 124, "w": 420, "h": 34, "state": "default" }
+              { "id": "w1", "kind": "window", "label": "PM Maturity Hub • Stage 1: Maturity Self-Assessment", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "b1", "kind": "card", "label": "1st Time: LPM + Core Team (Learn Tool)", "x": 35, "y": 58, "w": 210, "h": 50, "state": "active" },
+              { "id": "b2", "kind": "button", "label": "Ongoing: LPM + Leadership Team", "x": 255, "y": 58, "w": 205, "h": 50, "state": "success" },
+              { "id": "b3", "kind": "badge", "label": "Self-Assessment (Not an Audit) • Core Team support available whenever needed", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
             ],
             "annotation": {
-              "targetX": 40,
+              "targetX": 255,
               "targetY": 58,
-              "targetW": 255,
+              "targetW": 205,
               "targetH": 50,
-              "arrowFromX": 175,
+              "arrowFromX": 300,
               "arrowFromY": 26,
-              "label": "1. Always Score Together in a Pair"
+              "label": "1. Self-Assess Capability Openly"
             }
           }
         },
@@ -523,18 +523,18 @@ window.FALLBACK_GUIDES_DB = {
     },
     "SOP-002": {
       "id": "SOP-002",
-      "title": "Diagnose Gateway Score Caps and Build a Local Action Plan",
+      "title": "Stage 2: Analysis — Understand Strengths, Gaps & Gateway Caps",
       "processId": "PRC-001",
       "roleId": "ROL-001",
       "toolIds": ["TOL-002", "TOL-003"],
       "estimatedTime": "45 mins",
       "stationLocation": "PM Maturity Hub → Phases 2 & 3",
       "kitBag": {
-        "leadRole": "Lean Core Team Partner",
-        "supportRole": "Local Programme Manager (LPM)",
-        "mandatoryStatus": "MANDATORY",
-        "inputNeeded": "Scored Assessment (Data.json)",
-        "outputProduced": "Capped Maturity Score, Red Starred Gateways (★) & Metro PDF"
+        "leadRole": "Local Programme Manager (LPM)",
+        "supportRole": "Recommended: Work through together with your Lean Core Team Partner",
+        "mandatoryStatus": "Stage 2 • Capability Analysis",
+        "inputNeeded": "Completed Site Maturity Assessment",
+        "outputProduced": "Focused View of 2–3 Priority Capability Gaps & Foundation Gateway Caps"
       },
       "userGoal": "Identify which starred Gateway questions cap your site's level and export a targeted local action plan.",
       "gettingStarted": [
@@ -631,18 +631,18 @@ window.FALLBACK_GUIDES_DB = {
     },
     "SOP-003": {
       "id": "SOP-003",
-      "title": "Prepare the Navigator Workshop Inputs",
+      "title": "Stage 3: Voice of the Customer (VOC) — Understand Business Priorities",
       "processId": "PRC-002",
       "roleId": "ROL-001",
       "toolIds": ["TOL-004"],
       "estimatedTime": "2 hours (Pre-Work)",
       "stationLocation": "Navigator Toolkit → Steps 1 to 3",
       "kitBag": {
-        "leadRole": "Lean Core Team + LPM",
-        "supportRole": "Site Leadership Sponsor (Interview Input)",
-        "mandatoryStatus": "MANDATORY FOR WORKSHOP • OPTIONAL FOR STANDALONE CHECK",
-        "inputNeeded": "Site Maturity Data.json + Short Leader Interviews",
-        "outputProduced": "Action Report.pptx + VOC Briefing Pack (Safety, Delivery, Quality, Cost)"
+        "leadRole": "Local Programme Manager (LPM) + Site Leadership",
+        "supportRole": "Lean Core Team Partner",
+        "mandatoryStatus": "Stage 3 • Voice of the Customer (VOC)",
+        "inputNeeded": "Leader & Stakeholder Interviews",
+        "outputProduced": "Clear Business Priorities & Leadership Pain Points (VOC Briefing Pack)"
       },
       "userGoal": "Prepare the two mandatory workshop inputs: the Maturity Gap Action Report and the Leader Priorities Briefing Pack.",
       "gettingStarted": [
@@ -713,18 +713,18 @@ window.FALLBACK_GUIDES_DB = {
     },
     "SOP-004": {
       "id": "SOP-004",
-      "title": "Facilitate the Half-Day Workshop, Write Goals, and Track Monthly",
+      "title": "Stages 4–6: Navigator Workshop, 1-Page Charter & Action Plan",
       "processId": "PRC-002",
       "roleId": "ROL-001",
       "toolIds": ["TOL-005"],
-      "estimatedTime": "3 hours (180 mins)",
+      "estimatedTime": "Half Day Workshop + Monthly Review",
       "stationLocation": "Navigator Toolkit → Steps 4 to 6",
       "kitBag": {
-        "leadRole": "Host: Site Sponsor & LPM",
-        "supportRole": "Facilitator: Lean Core Team Partner",
-        "mandatoryStatus": "RECOMMENDED (SITE TRANSFORMATION) • MANDATORY CHARTER & 90-DAY LOG",
-        "inputNeeded": "Top 5 Prioritised Actions + VOC Briefing Pack",
-        "outputProduced": "Signed 1-Page Charter, Measurable OKRs & Active 90-Day Coaching Plan"
+        "leadRole": "Site Leadership Team + Local Programme Manager (LPM)",
+        "supportRole": "Lean Core Team Facilitator & Coach",
+        "mandatoryStatus": "Stages 4–6 • Workshop, Charter & Action Plan",
+        "inputNeeded": "Capability Gaps (Stages 1–2) + Business Needs / VOC (Stage 3)",
+        "outputProduced": "Aligned Direction (Stage 4), 1-Page Charter (Stage 5) & Action Plan (Stage 6)"
       },
       "userGoal": "Guide leaders through the 3-part agenda, lock 2–3 measurable goals into the 1-Page Charter, and track monthly in Action Log.",
       "gettingStarted": [
@@ -830,7 +830,7 @@ window.FALLBACK_GUIDES_DB = {
       "kitBag": {
         "leadRole": "Frontline Team Leader",
         "supportRole": "Local Programme Manager (LPM)",
-        "mandatoryStatus": "MANDATORY",
+        "mandatoryStatus": "Stages 1–2 • Daily Shift Stand-Up",
         "inputNeeded": "Shift Handover Log",
         "outputProduced": "Updated SQDC Board & Immediate Containment Actions"
       },
@@ -938,7 +938,7 @@ window.FALLBACK_GUIDES_DB = {
       "kitBag": {
         "leadRole": "Local Programme Manager (LPM) & Site Leadership Sponsor",
         "supportRole": "Lean Core Team Partner",
-        "mandatoryStatus": "MANDATORY",
+        "mandatoryStatus": "Stages 3–4 • Tier 2 Escalation & Close-Loop",
         "inputNeeded": "Tier 1 Red Escalation Tags",
         "outputProduced": "Max 3 Escalated Red Blockers & Signed Countermeasure Log"
       },
@@ -1359,11 +1359,11 @@ window.FALLBACK_GUIDES_DB = {
       },
       "convergenceBanner": {
         "input1Title": "Input 1: Lean Capability (Stages 1 & 2)",
-        "input1Question": "Where are we capable of operating today?",
+        "input1Desc": "Where are we capable of operating today? (Maturity Assessment & Analysis)",
         "input2Title": "Input 2: Business Need (Stage 3)",
-        "input2Question": "What does the business need us to improve?",
+        "input2Desc": "What does the business need us to improve? (Voice of the Customer / VOC)",
         "combinedTitle": "Combined in Stage 4 (Navigator Workshop)",
-        "combinedQuestion": "Turning Lean capability + business need into an agreed improvement direction."
+        "combinedDesc": "Turning Lean capability [1–2] + business need [3] into an agreed Charter (Stage 5) & Action Plan (Stage 6)."
       },
       "filingRule": "Save finished .csv and .json files in '600 Maturity Submissions'. Never move or delete files in that folder.",
       "processIds": ["PRC-001", "PRC-002"],
@@ -1375,8 +1375,8 @@ window.FALLBACK_GUIDES_DB = {
         "subtitle": "How the Maturity Assessment & Navigator work together",
         "items": [
           {
-            "term": "🤝 1. A Self-Assessment, Not an Audit",
-            "desc": "Complete the 28 questions openly with your leadership team and Lean Core Team partner to spot where support is needed—never chase a higher number for its own sake."
+            "term": "🤝 1. First-Time vs. Ongoing Assessments (Not an Audit)",
+            "desc": "First-time assessment: complete together with a Lean Core Team partner to learn the 28 questions and workplace evidence. Ongoing assessments: complete directly with your Site Leadership Team as a self-assessment of capability (with Core Team support available when needed)."
           },
           {
             "term": "🏭 2. Visible Across ~70% of Teams",
@@ -1389,8 +1389,8 @@ window.FALLBACK_GUIDES_DB = {
         ]
       },
       "journeyMap": {
-        "formulaBanner": "Assess capability → Analyse gaps → Understand business priorities → Align the two with leadership → Agree objectives & initiatives → Build the action plan",
-        "mapHeading": "The 6-Stage Lean@GS Navigator & Maturity Journey",
+        "formulaBanner": "1. Maturity Assessment → 2. Analysis → 3. Voice of the Customer (VOC) → 4. Navigator Workshop → 5. Charter → 6. Action Plan",
+        "mapHeading": "The 6-Stage Lean@GS Navigator & Maturity Process",
         "roleFilters": [
           { "id": "all", "label": "All Roles" },
           { "id": "ROL-001", "label": "Local Programme Manager (LPM)" },
@@ -1399,83 +1399,83 @@ window.FALLBACK_GUIDES_DB = {
         ],
         "briefingButtonLabel": "⏱ Explain Navigator to Leadership (60-Sec Pitch)",
         "briefingTitle": "60-Second Leadership Briefing: How Maturity & Navigator Fit Together",
-        "briefingEquation": "Input 1: Lean Capability (Stages 1–2) + Input 2: Business Need (Stage 3) = Agreed 1-Page Charter & Action Plan (Stages 4–6)",
+        "briefingEquation": "Input 1: Lean Capability (Stages 1–2) + Input 2: Business Need / VOC (Stage 3) = Navigator Workshop (Stage 4) → Charter (Stage 5) → Action Plan (Stage 6)",
         "briefingBullets": [
           "1. The goal isn't to improve the maturity score—the goal is to improve the business.",
-          "2. Stages 1 & 2 show our current Lean capability and highlight 2–3 key gaps; Stage 3 captures the Voice of the Customer (the business problems leadership needs solved).",
+          "2. Stages 1 & 2 establish our baseline Lean capability and highlight 2–3 key gaps; Stage 3 captures the Voice of the Customer (the business problems leadership needs solved).",
           "3. In Stages 4 to 6, we bring both inputs into the Navigator Workshop, agree a 1-Page Charter with clear objectives, and convert it into an owned action plan."
         ],
         "stages": [
           {
             "stageNumber": 1,
-            "title": "Establish the Baseline (Assess)",
-            "summary": "Complete the maturity self-assessment (ideally with your leadership team—this is a self-assessment, not an audit) to establish current Lean capability and highlight gaps.",
-            "whoIsInvolved": "Completed by Local Programme Manager (LPM) with Leadership Team",
+            "title": "Maturity Assessment",
+            "summary": "Establish the baseline Lean capability. First-time assessments: LPM completes together with a Lean Core Team partner to learn the tool. Ongoing assessments: LPM completes directly with the Site Leadership Team as a self-assessment (not an audit).",
+            "whoIsInvolved": "1st Time: LPM + Lean Core Team Partner • Ongoing: LPM + Site Leadership Team",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-003",
             "toolId": "TOL-001",
             "toolLabel": "PM Maturity Hub (Assessment)",
             "outputArtifact": "Baseline picture of current Lean capability & gaps",
-            "targetView": { "type": "sop", "id": "SOP-001", "cta": "Open Stage 1 Guide →" }
+            "targetView": { "type": "sop", "id": "SOP-001", "cta": "Open Stage 1 Assessment Guide →" }
           },
           {
             "stageNumber": 2,
-            "title": "Understand the Gaps (Analyse)",
-            "summary": "Load your assessment into the Navigator analysis view to see strengths, gaps, and recommendations. Keep it focused—aim for 2 or 3 key capability actions at a time, not a huge list.",
+            "title": "Analysis",
+            "summary": "Understand strengths, gaps, and foundation gateway caps. Load your assessment into the analysis view and keep it focused—aim for 2 or 3 key capability actions at a time, not a huge list.",
             "whoIsInvolved": "LPM (Recommended: work through together with your Lean Core Team partner)",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-002",
             "toolId": "TOL-002",
             "toolLabel": "Navigator Analysis & Score Explainer",
-            "outputArtifact": "Focused view of 2–3 priority capability gaps to develop",
-            "targetView": { "type": "sop", "id": "SOP-002", "cta": "Open Stage 2 Guide →" }
+            "outputArtifact": "Focused view of 2–3 priority capability gaps & foundation gateway caps",
+            "targetView": { "type": "sop", "id": "SOP-002", "cta": "Open Stage 2 Analysis Guide →" }
           },
           {
             "stageNumber": 3,
-            "title": "Understand the Business Need (Voice of the Customer)",
-            "summary": "Engage leadership and stakeholders to understand their critical business challenges, pain points, measures of breakthrough success, and the problems they need Lean to help solve.",
+            "title": "Voice of the Customer (VOC)",
+            "summary": "Understand leadership business priorities and pain points. Engage leadership and stakeholders to capture their critical business challenges, measures of breakthrough success, and the problems they need Lean to solve.",
             "whoIsInvolved": "LPM + Site Leadership / Stakeholders (with Core Team support)",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-003",
             "toolId": "TOL-004",
             "toolLabel": "Navigator Toolkit (Voice of the Customer Input)",
-            "outputArtifact": "Clear business priorities & leadership pain points",
-            "targetView": { "type": "sop", "id": "SOP-003", "cta": "Open Stage 3 Guide →" }
+            "outputArtifact": "Clear business priorities & leadership pain points (VOC)",
+            "targetView": { "type": "sop", "id": "SOP-003", "cta": "Open Stage 3 VOC Guide →" }
           },
           {
             "stageNumber": 4,
-            "title": "Bring the Two Together (Navigator Workshop)",
-            "summary": "Bring your Lean capability insights (Stages 1–2) and business needs (Stage 3) into the leadership workshop to establish why we are using Lean, the current situation, and our strategic plan.",
+            "title": "Navigator Workshop",
+            "summary": "Bring Lean capability [Stages 1–2] and Business need [Stage 3] together in the leadership workshop to establish why we are using Lean, the current situation, and our strategic direction.",
             "whoIsInvolved": "Site Leadership Team + LPM + Lean Core Team Facilitator",
             "leadRoleId": "ROL-003",
             "supportRoleId": "ROL-002",
             "toolId": "TOL-005",
             "toolLabel": "Navigator Toolkit (Workshop Guide)",
-            "outputArtifact": "Aligned strategic direction connecting Lean to business problems",
+            "outputArtifact": "Aligned strategic direction connecting Lean capability to business problems",
             "targetView": { "type": "sop", "id": "SOP-004", "cta": "Open Stage 4 Workshop Guide →" }
           },
           {
             "stageNumber": 5,
-            "title": "Agree What to Focus On (Charter)",
-            "summary": "Translate workshop agreement into clear objectives, key results, and supporting initiatives—along with your local improvement team, sponsor, and coaching roles.",
+            "title": "Charter",
+            "summary": "Agree clear objectives, measurable key results, and 2–3 focus initiatives—along with your local improvement team, sponsor, and coaching roles.",
             "whoIsInvolved": "Site Sponsor + LPM + Lean Core Team",
             "leadRoleId": "ROL-003",
             "supportRoleId": "ROL-001",
             "toolId": "TOL-005",
             "toolLabel": "Navigator Toolkit (1-Page Charter)",
-            "outputArtifact": "Agreed 1-Page Navigator Charter",
-            "targetView": { "type": "template", "id": "TPL-001", "cta": "Open Stage 5 Charter Template →" }
+            "outputArtifact": "Agreed 1-Page Navigator Charter with 2–3 focus initiatives",
+            "targetView": { "type": "template", "id": "TPL-001", "cta": "Open Stage 5 Charter →" }
           },
           {
             "stageNumber": 6,
-            "title": "Convert Into Action (Roadmap & Action Plan)",
-            "summary": "Assign clear owners and target dates to your agreed initiatives. Present and manage your roadmap in the visual format that works best for your local organisation.",
+            "title": "Action Plan",
+            "summary": "Assign clear owners, target dates, and a local visual roadmap. Present and manage your improvement plan in the visual format that works best for your local organisation.",
             "whoIsInvolved": "Local Programme Manager + Action Owners + Core Team Coach",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-002",
             "toolId": "TOL-005",
             "toolLabel": "Navigator Action Log & Local Visual Roadmap",
-            "outputArtifact": "Active improvement plan with owners, dates, and coaching cadence",
+            "outputArtifact": "Active improvement plan with owners, target dates & local visual roadmap",
             "targetView": { "type": "sop", "id": "SOP-004", "cta": "Open Stage 6 Action Plan Guide →" }
           }
         ]
@@ -1484,39 +1484,39 @@ window.FALLBACK_GUIDES_DB = {
         {
           "id": "DEC-001",
           "kind": "prioritiser-funnel",
-          "navTitle": "Focus on 2–3 Key Actions Prioritiser",
-          "eyebrow": "Navigator Alignment Funnel • Connecting Capability + Business Need",
-          "badge": "Recommended Focus: 2–3 Key Actions (Max 5 Hard Cap)",
-          "title": "Select Your 2 to 3 Priority Focus Actions (Connecting Business Need + Lean Capability)",
-          "subtitle": "Keep your improvement plan focused and achievable. Aim for 2 to 3 key capability actions at a time (with a hard cap of 5) where foundational Lean gaps directly solve a critical business problem.",
+          "navTitle": "Focus Action Prioritiser (Target: 2 to 3 Key Actions)",
+          "eyebrow": "Preparing for Stage 4 (Navigator Workshop) • Combining Stages 1–2 + Stage 3",
+          "badge": "Recommended: 2–3 Key Actions • Max 5 Ceiling",
+          "title": "Focus Action Prioritiser (Target: 2 to 3 Key Actions)",
+          "subtitle": "Preparing for Stage 4 (Navigator Workshop): Combine your Capability Analysis (Stages 1–2) with your Voice of the Customer Business Needs (Stage 3) to select 2 to 3 key initiatives for your Charter (Stage 5).",
           "recommendedMin": 2,
           "recommendedMax": 3,
           "maxCapacity": 5,
           "targetTemplateId": "TPL-001",
-          "sendButtonLabel": "1-Page Navigator Charter",
-          "overLimitWarning": "⚠️ Over Hard Cap (>5): Tackling more than 5 actions at once dilutes leadership focus. Aim for 2 to 3 key actions (max 5).",
-          "withinLimitMessage": "✓ Recommended Focus: 2 to 3 Key Actions at a Time (Max 5 Hard Cap)",
+          "sendButtonLabel": "Stage 5 Charter",
+          "overLimitWarning": "⚠️ Over Max 5 Ceiling: Selecting more than 5 actions dilutes leadership focus. Aim for 2–3 key actions at a time (Max 5 ceiling).",
+          "withinLimitMessage": "✓ Ready for Stage 4 Workshop & Stage 5 Charter",
           "filter1": {
-            "badge": "Filter 1 • Capability Lift",
-            "title": "1. Does it unlock a foundational Lean Capability gap?",
-            "desc": "Prioritise foundational Gateway questions (★) that unlock the next maturity level across your site.",
-            "allLabel": "Show All Candidate Actions",
-            "flaggedLabel": "★ Only Foundational Capability Gaps",
-            "priorityBadgeText": "FOUNDATIONAL CAPABILITY GAP (★)"
+            "badge": "From Stages 1 & 2 • Capability & Gateways",
+            "title": "1. Foundation Capability Gaps (★ Gateways)",
+            "desc": "Identify which foundational Gateway capabilities (★) are currently holding back maturity and need strengthening.",
+            "allLabel": "Show All Capability Gaps",
+            "flaggedLabel": "★ Only Foundation Gateway Gaps",
+            "priorityBadgeText": "FOUNDATION GATEWAY GAP (★)"
           },
           "filter2": {
-            "badge": "Filter 2 • Business Impact (Voice of the Customer)",
-            "title": "2. Does it address a critical Business Need / Leader Pain Point?",
-            "desc": "Match candidate capability actions directly to the business problems leadership needs Lean to help solve.",
-            "allLabel": "All Business Needs",
-            "columnLabel": "Business Need / Leader Pain Point",
+            "badge": "From Stage 3 • Voice of the Customer",
+            "title": "2. Align with Business Need (VOC Priorities)",
+            "desc": "Match those capability gaps against the critical business problems your Site Leaders need to solve (Safety, On-Time Delivery, Quality / First-Time-Right, Cost / Productivity). Remember: the goal is to improve the business, and improving foundational Gateway capability unlocks that business performance.",
+            "allLabel": "All Business Needs (VOC)",
+            "columnLabel": "Business Need (VOC Priority)",
             "options": ["Safety", "On-Time Delivery", "Quality / First-Time-Right", "Cost / Productivity"]
           },
           "filter3": {
-            "badge": "Filter 3 • Effort vs. Impact Ratio",
-            "title": "3. What is the Effort vs. Impact ratio?",
-            "desc": "Start with Quick Wins and 1–2 Major Initiatives; defer or drop low-impact items.",
-            "allLabel": "All Ratios",
+            "badge": "For Stages 4 & 5 • Workshop & Charter",
+            "title": "3. Rank Impact vs. Effort (Select 2–3 Key Actions)",
+            "desc": "Filter by Quick Win (Low Effort / High Impact) vs Major Initiative.",
+            "allLabel": "All Impact / Effort Levels",
             "options": ["Quick Win", "Major Step", "Fill-In", "Hard Slog"]
           },
           "candidates": [

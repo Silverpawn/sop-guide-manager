@@ -22,9 +22,7 @@ const BANNED_ACRONYMS = ["CV", "SSO", "PR", "PPE", "LOTO", "KPI", "SLA"];
 const BANNED_OVERVIEW_PATTERNS = [
   { pattern: /\.csv\b/i, reason: "raw file extension '.csv' (use human outcome per DESIGN_GUIDE.md)" },
   { pattern: /\.json\b/i, reason: "raw file extension '.json' (use human outcome per DESIGN_GUIDE.md)" },
-  { pattern: /\bVOC\b/, reason: "banned overview jargon 'VOC' (spell out as Voice of the Customer / Business Need per DESIGN_GUIDE.md)" },
   { pattern: /\bPair Calibration\b/i, reason: "banned overview jargon 'Pair Calibration' (use plain English per DESIGN_GUIDE.md)" },
-  { pattern: /\bGateway Cap\b/i, reason: "banned overview jargon 'Gateway Cap' (use plain English per DESIGN_GUIDE.md)" },
   { pattern: /\b(?:MANDATORY|OPTIONAL)\b/, reason: "compliance stamp 'MANDATORY/OPTIONAL' (omit compliance stamps per DESIGN_GUIDE.md)" },
   { pattern: /Input\s*(?:->|→)\s*Output/i, reason: "tech handoff label 'Input -> Output' (use 'What you finish with' per DESIGN_GUIDE.md)" }
 ];
@@ -53,6 +51,28 @@ for (const plb of db.playbooks || []) {
   const stages = plb.journeyMap?.stages || [];
   if (stages.length === 0) {
     errors.push(`[${plb.id}] Journey Map must contain at least 1 stage.`);
+  }
+  if (plb.id === "PLB-001") {
+    const expectedOrder = [
+      "Maturity Assessment",
+      "Analysis",
+      "Voice of the Customer",
+      "Navigator Workshop",
+      "Charter",
+      "Action Plan"
+    ];
+    if (stages.length !== 6) {
+      errors.push(`[PLB-001] Must have exactly 6 stages in the Navigator Process (found ${stages.length}).`);
+    } else {
+      expectedOrder.forEach((expectedKey, idx) => {
+        const actualTitle = stages[idx]?.title || "";
+        if (!actualTitle.includes(expectedKey)) {
+          errors.push(
+            `[PLB-001 Stage ${idx + 1}] Sequence mismatch: expected "${expectedKey}" in title, found "${actualTitle}".`
+          );
+        }
+      });
+    }
   }
   for (const st of stages) {
     stats.journeyStagesChecked++;

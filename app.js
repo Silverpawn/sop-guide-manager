@@ -33,7 +33,7 @@ let state = {
   studioSavedSvgVisual: null
 };
 
-const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V5";
+const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V6";
 let DEFAULT_DB_SNAPSHOT = null;
 
 async function initApp() {
@@ -129,7 +129,7 @@ function renderPlaybookSwitcher() {
     .map(
       (p) =>
         `<option value="${escapeHtml(p.id)}" ${p.id === state.playbookId ? "selected" : ""}>
-          ${escapeHtml(p.code)} • ${escapeHtml(p.title)}
+          ${escapeHtml(p.title)}
         </option>`
     )
     .join("");
@@ -378,13 +378,14 @@ function renderStepIllustrationCard(step) {
     </svg>
     <div style="margin-top:8px;display:flex;justify-content:space-between;font-size:12px;color:#54646E;font-weight:600;">
       <span>${escapeHtml(visual.caption || "")}</span>
-      <span style="color:#007A7A;">${escapeHtml(step.toolId || "")}</span>
+      <span style="color:#007A7A;">${escapeHtml(DB.tools[step.toolId]?.name || "")}</span>
     </div>
   </div>`;
 }
 
 /**
  * Universal 4-Section Left Sidebar Driven 100% by Active Playbook JSON
+ * Direct routing to Step-by-Step Guides (zero intermediate PRC-xxx cover pages or raw database IDs)
  */
 function renderSidebar() {
   const sidebar = document.getElementById("leftSidebar");
@@ -392,7 +393,9 @@ function renderSidebar() {
   if (!plb || !sidebar) return;
 
   const q = state.searchQuery.toLowerCase().trim();
-  const processes = getActiveProcesses().filter((p) => !q || JSON.stringify(p).toLowerCase().includes(q));
+  const sops = (plb.sopIds || [])
+    .map((id) => DB.sops[id])
+    .filter((s) => s && (!q || JSON.stringify(s).toLowerCase().includes(q)));
   const tools = getActiveTools().filter((t) => !q || JSON.stringify(t).toLowerCase().includes(q));
   const decisionTools = plb.decisionTools || [];
   const templates = plb.templates || [];
@@ -408,37 +411,17 @@ function renderSidebar() {
 
       <div class="sidebar-divider"></div>
 
-      <!-- Universal Section 2 -->
+      <!-- Universal Section 2: Direct Step-by-Step Guides (No intermediate PRC-xxx cover pages) -->
       <div class="sidebar-section-label">2. Step-by-Step Guides</div>
-      ${processes
-        .map((proc) => {
-          const isExpanded = state.expandedProcessId === proc.id || q.length > 0 || processes.length === 1;
-          const isActive = state.view === "process" && state.selectedId === proc.id;
-          const childSops = (proc.stages || []).map((st) => DB.sops[st.sopId]).filter(Boolean);
-
+      ${sops
+        .map((s) => {
+          const isActive = state.view === "sop" && state.selectedId === s.id;
           return `
-            <div>
-              <button type="button" class="tree-item ${isActive ? "active" : ""} ${isExpanded ? "expanded" : ""}"
-                      onclick="selectProcess('${proc.id}')">
-                <span>${escapeHtml(proc.title)}</span>
-                <span class="tree-chevron">›</span>
-              </button>
-              ${
-                isExpanded
-                  ? `<div class="tree-children">
-                      ${childSops
-                        .map(
-                          (s) => `
-                        <button type="button" class="tree-child ${state.view === "sop" && state.selectedId === s.id ? "active" : ""}"
-                                onclick="selectSOP('${s.id}')">
-                          ${escapeHtml(s.title)}
-                        </button>`
-                        )
-                        .join("")}
-                    </div>`
-                  : ""
-              }
-            </div>
+            <button type="button" class="tree-item ${isActive ? "active" : ""}"
+                    onclick="selectSOP('${escapeHtml(s.id)}')">
+              <span>${escapeHtml(s.title)}</span>
+              <span class="tree-chevron">›</span>
+            </button>
           `;
         })
         .join("")}
@@ -778,63 +761,13 @@ function renderJourneyPage(plb, canvas) {
         </div>`
           : ""
       }
-
-      <!-- Process & Stage Accordions Driven by activePlaybook.processIds -->
-      ${processes
-        .map((proc) => {
-          const procStages = proc.stages || [];
-          return `
-          <section class="feature-split">
-            <div>
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-                <span class="muted-code-pill">${escapeHtml(proc.appName || "")} ${escapeHtml(proc.versionBadge || "")}</span>
-                <span class="muted-code-pill">${escapeHtml(proc.id)}</span>
-              </div>
-              <h2 class="section-h2">${escapeHtml(proc.title)}</h2>
-              <p class="section-lead">
-                ${escapeHtml(proc.userGoal)}
-              </p>
-              <button type="button" class="see-all-link" onclick="selectProcess('${escapeHtml(proc.id)}')">
-                View full process overview <span>→</span>
-              </button>
-
-              <div class="accordion-list">
-                ${procStages
-                  .map((st, idx) => {
-                    const sop = DB.sops[st.sopId];
-                    const isOpen = idx === 0;
-                    return `
-                    <div class="accordion-item ${isOpen ? "open" : ""}" onclick="toggleAccordion(this)">
-                      <button class="accordion-trigger" type="button">
-                        <span>Stage ${st.stageNumber}: ${escapeHtml(st.name)}</span>
-                        <span class="accordion-chevron">⌃</span>
-                      </button>
-                      <div class="accordion-body">
-                        <p>${escapeHtml(st.summary)} (${escapeHtml(sop?.estimatedTime || "")})</p>
-                        <button type="button" class="learn-more-link" onclick="event.stopPropagation(); selectSOP('${escapeHtml(
-                          st.sopId
-                        )}')">
-                          Open step-by-step guide <span>→</span>
-                        </button>
-                      </div>
-                    </div>`;
-                  })
-                  .join("")}
-              </div>
-            </div>
-
-            <div>
-              ${renderSEArchitecturalCard(proc)}
-            </div>
-          </section>`;
-        })
-        .join("")}
     </div>
   `;
 }
 
 /**
  * Tab 2: Universal SOP Page with Point-of-Use "Kit Bag" Resolved from SOP & Relations
+ * Direct routing with zero PRC-xxx middle cover pages or raw database IDs in the UI
  */
 function renderSOPPage(sop, plb, canvas) {
   if (!sop) return;
@@ -850,14 +783,7 @@ function renderSOPPage(sop, plb, canvas) {
       <div class="breadcrumb-row">
         <button type="button" class="breadcrumb-link" onclick="showOverview()">1. End-to-End Journey</button>
         <span>/</span>
-        ${
-          proc
-            ? `<button type="button" class="breadcrumb-link" onclick="selectProcess('${escapeHtml(proc.id)}')">${escapeHtml(
-                proc.title
-              )}</button><span>/</span>`
-            : ""
-        }
-        <span class="muted-code-pill">${escapeHtml(sop.id)}</span>
+        <span>${escapeHtml(sop.title)}</span>
       </div>
 
       <h1 class="page-title">${escapeHtml(sop.title)}</h1>
@@ -869,11 +795,11 @@ function renderSOPPage(sop, plb, canvas) {
           <div style="display:flex;align-items:center;gap:10px;">
             <span class="petrol-dot"></span>
             <strong style="font-size:14px;color:#1B1534;text-transform:uppercase;letter-spacing:0.04em;">
-              🧰 Kit Bag for This Task (${escapeHtml(sop.id)})
+              🧰 Kit Bag &amp; Setup for This Guide
             </strong>
           </div>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-            <span class="status-badge-purple">${escapeHtml(kb.mandatoryStatus || "MANDATORY")}</span>
+            <span class="status-badge-purple">${escapeHtml(kb.mandatoryStatus || "Step-by-Step Guide")}</span>
             <span class="time-pill">⏱ ${escapeHtml(sop.estimatedTime)}</span>
             ${
               linkedTemplate
@@ -1305,10 +1231,10 @@ function renderDecisionToolPage(dec, plb, canvas) {
         <div>
           <div class="capacity-meter">
             <span class="capacity-count-pill">
-              ${selectedCount} Selected ${
+              Selected Focus Initiatives: ${selectedCount} ${
       dec.recommendedMin && dec.recommendedMax
-        ? `(Target: ${dec.recommendedMin}–${dec.recommendedMax} • Max ${maxCap})`
-        : `/ ${maxCap} Capacity`
+        ? `(Recommended: ${dec.recommendedMin}–${dec.recommendedMax} key actions at a time • Max ${maxCap} ceiling)`
+        : `(Max ${maxCap} ceiling)`
     }
             </span>
             <strong style="font-size:15.5px;">
@@ -1320,7 +1246,7 @@ function renderDecisionToolPage(dec, plb, canvas) {
         <button type="button" class="header-btn"
                 style="background:${isOverLimit ? "#641E8C" : "#8A00E5"};padding:10px 18px;font-size:13.5px;font-weight:700;"
                 onclick="sendSelectedToTemplate('${escapeHtml(dec.id)}', '${escapeHtml(dec.targetTemplateId || "")}', ${maxCap})">
-          Send (${selectedCount}) to ${escapeHtml(dec.sendButtonLabel || "Template")} →
+          Send Selected Actions to ${escapeHtml(dec.sendButtonLabel || "Stage 5 Charter")} →
         </button>
       </div>
 
@@ -1655,7 +1581,6 @@ function renderToolPage(tool, plb, canvas) {
         <button type="button" class="breadcrumb-link" onclick="showOverview()">1. End-to-End Journey</button>
         <span>/</span>
         <span class="muted-code-pill">${escapeHtml(tool.suite || "")} ${escapeHtml(tool.versionBadge || "")}</span>
-        <span class="muted-code-pill">${escapeHtml(tool.id)}</span>
       </div>
 
       <h1 class="page-title">${escapeHtml(tool.name)}</h1>
@@ -1825,12 +1750,13 @@ function showOverview() {
 }
 
 function selectProcess(id) {
-  state.view = "process";
-  state.selectedId = id;
-  state.expandedProcessId = id;
-  setActiveTopTab("guides");
-  renderSidebar();
-  renderMain();
+  const proc = DB.processes?.[id];
+  const firstSopId = proc?.stages?.[0]?.sopId || getActivePlaybook()?.sopIds?.[0];
+  if (firstSopId) {
+    selectSOP(firstSopId);
+    return;
+  }
+  showOverview();
 }
 
 function selectSOP(id) {

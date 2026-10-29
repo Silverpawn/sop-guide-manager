@@ -16,13 +16,20 @@ Every screen must make immediate sense within **10 seconds** to a colleague who 
 2. **How do I use this? (No Compliance Stamps):**
    - Never stamp loud compliance badges like `MANDATORY` or `OPTIONAL` across stage cards.
    - Instead, show how inputs converge visually (e.g., *Input 1: Lean Capability* + *Input 2: Business Need* → *Combined in Stage 4: Navigator Workshop*).
-3. **Flexible N-Stage Journey Maps inside the 4 Universal Navigation Tabs:**
+3. **Flexible N-Stage Journey Maps inside the 4 Universal Navigation Tabs (With Locked 6-Stage Navigator Sequence):**
    - The application shell always uses the **4 Universal Top Navigation Tabs**:
-     1. **`1. End-to-End Journey`** *(Understand where we are & how every stage connects)*
-     2. **`2. Step-by-Step Guides`** *(How to do each task)*
-     3. **`3. Decision & Priority Tools`** *(Focus on 2–3 key actions at a time, max 5 hard cap)*
+     1. **`1. End-to-End Journey`** *(The single transparent process overview)*
+     2. **`2. Step-by-Step Guides`** *(Direct routing to step-by-step SOPs—never show intermediate `PRC-xxx` cover pages)*
+     3. **`3. Decision & Priority Tools`** *(Focus Action Prioritiser: 2–3 key actions at a time, max 5 ceiling)*
      4. **`4. Templates & Reference`** *(1-page charters, agendas, and reference lists)*
-   - Inside Tab 1 (`1. End-to-End Journey`), playbooks can have **as many stages as the real process requires** (e.g., **6 stages** for the Navigator Process, **4 stages** for Tiered Daily Management). Authors can dynamically `+ Add Stage`, `Reorder Stage`, and `Delete Stage` in the Playbook Builder.
+   - For Playbook 1 (`PLB-001`), the **6-Stage Navigator Process sequence** is strictly locked:
+     1. **Stage 1: Maturity Assessment** (*Establish the baseline Lean capability — 1st Time: LPM with Lean Core Team partner to learn the tool; Ongoing: LPM directly with Site Leadership Team as a self-assessment, not an audit*)
+     2. **Stage 2: Analysis** (*Understand strengths, gaps & foundation gateway caps*)
+     3. **Stage 3: Voice of the Customer (VOC)** (*Understand leadership business priorities & pain points*)
+     4. **Stage 4: Navigator Workshop** (*Bring Lean capability [1–2] + Business need [3] together*)
+     5. **Stage 5: Charter** (*Agree objectives, key results & 2–3 focus initiatives*)
+     6. **Stage 6: Action Plan** (*Assign owners, target dates & local visual roadmap*)
+   - **Zero Database IDs in the UI:** Keep internal IDs (`PRC-001`, `SOP-001`, `PLB-001`, `TOL-001`) strictly inside `data/guides.json` for `validate-guides.js`; never display them on user-facing breadcrumbs, Kit Bag headers, or sidebar menus.
 
 ---
 
