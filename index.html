@@ -90,22 +90,22 @@
           class="header-btn secondary"
           id="headerExportDropdownBtn"
           onclick="toggleExportGuideMenu(event)"
-          data-tooltip="Download the current Playbook (.leanguide.json) to share with colleagues, or pass new guides to Brian Johns for official inclusion."
+          data-tooltip="Download your active Playbook (.leanguide.json) to share with colleagues, or send your .leanguide.json / guides.json update to the App Owner (Brian Johns) for controlled server release."
           data-tooltip-pos="bottom"
         >
           ⬇ Export Guide ▾
         </button>
         <div class="export-dropdown-menu hidden" id="headerExportDropdownMenu" role="menu">
           <button type="button" class="export-dropdown-item" onclick="downloadCurrentPlaybookBundle(); closeExportGuideMenu();">
-            <strong>⬇ Download Current Playbook Only (.leanguide.json)</strong>
-            <span>Share via Teams/Email — or pass new guides to <b>Brian Johns</b> for official library inclusion</span>
+            <strong>⬇ Download Current Playbook Only (.leanguide.json) — Recommended for Authors</strong>
+            <span>Share with colleagues via Teams/Email — or send to the <b>App Owner (Brian Johns)</b> for official inclusion</span>
           </button>
           <button type="button" class="export-dropdown-item" onclick="downloadUpdatedGuidesJson(); closeExportGuideMenu();">
-            <strong>⬇ Download Master Library (guides.json)</strong>
-            <span>Complete multi-playbook library for server deployment (megblcntpvc72)</span>
+            <strong>⬇ Download Master Library (guides.json) — Controlled Release</strong>
+            <span>Server upload is a controlled step: send your <code>guides.json</code> update to the <b>App Owner (Brian Johns)</b> for server deployment</span>
           </button>
-          <div style="margin-top:4px;padding:8px 10px;background:#F0FDF9;border-top:1px solid #B8CEDB;border-radius:6px;font-size:11.5px;color:#1B1534;line-height:1.4;">
-            📩 <strong style="color:#007A7A;">Official Inclusion:</strong> New guides can be passed to <strong>Brian Johns</strong> for inclusion in the master Lean@GS library.
+          <div style="margin-top:4px;padding:8px 10px;background:#F0FDF9;border-top:1px solid #B8CEDB;border-radius:6px;font-size:11.5px;color:#1B1534;line-height:1.45;">
+            🔒 <strong style="color:#007A7A;">Controlled Server Release:</strong> Server upload is a controlled governance step (not something most authors do). Send your exported <code>.leanguide.json</code> or <code>guides.json</code> update to the <strong>App Owner (Brian Johns)</strong> for official server deployment.
           </div>
         </div>
       </div>
@@ -167,8 +167,8 @@
           <p>Click <strong>✦ Open Authoring Studio</strong> in the top header to create a new Playbook visually, paste screenshots with <kbd>Ctrl+V</kbd>, or use <strong>Tab 3 (✨ AI Playbook Generator)</strong> to turn rough notes into a complete guide in 60 seconds.</p>
         </div>
         <div class="first-time-card highlight">
-          <div class="first-time-step-num">4. SHARE OR PASS TO BRIAN JOHNS</div>
-          <p>Click <strong>⬇ Export Guide ▾ → Download Current Playbook (.leanguide.json)</strong> to share with colleagues. <strong>New guides can be passed to Brian Johns for inclusion</strong> in the official corporate Lean@GS library.</p>
+          <div class="first-time-step-num">4. CONTROLLED SERVER RELEASE (APP OWNER)</div>
+          <p>Download <strong>.leanguide.json</strong> to share with colleagues. <strong>Server upload is a controlled step</strong>—send your <code>.leanguide.json</code> or <code>guides.json</code> update to the <strong>App Owner (Brian Johns)</strong> for official server release.</p>
         </div>
       </div>
     </div>
@@ -205,10 +205,10 @@
           <button type="button" class="header-btn secondary" onclick="triggerGlobalGuideUpload()" data-tooltip="Upload and merge a colleague's .leanguide.json or master guides.json file." data-tooltip-pos="bottom">
             ⬆ Upload / Merge (.json)
           </button>
-          <button type="button" class="header-btn" style="background:#009999;" onclick="downloadCurrentPlaybookBundle()" data-tooltip="Download only the active Playbook (.leanguide.json) to share via Teams or pass to Brian Johns for inclusion." data-tooltip-pos="bottom">
+          <button type="button" class="header-btn" style="background:#009999;" onclick="downloadCurrentPlaybookBundle()" data-tooltip="Recommended for Authors: Download only the active Playbook (.leanguide.json) to share with colleagues or send to the App Owner (Brian Johns)." data-tooltip-pos="bottom">
             ⬇ Download Current Playbook (.leanguide.json)
           </button>
-          <button type="button" class="header-btn" style="background:#8A00E5;" onclick="downloadUpdatedGuidesJson()" data-tooltip="Download complete master guides.json for server deployment or pass to Brian Johns." data-tooltip-pos="bottom">
+          <button type="button" class="header-btn" style="background:#8A00E5;" onclick="downloadUpdatedGuidesJson()" data-tooltip="Controlled Server Release: Server upload is a controlled step. Send your guides.json update to the App Owner (Brian Johns) for official deployment." data-tooltip-pos="bottom">
             ⬇ Download Master Library (guides.json)
           </button>
           <button type="button" class="header-btn secondary" id="toggleStudioFullscreenBtn" onclick="toggleStudioFullscreen()" data-tooltip="Expand the Authoring Studio to full screen (100vw x 100vh)." data-tooltip-pos="bottom">
@@ -555,7 +555,7 @@
                 </div>
                 <div id="liveAuditReport" style="font-size:13px;color:#54646E;"></div>
                 <div style="margin-top:8px;padding-top:8px;border-top:1px dashed #B8CEDB;font-size:12px;color:#1B1534;">
-                  📩 <strong style="color:#007A7A;">Ready to publish for everyone?</strong> Once your Playbook is complete, click <strong>⬇ Download Current Playbook (.leanguide.json)</strong> in the top bar—<strong>new guides can be passed to Brian Johns for inclusion</strong> in the official Lean@GS library.
+                  🔒 <strong style="color:#007A7A;">Controlled Server Release (App Owner):</strong> Server upload is a controlled governance step that most authors do not perform directly. Export your <code>.leanguide.json</code> or <code>guides.json</code> update and <strong>send it to the App Owner (Brian Johns)</strong> for validation and official server inclusion.
                 </div>
               </div>
             </div>
@@ -633,11 +633,11 @@
               <li><strong style="color:#1B1534;">Post-Upload UI State Rule:</strong> When documenting tools that require a data file to reveal their workspace (such as <code>Navigator Toolkit → Analysis Report</code>), always load a valid sample <code>.json</code> assessment file into the app before capturing screenshots and writing steps so the post-upload action selection controls are visible.</li>
               <li><strong style="color:#1B1534;">Mandatory Assessment Header Rule (<code>Org</code> Code &amp; <code>Date of Assessment</code>):</strong> In the Maturity Assessment header (User Data Plate), getting the exact <strong>Org Code</strong> (<code>Org</code>) and <strong>Date of Assessment</strong> right before scoring or exporting is critical—they automatically generate the exported filename (<code>&lt;OrgCode&gt;_&lt;YYYY-MM-DD&gt;_Lean_Assessment.json</code> / <code>.csv</code> / <code>.pdf</code>), index the submission for the <strong>GS Dashboard</strong> and <code>'600 Maturity Submissions'</code> folder, and populate every downstream Analysis Report and Charter header.</li>
               <li><strong style="color:#1B1534;">Prominent Authoring &amp; File Management UI (Never Hide in Footer):</strong> The <code>Playbook &amp; SOP Authoring Studio</code> and <code>Upload / Download Guide</code> controls are core platform features and must NEVER be styled as muted grey footer links. Display a prominent <code>✦ Open Authoring Studio</code> button and <code>⬆ Upload / ⬇ Export Guide</code> controls in the Top Header Bar AND as a high-contrast <code>✦ BUILD OR SHARE A GUIDE</code> card in the left sidebar.</li>
-              <li><strong style="color:#1B1534;">3-Tier Static-Host Storage &amp; Sharing Architecture:</strong> Tier 1 (Browser Draft): Automatic <code>localStorage</code> persistence with a visible <code>Local Draft Active</code> badge. Tier 2 (Single-Playbook Share — <code>.leanguide.json</code>): Export just the active Playbook (plus linked SOPs, Tools, Roles, and screenshots) as <code>&lt;Playbook-Slug&gt;.leanguide.json</code>, and Upload &amp; Merge a colleague's <code>.leanguide.json</code> without wiping out existing playbooks. Tier 3 (Master Release — <code>guides.json</code>): Download or upload the complete multi-playbook master <code>guides.json</code> for server deployment to <code>megblcntpvc72</code>.</li>
+              <li><strong style="color:#1B1534;">3-Tier Static-Host Storage &amp; Sharing Architecture:</strong> Tier 1 (Browser Draft — All Authors): Automatic <code>localStorage</code> persistence with a visible <code>Local Draft Active</code> badge. Tier 2 (Single-Playbook Share — <code>.leanguide.json</code> — All Authors): Export just the active Playbook (plus linked SOPs, Tools, Roles, and screenshots) as <code>&lt;Playbook-Slug&gt;.leanguide.json</code> to share with colleagues or send to the App Owner. Tier 3 (Controlled Master Release — <code>guides.json</code> — App Owner Only): Server release and upload is a controlled governance step; authors send their <code>.leanguide.json</code> or <code>guides.json</code> update to the <strong>App Owner (Brian Johns)</strong> for validation and server deployment to <code>megblcntpvc72</code>.</li>
               <li><strong style="color:#1B1534;">Full-Viewport Authoring Studio (<code>96vw x 94vh</code>):</strong> The Authoring Studio opens at <code>width: 96vw; max-width: 1840px; height: 94vh;</code> with independently scrolling left/right split panes and a <code>⛶ Fullscreen (100vw x 100vh)</code> toggle button in the top-right header.</li>
               <li><strong style="color:#1B1534;">Mandatory AI Script-to-JSON Generator &amp; Live Importer (Tab 3):</strong> Tab 3 (<code>✨ AI Playbook Generator &amp; JSON Importer</code>) provides a 3-step self-service workflow: (1) Enter topic + target roles/tool + paste rough notes and click <code>📋 Copy Ready-to-Use AI Prompt</code>; (2) Paste the AI's JSON output into the right-hand importer (auto-stripping <code>```json</code> fences); (3) Click <code>✓ Validate &amp; Import Playbook into Studio</code> to run live Poka-Yoke checks, merge the new Playbook into the active library, and open it directly in Tab 1/Tab 2 for WYSIWYG editing.</li>
               <li><strong style="color:#1B1534;">First-Time Colleague Tooltips &amp; Quick-Start Guide:</strong> Every primary navigation and authoring control displays a styled hover tooltip (<code>data-tooltip</code>), paired with a <code>👋 First Time Here?</code> Quick-Start banner in the top header.</li>
-              <li><strong style="color:#1B1534;">Official Master Library Inclusion Rule (Pass New Guides to Brian Johns):</strong> Once an author finishes creating or updating a Playbook and downloads their <code>.leanguide.json</code> or <code>guides.json</code> file, <strong>new guides can be passed to Brian Johns for inclusion</strong> in the official Lean@GS corporate library on the intranet server.</li>
+              <li><strong style="color:#1B1534;">Controlled Server Release &amp; App Owner Governance Rule (Send Updates to Brian Johns):</strong> Server release and upload is a controlled step and is not something most authors do themselves. Once an author finishes creating or updating a Playbook, <strong>the exported <code>.leanguide.json</code> or <code>guides.json</code> update is sent to the App Owner (Brian Johns)</strong> for validation and controlled deployment to the corporate server.</li>
               <li><strong style="color:#1B1534;">1-to-1 Stage-to-SOP Mapping Rule (Never Bundle Multiple Journey Stages Into One Combined SOP Page):</strong> Every stage on a Playbook's Journey Map must have its own dedicated, standalone Step-by-Step Guide page in <code>2. Step-by-Step Guides</code>. For <code>PLB-001</code> (<code>Lean@GS Navigator Toolkit Guide</code>), there must be <strong>6 individual Step-by-Step Guide pages</strong> (<code>SOP-001</code> through <code>SOP-006</code>) matching Stages 1 to 6 one-for-one.</li>
             </ul>
           </div>

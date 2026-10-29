@@ -37,7 +37,7 @@ let state = {
   matrixMode: "full" // "full" | "compact"
 };
 
-const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V23";
+const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V24";
 let DEFAULT_DB_SNAPSHOT = null;
 
 async function initApp() {
@@ -615,15 +615,15 @@ function renderSidebarAuthoringCard(plb) {
         ✦ Open WYSIWYG Authoring Studio
       </button>
       <div class="sidebar-authoring-btn-row">
-        <button type="button" class="sidebar-authoring-sec-btn" onclick="triggerGlobalGuideUpload()" data-tooltip="Upload and merge a colleague's .leanguide.json or master guides.json file into your workspace.">
+        <button type="button" class="sidebar-authoring-sec-btn" onclick="triggerGlobalGuideUpload()" data-tooltip="Upload and merge a colleague's .leanguide.json or master guides.json file into your browser workspace.">
           ⬆ Upload / Merge .json
         </button>
-        <button type="button" class="sidebar-authoring-sec-btn" onclick="downloadCurrentPlaybookBundle()" data-tooltip="Download the active Playbook (.leanguide.json) to share with colleagues or pass to Brian Johns for official inclusion.">
+        <button type="button" class="sidebar-authoring-sec-btn" onclick="downloadCurrentPlaybookBundle()" data-tooltip="Download the active Playbook (.leanguide.json) to share with colleagues or send to the App Owner (Brian Johns) for controlled server release.">
           ⬇ Export .json
         </button>
       </div>
       <div class="sidebar-authoring-contact-note">
-        📩 <strong style="color:#5EEAD4;">Official Inclusion:</strong> New guides can be passed to <strong>Brian Johns</strong> for inclusion.
+        🔒 <strong style="color:#5EEAD4;">Controlled Server Release:</strong> Server upload is a controlled step—send your <code>.leanguide.json</code> or <code>guides.json</code> update to the <strong>App Owner (Brian Johns)</strong>.
       </div>
       ${
         plb && plb.id !== "PLB-AUTHOR"
@@ -4711,7 +4711,7 @@ function downloadCurrentPlaybookBundle(optPlaybookId) {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  showGuideToast(`⬇ Downloaded Single Playbook '${plb.title}' (${fileName})`);
+  showGuideToast(`⬇ Downloaded '${plb.title}' (${fileName}) — Share with colleagues or send to App Owner (Brian Johns) for server inclusion.`);
 }
 
 function downloadUpdatedGuidesJson() {
@@ -4725,7 +4725,7 @@ function downloadUpdatedGuidesJson() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  showGuideToast("⬇ Downloaded Complete Master Library (guides.json)");
+  showGuideToast("⬇ Downloaded Master Library (guides.json) — Controlled release: send update to App Owner (Brian Johns) for server deployment.");
 }
 
 function handleGlobalGuideFileUpload(event) {

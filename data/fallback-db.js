@@ -1104,12 +1104,12 @@ window.FALLBACK_GUIDES_DB = {
         {
           "button": "⬇ Download Current Playbook Only (.leanguide.json)",
           "where": "Top Header '⬇ Export Guide ▾' Dropdown & Studio Modal Top Bar (Petrol Button)",
-          "whatItDoes": "Tier 2 Export: Downloads ONLY the currently active Playbook (plus its linked SOPs, Tools, Roles, and embedded Base64 screenshots) as a standalone <Playbook-Slug>.leanguide.json file for sharing via Teams, Email, or SharePoint."
+          "whatItDoes": "Tier 2 Export (Standard for All Authors): Downloads ONLY the currently active Playbook (plus its linked SOPs, Tools, Roles, and embedded Base64 screenshots) as a standalone <Playbook-Slug>.leanguide.json file. Share with colleagues via Teams/Email or send to the App Owner (Brian Johns) for official inclusion."
         },
         {
           "button": "⬇ Download Master Library (guides.json)",
           "where": "Top Header '⬇ Export Guide ▾' Dropdown & Studio Modal Top Bar (Bright Purple Button)",
-          "whatItDoes": "Tier 3 Export: Downloads the complete multi-playbook master guides.json database for official repository deployment to the corporate server (megblcntpvc72)."
+          "whatItDoes": "Tier 3 Export (Controlled Server Release — App Owner): Downloads the complete multi-playbook master guides.json database. Server upload is a controlled step that most authors do not perform—send your guides.json or .leanguide.json update to the App Owner (Brian Johns) for official server deployment."
         },
         {
           "button": "⬆ Upload Guide (.json)",
@@ -1400,7 +1400,7 @@ window.FALLBACK_GUIDES_DB = {
       "category": "Guide Authoring & Publishing Masterclass",
       "userGoal": "Build a crystal-clear, 10-second Playbook in the WYSIWYG Authoring Studio, paste real screenshots with highlight boxes, validate against the 5 Naive Colleague checks, and share via .leanguide.json.",
       "trigger": "New process, software workflow, or complex Word SOP needs to be turned into a practical, step-by-step user guide.",
-      "finalOutcome": "Portable <Playbook-Slug>.leanguide.json file shared with colleagues or merged into the corporate master guides.json release.",
+      "finalOutcome": "Portable <Playbook-Slug>.leanguide.json file shared with colleagues, or .leanguide.json / guides.json update sent to the App Owner (Brian Johns) for controlled server deployment.",
       "valueAddCoaching": "Never write a guide that reads like a software manual or compliance audit. Start with the real-world job, keep every step action under 20 words, and show the real screen.",
       "raci": {
         "responsible": "ROL-001",
@@ -1433,12 +1433,12 @@ window.FALLBACK_GUIDES_DB = {
         },
         {
           "stageNumber": 3,
-          "name": "Stage 5: Save, Download, Upload & Share Playbook Files (.leanguide.json & guides.json)",
+          "name": "Stage 5: Save, Share (.leanguide.json) & Send Updates to App Owner for Controlled Server Release",
           "sopId": "SOP-AUTH-3",
           "toolIds": [
             "TOL-AUTH-1"
           ],
-          "summary": "Use the 3-tier storage bar to auto-save in your browser, export a single .leanguide.json file to share with colleagues, or publish the master guides.json."
+          "summary": "Auto-save in your browser (Tier 1), export a single .leanguide.json file to share with colleagues (Tier 2), and send your .leanguide.json or guides.json update to the App Owner (Brian Johns) for controlled server release (Tier 3)."
         }
       ]
     }
@@ -2748,7 +2748,7 @@ window.FALLBACK_GUIDES_DB = {
     },
     "SOP-AUTH-3": {
       "id": "SOP-AUTH-3",
-      "title": "Stage 5: Save, Download, Upload & Share Playbook Files (.json)",
+      "title": "Stage 5: Save, Share (.leanguide.json) & Send Updates to App Owner",
       "processId": "PRC-AUTH",
       "roleId": "ROL-001",
       "toolIds": [
@@ -2757,16 +2757,16 @@ window.FALLBACK_GUIDES_DB = {
       "estimatedTime": "5 mins",
       "stationLocation": "Top Header Bar & Left Sidebar ('✦ BUILD OR SHARE A GUIDE' Card)",
       "kitBag": {
-        "leadRole": "Guide Author & Colleagues",
-        "supportRole": "Repository Publisher: Lean Core Team",
-        "mandatoryStatus": "Stage 5 • 3-Tier Storage & Sharing",
+        "leadRole": "Guide Author (Tier 1 & Tier 2) & Colleagues",
+        "supportRole": "Controlled Server Release (Tier 3): App Owner (Brian Johns)",
+        "mandatoryStatus": "Stage 5 • 3-Tier Storage & Controlled Release",
         "inputNeeded": "Completed Playbook Draft in Browser",
-        "outputProduced": "Shared <Playbook>.leanguide.json File or Published Master guides.json"
+        "outputProduced": "Shared <Playbook>.leanguide.json File or Update Sent to App Owner (Brian Johns)"
       },
-      "userGoal": "Understand how the 3-tier storage architecture works so you can save drafts in your browser, share a single Playbook (.leanguide.json) with colleagues via Teams/SharePoint, merge a colleague's Playbook, or publish the master guides.json library.",
+      "userGoal": "Save drafts automatically in your browser (Tier 1), export a single Playbook (.leanguide.json) to share with colleagues (Tier 2), and send your .leanguide.json or guides.json update to the App Owner (Brian Johns) for controlled server release (Tier 3).",
       "gettingStarted": [
         "Check the status badge in the top header bar or left sidebar ('● Official Server Library' vs. '● Local Draft Active').",
-        "Decide whether you are sharing a single Playbook with colleagues (Tier 2: .leanguide.json) or deploying the entire multi-playbook library to the server (Tier 3: guides.json)."
+        "Remember: Server release and repository upload (Tier 3) is a controlled governance step and is NOT something most authors do themselves. Authors simply export their .leanguide.json (or updated guides.json) file and send it to the App Owner (Brian Johns) for official server deployment."
       ],
       "steps": [
         {
@@ -2811,10 +2811,10 @@ window.FALLBACK_GUIDES_DB = {
         },
         {
           "stepNumber": 3,
-          "action": "Click '⬆ Upload Guide (.json)' to merge a colleague's Playbook or pass to Brian Johns.",
-          "detail": "Uploading a .leanguide.json file merges that Playbook directly into your Playbook Switcher; new guides can be passed to Brian Johns for inclusion in the official server library.",
+          "action": "Send your exported .leanguide.json or guides.json update to the App Owner (Brian Johns).",
+          "detail": "Colleagues can click '⬆ Upload Guide (.json)' to preview your Playbook in their browser right away. Because official server deployment is a controlled step that most authors do not run themselves, send your exported .leanguide.json or guides.json update to the App Owner (Brian Johns) for validation and server release.",
           "toolId": "TOL-AUTH-1",
-          "coachingTip": "When a new Playbook is ready to be included in the official library for everyone, pass the exported .leanguide.json file to Brian Johns for inclusion.",
+          "coachingTip": "Server upload is a controlled governance step—authors never need Git or server access. Simply send your exported .leanguide.json or guides.json file to Brian Johns (App Owner) to publish it for everyone.",
           "visual": {
             "type": "image",
             "imageSrc": "assets/screenshots/studio-header-sidebar.png",
@@ -5126,7 +5126,7 @@ window.FALLBACK_GUIDES_DB = {
           "combined": {
             "badge": "COMBINED IN THE WYSIWYG AUTHORING STUDIO",
             "title": "Validated, Portable .leanguide.json Playbook",
-            "desc": "Produces a validated, portable .leanguide.json Playbook ready to share via Teams/SharePoint or publish to megblcntpvc72."
+            "desc": "Produces a validated .leanguide.json Playbook ready to share with colleagues or send to the App Owner (Brian Johns) for controlled server deployment."
           }
         },
         "stages": [
@@ -5172,11 +5172,11 @@ window.FALLBACK_GUIDES_DB = {
           },
           {
             "stageNumber": 5,
-            "title": "Stage 5: Validate, Export & Pass to Brian Johns for Inclusion (Publish)",
-            "summary": "Check that all green Poka-Yoke ticks pass, click 'Download Current Playbook Only' to share via Teams or SharePoint, and pass new guides to Brian Johns for inclusion in the official corporate library.",
-            "whoInvolved": "Guide Author + Brian Johns (Official Library Inclusion)",
+            "title": "Stage 5: Export, Share & Send Update to App Owner (Controlled Release)",
+            "summary": "Download your active Playbook to share with colleagues via Teams. Because server deployment is a controlled step that most authors do not perform, send your update to the App Owner (Brian Johns) for official server release.",
+            "whoInvolved": "Guide Author (Export) → App Owner: Brian Johns (Controlled Server Release)",
             "toolUsed": "Top Header → Export / Upload Guide & validate-guides.js",
-            "output": "Portable single-playbook file or live published corporate playbook",
+            "output": "Portable single-playbook file shared with colleagues or sent to App Owner for controlled server release",
             "ctaLabel": "Open Stage 5 Storage & Sharing Guide →",
             "sopId": "SOP-AUTH-3"
           }
@@ -5196,7 +5196,7 @@ window.FALLBACK_GUIDES_DB = {
           },
           {
             "term": "3. 3-Tier Portable JSON Storage",
-            "desc": "Save drafts in browser localStorage (Tier 1), share single playbooks as .leanguide.json (Tier 2), and deploy master guides.json (Tier 3)."
+            "desc": "Save drafts in browser localStorage (Tier 1), share single playbooks as .leanguide.json (Tier 2), and send .leanguide.json or guides.json updates to the App Owner (Brian Johns) for controlled server release (Tier 3)."
           }
         ]
       },
@@ -5297,31 +5297,31 @@ window.FALLBACK_GUIDES_DB = {
           "eyebrow": "STATIC-HOST STORAGE ARCHITECTURE & STUDIO REFERENCE",
           "badge": "3-Tier JSON Workflow",
           "title": "3-Tier Storage Architecture Diagram, AI Prompt Cheat Sheet & Studio Button Reference",
-          "subtitle": "How browser drafts, single-playbook peer sharing (.leanguide.json), and official server deployments (guides.json) work together—plus every button inside the WYSIWYG Authoring Studio.",
+          "subtitle": "How browser drafts (Tier 1), single-playbook peer sharing (.leanguide.json — Tier 2), and controlled server releases managed by the App Owner (guides.json — Tier 3) work together.",
           "storageTiers": [
             {
-              "tierBadge": "TIER 1 • BROWSER DRAFT",
+              "tierBadge": "TIER 1 • BROWSER DRAFT (ALL AUTHORS)",
               "badgeBg": "#007A7A",
               "borderColor": "#009999",
               "title": "Automatic Browser Draft (localStorage)",
               "desc": "Every time you click 'Save Playbook' or 'Save & Apply to Live Guide' in the Authoring Studio, your changes are saved instantly in your browser's local storage. A '● Local Draft Active' badge appears in the top header so you never lose work if you refresh.",
-              "fileSpec": "localStorage['SE_LEAN_GS_GUIDES_DB_V20'] (Instant & Private to Your Browser)"
+              "fileSpec": "localStorage['SE_LEAN_GS_GUIDES_DB_V24'] (Instant & Private to Your Browser)"
             },
             {
-              "tierBadge": "TIER 2 • SINGLE-PLAYBOOK SHARE",
+              "tierBadge": "TIER 2 • SINGLE-PLAYBOOK SHARE (ALL AUTHORS)",
               "badgeBg": "#4D217A",
               "borderColor": "#8A00E5",
               "title": "Single-Playbook Bundle (.leanguide.json)",
-              "desc": "Click '⬇ Export Guide ▾ → Download Current Playbook Only (.leanguide.json)' to package just the active Playbook (plus its SOPs, Tools, Roles, and embedded Base64 screenshots) into a single file. Send it via Teams or Email—and pass new guides to Brian Johns for inclusion in the official library.",
-              "fileSpec": "<Playbook-Slug>.leanguide.json (Share with Colleagues or Pass to Brian Johns)"
+              "desc": "Click '⬇ Export Guide ▾ → Download Current Playbook Only (.leanguide.json)' to package just the active Playbook (plus its SOPs, Tools, Roles, and embedded Base64 screenshots) into a single file. Share it with colleagues via Teams/Email or send it to the App Owner (Brian Johns) for official inclusion.",
+              "fileSpec": "<Playbook-Slug>.leanguide.json (Share with Colleagues or Send to App Owner)"
             },
             {
-              "tierBadge": "TIER 3 • MASTER SERVER RELEASE",
+              "tierBadge": "TIER 3 • CONTROLLED SERVER RELEASE (APP OWNER ONLY)",
               "badgeBg": "#1B1534",
               "borderColor": "#1B1534",
-              "title": "Master Multi-Playbook Library (guides.json)",
-              "desc": "New guides can be passed to Brian Johns for inclusion in the official corporate library for all users. Once validated with 'node scripts/validate-guides.js', 'data/guides.json' is deployed to the server repository.",
-              "fileSpec": "Pass to Brian Johns → data/guides.json & data/fallback-db.js (megblcntpvc72)"
+              "title": "Controlled Master Library Release (guides.json — Sent to App Owner)",
+              "desc": "Server release and repository upload is a controlled governance step and is NOT something most authors do themselves. Send your exported .leanguide.json or guides.json update to the App Owner (Brian Johns), who validates ('node scripts/validate-guides.js') and deploys 'data/guides.json' to the corporate server.",
+              "fileSpec": "Send Update to App Owner (Brian Johns) → Controlled Server Release (megblcntpvc72)"
             }
           ],
           "aiCheatSheet": [
@@ -5353,9 +5353,9 @@ window.FALLBACK_GUIDES_DB = {
               "guidance": "Packages only the active Playbook, its SOPs, Tools, Roles, and Base64 screenshots so colleagues can click 'Upload Guide (.json)' to merge it."
             },
             {
-              "section": "Tier 3 • Master Release",
-              "appField": "Download Master Library (guides.json)",
-              "guidance": "Exports the complete multi-playbook master database for validation with validate-guides.js and deployment to megblcntpvc72."
+              "section": "Tier 3 • Controlled Server Release (App Owner Only)",
+              "appField": "Send .leanguide.json / guides.json Update to App Owner (Brian Johns)",
+              "guidance": "Server release and upload is a controlled step that most authors do not run. Send your exported .leanguide.json or guides.json update to the App Owner (Brian Johns) for validation and deployment to megblcntpvc72."
             }
           ],
           "exampleRows": [
@@ -5379,12 +5379,12 @@ window.FALLBACK_GUIDES_DB = {
             },
             {
               "code": "TIER-3",
-              "action": "Master Multi-Playbook Release (guides.json)",
-              "note": "Validated with node scripts/validate-guides.js and committed to server",
-              "lift": "Official Server Release",
+              "action": "Controlled Master Library Release (guides.json — Sent to App Owner)",
+              "note": "Controlled step: Authors send .leanguide.json or guides.json update to App Owner for validation & server upload",
+              "lift": "Controlled Server Release",
               "tag": "Production",
               "due": "Release Gate",
-              "owner": "Lean Core Team"
+              "owner": "App Owner (Brian Johns)"
             }
           ],
           "buttonsReference": [
@@ -5426,12 +5426,12 @@ window.FALLBACK_GUIDES_DB = {
             {
               "button": "⬇ Download Current Playbook Only (.leanguide.json)",
               "where": "Top Header '⬇ Export Guide ▾' Dropdown & Studio Modal Top Bar (Petrol Button)",
-              "whatItDoes": "Tier 2 Export: Downloads ONLY the currently active Playbook (plus its linked SOPs, Tools, Roles, and embedded Base64 screenshots) as a standalone <Playbook-Slug>.leanguide.json file for sharing via Teams, Email, or SharePoint."
+              "whatItDoes": "Tier 2 Export (Recommended for Authors): Downloads ONLY the currently active Playbook (plus its linked SOPs, Tools, Roles, and embedded Base64 screenshots) as a standalone <Playbook-Slug>.leanguide.json file to share with colleagues or send to the App Owner (Brian Johns)."
             },
             {
               "button": "⬇ Download Master Library (guides.json)",
               "where": "Top Header '⬇ Export Guide ▾' Dropdown & Studio Modal Top Bar (Bright Purple Button)",
-              "whatItDoes": "Tier 3 Export: Downloads the complete multi-playbook master guides.json database for official repository deployment to the corporate server (megblcntpvc72)."
+              "whatItDoes": "Tier 3 Export (Controlled Release): Downloads the complete multi-playbook master guides.json database. Because server upload is a controlled step, send your guides.json update to the App Owner (Brian Johns) for official deployment."
             },
             {
               "button": "⬆ Upload Guide (.json)",

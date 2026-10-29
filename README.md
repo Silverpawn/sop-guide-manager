@@ -78,10 +78,11 @@ Accessible directly from the **`✦ Authoring Studio`**, **`⬆ Upload Guide`**,
 - **Tab 4 (`Design & Style Guide`):** In-app view of [`DESIGN_GUIDE.md`](DESIGN_GUIDE.md) and the Plain-English Red Pen Lexicon.
 
 ### 3-Tier Static-Host Storage & Sharing Workflow (M365 Ready)
-1. **Tier 1 — Instant Browser Draft (`localStorage`):** All edits and pasted screenshots auto-save locally in the browser (`SE_LEAN_GS_GUIDES_DB_V23`) with a live header indicator (`Local Draft Active`).
-2. **Tier 2 — Single-Playbook Sharing (`.leanguide.json`):** Authors click **`⬇ Download Current Playbook Only (.leanguide.json)`** to share a single self-contained playbook file via Teams, Email, or SharePoint. Colleagues click **`⬆ Upload Guide (.json)`** to merge it into their browser library without overwriting other playbooks.
-3. **Tier 3 — Master Server Release ([`data/guides.json`](data/guides.json)):** Publishers click **`⬇ Download Master Library (guides.json)`**, replace `/data/guides.json` in the repository, run `node scripts/validate-guides.js`, and deploy to the corporate server (`megblcntpvc72`).
-   - 📩 **Official Master Library Inclusion:** **New guides can be passed to Brian Johns for inclusion** in the official Lean@GS corporate library.
+1. **Tier 1 — Instant Browser Draft (`localStorage` — All Authors):** All edits and pasted screenshots auto-save locally in the browser (`SE_LEAN_GS_GUIDES_DB_V24`) with a live header indicator (`Local Draft Active`).
+2. **Tier 2 — Single-Playbook Sharing (`.leanguide.json` — All Authors):** Authors click **`⬇ Download Current Playbook Only (.leanguide.json)`** to share a single self-contained playbook file with colleagues via Teams, Email, or SharePoint, or send it to the App Owner for official inclusion. Colleagues click **`⬆ Upload Guide (.json)`** to merge it into their browser library without overwriting other playbooks.
+3. **Tier 3 — Controlled Master Server Release ([`data/guides.json`](data/guides.json) — App Owner Only):**
+   - 🔒 **Controlled Governance Step:** Server release and repository upload is a **controlled step** and is **not** something most authors will do themselves.
+   - When a new guide or update is ready for official publication across the business, **authors send their exported `.leanguide.json` or `guides.json` update to the App Owner (Brian Johns)**, who validates the file (`node scripts/validate-guides.js`), updates [`data/guides.json`](data/guides.json) and [`data/fallback-db.js`](data/fallback-db.js), and deploys the controlled release to the corporate server (`megblcntpvc72`).
 
 ---
 
