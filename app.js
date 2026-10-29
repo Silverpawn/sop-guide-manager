@@ -1895,10 +1895,13 @@ function openStudioForSop(sopId, stepIdx) {
 
 function switchStudioTab(tab) {
   state.studioTab = tab;
-  document.getElementById("tabBtnStudioVisual").classList.toggle("active", tab === "visual");
-  document.getElementById("tabBtnStudioRaw").classList.toggle("active", tab === "raw");
-  document.getElementById("studioTabVisual").classList.toggle("hidden", tab !== "visual");
-  document.getElementById("studioTabRaw").classList.toggle("hidden", tab !== "raw");
+  document.getElementById("tabBtnStudioVisual")?.classList.toggle("active", tab === "visual");
+  document.getElementById("tabBtnStudioRaw")?.classList.toggle("active", tab === "raw");
+  document.getElementById("tabBtnStudioDesign")?.classList.toggle("active", tab === "design");
+
+  document.getElementById("studioTabVisual")?.classList.toggle("hidden", tab !== "visual");
+  document.getElementById("studioTabRaw")?.classList.toggle("hidden", tab !== "raw");
+  document.getElementById("studioTabDesign")?.classList.toggle("hidden", tab !== "design");
 
   if (tab === "raw") {
     const raw = JSON.stringify(DB, null, 2);

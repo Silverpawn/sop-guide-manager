@@ -82,10 +82,13 @@
           <strong>⚙️ Lean@GS Guide Authoring Studio &amp; M365 Manager</strong>
           <div class="studio-tab-group" role="tablist">
             <button type="button" class="studio-tab-btn active" id="tabBtnStudioVisual" onclick="switchStudioTab('visual')">
-              Tab A: Visual Step &amp; Screenshot Editor (No-Code)
+              Tab A: Visual Step &amp; Screenshot Editor
             </button>
             <button type="button" class="studio-tab-btn" id="tabBtnStudioRaw" onclick="switchStudioTab('raw')">
               Tab B: Raw JSON Payload Loader
+            </button>
+            <button type="button" class="studio-tab-btn" id="tabBtnStudioDesign" onclick="switchStudioTab('design')">
+              Tab C: View Design &amp; Style Guide (DESIGN_GUIDE.md)
             </button>
           </div>
         </div>
@@ -204,6 +207,92 @@
             </button>
           </div>
         </div>
+      </div>
+
+      <!-- TAB C: Living Design & Plain-English Style Guide (DESIGN_GUIDE.md) -->
+      <div id="studioTabDesign" class="studio-body hidden">
+        <div class="plain-key-box" style="margin-bottom:18px;">
+          <div class="plain-key-header">
+            <span class="plain-key-title">📐 Section A: The "Naive Colleague" 10-Second Rule (Core Philosophy)</span>
+            <span class="muted-code-pill">Enforced by DESIGN_GUIDE.md &amp; validate-guides.js</span>
+          </div>
+          <div class="plain-key-grid">
+            <div class="plain-key-item">
+              <div class="plain-key-term">1. Why am I here?</div>
+              <p class="plain-key-desc">Every Playbook Overview starts with a 2-sentence plain-English goal explaining what the guide helps you achieve in the real world.</p>
+            </div>
+            <div class="plain-key-item">
+              <div class="plain-key-term">2. How do I use this?</div>
+              <p class="plain-key-desc">Never stamp loud compliance badges like <code>MANDATORY</code> or <code>OPTIONAL</code> across stage cards. Show a simple "Ways to Use This Guide" banner instead.</p>
+            </div>
+            <div class="plain-key-item">
+              <div class="plain-key-term">3. What do I do next?</div>
+              <p class="plain-key-desc">Maximum <strong>4 high-level stages</strong> on any Journey Map, aligned 1-to-1 with the 4 universal navigation tabs.</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;">
+          <div style="background:#F8FAFC;border:1px solid #D7E4EE;border-radius:10px;padding:16px;">
+            <h4 style="color:#1B1534;margin-bottom:8px;">Section B: Strict Card Density Standard (Max 4 Elements)</h4>
+            <ol style="padding-left:18px;font-size:13px;color:#54646E;display:flex;flex-direction:column;gap:6px;">
+              <li><strong style="color:#1B1534;">Plain-English Title:</strong> Max 7 words, starting with an action verb (e.g., <em>"1. Score Your Site Together in a Pair"</em>).</li>
+              <li><strong style="color:#1B1534;">One-Sentence Summary:</strong> Plain-English explanation of what happens in that stage (no unexplained rules).</li>
+              <li><strong style="color:#1B1534;">Who &amp; How Long:</strong> Single clean line (e.g., <em>"Programme Manager + Core Team Partner • 90 mins"</em>). No double labels.</li>
+              <li><strong style="color:#1B1534;">What You Finish With:</strong> Human outcome (e.g., <em>"Agreed scorecard for 28 site practices"</em>). Never show <code>.csv / .json</code> or <code>Input → Output:</code> on overview cards.</li>
+            </ol>
+          </div>
+
+          <div style="background:#F8FAFC;border:1px solid #D7E4EE;border-radius:10px;padding:16px;">
+            <h4 style="color:#1B1534;margin-bottom:8px;">Section D &amp; E: SOP Step, Visual &amp; Brand Standards</h4>
+            <ul style="padding-left:18px;font-size:13px;color:#54646E;display:flex;flex-direction:column;gap:6px;">
+              <li><strong style="color:#1B1534;">≤20-Word Rule &amp; Active Verb Start:</strong> Every step action must be ≤20 words and start with a direct action verb.</li>
+              <li><strong style="color:#1B1534;">Zero Raw Acronyms &amp; Point-of-Use Delivery:</strong> Explain rules in Step 1 where needed; put filing rules at the final step where saving happens.</li>
+              <li><strong style="color:#1B1534;">Flexible 3-Mode Visuals (M365 Ready):</strong> Supports <code>image</code> (Ctrl+V Snipping Tool Base64 + hotspot), <code>svg</code>, or <code>none</code>.</li>
+              <li><strong style="color:#1B1534;">Siemens Energy Brand Tokens:</strong> Header <code>#1B1534 → #4D217A</code>, Petrol <code>#009999</code>, Bright Purple CTA <code>#8A00E5</code>, Ice-Blue cards <code>#EAF4F8</code>.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h4 style="color:#1B1534;margin-bottom:6px;">Section C: Progressive Disclosure &amp; "The Red Pen Lexicon" (Mandatory Replacements)</h4>
+        <table class="clean-table" style="margin-top:6px;">
+          <thead>
+            <tr>
+              <th style="width:45%;">❌ Never Write This (Internal Jargon / Tech Speak)</th>
+              <th style="width:55%;">✅ Always Write This Instead (Plain Human English)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="color:#DA1E28;font-weight:600;">"Self / Pair Calibration &amp; Scoring"</td>
+              <td style="color:#007A7A;font-weight:700;">"Score Your Site Together in a Pair"</td>
+            </tr>
+            <tr>
+              <td style="color:#DA1E28;font-weight:600;">"Gateway Cap &amp; Gap Diagnosis"</td>
+              <td style="color:#007A7A;font-weight:700;">"See What Is Holding Your Score Back"</td>
+            </tr>
+            <tr>
+              <td style="color:#DA1E28;font-weight:600;">"Starred Gateways (★) / Red Gateways"</td>
+              <td style="color:#007A7A;font-weight:700;">"Foundation Questions (★) that unlock the next level"</td>
+            </tr>
+            <tr>
+              <td style="color:#DA1E28;font-weight:600;">"70% Site Rule / Workplace Evidence"</td>
+              <td style="color:#007A7A;font-weight:700;">"Visible across most of your site (at least 7 out of 10 areas)"</td>
+            </tr>
+            <tr>
+              <td style="color:#DA1E28;font-weight:600;">"Leader Interviews (VOC)"</td>
+              <td style="color:#007A7A;font-weight:700;">"Ask Site Leaders About Their Biggest Challenges"</td>
+            </tr>
+            <tr>
+              <td style="color:#DA1E28;font-weight:600;">"Prioritise the 'Vital Few'"</td>
+              <td style="color:#007A7A;font-weight:700;">"Pick Your Top 5 Focus Areas"</td>
+            </tr>
+            <tr>
+              <td style="color:#DA1E28;font-weight:600;">"Input → Output: Raw scores.csv / .json"</td>
+              <td style="color:#007A7A;font-weight:700;">"What you finish with: Saved site scorecard"</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

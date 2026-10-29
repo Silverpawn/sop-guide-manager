@@ -19,6 +19,13 @@ const db = JSON.parse(raw);
 
 const MAX_WORDS = (db.meta && db.meta.strictWordLimit) || 20;
 const BANNED_ACRONYMS = ["CV", "SSO", "PR", "PPE", "LOTO", "KPI", "SLA"];
+const BANNED_OVERVIEW_PATTERNS = [
+  { pattern: /\.csv\b/i, reason: "raw file extension '.csv' (use human outcome per DESIGN_GUIDE.md)" },
+  { pattern: /\.json\b/i, reason: "raw file extension '.json' (use human outcome per DESIGN_GUIDE.md)" },
+  { pattern: /\bVOC\b/, reason: "banned overview jargon 'VOC' (spell out as Leader Challenges per DESIGN_GUIDE.md)" },
+  { pattern: /\bCalibration\b/i, reason: "banned overview jargon 'Calibration' (use plain English per DESIGN_GUIDE.md)" },
+  { pattern: /Input\s*(?:->|→)\s*Output/i, reason: "tech handoff label 'Input -> Output' (use 'What you finish with' per DESIGN_GUIDE.md)" }
+];
 const PASSIVE_PATTERNS = [
   /\bis\s+\w+ed\s+by\b/i,
   /\bare\s+\w+ed\s+by\b/i,
@@ -29,6 +36,8 @@ const PASSIVE_PATTERNS = [
 let errors = [];
 let warnings = [];
 let stats = {
+  playbooks: Array.isArray(db.playbooks) ? db.playbooks.length : 0,
+  journeyStagesChecked: 0,
   processes: Object.keys(db.processes || {}).length,
   tools: Object.keys(db.tools || {}).length,
   roles: Object.keys(db.roles || {}).length,
@@ -36,6 +45,33 @@ let stats = {
   stepsChecked: 0,
   visualModes: { svg: 0, image: 0, none: 0 }
 };
+
+// 0. Validate Playbooks & Journey Map Stages against DESIGN_GUIDE.md
+for (const plb of db.playbooks || []) {
+  const stages = plb.journeyMap?.stages || [];
+  if (stages.length > 4) {
+    errors.push(
+      `[${plb.id}] Journey Map has ${stages.length} stages. DESIGN_GUIDE.md Section A.3 limits Journey Maps to a maximum of 4 high-level stages.`
+    );
+  }
+  for (const st of stages) {
+    stats.journeyStagesChecked++;
+    const fieldsToCheck = [
+      { name: "title", val: st.title || "" },
+      { name: "summary", val: st.summary || "" },
+      { name: "outputArtifact", val: st.outputArtifact || "" }
+    ];
+    for (const f of fieldsToCheck) {
+      for (const rule of BANNED_OVERVIEW_PATTERNS) {
+        if (rule.pattern.test(f.val)) {
+          errors.push(
+            `[${plb.id} Stage ${st.stageNumber} ${f.name}] Contains ${rule.reason}: "${f.val}"`
+          );
+        }
+      }
+    }
+  }
+}
 
 // 1. Validate Process relational links
 for (const [procId, proc] of Object.entries(db.processes || {})) {
@@ -135,8 +171,9 @@ for (const [sopId, sop] of Object.entries(db.sops || {})) {
 }
 
 console.log("==============================================================");
-console.log("❄️  SNOWFLAKE DOCUMENTATION USABILITY & SCHEMA AUDIT");
+console.log("❄️  SNOWFLAKE DOCUMENTATION & DESIGN_GUIDE.MD USABILITY AUDIT");
 console.log("==============================================================");
+console.log(`Playbooks Audited        : ${stats.playbooks} (${stats.journeyStagesChecked} Journey Stages)`);
 console.log(`Processes (Central Hubs) : ${stats.processes}`);
 console.log(`Tools (Reusable Nodes)   : ${stats.tools}`);
 console.log(`Roles (RACI Nodes)       : ${stats.roles}`);
@@ -157,6 +194,7 @@ if (errors.length > 0) {
   process.exit(1);
 } else {
   console.log("✅ ALL CHECKS PASSED:");
+  console.log("   • 100% DESIGN_GUIDE.md Journey Map rules passed (<=4 stages, zero raw .csv/.json or VOC/Calibration jargon)");
   console.log("   • 100% Relational Snowflake links intact (Processes <-> Tools <-> Roles <-> SOPs)");
   console.log(`   • 100% Steps obey the <= ${MAX_WORDS}-word Simplified Technical English rule`);
   console.log("   • 100% Steps use active voice, zero raw acronyms, and value-add coaching tips");
