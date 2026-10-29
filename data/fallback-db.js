@@ -1030,6 +1030,104 @@ window.FALLBACK_GUIDES_DB = {
           "fix": "Click 'View Dashboard' and inspect the Gateway Status list to see which Starred Gateway (★) is currently below 3."
         }
       ]
+    },
+    "TOL-AUTH-1": {
+      "id": "TOL-AUTH-1",
+      "name": "WYSIWYG Guide Authoring Studio & 3-Tier File Manager",
+      "suite": "Lean@GS Documentation Platform",
+      "versionBadge": "",
+      "category": "Guide Authoring, Validation & Sharing",
+      "purpose": "Create, edit, validate, and share Playbooks and Step-by-Step SOPs with live WYSIWYG preview, Ctrl+V screenshot paste, click-to-place purple highlight boxes, 1-click AI prompt generation, and 3-tier JSON storage (.leanguide.json single-playbook share & guides.json master release).",
+      "accessUrl": "Top Header ('✦ Open Authoring Studio') or Left Sidebar ('✦ BUILD OR SHARE A GUIDE')",
+      "ownerRoleId": "ROL-001",
+      "gettingStarted": [
+        "Click '✦ Open Authoring Studio' in the top header bar or '✦ Open WYSIWYG Authoring Studio' in the left sidebar card.",
+        "Use Tab 1 to build your Playbook identity and 3–6 Journey Stages, Tab 2 to write <=20-word steps and paste screenshots (Ctrl+V), and Tab 3 to copy the AI Playbook Generator Prompt.",
+        "Use '⬇ Export Guide ▾' in the top header to download either a single Playbook (.leanguide.json) for colleagues or the complete Master Library (guides.json) for server release."
+      ],
+      "quickCommands": [
+        {
+          "goal": "Paste a real app screenshot into any step",
+          "command": "Win+Shift+S (Snipping Tool) → Open Studio Tab 2 → Press Ctrl+V → Click image to place purple highlight box"
+        },
+        {
+          "goal": "Share just your new Playbook with a colleague",
+          "command": "Click '⬇ Export Guide ▾' → Select '⬇ Download Current Playbook Only (.leanguide.json)'"
+        },
+        {
+          "goal": "Load & merge a colleague's Playbook into your library",
+          "command": "Click '⬆ Upload Guide (.json)' → Select their .leanguide.json file (merges without wiping existing playbooks)"
+        }
+      ],
+      "buttonsReference": [
+        {
+          "button": "✦ Open Authoring Studio",
+          "where": "Top Header Bar (Petrol Button) & Left Sidebar Card",
+          "whatItDoes": "Opens the 4-tab WYSIWYG Guide Authoring Studio modal for creating and editing Playbooks, Journey Stages, and Step-by-Step SOPs."
+        },
+        {
+          "button": "+ Create New Playbook",
+          "where": "Studio Tab 1 ('Playbook & Journey Builder' Top Bar — Petrol Button)",
+          "whatItDoes": "Creates a brand-new Playbook scaffold with a default Journey Stage and SOP so you can start authoring immediately."
+        },
+        {
+          "button": "+ Add Journey Stage",
+          "where": "Studio Tab 1 ('Playbook & Journey Builder' Top Bar — Bright Purple Button)",
+          "whatItDoes": "Appends a new stage card to the active Playbook's End-to-End Journey Map and links it to a step-by-step SOP."
+        },
+        {
+          "button": "+ New SOP Guide",
+          "where": "Studio Tab 2 ('SOP & Step WYSIWYG Editor' Top Bar — Purple Button)",
+          "whatItDoes": "Creates a new Step-by-Step SOP runbook inside the active Playbook."
+        },
+        {
+          "button": "+ New Step",
+          "where": "Studio Tab 2 ('SOP & Step WYSIWYG Editor' Top Bar — Petrol Button)",
+          "whatItDoes": "Adds a new numbered step to the selected SOP Guide with live 20-word Poka-Yoke validation."
+        },
+        {
+          "button": "📸 Custom Screenshot (Paste Ctrl+V / Upload)",
+          "where": "Studio Tab 2 ('4. Visual Mode for This Step' + Right Dropzone)",
+          "whatItDoes": "Lets you press Ctrl+V to paste a screenshot directly from Windows Snipping Tool (Win+Shift+S), auto-compresses it to Base64, and lets you click anywhere on the image to place a purple highlight box."
+        },
+        {
+          "button": "📋 Copy AI Playbook Prompt",
+          "where": "Studio Tab 3 ('AI Generator Prompt & Raw JSON' — Bright Purple Button)",
+          "whatItDoes": "Copies a ready-to-use system prompt to your clipboard so M365 Copilot or Gemini can convert rough Word/PowerPoint notes into a valid Lean@GS Playbook JSON in 60 seconds."
+        },
+        {
+          "button": "⬇ Download Current Playbook Only (.leanguide.json)",
+          "where": "Top Header '⬇ Export Guide ▾' Dropdown & Studio Modal Top Bar (Petrol Button)",
+          "whatItDoes": "Tier 2 Export: Downloads ONLY the currently active Playbook (plus its linked SOPs, Tools, Roles, and embedded Base64 screenshots) as a standalone <Playbook-Slug>.leanguide.json file for sharing via Teams, Email, or SharePoint."
+        },
+        {
+          "button": "⬇ Download Master Library (guides.json)",
+          "where": "Top Header '⬇ Export Guide ▾' Dropdown & Studio Modal Top Bar (Bright Purple Button)",
+          "whatItDoes": "Tier 3 Export: Downloads the complete multi-playbook master guides.json database for official repository deployment to the corporate server (megblcntpvc72)."
+        },
+        {
+          "button": "⬆ Upload Guide (.json)",
+          "where": "Top Header Bar, Left Sidebar Card & Studio Modal Top Bar",
+          "whatItDoes": "Smart Upload & Merge: Accepts either a colleague's single-playbook .leanguide.json file (merging it into your active library without deleting existing playbooks) OR a complete master guides.json file."
+        },
+        {
+          "button": "↺ Reset Local Browser Edits",
+          "where": "Studio Tab 1, Tab 2 & Tab 3 Bottom Bar",
+          "whatItDoes": "Clears local browser draft edits from localStorage and restores the official server library snapshot."
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "The step editor shows a red word-count pill and blocks saving.",
+          "cause": "The step action exceeds the 20-word Simplified Technical English limit or contains a banned raw acronym.",
+          "fix": "Shorten the step action to 20 words or fewer starting with an imperative verb, and move extra explanation into the Supporting Detail or Coaching Tip box."
+        },
+        {
+          "symptom": "I created a new Playbook in my browser—how do I send just that Playbook to a colleague without sending the whole database?",
+          "cause": "Browser edits live in Tier 1 (localStorage) until exported.",
+          "fix": "Click '⬇ Export Guide ▾' in the top header and choose '⬇ Download Current Playbook Only (.leanguide.json)'. Send that file to your colleague—they can click '⬆ Upload Guide (.json)' to merge it in one click."
+        }
+      ]
     }
   },
   "processes": {
@@ -1264,6 +1362,61 @@ window.FALLBACK_GUIDES_DB = {
             "TOL-012"
           ],
           "summary": "Click 'View Dashboard' to inspect the 10-theme radar chart and Gateway caps, then export your assessment files and choose your next path."
+        }
+      ]
+    },
+    "PRC-AUTH": {
+      "id": "PRC-AUTH",
+      "playbookId": "PLB-AUTHOR",
+      "title": "Design, Build, Validate & Share a Lean@GS Playbook",
+      "appName": "Lean@GS WYSIWYG Authoring Studio",
+      "versionBadge": "",
+      "durationBadge": "15 mins",
+      "whenToUse": "Whenever a Subject Matter Expert, Local Programme Manager, or Core Team member wants to turn a process, tool, or Word SOP into an interactive Lean@GS Playbook.",
+      "cardOutput": "Validated, portable .leanguide.json Playbook or updated master guides.json library.",
+      "ctaLabel": "Start Authoring Masterclass",
+      "category": "Guide Authoring & Publishing Masterclass",
+      "userGoal": "Build a crystal-clear, 10-second Playbook in the WYSIWYG Authoring Studio, paste real screenshots with highlight boxes, validate against the 5 Naive Colleague checks, and share via .leanguide.json.",
+      "trigger": "New process, software workflow, or complex Word SOP needs to be turned into a practical, step-by-step user guide.",
+      "finalOutcome": "Portable <Playbook-Slug>.leanguide.json file shared with colleagues or merged into the corporate master guides.json release.",
+      "valueAddCoaching": "Never write a guide that reads like a software manual or compliance audit. Start with the real-world job, keep every step action under 20 words, and show the real screen.",
+      "raci": {
+        "responsible": "ROL-001",
+        "accountable": "ROL-002",
+        "consulted": [
+          "ROL-003"
+        ],
+        "informed": [
+          "ROL-004"
+        ]
+      },
+      "stages": [
+        {
+          "stageNumber": 1,
+          "name": "Stages 1 & 2: Create a New Playbook & Map the Journey in the WYSIWYG Studio",
+          "sopId": "SOP-AUTH-1",
+          "toolIds": [
+            "TOL-AUTH-1"
+          ],
+          "summary": "Open the Authoring Studio, click '+ Create New Playbook', write your Golden Principle, and map 3 to 6 clean Journey Stages."
+        },
+        {
+          "stageNumber": 2,
+          "name": "Stages 3 & 4: Write <=20-Word Steps, Paste Screenshots (Ctrl+V) & Add Button Tables",
+          "sopId": "SOP-AUTH-2",
+          "toolIds": [
+            "TOL-AUTH-1"
+          ],
+          "summary": "Write imperative step actions under 20 words, press Ctrl+V to paste real screenshots with purple highlight boxes, or use the AI Prompt Generator."
+        },
+        {
+          "stageNumber": 3,
+          "name": "Stage 5: Save, Download, Upload & Share Playbook Files (.leanguide.json & guides.json)",
+          "sopId": "SOP-AUTH-3",
+          "toolIds": [
+            "TOL-AUTH-1"
+          ],
+          "summary": "Use the 3-tier storage bar to auto-save in your browser, export a single .leanguide.json file to share with colleagues, or publish the master guides.json."
         }
       ]
     }
@@ -2103,6 +2256,282 @@ window.FALLBACK_GUIDES_DB = {
           "symptom": "We finished the standalone assessment and want to run a leadership workshop or simulate score unlocks.",
           "cause": "The standalone GS Lean Maturity app focuses purely on the 28-question assessment and Radar Dashboard.",
           "fix": "Load your exported .json file into Lean@GS Navigator Toolkit (for Analysis Report, VOC, Workshop & 1-Page Charter) or into Lean@GS PM Maturity Hub (for Score Explainer, Metro Journey & Simulator)."
+        }
+      ]
+    },
+    "SOP-AUTH-1": {
+      "id": "SOP-AUTH-1",
+      "title": "Stages 1 & 2: Create a New Playbook & Journey Map in the WYSIWYG Studio",
+      "processId": "PRC-AUTH",
+      "roleId": "ROL-001",
+      "toolIds": [
+        "TOL-AUTH-1"
+      ],
+      "estimatedTime": "5 mins",
+      "stationLocation": "Top Header → ✦ Open Authoring Studio → Tab 1: Playbook & Journey Builder",
+      "kitBag": {
+        "leadRole": "Guide Author (SME / Local Programme Manager / Core Team)",
+        "supportRole": "Optional Reviewer: Lean Core Team Partner",
+        "mandatoryStatus": "Stages 1 & 2 • Plan & Structure",
+        "inputNeeded": "Real-world job to be done & 3 to 6 logical process stages",
+        "outputProduced": "Live Playbook Overview & Connected N-Stage Journey Map"
+      },
+      "userGoal": "Create a new Playbook in Tab 1 of the WYSIWYG Authoring Studio, define its plain-English purpose and Golden Principle quote, and structure 3 to 6 clean Journey Stage cards.",
+      "gettingStarted": [
+        "Click '✦ Open Authoring Studio' in the top header bar (or '✦ Open WYSIWYG Authoring Studio' in the left sidebar card).",
+        "Ask the 10-Second Naive Colleague question before typing: 'What real-world job does this guide help my colleague finish today?'"
+      ],
+      "steps": [
+        {
+          "stepNumber": 1,
+          "action": "Click '✦ Open Authoring Studio' in the top header and select '+ Create New Playbook'.",
+          "detail": "In Tab 1 ('Playbook & Journey Builder'), click the petrol '+ Create New Playbook' button to generate a clean playbook scaffold.",
+          "toolId": "TOL-AUTH-1",
+          "coachingTip": "Name your Playbook after the real-world job (for example, 'Run a Site Kaizen Event'), never after a software version number.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/studio-tab1-playbook.png",
+            "src": "assets/screenshots/studio-tab1-playbook.png",
+            "caption": "WYSIWYG Authoring Studio — Tab 1: Click '+ Create New Playbook' & Edit Identity",
+            "hotspot": {
+              "xPercent": 45,
+              "yPercent": 22,
+              "widthPercent": 14,
+              "heightPercent": 6,
+              "label": "1. Click '+ Create New Playbook'"
+            }
+          }
+        },
+        {
+          "stepNumber": 2,
+          "action": "Enter the Playbook Title, One-Line Journey Ribbon, Overview Description, and Golden Principle quote.",
+          "detail": "Fill in Section A on the left and watch the Live WYSIWYG Preview update immediately on the right.",
+          "toolId": "TOL-AUTH-1",
+          "coachingTip": "Your Golden Principle quote should state the core human mindset in one memorable sentence so leaders don't miss the point.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/studio-tab1-playbook.png",
+            "src": "assets/screenshots/studio-tab1-playbook.png",
+            "caption": "WYSIWYG Authoring Studio — Tab 1: Section A Identity & Live Preview",
+            "hotspot": {
+              "xPercent": 12,
+              "yPercent": 32,
+              "widthPercent": 39,
+              "heightPercent": 48,
+              "label": "2. Fill Title, Ribbon & Golden Principle"
+            }
+          }
+        },
+        {
+          "stepNumber": 3,
+          "action": "Click '+ Add Journey Stage' to map three to six stages and click 'Save Playbook'.",
+          "detail": "For each stage in Section B, enter the four clean elements: Stage Title, What Happens, Who & Tool Used, and What You Finish With.",
+          "toolId": "TOL-AUTH-1",
+          "coachingTip": "Never put compliance badges or file extensions (.csv/.json) on Journey Map cards—keep Tab 1 focused on the human flow.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/studio-tab1-playbook.png",
+            "src": "assets/screenshots/studio-tab1-playbook.png",
+            "caption": "WYSIWYG Authoring Studio — Tab 1: '+ Add Journey Stage' & 4-Element Stage Editor",
+            "hotspot": {
+              "xPercent": 63,
+              "yPercent": 22,
+              "widthPercent": 14,
+              "heightPercent": 6,
+              "label": "3. Click '+ Add Journey Stage'"
+            }
+          }
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "The Studio shows a warning under Section B while editing a Journey Stage card.",
+          "cause": "The stage summary includes technical file extensions (.csv or .json) or compliance wording ('Mandatory Gate').",
+          "fix": "Describe the stage outcome in plain human language (for example, 'Saved baseline scorecard') and keep technical file details inside Tab 2 SOP steps."
+        }
+      ]
+    },
+    "SOP-AUTH-2": {
+      "id": "SOP-AUTH-2",
+      "title": "Stages 3 & 4: Write Steps, Paste Screenshots (Ctrl+V) & Add Highlight Boxes",
+      "processId": "PRC-AUTH",
+      "roleId": "ROL-001",
+      "toolIds": [
+        "TOL-AUTH-1"
+      ],
+      "estimatedTime": "5 mins",
+      "stationLocation": "Authoring Studio → Tab 2: SOP & Step WYSIWYG Editor & Tab 3: AI Generator",
+      "kitBag": {
+        "leadRole": "Guide Author (SME / Local Programme Manager / Core Team)",
+        "supportRole": "Optional AI Assistant: M365 Copilot or Gemini",
+        "mandatoryStatus": "Stages 3 & 4 • Steps, Screenshots & Reference",
+        "inputNeeded": "Real Application Windows (Win+Shift+S) or Rough Process Notes",
+        "outputProduced": "Validated <=20-Word Action Steps with Real Screenshots & Purple Callout Boxes"
+      },
+      "userGoal": "Write scannable <=20-word imperative steps in Tab 2, paste real application screenshots from your clipboard (Ctrl+V) with click-to-place highlight boxes, or convert rough notes in 60 seconds using the Tab 3 AI Prompt Generator.",
+      "gettingStarted": [
+        "Switch to 'Tab 2: SOP & Step WYSIWYG Editor' inside the Authoring Studio.",
+        "Open the live software application in another tab and use Windows Snipping Tool (Win+Shift+S) to copy any screen you want to show."
+      ],
+      "steps": [
+        {
+          "stepNumber": 1,
+          "action": "Open Tab 2, select or create your SOP Guide, and write an imperative step action.",
+          "detail": "Start the Step Action Command with an action verb ('Click', 'Upload', 'Select', 'Review') and keep the live word-counter pill green (20 words or fewer).",
+          "toolId": "TOL-AUTH-1",
+          "coachingTip": "Watch the three green Poka-Yoke ticks below the input box: '✓ Active Verb Start', '✓ Zero Raw Acronyms', and '✓ Coaching Tip Included'.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/studio-tab2-steps.png",
+            "src": "assets/screenshots/studio-tab2-steps.png",
+            "caption": "WYSIWYG Authoring Studio — Tab 2: Live 20-Word Counter Pill & Poka-Yoke Checks",
+            "hotspot": {
+              "xPercent": 11,
+              "yPercent": 40,
+              "widthPercent": 40,
+              "heightPercent": 14,
+              "label": "1. Write <=20-Word Action & Check Green Pills"
+            }
+          }
+        },
+        {
+          "stepNumber": 2,
+          "action": "Select 'Custom Screenshot', press Ctrl+V to paste your screen, and click to place a highlight box.",
+          "detail": "Press Win+Shift+S to snip the real app screen, press Ctrl+V inside Tab 2, type a Callout Label, and click the image to position the purple highlight box.",
+          "toolId": "TOL-AUTH-1",
+          "coachingTip": "If a step describes a human discussion rule rather than a software click, select '📝 No Image (Text + Coaching Only)' instead of inventing a fake diagram.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/studio-tab2-steps.png",
+            "src": "assets/screenshots/studio-tab2-steps.png",
+            "caption": "WYSIWYG Authoring Studio — Tab 2: Ctrl+V Screenshot Dropzone & Click-to-Place Hotspot",
+            "hotspot": {
+              "xPercent": 52,
+              "yPercent": 34,
+              "widthPercent": 36,
+              "heightPercent": 60,
+              "label": "2. Press Ctrl+V & Click Image to Place Highlight Box"
+            }
+          }
+        },
+        {
+          "stepNumber": 3,
+          "action": "Use Tab 3 ('Copy AI Playbook Prompt') to convert rough Word notes into JSON.",
+          "detail": "Click '📋 Copy AI Playbook Prompt' in Tab 3, paste it into M365 Copilot or Gemini with your rough notes, and paste the returned JSON into the editor.",
+          "toolId": "TOL-AUTH-1",
+          "coachingTip": "The AI prompt already includes all 20-word, plain-English, and schema rules—turning a 10-page Word SOP into a structured Playbook in 60 seconds.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/studio-tab3-ai-json.png",
+            "src": "assets/screenshots/studio-tab3-ai-json.png",
+            "caption": "WYSIWYG Authoring Studio — Tab 3: 1-Click AI Playbook Prompt & Live Schema Audit",
+            "hotspot": {
+              "xPercent": 13,
+              "yPercent": 38,
+              "widthPercent": 16,
+              "heightPercent": 6,
+              "label": "3. Click 'Copy AI Playbook Prompt'"
+            }
+          }
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "Pressing Ctrl+V does not paste my screenshot into the step.",
+          "cause": "The Authoring Studio is not currently on 'Tab 2: SOP & Step WYSIWYG Editor' or the clipboard contains text instead of an image.",
+          "fix": "Take a fresh screen snip with Win+Shift+S, make sure Tab 2 is open in the Authoring Studio, and press Ctrl+V (or click 'Choose file' to upload a PNG)."
+        }
+      ]
+    },
+    "SOP-AUTH-3": {
+      "id": "SOP-AUTH-3",
+      "title": "Stage 5: Save, Download, Upload & Share Playbook Files (.json)",
+      "processId": "PRC-AUTH",
+      "roleId": "ROL-001",
+      "toolIds": [
+        "TOL-AUTH-1"
+      ],
+      "estimatedTime": "5 mins",
+      "stationLocation": "Top Header Bar & Left Sidebar ('✦ BUILD OR SHARE A GUIDE' Card)",
+      "kitBag": {
+        "leadRole": "Guide Author & Colleagues",
+        "supportRole": "Repository Publisher: Lean Core Team",
+        "mandatoryStatus": "Stage 5 • 3-Tier Storage & Sharing",
+        "inputNeeded": "Completed Playbook Draft in Browser",
+        "outputProduced": "Shared <Playbook>.leanguide.json File or Published Master guides.json"
+      },
+      "userGoal": "Understand how the 3-tier storage architecture works so you can save drafts in your browser, share a single Playbook (.leanguide.json) with colleagues via Teams/SharePoint, merge a colleague's Playbook, or publish the master guides.json library.",
+      "gettingStarted": [
+        "Check the status badge in the top header bar or left sidebar ('● Official Server Library' vs. '● Local Draft Active').",
+        "Decide whether you are sharing a single Playbook with colleagues (Tier 2: .leanguide.json) or deploying the entire multi-playbook library to the server (Tier 3: guides.json)."
+      ],
+      "steps": [
+        {
+          "stepNumber": 1,
+          "action": "Save your edits in the Authoring Studio to activate Tier 1 browser draft storage.",
+          "detail": "Clicking '✓ Save Playbook' or '✓ Save & Apply to Live Guide' stores your changes in browser localStorage and turns on the '● Local Draft Active' badge.",
+          "toolId": "TOL-AUTH-1",
+          "coachingTip": "Tier 1 storage keeps your draft safe in your own browser even if you refresh the page, without affecting other users on the server.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/studio-header-sidebar.png",
+            "src": "assets/screenshots/studio-header-sidebar.png",
+            "caption": "Left Sidebar — '✦ BUILD OR SHARE A GUIDE' Card & Storage Status Indicator",
+            "hotspot": {
+              "xPercent": 1,
+              "yPercent": 14,
+              "widthPercent": 19,
+              "heightPercent": 30,
+              "label": "1. Left Sidebar Authoring & Storage Card"
+            }
+          }
+        },
+        {
+          "stepNumber": 2,
+          "action": "Click '⬇ Export Guide ▾' and select 'Download Current Playbook Only (.leanguide.json)' to share.",
+          "detail": "Downloads a self-contained <Playbook-Slug>.leanguide.json file containing only your active Playbook, its SOPs, tools, roles, and embedded Base64 screenshots.",
+          "toolId": "TOL-AUTH-1",
+          "coachingTip": "Send this .leanguide.json file over Microsoft Teams, Email, or SharePoint—colleagues can load it in one click without touching their other playbooks.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/studio-header-sidebar.png",
+            "src": "assets/screenshots/studio-header-sidebar.png",
+            "caption": "Top Header — '⬇ Export Guide ▾' Menu ('Download Current Playbook Only' vs 'Download Master Library')",
+            "hotspot": {
+              "xPercent": 66,
+              "yPercent": 1,
+              "widthPercent": 26,
+              "heightPercent": 23,
+              "label": "2. Export Single Playbook (.leanguide.json) or Master Library"
+            }
+          }
+        },
+        {
+          "stepNumber": 3,
+          "action": "Click '⬆ Upload Guide (.json)' to merge a colleague's Playbook or publish 'guides.json'.",
+          "detail": "Uploading a .leanguide.json file merges that Playbook directly into your Playbook Switcher; uploading or downloading 'guides.json' updates the full server library.",
+          "toolId": "TOL-AUTH-1",
+          "coachingTip": "When a new Playbook is approved for everyone, send the .leanguide.json file to the Lean Core Team to merge into the master guides.json on megblcntpvc72.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/studio-header-sidebar.png",
+            "src": "assets/screenshots/studio-header-sidebar.png",
+            "caption": "Top Header — '⬆ Upload Guide (.json)' Smart Merge Control",
+            "hotspot": {
+              "xPercent": 76,
+              "yPercent": 0.5,
+              "widthPercent": 9,
+              "heightPercent": 5.5,
+              "label": "3. Click '⬆ Upload Guide (.json)' to Merge"
+            }
+          }
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "I uploaded a colleague's .leanguide.json file and want to return to the clean official server library.",
+          "cause": "Merged playbooks are stored in your browser's local draft storage (Tier 1) so you can review them.",
+          "fix": "Open '✦ Open Authoring Studio' and click '↺ Reset Local Browser Edits' at the bottom of Tab 1 or Tab 2 to restore the default server library."
         }
       ]
     }
@@ -4343,6 +4772,376 @@ window.FALLBACK_GUIDES_DB = {
           ]
         }
       ]
+    },
+    {
+      "id": "PLB-AUTHOR",
+      "title": "How to Build & Share a Lean@GS Guide (Authoring Masterclass)",
+      "eyebrow": "SIEMENS ENERGY • GUIDE AUTHORING MASTERCLASS",
+      "subtitle": "Learn how to turn rough notes, Word documents, or application screens into a world-class, 10-second Lean@GS Playbook—and share it with colleagues as a portable .leanguide.json file in 15 minutes.",
+      "processIds": [
+        "PRC-AUTH"
+      ],
+      "sopIds": [
+        "SOP-AUTH-1",
+        "SOP-AUTH-2",
+        "SOP-AUTH-3"
+      ],
+      "toolIds": [
+        "TOL-AUTH-1"
+      ],
+      "roleIds": [
+        "ROL-001",
+        "ROL-002"
+      ],
+      "tabSubtitles": {
+        "journey": "5-Stage Authoring Map",
+        "guides": "3 Masterclass SOPs",
+        "decision": "5-Question Naive Colleague Scorecard",
+        "templates": "3-Tier Storage & Studio Reference"
+      },
+      "journeyMap": {
+        "ribbon": "1. Define the Real-World Job → 2. Map the 3–6 Stage Journey → 3. Write 20-Word Action Steps & Paste Screenshots → 4. Add the Screen Button Reference → 5. Validate, Export & Share (.json)",
+        "goldenPrinciple": {
+          "eyebrow": "GOLDEN AUTHORING PRINCIPLE",
+          "quote": "A great guide doesn't describe the software—it coaches a colleague through a real job in 10 seconds.",
+          "description": "If a new starter has to ask 'What am I doing, why does it matter, or what does this acronym mean?', the guide has failed the Naive Colleague Test. Keep every step under 20 words, start with an action verb, and show the real screen."
+        },
+        "convergenceBanner": {
+          "heading": "How a Raw Idea Becomes a Published Playbook",
+          "input1": {
+            "badge": "INPUT 1 • SUBJECT MATTER EXPERTISE",
+            "title": "Subject Matter Expertise",
+            "desc": "Your rough notes, Word SOP, facilitation checklist, or process rules."
+          },
+          "input2": {
+            "badge": "INPUT 2 • REAL APPLICATION SCREENS",
+            "title": "Real Application Screens",
+            "desc": "Win+Shift+S screenshots captured from the live app & button inventories."
+          },
+          "combined": {
+            "badge": "COMBINED IN THE WYSIWYG AUTHORING STUDIO",
+            "title": "Validated, Portable .leanguide.json Playbook",
+            "desc": "Produces a validated, portable .leanguide.json Playbook ready to share via Teams/SharePoint or publish to megblcntpvc72."
+          }
+        },
+        "stages": [
+          {
+            "stageNumber": 1,
+            "title": "Stage 1: Pass the 10-Second 'Naive Colleague' Test (Plan)",
+            "summary": "Name the guide after the real-world job (never a software version) and write a 2-sentence plain-English purpose explaining what the user will achieve and why it matters to the business.",
+            "whoInvolved": "Guide Author (SME / Local Programme Manager / Core Team Member)",
+            "toolUsed": "Authoring Studio → Tab 1: Playbook & Journey Builder",
+            "output": "Clear Playbook title, Golden Principle quote, and 2-sentence purpose",
+            "ctaLabel": "Open Stage 1–2 Builder Guide →",
+            "sopId": "SOP-AUTH-1"
+          },
+          {
+            "stageNumber": 2,
+            "title": "Stage 2: Map the End-to-End Journey Stages (Structure)",
+            "summary": "Break the process into 3 to 6 logical stages. For each card, define only 4 human elements: Plain-English Title, What Happens, Who & Tool Used, and What You Finish With.",
+            "whoInvolved": "Guide Author",
+            "toolUsed": "Authoring Studio → Tab 1: Dynamic N-Stage Card Editor",
+            "output": "Connected visual Journey Map with zero compliance stamps or file-extension clutter",
+            "ctaLabel": "Open Stage 1–2 Builder Guide →",
+            "sopId": "SOP-AUTH-1"
+          },
+          {
+            "stageNumber": 3,
+            "title": "Stage 3: Write ≤20-Word Steps & Paste Real Screenshots (Draft)",
+            "summary": "Write each step starting with an imperative action verb in 20 words or fewer, add a real-world Coaching Tip, and press Ctrl+V to paste a real screenshot with a click-to-place highlight box (or choose clean Text-Only Coaching Mode for human rules).",
+            "whoInvolved": "Guide Author",
+            "toolUsed": "Authoring Studio → Tab 2: SOP & Step WYSIWYG Editor",
+            "output": "Scannable step-by-step SOPs that pass live Poka-Yoke word and acronym checks",
+            "ctaLabel": "Open Stage 3–4 Step Editor Guide →",
+            "sopId": "SOP-AUTH-2"
+          },
+          {
+            "stageNumber": 4,
+            "title": "Stage 4: Document Screen Buttons & Decision Rules (Reference)",
+            "summary": "Add the colour-matched 'Buttons & Controls on This Screen' reference table and any Quick-Fix Troubleshooting rows so users know what every button does without guessing.",
+            "whoInvolved": "Guide Author",
+            "toolUsed": "Authoring Studio → Tab 2 & Tab 3 (AI Draft Helper)",
+            "output": "Complete screen button glossary and troubleshooting safety net",
+            "ctaLabel": "Open Stage 3–4 Step Editor Guide →",
+            "sopId": "SOP-AUTH-2"
+          },
+          {
+            "stageNumber": 5,
+            "title": "Stage 5: Validate, Export & Share Your Guide (Publish)",
+            "summary": "Check that all green Poka-Yoke ticks pass, click 'Download Current Playbook Only' to share via Teams or SharePoint, or hand over to the Core Team to merge into the master server release.",
+            "whoInvolved": "Guide Author + Lean Core Team Publisher",
+            "toolUsed": "Top Header → Export / Upload Guide & validate-guides.js",
+            "output": "Portable single-playbook file or live published corporate playbook",
+            "ctaLabel": "Open Stage 5 Storage & Sharing Guide →",
+            "sopId": "SOP-AUTH-3"
+          }
+        ]
+      },
+      "rulesKey": {
+        "title": "3 Core Standards Every Lean@GS Guide Must Pass",
+        "subtitle": "Built-in Poka-Yoke guardrails in the Authoring Studio",
+        "items": [
+          {
+            "term": "1. ≤ 20-Word Imperative Steps",
+            "desc": "Start every step with an action verb ('Click', 'Upload', 'Select', 'Review') in 20 words or fewer with zero unexplained acronyms."
+          },
+          {
+            "term": "2. Visual Authenticity (No Fake UI)",
+            "desc": "Show a real app screenshot (Ctrl+V) with a purple callout box for software clicks, or use Clean Coaching Mode for human rules."
+          },
+          {
+            "term": "3. 3-Tier Portable JSON Storage",
+            "desc": "Save drafts in browser localStorage (Tier 1), share single playbooks as .leanguide.json (Tier 2), and deploy master guides.json (Tier 3)."
+          }
+        ]
+      },
+      "decisionTools": [
+        {
+          "id": "DEC-AUTH-1",
+          "kind": "naive-colleague-rubric",
+          "navTitle": "The 5-Question Naive Colleague Scorecard & Writing Examples",
+          "eyebrow": "GUIDE QUALITY RUBRIC • BEFORE YOU PUBLISH CHECK",
+          "badge": "5 Naive Colleague Checks",
+          "title": "The 5-Question 'Naive Colleague' Scorecard & Writing Examples",
+          "subtitle": "Before exporting or sharing your Playbook, test every page against the 5 questions a new colleague asks in their first 10 seconds on screen.",
+          "rulesHeading": "3 Golden Rules for Passing the 10-Second Naive Colleague Test",
+          "rules": [
+            {
+              "badge": "CHECK 1 • REAL-WORLD JOB FIRST",
+              "title": "1. Lead with the Human Job & Business Priority—Never the Software Plumbing",
+              "desc": "Colleagues open a guide to solve an operational problem or complete a real task, not to admire database IDs or version numbers.",
+              "whereInApp": "Authoring Studio → Tab 1: Playbook Title, Subtitle & Golden Principle Quote."
+            },
+            {
+              "badge": "CHECK 2 • ONE BREATH PER STEP",
+              "title": "2. Keep Every Step Action ≤ 20 Words Starting with a Strong Verb",
+              "desc": "If a user is looking back and forth between your guide and a live software screen, they can only hold one short imperative sentence in working memory.",
+              "whereInApp": "Authoring Studio → Tab 2: Step Action Command (Live 0 / 20 Word Counter Pill)."
+            },
+            {
+              "badge": "CHECK 3 • REAL SCREEN OR COACHING CARD",
+              "title": "3. Show the Real Screen for Clicks; Use Coaching Cards for Human Rules",
+              "desc": "Never draw fake wireframe buttons for human behaviours. Paste a real screenshot (Ctrl+V) for software steps or choose 'No Image (Text + Coaching Only)'.",
+              "whereInApp": "Authoring Studio → Tab 2: 4. Visual Mode for This Step."
+            }
+          ],
+          "matrixHeading": "The 5-Question 'Naive Colleague' Before-You-Publish Scorecard (Bad vs. Good Examples)",
+          "matrixSubtitle": "Review your draft Playbook against all 5 Naive Colleague questions below before clicking 'Download Current Playbook (.leanguide.json)':",
+          "matrixColumns": {
+            "col1": "1. Naive Colleague Question",
+            "col2": "Why Colleagues Get Stuck",
+            "col3": "❌ Bad Example (Tech Speak / Score-Chasing)",
+            "col4": "✅ Good Example (Plain English + Business Priority)"
+          },
+          "priorityMatrix": [
+            {
+              "priority": "1. What am I doing?",
+              "painPoint": "Internal database codes or audit jargon hide the actual task",
+              "supportingCapabilities": "❌ Bad: \"Execute PRC-002 Calibration.\"",
+              "exampleAction": "✅ Good: Complete the 28-Question Site Maturity Self-Assessment."
+            },
+            {
+              "priority": "2. Why am I doing it?",
+              "painPoint": "Framing actions around chasing maturity points instead of business results",
+              "supportingCapabilities": "❌ Bad: \"Raise Gateway #10 from 2/5 to 3/5.\"",
+              "exampleAction": "✅ Good: Cut repeat quality defects by standardising pilot experiments across 70% of teams."
+            },
+            {
+              "priority": "3. Where do I start?",
+              "painPoint": "Setup prerequisites and live tool links are buried at the bottom of the page",
+              "supportingCapabilities": "❌ Bad: Buried at the bottom of the page.",
+              "exampleAction": "✅ Good: Clear 'Before You Start' box at the top + direct 'Launch Live Tool ↗' button."
+            },
+            {
+              "priority": "4. Do I understand the terminology?",
+              "painPoint": "Wall-to-wall unexplained acronyms force new starters to guess",
+              "supportingCapabilities": "❌ Bad: \"Check OE LPM VOC & SQDC in Data Plate.\"",
+              "exampleAction": "✅ Good: Zero unexplained acronyms; plain English first on every card and step."
+            },
+            {
+              "priority": "5. Is the visual authentic?",
+              "painPoint": "Invented wireframe boxes do not match the real buttons on screen",
+              "supportingCapabilities": "❌ Bad: Fake wireframe boxes for human rules.",
+              "exampleAction": "✅ Good: Real app screenshot for software clicks; clean Coaching Card for human rules."
+            }
+          ],
+          "comparisonExample": {
+            "heading": "What Good Looks Like: 1 Scannable ≤20-Word Step vs. 1 Overloaded Paragraph Step",
+            "good": {
+              "badge": "✅ Passes Naive Colleague Test (16 Words)",
+              "gatewayRef": "✓ Active Verb • ✓ ≤20 Words • ✓ Real Screenshot",
+              "title": "Imperative Action + Supporting Detail + Coaching Tip",
+              "statement": "Select 'New Standard' and enter your exact Org Code and Date of Assessment in the header.",
+              "whyItWorks": "Starts with an imperative verb ('Select'), stays under 20 words (16 words), highlights the two critical header fields on a real screenshot, and puts the 'why' in the Coaching Tip."
+            },
+            "bad": {
+              "badge": "❌ Fails Naive Colleague Test (39 Words + Jargon)",
+              "warningRef": "❌ Passive Voice • ❌ 39 Words • ❌ Raw Acronyms",
+              "title": "Wall-of-Text Paragraph Mixing Clicks, Rules & Jargon",
+              "statement": "The user should now proceed to ensure that the KPI and VOC calibration parameters in PRC-001 v2.4.7 are configured by the LPM prior to executing the JSON export.",
+              "whyItFails": "Uses passive voice ('The user should now proceed to ensure'), buries the action in 39 words of bureaucratic jargon, and includes banned raw acronyms and software version numbers."
+            }
+          }
+        }
+      ],
+      "templates": [
+        {
+          "id": "TPL-AUTH-1",
+          "kind": "authoring-reference",
+          "navTitle": "3-Tier Storage Diagram, AI Prompt Cheat Sheet & Studio Button Reference",
+          "eyebrow": "STATIC-HOST STORAGE ARCHITECTURE & STUDIO REFERENCE",
+          "badge": "3-Tier JSON Workflow",
+          "title": "3-Tier Storage Architecture Diagram, AI Prompt Cheat Sheet & Studio Button Reference",
+          "subtitle": "How browser drafts, single-playbook peer sharing (.leanguide.json), and official server deployments (guides.json) work together—plus every button inside the WYSIWYG Authoring Studio.",
+          "storageTiers": [
+            {
+              "tierBadge": "TIER 1 • BROWSER DRAFT",
+              "badgeBg": "#007A7A",
+              "borderColor": "#009999",
+              "title": "Automatic Browser Draft (localStorage)",
+              "desc": "Every time you click 'Save Playbook' or 'Save & Apply to Live Guide' in the Authoring Studio, your changes are saved instantly in your browser's local storage. A '● Local Draft Active' badge appears in the top header so you never lose work if you refresh.",
+              "fileSpec": "localStorage['SE_LEAN_GS_GUIDES_DB_V20'] (Instant & Private to Your Browser)"
+            },
+            {
+              "tierBadge": "TIER 2 • SINGLE-PLAYBOOK SHARE",
+              "badgeBg": "#4D217A",
+              "borderColor": "#8A00E5",
+              "title": "Single-Playbook Bundle (.leanguide.json)",
+              "desc": "Click '⬇ Export Guide ▾ → Download Current Playbook Only (.leanguide.json)' to package just the active Playbook (plus its SOPs, Tools, Roles, and embedded Base64 screenshots) into a single file. Send it via Teams or Email—colleagues click '⬆ Upload Guide (.json)' to merge it without wiping out their other playbooks.",
+              "fileSpec": "<Playbook-Slug>.leanguide.json (Upload & Merge into Any Colleague's Library)"
+            },
+            {
+              "tierBadge": "TIER 3 • MASTER SERVER RELEASE",
+              "badgeBg": "#1B1534",
+              "borderColor": "#1B1534",
+              "title": "Master Multi-Playbook Library (guides.json)",
+              "desc": "When a new or updated Playbook is ready to become part of the official corporate library for all users, click '⬇ Export Guide ▾ → Download Master Library (guides.json)', run 'node scripts/validate-guides.js', and commit 'data/guides.json' to the server repository.",
+              "fileSpec": "data/guides.json & data/fallback-db.js (Deployed to megblcntpvc72)"
+            }
+          ],
+          "aiCheatSheet": [
+            {
+              "stepBadge": "STEP 1 • COPY SYSTEM PROMPT",
+              "title": "Click '📋 Copy AI Playbook Prompt'",
+              "detail": "Open Authoring Studio → Tab 3 (or click the purple button above) to copy the pre-engineered Lean@GS JSON schema & 20-word style prompt."
+            },
+            {
+              "stepBadge": "STEP 2 • PASTE WITH YOUR ROUGH NOTES",
+              "title": "Paste into M365 Copilot or Gemini",
+              "detail": "Paste the prompt into Microsoft 365 Copilot or Google Gemini, attach or paste your rough Word SOP, PowerPoint slides, or bullet notes, and hit Enter."
+            },
+            {
+              "stepBadge": "STEP 3 • LOAD & ADD SCREENSHOTS",
+              "title": "Paste Returned JSON & Snip Screens",
+              "detail": "Paste the AI's JSON output into Studio Tab 3 ('Apply Raw JSON Changes') or save it as a .leanguide.json file, then open Tab 2 to press Ctrl+V and add real screenshots."
+            }
+          ],
+          "fieldGuide": [
+            {
+              "section": "Tier 1 • Browser Draft",
+              "appField": "localStorage Auto-Save",
+              "guidance": "Clicking 'Save Playbook' or 'Save & Apply to Live Guide' saves your work immediately in your browser with a 'Local Draft Active' badge."
+            },
+            {
+              "section": "Tier 2 • Single-Playbook Share",
+              "appField": "Download Current Playbook (.leanguide.json)",
+              "guidance": "Packages only the active Playbook, its SOPs, Tools, Roles, and Base64 screenshots so colleagues can click 'Upload Guide (.json)' to merge it."
+            },
+            {
+              "section": "Tier 3 • Master Release",
+              "appField": "Download Master Library (guides.json)",
+              "guidance": "Exports the complete multi-playbook master database for validation with validate-guides.js and deployment to megblcntpvc72."
+            }
+          ],
+          "exampleRows": [
+            {
+              "code": "TIER-1",
+              "action": "Browser Draft Auto-Save (localStorage)",
+              "note": "Saves automatically while authoring in Tab 1 and Tab 2",
+              "lift": "Instant Browser Draft",
+              "tag": "Authoring",
+              "due": "Real-Time",
+              "owner": "Guide Author"
+            },
+            {
+              "code": "TIER-2",
+              "action": "Single-Playbook Share (<Slug>.leanguide.json)",
+              "note": "Share via Teams, Email, or SharePoint; merges without wiping other playbooks",
+              "lift": "1-Click Upload & Merge",
+              "tag": "Peer Review",
+              "due": "Same Day",
+              "owner": "Author / Colleague"
+            },
+            {
+              "code": "TIER-3",
+              "action": "Master Multi-Playbook Release (guides.json)",
+              "note": "Validated with node scripts/validate-guides.js and committed to server",
+              "lift": "Official Server Release",
+              "tag": "Production",
+              "due": "Release Gate",
+              "owner": "Lean Core Team"
+            }
+          ],
+          "buttonsReference": [
+            {
+              "button": "✦ Open Authoring Studio",
+              "where": "Top Header Bar (Petrol Button) & Left Sidebar Card",
+              "whatItDoes": "Opens the 4-tab WYSIWYG Guide Authoring Studio modal for creating and editing Playbooks, Journey Stages, and Step-by-Step SOPs."
+            },
+            {
+              "button": "+ Create New Playbook",
+              "where": "Studio Tab 1 ('Playbook & Journey Builder' Top Bar — Petrol Button)",
+              "whatItDoes": "Creates a brand-new Playbook scaffold with a default Journey Stage and SOP so you can start authoring immediately."
+            },
+            {
+              "button": "+ Add Journey Stage",
+              "where": "Studio Tab 1 ('Playbook & Journey Builder' Top Bar — Bright Purple Button)",
+              "whatItDoes": "Appends a new stage card to the active Playbook's End-to-End Journey Map and links it to a step-by-step SOP."
+            },
+            {
+              "button": "+ New SOP Guide",
+              "where": "Studio Tab 2 ('SOP & Step WYSIWYG Editor' Top Bar — Purple Button)",
+              "whatItDoes": "Creates a new Step-by-Step SOP runbook inside the active Playbook."
+            },
+            {
+              "button": "+ New Step",
+              "where": "Studio Tab 2 ('SOP & Step WYSIWYG Editor' Top Bar — Petrol Button)",
+              "whatItDoes": "Adds a new numbered step to the selected SOP Guide with live 20-word Poka-Yoke validation."
+            },
+            {
+              "button": "📸 Custom Screenshot (Paste Ctrl+V / Upload)",
+              "where": "Studio Tab 2 ('4. Visual Mode for This Step' + Right Dropzone)",
+              "whatItDoes": "Lets you press Ctrl+V to paste a screenshot directly from Windows Snipping Tool (Win+Shift+S), auto-compresses it to Base64, and lets you click anywhere on the image to place a purple highlight box."
+            },
+            {
+              "button": "📋 Copy AI Playbook Prompt",
+              "where": "Studio Tab 3 ('AI Generator Prompt & Raw JSON' — Bright Purple Button)",
+              "whatItDoes": "Copies a ready-to-use system prompt to your clipboard so M365 Copilot or Gemini can convert rough Word/PowerPoint notes into a valid Lean@GS Playbook JSON in 60 seconds."
+            },
+            {
+              "button": "⬇ Download Current Playbook Only (.leanguide.json)",
+              "where": "Top Header '⬇ Export Guide ▾' Dropdown & Studio Modal Top Bar (Petrol Button)",
+              "whatItDoes": "Tier 2 Export: Downloads ONLY the currently active Playbook (plus its linked SOPs, Tools, Roles, and embedded Base64 screenshots) as a standalone <Playbook-Slug>.leanguide.json file for sharing via Teams, Email, or SharePoint."
+            },
+            {
+              "button": "⬇ Download Master Library (guides.json)",
+              "where": "Top Header '⬇ Export Guide ▾' Dropdown & Studio Modal Top Bar (Bright Purple Button)",
+              "whatItDoes": "Tier 3 Export: Downloads the complete multi-playbook master guides.json database for official repository deployment to the corporate server (megblcntpvc72)."
+            },
+            {
+              "button": "⬆ Upload Guide (.json)",
+              "where": "Top Header Bar, Left Sidebar Card & Studio Modal Top Bar",
+              "whatItDoes": "Smart Upload & Merge: Accepts either a colleague's single-playbook .leanguide.json file (merging it into your active library without deleting existing playbooks) OR a complete master guides.json file."
+            },
+            {
+              "button": "↺ Reset Local Browser Edits",
+              "where": "Studio Tab 1, Tab 2 & Tab 3 Bottom Bar",
+              "whatItDoes": "Clears local browser draft edits from localStorage and restores the official server library snapshot."
+            }
+          ]
+        }
+      ],
+      "referenceTables": []
     }
   ]
 };

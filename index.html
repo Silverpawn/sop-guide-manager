@@ -24,6 +24,11 @@
         <label for="playbookSelect" class="playbook-switcher-label">PLAYBOOK:</label>
         <select id="playbookSelect" class="playbook-select" aria-label="Select Active Lean@GS Playbook"></select>
       </div>
+
+      <!-- Live 3-Tier Storage Status Badge -->
+      <span id="headerStorageStatusBadge" class="storage-status-badge" title="Shows whether you are viewing the Official Server Library or have Local Browser Edits active">
+        ● Official Server Library
+      </span>
     </div>
 
     <div class="header-right">
@@ -38,18 +43,61 @@
         />
         <span class="search-slash" aria-hidden="true">/</span>
       </div>
-      <button type="button" class="header-btn secondary" onclick="window.print()">Print Guide</button>
+
+      <!-- Prominent Authoring Studio & 3-Tier Upload / Export Controls -->
       <button
         type="button"
-        class="admin-gear-btn"
+        class="header-btn studio-cta-btn"
         id="openBuilderBtn"
-        title="Admin: Manage Guide Data (JSON)"
-        aria-label="Admin: Manage Guide Data"
+        title="Open the WYSIWYG Playbook & SOP Authoring Studio"
       >
-        ⚙️
+        ✦ Open Authoring Studio
       </button>
+
+      <input
+        type="file"
+        id="globalGuideUploadInput"
+        accept=".json,.leanguide.json"
+        style="display:none;"
+        onchange="handleGlobalGuideFileUpload(event)"
+      />
+      <button
+        type="button"
+        class="header-btn secondary"
+        onclick="triggerGlobalGuideUpload()"
+        title="Upload & merge a single Playbook (.leanguide.json) or load a complete Master Library (guides.json)"
+      >
+        ⬆ Upload Guide (.json)
+      </button>
+
+      <div class="export-dropdown-wrap" id="headerExportDropdownWrap">
+        <button
+          type="button"
+          class="header-btn secondary"
+          id="headerExportDropdownBtn"
+          onclick="toggleExportGuideMenu(event)"
+          title="Download active Playbook (.leanguide.json) to share with colleagues or download complete Master Library (guides.json)"
+        >
+          ⬇ Export Guide ▾
+        </button>
+        <div class="export-dropdown-menu hidden" id="headerExportDropdownMenu" role="menu">
+          <button type="button" class="export-dropdown-item" onclick="downloadCurrentPlaybookBundle(); closeExportGuideMenu();">
+            <strong>⬇ Download Current Playbook Only (.leanguide.json)</strong>
+            <span>For sharing a single guide via Teams, Email, or SharePoint</span>
+          </button>
+          <button type="button" class="export-dropdown-item" onclick="downloadUpdatedGuidesJson(); closeExportGuideMenu();">
+            <strong>⬇ Download Master Library (guides.json)</strong>
+            <span>For committing all playbooks to the server repository (megblcntpvc72)</span>
+          </button>
+        </div>
+      </div>
+
+      <button type="button" class="header-btn secondary" onclick="window.print()">Print Guide</button>
     </div>
   </header>
+
+  <!-- Confirmation Toast Banner for 3-Tier Upload / Merge / Export -->
+  <div id="guideToastBanner" class="guide-toast-banner hidden" role="status" aria-live="polite"></div>
 
   <!-- Signature Siemens Energy Fading Petrol Line -->
   <div class="se-fading-line" aria-hidden="true"></div>
@@ -97,9 +145,15 @@
             </button>
           </div>
         </div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <button type="button" class="header-btn" onclick="downloadUpdatedGuidesJson()" title="Download complete guides.json for SharePoint, OneDrive, or Git">
-            ⬇ Download Updated guides.json
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <button type="button" class="header-btn secondary" onclick="triggerGlobalGuideUpload()" title="Upload and merge a colleague's .leanguide.json or master guides.json">
+            ⬆ Upload / Merge (.json)
+          </button>
+          <button type="button" class="header-btn" style="background:#009999;" onclick="downloadCurrentPlaybookBundle()" title="Download only the active Playbook (.leanguide.json) to share via Teams or Email">
+            ⬇ Download Current Playbook (.leanguide.json)
+          </button>
+          <button type="button" class="header-btn" style="background:#8A00E5;" onclick="downloadUpdatedGuidesJson()" title="Download complete master guides.json for server deployment">
+            ⬇ Download Master Library (guides.json)
           </button>
           <button type="button" class="header-btn secondary" id="closeModalBtn">Close ✕</button>
         </div>
@@ -427,6 +481,8 @@
               <li><strong style="color:#1B1534;">Business-Priority-First Decision Rule (Supported by Maturity Development):</strong> Never frame the "Vital Few" (Tab 3) or the Charter (Tab 4) primarily around raising maturity scores or <code>"+0.4 Level Unlocks"</code>. Always lead with concrete <strong>Business &amp; Operational Priorities</strong> (<strong>Lead Time, Quality, Throughput, Cost, Overheads, Inventory, Complexity</strong>) and position <strong>Maturity Development</strong> (including Foundation Gateways ★) as the <em>enabling capability</em> required to achieve and sustain those business results.</li>
               <li><strong style="color:#1B1534;">Post-Upload UI State Rule:</strong> When documenting tools that require a data file to reveal their workspace (such as <code>Navigator Toolkit → Analysis Report</code>), always load a valid sample <code>.json</code> assessment file into the app before capturing screenshots and writing steps so the post-upload action selection controls are visible.</li>
               <li><strong style="color:#1B1534;">Mandatory Assessment Header Rule (<code>Org</code> Code &amp; <code>Date of Assessment</code>):</strong> In the Maturity Assessment header (User Data Plate), getting the exact <strong>Org Code</strong> (<code>Org</code>) and <strong>Date of Assessment</strong> right before scoring or exporting is critical—they automatically generate the exported filename (<code>&lt;OrgCode&gt;_&lt;YYYY-MM-DD&gt;_Lean_Assessment.json</code> / <code>.csv</code> / <code>.pdf</code>), index the submission for the <strong>GS Dashboard</strong> and <code>'600 Maturity Submissions'</code> folder, and populate every downstream Analysis Report and Charter header.</li>
+              <li><strong style="color:#1B1534;">Prominent Authoring &amp; File Management UI (Never Hide in Footer):</strong> The <code>Playbook &amp; SOP Authoring Studio</code> and <code>Upload / Download Guide</code> controls are core platform features and must NEVER be styled as muted grey footer links. Display a prominent <code>✦ Open Authoring Studio</code> button and <code>⬆ Upload / ⬇ Export Guide</code> controls in the Top Header Bar AND as a high-contrast <code>✦ BUILD OR SHARE A GUIDE</code> card in the left sidebar.</li>
+              <li><strong style="color:#1B1534;">3-Tier Static-Host Storage &amp; Sharing Architecture:</strong> Tier 1 (Browser Draft): Automatic <code>localStorage</code> persistence with a visible <code>Local Draft Active</code> badge. Tier 2 (Single-Playbook Share — <code>.leanguide.json</code>): Export just the active Playbook (plus linked SOPs, Tools, Roles, and screenshots) as <code>&lt;Playbook-Slug&gt;.leanguide.json</code>, and Upload &amp; Merge a colleague's <code>.leanguide.json</code> without wiping out existing playbooks. Tier 3 (Master Release — <code>guides.json</code>): Download or upload the complete multi-playbook master <code>guides.json</code> for server deployment to <code>megblcntpvc72</code>.</li>
             </ul>
           </div>
         </div>

@@ -147,6 +147,13 @@ Overview stage cards must **NEVER** look like database records, audit checklists
       1. The application uses `Org` and `Date of Assessment` to automatically name exported files (`<OrgCode>_<YYYY-MM-DD>_Lean_Assessment.json`, `.csv`, and `_Report.pdf`). Leaving them blank produces generic `Org_Date_Lean_Assessment.json` files that overwrite each other.
       2. The **GS Dashboard** and the `'600 Maturity Submissions'` folder index and track baseline vs. re-assessment progress using the exact `Org` code and `Date of Assessment`.
       3. Downstream tools (`Analysis Report`, `Charter & Roadmaps`, `PM Maturity Hub`) read `Org` and `Date of Assessment` directly from the uploaded `.json` header to stamp all reports and charters.
+14. **Prominent Authoring & File Management UI (Never Hide in Footer):**
+    - The `Playbook & SOP Authoring Studio` and `Upload / Download Guide` controls are core platform features and must **NEVER** be styled as muted grey footer links.
+    - Display a prominent **`✦ Open Authoring Studio`** button and **`⬆ Upload Guide (.json)` / `⬇ Export Guide ▾`** controls in the **Top Header Bar** AND as a high-contrast **`✦ BUILD OR SHARE A GUIDE`** card in the left sidebar.
+15. **3-Tier Static-Host Storage & Sharing Architecture:**
+    - **Tier 1 (Browser Draft):** Automatic `localStorage` persistence with a visible header/sidebar status badge (`"Local Draft Active"` / `"Unsaved Browser Edits"`) when local edits exist.
+    - **Tier 2 (Single-Playbook Share — `.leanguide.json`):** Ability to export just the currently active Playbook (plus its linked Processes, SOPs, Tools, Roles, and embedded Base64 screenshots) as a standalone `<Playbook-Slug>.leanguide.json` file, and **Upload & Merge** a colleague's `.leanguide.json` file into the active library without wiping out existing playbooks.
+    - **Tier 3 (Master Release — `guides.json`):** Ability to download or upload the complete multi-playbook master `guides.json` file for repository deployment to `megblcntpvc72`.
 
 ---
 

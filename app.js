@@ -37,7 +37,7 @@ let state = {
   matrixMode: "full" // "full" | "compact"
 };
 
-const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V19";
+const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V20";
 let DEFAULT_DB_SNAPSHOT = null;
 
 async function initApp() {
@@ -440,6 +440,10 @@ function renderSidebar() {
 
   const html = `
     <div>
+      ${renderSidebarAuthoringCard(plb)}
+
+      <div class="sidebar-divider"></div>
+
       <!-- Universal Section 1 -->
       <div class="sidebar-section-label" style="margin-top:4px;">1. End-to-End Journey</div>
       <button type="button" class="tree-item ${state.view === "journey" ? "active" : ""}" onclick="showOverview()">
@@ -555,13 +559,73 @@ function renderSidebar() {
             </div>`
           : ""
       }
-      <button type="button" class="quiet-admin-link" onclick="openAdminModal()">
-        ⚙️ Playbook &amp; SOP Authoring Studio
-      </button>
     </div>
   `;
 
   sidebar.innerHTML = html;
+  updateHeaderStorageStatusBadge();
+}
+
+function hasLocalDraftEdits() {
+  try {
+    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (!saved) return false;
+    if (!DEFAULT_DB_SNAPSHOT) return true;
+    return saved !== JSON.stringify(DEFAULT_DB_SNAPSHOT);
+  } catch (e) {
+    return false;
+  }
+}
+
+function updateHeaderStorageStatusBadge() {
+  const badge = document.getElementById("headerStorageStatusBadge");
+  if (!badge) return;
+  const isDraft = hasLocalDraftEdits();
+  if (isDraft) {
+    badge.textContent = "● Local Draft Active";
+    badge.classList.add("local-draft");
+  } else {
+    badge.textContent = "● Official Server Library";
+    badge.classList.remove("local-draft");
+  }
+}
+
+function renderSidebarAuthoringCard(plb) {
+  const isDraft = hasLocalDraftEdits();
+  const statusText = isDraft
+    ? "● Unsaved Browser Edits (Click to Export)"
+    : "● Official Server Library";
+  const statusDotColor = isDraft ? "#2DD4BF" : "#CBD5E1";
+
+  return `
+    <div class="sidebar-authoring-card" aria-label="Author and Share Guides">
+      <div class="sidebar-authoring-title">
+        <span>✦ BUILD OR SHARE A GUIDE</span>
+        <span style="font-size:10px;color:#E2E8F0;font-weight:700;">3-Tier JSON</span>
+      </div>
+      <div class="sidebar-authoring-status">
+        <span style="color:${statusDotColor};font-weight:700;">${escapeHtml(statusText)}</span>
+      </div>
+      <button type="button" class="sidebar-authoring-primary-btn" onclick="openAdminModal()">
+        ✦ Open WYSIWYG Authoring Studio
+      </button>
+      <div class="sidebar-authoring-btn-row">
+        <button type="button" class="sidebar-authoring-sec-btn" onclick="triggerGlobalGuideUpload()" title="Upload and merge a .leanguide.json or master guides.json file">
+          ⬆ Upload / Merge .json
+        </button>
+        <button type="button" class="sidebar-authoring-sec-btn" onclick="downloadCurrentPlaybookBundle()" title="Export active Playbook (.leanguide.json) to share with colleagues">
+          ⬇ Export .json
+        </button>
+      </div>
+      ${
+        plb && plb.id !== "PLB-AUTHOR"
+          ? `<button type="button" class="sidebar-authoring-sec-btn" style="width:100%;margin-top:6px;background:rgba(0,153,153,0.22);border-color:#2DD4BF;color:#CCFBF1;" onclick="switchPlaybook('PLB-AUTHOR')">
+               📘 How to Create a Guide (Masterclass) →
+             </button>`
+          : ""
+      }
+    </div>
+  `;
 }
 
 const OPERATIONAL_PLAYBOOK_CARDS = [
@@ -1292,7 +1356,7 @@ function getButtonBadgeStyle(buttonName) {
   if (name.includes("reset") || name.includes("clear") || name.includes("delete") || name.includes("remove")) {
     return "background:#DC2626;color:#FFFFFF;border:1px solid #B91C1C;";
   }
-  // 3. Bright Purple (#8A00E5 bg, white text): Primary action buttons (Upload Assessment, View Action Report, Save Session, Maturity Explainer, Orientation, Mark as Evaluated, Next Step, Accept Proposed Action)
+  // 3. Bright Purple (#8A00E5 bg, white text): Primary action buttons (Upload Assessment, View Action Report, Save Session, Maturity Explainer, Orientation, Mark as Evaluated, Next Step, Accept Proposed Action, + Add Journey Stage, + New SOP Guide, Copy AI, Master Library)
   if (
     name.includes("upload assessment") ||
     name.includes("view action report") ||
@@ -1308,12 +1372,21 @@ function getButtonBadgeStyle(buttonName) {
     name.includes("promote") ||
     name.includes("start") ||
     name.includes("filter") ||
-    name.includes("slider")
+    name.includes("slider") ||
+    name.includes("add journey stage") ||
+    name.includes("new sop guide") ||
+    name.includes("copy ") ||
+    name.includes("ai prompt") ||
+    name.includes("master library")
   ) {
     return "background:#8A00E5;color:#FFFFFF;border:1px solid #6D28D9;";
   }
-  // 4. Petrol (#009999 bg, white text): Export Assessment (.json & .csv), Export Full Report (PDF), Export Results (CSV), Export to PowerPoint, ? Help & Guide, Co-pilot, New Standard, Download, Save, Auto-Select, + Add
+  // 4. Petrol (#009999 bg, white text): Export Assessment (.json & .csv), Export Full Report (PDF), Export Results (CSV), Export to PowerPoint, ? Help & Guide, Co-pilot, New Standard, Download, Save, Auto-Select, + Add, Authoring Studio, + Create New Playbook, + New Step
   if (
+    name.includes("authoring studio") ||
+    name.includes("create new playbook") ||
+    name.includes("new step") ||
+    name.includes("current playbook") ||
     name.includes("export") ||
     name.includes("download") ||
     name.includes("help & guide") ||
@@ -1595,10 +1668,10 @@ function renderDecisionToolPage(dec, plb, canvas) {
           <table class="clean-table">
             <thead>
               <tr>
-                <th style="width:18%;">Business Priority (What the Business Needs)</th>
-                <th style="width:24%;">Typical Operational Pain Point</th>
-                <th style="width:26%;">Supporting Maturity Capabilities to Develop (Questions &amp; ★ Gateways)</th>
-                <th style="width:32%;">Example 'Vital Few' Charter Action (Business Target + Capability)</th>
+                <th style="width:18%;">${escapeHtml(dec.matrixColumns?.col1 || "Business Priority (What the Business Needs)")}</th>
+                <th style="width:24%;">${escapeHtml(dec.matrixColumns?.col2 || "Typical Operational Pain Point")}</th>
+                <th style="width:26%;">${escapeHtml(dec.matrixColumns?.col3 || "Supporting Maturity Capabilities to Develop (Questions & ★ Gateways)")}</th>
+                <th style="width:32%;">${escapeHtml(dec.matrixColumns?.col4 || "Example 'Vital Few' Charter Action (Business Target + Capability)")}</th>
               </tr>
             </thead>
             <tbody>
@@ -1753,6 +1826,88 @@ function renderTemplatePage(tpl, plb, canvas) {
       </div>
 
       ${
+        tpl.kind === "authoring-reference"
+          ? `
+        <!-- 3-Tier Guide Storage & Sharing Workflow Visual Diagram -->
+        <section class="editorial-section">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+            <h3 class="editorial-h3" style="margin-bottom:0;">1. 3-Tier Guide Storage &amp; Sharing Architecture</h3>
+            <span class="muted-code-pill">Static-Host Architecture (Zero Database Required)</span>
+          </div>
+          <p style="font-size:13.5px;color:#54646E;margin-bottom:14px;">
+            How local browser authoring, single-playbook peer sharing (<code>.leanguide.json</code>), and official repository releases (<code>guides.json</code>) work together:
+          </p>
+          <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:16px;margin-bottom:20px;">
+            ${(tpl.storageTiers || [])
+              .map(
+                (st) => `
+              <div style="background:#FFFFFF;border:2px solid ${escapeHtml(st.borderColor || "#009999")};border-radius:12px;padding:18px;display:flex;flex-direction:column;justify-content:space-between;">
+                <div>
+                  <span style="display:inline-block;background:${escapeHtml(st.badgeBg || "#1B1534")};color:#FFFFFF;font-size:11px;font-weight:800;padding:4px 10px;border-radius:99px;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:8px;">
+                    ${escapeHtml(st.tierBadge || "")}
+                  </span>
+                  <h4 style="font-size:16px;font-weight:800;color:#1B1534;margin-bottom:6px;">
+                    ${escapeHtml(st.title || "")}
+                  </h4>
+                  <p style="font-size:13px;color:#54646E;line-height:1.5;margin-bottom:10px;">
+                    ${escapeHtml(st.desc || "")}
+                  </p>
+                </div>
+                <div style="background:#F8FAFC;border:1px solid #D7E4EE;border-radius:8px;padding:10px;font-size:12px;color:#1B1534;">
+                  <strong style="color:#007A7A;display:block;margin-bottom:2px;">File / Mechanism:</strong>
+                  <code>${escapeHtml(st.fileSpec || "")}</code>
+                </div>
+              </div>`
+              )
+              .join("")}
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;background:#F0FDF9;border:1.5px solid #009999;border-radius:10px;padding:14px 18px;align-items:center;justify-content:space-between;">
+            <div style="font-size:13px;color:#1B1534;font-weight:700;">
+              🚀 Try the 3-Tier Controls Right Now:
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;">
+              <button type="button" class="header-btn studio-cta-btn" onclick="openAdminModal()">✦ Open Authoring Studio</button>
+              <button type="button" class="header-btn" style="background:#009999;" onclick="downloadCurrentPlaybookBundle()">⬇ Download Current Playbook (.leanguide.json)</button>
+              <button type="button" class="header-btn" style="background:#2E1065;" onclick="triggerGlobalGuideUpload()">⬆ Upload / Merge Guide (.json)</button>
+              <button type="button" class="header-btn" style="background:#8A00E5;" onclick="downloadUpdatedGuidesJson()">⬇ Download Master Library (guides.json)</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- AI Playbook Prompt Cheat Sheet -->
+        <section class="editorial-section">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+            <h3 class="editorial-h3" style="margin-bottom:0;">2. 60-Second AI Playbook Generator Cheat Sheet (M365 Copilot / Gemini)</h3>
+            <button type="button" class="header-btn" style="background:#8A00E5;" onclick="copyAiPlaybookPrompt(); showGuideToast('✓ Copied AI Playbook Prompt to clipboard!');">
+              📋 Copy Ready-to-Use AI Prompt
+            </button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:14px;">
+            ${(tpl.aiCheatSheet || [])
+              .map(
+                (step) => `
+              <div style="background:#FAF5FF;border:1px solid #D8B4FE;border-radius:10px;padding:14px;">
+                <div style="font-size:11px;font-weight:800;color:#6D28D9;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">
+                  ${escapeHtml(step.stepBadge || "")}
+                </div>
+                <div style="font-size:14px;font-weight:800;color:#1B1534;margin-bottom:4px;">
+                  ${escapeHtml(step.title || "")}
+                </div>
+                <div style="font-size:12.5px;color:#54646E;line-height:1.45;">
+                  ${escapeHtml(step.detail || "")}
+                </div>
+              </div>`
+              )
+              .join("")}
+          </div>
+        </section>
+
+        <!-- Complete Authoring Studio Button & Control Reference Table -->
+        ${renderButtonsReferenceSection(tpl.buttonsReference || [], "3. Complete Authoring Studio Button & Control Reference")}
+      </div>
+      `
+          : `
+      ${
         fieldGuide.length > 0
           ? `
         <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:14px;margin-bottom:20px;">
@@ -1761,13 +1916,13 @@ function renderTemplatePage(tpl, plb, canvas) {
               (fg) => `
             <div style="background:#EAF4F8;border:1px solid #B8CEDB;border-radius:10px;padding:14px;">
               <div style="font-size:11px;font-weight:800;color:#007A7A;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">
-                ${escapeHtml(fg.section)}
+                ${escapeHtml(fg.section || fg.field || "")}
               </div>
               <div style="font-size:14px;font-weight:700;color:#1B1534;margin-bottom:4px;">
-                ${escapeHtml(fg.appField)}
+                ${escapeHtml(fg.appField || fg.whatToEnter || "")}
               </div>
               <div style="font-size:12.5px;color:#54646E;line-height:1.45;">
-                ${escapeHtml(fg.guidance)}
+                ${escapeHtml(fg.guidance || fg.example || "")}
               </div>
             </div>`
             )
@@ -1794,18 +1949,18 @@ function renderTemplatePage(tpl, plb, canvas) {
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;">
           <div style="padding:16px;background:var(--se-canvas-subtle);border:1px solid var(--se-gray-1);border-radius:10px;">
-            <strong style="color:#1B1534;display:block;margin-bottom:8px;">${escapeHtml(tpl.leftBoxTitle || "")}</strong>
+            <strong style="color:#1B1534;display:block;margin-bottom:8px;">${escapeHtml(tpl.leftBoxTitle || "Business Priorities & Operational Problem Statement")}</strong>
             <ul style="padding-left:18px;color:#54646E;font-size:14px;">
               ${(tpl.leftBoxBullets || []).map((b) => `<li>${escapeHtml(b)}</li>`).join("")}
             </ul>
           </div>
           <div style="padding:16px;background:var(--se-canvas-subtle);border:1px solid var(--se-gray-1);border-radius:10px;">
-            <strong style="color:#1B1534;display:block;margin-bottom:8px;">${escapeHtml(tpl.rightBoxTitle || "")}</strong>
+            <strong style="color:#1B1534;display:block;margin-bottom:8px;">${escapeHtml(tpl.rightBoxTitle || "Supporting Lean Maturity Capabilities (★)")}</strong>
             <div style="color:#54646E;font-size:14px;">
-              <div><strong>${escapeHtml(tpl.rightBoxPrimary || "")}</strong></div>
+              <div><strong>${escapeHtml(tpl.rightBoxPrimary || "Enabling Capabilities Selected from Stage 2 Analysis Report")}</strong></div>
               <div style="margin-top:6px;">
                 <strong>${escapeHtml(tpl.rightBoxSecondaryPrefix || "Focus Gateways")}:</strong>
-                ${escapeHtml(tpl.rightBoxSecondaryValue || "Q10 (Pilot Experiments) • Q12 (Visual KPIs) • Q14 (Daily Huddles)")}
+                ${escapeHtml(tpl.rightBoxSecondaryValue || "Q10 (Pilot Experiments) • Q12 (Visual Flow Metrics) • Q14 (Daily Huddles)")}
               </div>
             </div>
           </div>
@@ -1815,35 +1970,35 @@ function renderTemplatePage(tpl, plb, canvas) {
           <thead>
             <tr>
               <th style="width:80px;">${escapeHtml(th.code || "#")}</th>
-              <th>${escapeHtml(th.action || "Agreed Focus Initiative & Measurable Key Result")}</th>
-              <th style="width:140px;">${escapeHtml(th.lift || "Expected Lift")}</th>
-              <th style="width:140px;">${escapeHtml(th.tag || "Business Need")}</th>
-              <th style="width:95px;">${escapeHtml(th.due || "Due")}</th>
-              <th style="width:130px;">${escapeHtml(th.owner || "Owner")}</th>
+              <th>${escapeHtml(th.action || th.focus || "Focused Charter Action ('Vital Few' — Max 3)")}</th>
+              <th style="width:160px;">${escapeHtml(th.lift || "Supporting Capability (★)")}</th>
+              <th style="width:130px;">${escapeHtml(th.tag || "Business Priority")}</th>
+              <th style="width:110px;">${escapeHtml(th.due || th.targetDate || "90-Day Milestone")}</th>
+              <th style="width:140px;">${escapeHtml(th.owner || "Single Named Owner")}</th>
             </tr>
           </thead>
           <tbody>
             <tr style="background:var(--se-gray-0);">
               <td style="font-weight:700;color:#1B1534;">${escapeHtml(tpl.objectiveRowCode || "OBJ 1")}</td>
               <td colspan="5" style="font-weight:700;color:#1B1534;">
-                ${escapeHtml(tpl.objectiveRowText || "")}
+                ${escapeHtml(tpl.objectiveRowText || "Deliver measurable operational improvements in Lead Time, Quality, and Throughput supported by foundational Lean capabilities.")}
               </td>
             </tr>
             ${exampleRows
               .map(
-                (r) => `
+                (r, idx) => `
               <tr>
-                <td style="font-family:ui-monospace,monospace;font-weight:700;color:#1B1534;">${escapeHtml(r.code)}</td>
+                <td style="font-family:ui-monospace,monospace;font-weight:700;color:#1B1534;">${escapeHtml(r.code || `ACT-${idx + 1}`)}</td>
                 <td style="color:#1B1534;font-weight:600;">
-                  ${escapeHtml(r.action)}
-                  <div style="font-size:12px;color:#54646E;font-weight:400;margin-top:2px;">
-                    ${escapeHtml(r.note || "")}
+                  ${escapeHtml(r.action || r.focus || "")}
+                  <div style="font-size:12px;color:#007A7A;font-weight:600;margin-top:3px;">
+                    ${escapeHtml(r.note || r.kpi || "")}
                   </div>
                 </td>
-                <td style="font-family:ui-monospace,monospace;color:#007A7A;font-weight:700;">${escapeHtml(r.lift)}</td>
-                <td>${escapeHtml(r.tag)}</td>
-                <td style="font-family:ui-monospace,monospace;">${escapeHtml(r.due)}</td>
-                <td>${escapeHtml(r.owner)}</td>
+                <td style="font-family:ui-monospace,monospace;color:#4C1D95;font-weight:700;">${escapeHtml(r.lift || "")}</td>
+                <td><span style="background:#1B1534;color:#FFFFFF;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:5px;">${escapeHtml(r.tag || "")}</span></td>
+                <td style="font-family:ui-monospace,monospace;">${escapeHtml(r.due || r.targetDate || "")}</td>
+                <td>${escapeHtml(r.owner || "")}</td>
               </tr>`
               )
               .join("")}
@@ -1851,6 +2006,8 @@ function renderTemplatePage(tpl, plb, canvas) {
         </table>
       </div>
     </div>
+      `
+      }
   `;
 }
 
@@ -3805,6 +3962,104 @@ function saveStudioStepChanges() {
   document.getElementById("jsonModal").classList.add("hidden");
 }
 
+let guideToastTimer = null;
+function showGuideToast(message) {
+  const banner = document.getElementById("guideToastBanner");
+  if (!banner) return;
+  banner.textContent = message;
+  banner.classList.remove("hidden");
+  if (guideToastTimer) clearTimeout(guideToastTimer);
+  guideToastTimer = setTimeout(() => {
+    banner.classList.add("hidden");
+  }, 4200);
+}
+
+function toggleExportGuideMenu(event) {
+  if (event && typeof event.stopPropagation === "function") {
+    event.stopPropagation();
+  }
+  const menu = document.getElementById("headerExportDropdownMenu");
+  if (menu) menu.classList.toggle("hidden");
+}
+
+function closeExportGuideMenu() {
+  const menu = document.getElementById("headerExportDropdownMenu");
+  if (menu) menu.classList.add("hidden");
+}
+
+function triggerGlobalGuideUpload() {
+  const input = document.getElementById("globalGuideUploadInput");
+  if (input) {
+    input.value = "";
+    input.click();
+  }
+}
+
+function downloadCurrentPlaybookBundle(optPlaybookId) {
+  const targetId = optPlaybookId || state.playbookId;
+  const plb = getPlaybooks().find((p) => p.id === targetId) || getActivePlaybook();
+  if (!plb) return;
+
+  const processes = {};
+  const sops = {};
+  const tools = {};
+  const roles = {};
+
+  for (const pId of plb.processIds || []) {
+    if (DB.processes?.[pId]) {
+      processes[pId] = DB.processes[pId];
+      for (const st of DB.processes[pId].stages || []) {
+        for (const tId of st.toolIds || []) {
+          if (DB.tools?.[tId]) tools[tId] = DB.tools[tId];
+        }
+      }
+    }
+  }
+  for (const sId of plb.sopIds || []) {
+    if (DB.sops?.[sId]) {
+      sops[sId] = DB.sops[sId];
+      if (DB.sops[sId].roleId && DB.roles?.[DB.sops[sId].roleId]) {
+        roles[DB.sops[sId].roleId] = DB.roles[DB.sops[sId].roleId];
+      }
+      for (const tId of DB.sops[sId].toolIds || []) {
+        if (DB.tools?.[tId]) tools[tId] = DB.tools[tId];
+      }
+    }
+  }
+  for (const tId of plb.toolIds || []) {
+    if (DB.tools?.[tId]) tools[tId] = DB.tools[tId];
+  }
+  for (const rId of plb.roleIds || []) {
+    if (DB.roles?.[rId]) roles[rId] = DB.roles[rId];
+  }
+
+  const bundle = {
+    _bundleType: "Lean@GS_Single_Playbook_Bundle",
+    _exportedAt: new Date().toISOString(),
+    playbook: plb,
+    processes,
+    sops,
+    tools,
+    roles
+  };
+
+  const slug = String(plb.id || "Playbook")
+    .trim()
+    .replace(/[^a-zA-Z0-9_-]/g, "-");
+  const fileName = `${slug}.leanguide.json`;
+  const raw = JSON.stringify(bundle, null, 2);
+  const blob = new Blob([raw], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showGuideToast(`⬇ Downloaded Single Playbook '${plb.title}' (${fileName})`);
+}
+
 function downloadUpdatedGuidesJson() {
   const raw = JSON.stringify(DB, null, 2);
   const blob = new Blob([raw], { type: "application/json" });
@@ -3816,6 +4071,83 @@ function downloadUpdatedGuidesJson() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+  showGuideToast("⬇ Downloaded Complete Master Library (guides.json)");
+}
+
+function handleGlobalGuideFileUpload(event) {
+  const file = event?.target?.files?.[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    mergeOrReplaceGuideJson(ev.target.result, file.name);
+  };
+  reader.readAsText(file);
+}
+
+function mergeOrReplaceGuideJson(rawText, fileName) {
+  try {
+    const parsed = JSON.parse(rawText);
+
+    // Case 1: Single-Playbook Bundle (.leanguide.json) or standalone Playbook object
+    if (parsed._bundleType === "Lean@GS_Single_Playbook_Bundle" || (parsed.playbook && parsed.playbook.id) || (parsed.id && parsed.journeyMap)) {
+      const incomingPlb = parsed.playbook || parsed;
+      if (parsed.processes && typeof parsed.processes === "object") {
+        Object.assign(DB.processes, parsed.processes);
+      }
+      if (parsed.sops && typeof parsed.sops === "object") {
+        Object.assign(DB.sops, parsed.sops);
+      }
+      if (parsed.tools && typeof parsed.tools === "object") {
+        Object.assign(DB.tools, parsed.tools);
+      }
+      if (parsed.roles && typeof parsed.roles === "object") {
+        Object.assign(DB.roles, parsed.roles);
+      }
+
+      const existingIdx = (DB.playbooks || []).findIndex((p) => p.id === incomingPlb.id);
+      if (existingIdx >= 0) {
+        DB.playbooks[existingIdx] = incomingPlb;
+      } else {
+        DB.playbooks.push(incomingPlb);
+      }
+
+      try {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(DB));
+      } catch (e) {}
+
+      state.playbookId = incomingPlb.id;
+      state.view = "journey";
+      state.selectedId = null;
+      initializePlaybookDefaults();
+      renderPlaybookSwitcher();
+      renderTopTabs();
+      renderSidebar();
+      renderMain();
+      populateStudioSelectors();
+      showGuideToast(`✓ Merged Playbook '${incomingPlb.title}' into your library`);
+      return;
+    }
+
+    // Case 2: Full Master Library (guides.json)
+    if (Array.isArray(parsed.playbooks) && parsed.sops) {
+      DB = parsed;
+      try {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(DB));
+      } catch (e) {}
+      initializePlaybookDefaults();
+      renderPlaybookSwitcher();
+      renderTopTabs();
+      renderSidebar();
+      renderMain();
+      populateStudioSelectors();
+      showGuideToast(`✓ Loaded Master Library (${parsed.playbooks.length} Playbooks) into your workspace`);
+      return;
+    }
+
+    alert("Unrecognized JSON file format. Please upload a Single-Playbook (.leanguide.json) file or a Master Library (guides.json) file.");
+  } catch (err) {
+    alert("Failed to parse JSON file: " + err.message);
+  }
 }
 
 function resetSavedLocalStorageGuides() {
@@ -3878,6 +4210,13 @@ function bindEvents() {
   });
 
   document.getElementById("openBuilderBtn").addEventListener("click", openAdminModal);
+
+  window.addEventListener("click", (e) => {
+    const wrap = document.getElementById("headerExportDropdownWrap");
+    if (wrap && !wrap.contains(e.target)) {
+      closeExportGuideMenu();
+    }
+  });
 
   document.getElementById("closeModalBtn").addEventListener("click", () => {
     document.getElementById("jsonModal").classList.add("hidden");
