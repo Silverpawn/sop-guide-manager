@@ -9,16 +9,23 @@
       {
         "id": "LIVE-NAVIGATOR",
         "name": "Lean@GS Navigator Toolkit",
-        "shortLabel": "Navigator Toolkit ↗",
+        "shortLabel": "Launch Lean@GS Navigator Toolkit ↗",
         "url": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
         "description": "Orientation, Process Overview, Maturity Assessment, Analysis Report, VOC Input, Workshop Guide, Charter Input, Charter & Roadmaps, Action Log"
       },
       {
         "id": "LIVE-PORTAL",
-        "name": "GS Lean Maturity Portal",
-        "shortLabel": "GS Lean Maturity ↗",
+        "name": "Standalone Maturity App (GS Lean Maturity)",
+        "shortLabel": "Launch Standalone Maturity App (GS Lean Maturity) ↗",
         "url": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
         "description": "Standalone 28-Question Assessment & Gateway Scoring Engine"
+      },
+      {
+        "id": "LIVE-HUB",
+        "name": "Lean@GS PM Maturity Hub",
+        "shortLabel": "Launch Lean@GS PM Maturity Hub ↗",
+        "url": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
+        "description": "Phase 1: Assess (Score Explainer), Phase 2: Visualize (Metro Journey & 4 Pillars), Phase 3: Plan (Strategy Builder & Simulator), Utilities (CSV to JSON Fixer)"
       },
       {
         "id": "LIVE-STORYBOOK",
@@ -26,13 +33,6 @@
         "shortLabel": "Maturity Model Storybook ↗",
         "url": "https://share.gemini.google/UjLQiIQXFbgc",
         "description": "Interactive Lean@GS Maturity Model Storybook"
-      },
-      {
-        "id": "LIVE-HUB",
-        "name": "Lean@GS PM Maturity Hub",
-        "shortLabel": "PM Maturity Hub ↗",
-        "url": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
-        "description": "Phase 1: Assess (Score Explainer), Phase 2: Visualize (Metro Journey & 4 Pillars), Phase 3: Plan (Strategy Builder & Simulator), Utilities (CSV to JSON Fixer)"
       }
     ]
   },
@@ -1381,17 +1381,36 @@
         "inputNeeded": "Completed Site Maturity Assessment (.json or .csv)",
         "outputProduced": "Score Explainer Breakdown, Metro Journey & The 4 Pillars Visualisations"
       },
-      "userGoal": "Load your assessment into the standalone PM Maturity Hub to inspect Gateway ceilings in Score Explainer and visualise roadblocks on Metro Journey and The 4 Pillars.",
+      "userGoal": "Complete or load your 28-question assessment in Phase 1: Assess (Maturity Assessment, Maturity Explainer, Score Explainer) and visualise progression in Phase 2: Visualize (Metro Journey, The 4 Pillars [Live], and Pillars [Static]).",
       "gettingStarted": [
-        "Open PM Maturity Hub and click 'Load JSON / CSV' in the bottom-left Session Data box (or score directly in Maturity Assessment).",
-        "Open Score Explainer under Phase 1: Assess, then expand Phase 2: Visualize to open Metro Journey and The 4 Pillars."
+        "Open PM Maturity Hub and click 'Load JSON / CSV' in the bottom-left Session Data box (or score directly in Phase 1: Maturity Assessment).",
+        "Review Maturity Explainer and Score Explainer under Phase 1: Assess, then open Metro Journey, The 4 Pillars (Live), and Pillars (Static) under Phase 2: Visualize."
       ],
       "steps": [
         {
           "stepNumber": 1,
-          "action": "Click 'Load JSON / CSV' in the PM Maturity Hub sidebar and open Score Explainer.",
-          "detail": "Score Explainer walks through the 4-step scoring check: Gateway Ceiling, Blinkers Filter, Raw Valid Average, and Compressed Score.",
-          "toolId": "TOL-003",
+          "action": "Open Phase 1 Maturity Assessment and Maturity Explainer to score or review all 28 questions.",
+          "detail": "Click any question card in Maturity Assessment to open the 1–5 scoring modal, or open Maturity Explainer to review the 5 maturity stages and 10 themes.",
+          "toolId": "TOL-007",
+          "coachingTip": "Use 'Load JSON / CSV' in the bottom-left Session Data box to load an existing assessment into all PM Maturity Hub screens at once.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/nav-maturity.png",
+            "caption": "Lean@GS PM Maturity Hub — Phase 1: Assess (Maturity Assessment & Maturity Explainer)",
+            "hotspot": {
+              "xPercent": 15,
+              "yPercent": 36,
+              "widthPercent": 24,
+              "heightPercent": 16,
+              "label": "1. Score 28 Questions or Load Session File"
+            }
+          }
+        },
+        {
+          "stepNumber": 2,
+          "action": "Click 'Score Explainer' under Phase 1 to inspect the four-step Gateway ceiling calculation.",
+          "detail": "Score Explainer walks through Step 1 (Gateway Ceiling), Step 2 (Blinkers Filter), Step 3 (Raw Valid Average), and Step 4 (Final Compressed Score).",
+          "toolId": "TOL-007",
           "coachingTip": "If Gateway #10 (Pilot Experiments) scores 2/5, your Operating Level is locked at Level 1 (e.g., 1.6/4.0) even if Level 2 questions score 4.",
           "visual": {
             "type": "image",
@@ -1402,26 +1421,26 @@
               "yPercent": 65,
               "widthPercent": 10,
               "heightPercent": 6,
-              "label": "1. Select Assessment File (.json / .csv)"
+              "label": "2. Inspect 4-Step Gateway Cap Calculation"
             }
           }
         },
         {
-          "stepNumber": 2,
-          "action": "Open Metro Journey and The 4 Pillars (Live) under Phase 2: Visualize.",
-          "detail": "Metro Journey displays your Digital Twin train stopping at the exact failed Gateway station alongside The 4 Pillars view.",
+          "stepNumber": 3,
+          "action": "Open 'Metro Journey' and 'The 4 Pillars (Live)' under Phase 2: Visualize.",
+          "detail": "Metro Journey displays your Digital Twin train stopping at the exact failed Gateway station alongside The 4 Pillars (Live) and Pillars (Static) views.",
           "toolId": "TOL-003",
           "coachingTip": "Colleagues grasp the subway map in ten seconds—point directly to the red station blocking the train from advancing.",
           "visual": {
             "type": "image",
             "imageSrc": "assets/screenshots/hub-metro-journey.png",
-            "caption": "Lean@GS PM Maturity Hub — Phase 2: Visualize (Metro Journey & 4 Pillars)",
+            "caption": "Lean@GS PM Maturity Hub — Phase 2: Visualize (Metro Journey & The 4 Pillars)",
             "hotspot": {
               "xPercent": 67,
               "yPercent": 5,
               "widthPercent": 30,
               "heightPercent": 6,
-              "label": "2. Upload File & Start Metro Journey"
+              "label": "3. View Metro Journey & 4 Pillars Progression"
             }
           }
         }
@@ -1447,9 +1466,9 @@
         "supportRole": "Optional Support: Lean Core Team partner",
         "mandatoryStatus": "PM Maturity Hub • Phase 3 & Utilities",
         "inputNeeded": "Loaded Site Assessment Session",
-        "outputProduced": "Simulated Score Lift & Local Strategy Builder Plan"
+        "outputProduced": "Simulated Score Lift, Local Strategy Builder Plan & Repaired JSON"
       },
-      "userGoal": "Select Light, Standard, Intense, or Custom initiative templates in Strategy Builder, test score improvements in the Simulator Sandbox, and repair legacy Excel CSV files.",
+      "userGoal": "Select Light, Standard, Intense, or Custom initiative templates in Strategy Builder, drag 1–5 sliders in the Simulator Sandbox to test score unlocks, and repair legacy Excel CSV files in CSV to JSON Fixer.",
       "gettingStarted": [
         "Ensure 'Data Active' is shown in the PM Maturity Hub sidebar.",
         "Select 'Strategy Builder' or '↳ Simulator' under Phase 3: Plan, or 'CSV to JSON Fixer' under Utilities."
@@ -1457,27 +1476,27 @@
       "steps": [
         {
           "stepNumber": 1,
-          "action": "Select initiative templates inside Strategy Builder and test score sliders in the Simulator.",
-          "detail": "Choose Light, Standard, Intense, or Custom initiative cards for 2–3 priority Gateway gaps and model the score lift in Simulator.",
+          "action": "Select initiative templates in Strategy Builder and drag sliders in Simulator to test unlocks.",
+          "detail": "Use Auto-Select (Gateways < 3) in Strategy Builder or click '↳ Simulator' in the sidebar to drag 1–5 score sliders and preview your Projected Score lift.",
           "toolId": "TOL-006",
           "coachingTip": "Keep your simulation focused on 2 to 3 key capability actions at a time—raising Q10 from 2 to 3 immediately unlocks all Level-2 questions.",
           "visual": {
             "type": "image",
             "imageSrc": "assets/screenshots/hub-strategy-builder.png",
-            "caption": "Lean@GS PM Maturity Hub — Phase 3: Plan (Strategy Builder & Open Simulator)",
+            "caption": "Lean@GS PM Maturity Hub — Phase 3: Plan (Strategy Builder & ↳ Simulator)",
             "hotspot": {
               "xPercent": 55,
               "yPercent": 35,
               "widthPercent": 16,
               "heightPercent": 7,
-              "label": "1. Upload File & Click 'Open Simulator'"
+              "label": "1. Build Strategy Plan & Open Simulator"
             }
           }
         },
         {
           "stepNumber": 2,
           "action": "Open 'CSV to JSON Fixer' under Utilities if a legacy Excel file fails to load.",
-          "detail": "Upload any semicolon-delimited Excel CSV into CSV to JSON Fixer and download a clean JSON file.",
+          "detail": "Upload any semicolon-delimited Excel CSV into CSV to JSON Fixer and click 'Download Fixed JSON' to save a clean assessment file.",
           "toolId": "TOL-011",
           "coachingTip": "Regional European Excel settings often export semicolons instead of commas—CSV to JSON Fixer repairs the file in one click.",
           "visual": {
@@ -1676,7 +1695,20 @@
       "processIds": ["PRC-001", "PRC-002"],
       "sopIds": ["SOP-001", "SOP-002", "SOP-003", "SOP-004"],
       "toolIds": ["TOL-000", "TOL-001", "TOL-002", "TOL-004", "TOL-005", "TOL-009", "TOL-010"],
-      "liveToolIds": ["LIVE-NAVIGATOR", "LIVE-STORYBOOK", "LIVE-PORTAL"],
+      "liveToolIds": ["LIVE-NAVIGATOR", "LIVE-PORTAL", "LIVE-HUB", "LIVE-STORYBOOK"],
+      "crossRef": {
+        "kicker": "Related Playbook • Standalone PM Maturity Hub Suite",
+        "title": "Related Playbook: Need Standalone Scoring Maths, Metro Visualisations, Simulator, or CSV Fixer?",
+        "desc": "Navigator Toolkit and PM Maturity Hub are kept in separate guides so their menus are never confused. Switch to the Lean@GS PM Maturity Hub Playbook anytime you want to inspect the 4-step Gateway cap maths in Score Explainer, view the Metro Journey & 4 Pillars maps, drag sliders in Simulator, or repair legacy Excel files.",
+        "targetPlaybookId": "PLB-PMHUB",
+        "primaryButtonLabel": "Switch to PM Maturity Hub Playbook →",
+        "deepLinks": [
+          { "label": "Score Explainer Guide →", "playbookId": "PLB-PMHUB", "view": "sop", "id": "SOP-005" },
+          { "label": "Metro Journey & 4 Pillars →", "playbookId": "PLB-PMHUB", "view": "tool", "id": "TOL-003" },
+          { "label": "Strategy Builder & Simulator →", "playbookId": "PLB-PMHUB", "view": "sop", "id": "SOP-006" },
+          { "label": "CSV to JSON Fixer →", "playbookId": "PLB-PMHUB", "view": "tool", "id": "TOL-011" }
+        ]
+      },
       "chooserLabel": "Which part of the journey are you working on today?",
       "rulesKey": {
         "title": "Before You Start: Orientation & 3 Helpful Principles for Scoring & Prioritising",
@@ -1725,8 +1757,17 @@
             "toolId": "TOL-001",
             "toolLabel": "Navigator Toolkit → Maturity Assessment (↳ Maturity Explainer & Interactive Roadmap)",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
-            "secondaryLiveUrl": "https://share.gemini.google/UjLQiIQXFbgc",
-            "secondaryLiveLabel": "Maturity Model Storybook ↗",
+            "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+            "secondaryLiveLabel": "Standalone Maturity App (GS Lean Maturity) ↗",
+            "tertiaryLiveUrl": "https://share.gemini.google/UjLQiIQXFbgc",
+            "tertiaryLiveLabel": "Maturity Model Storybook ↗",
+            "crossRefNote": {
+              "text": "Using the standalone PM Maturity Hub for Score Explainer, Simulator, or CSV to JSON repair?",
+              "cta": "Click here to open the PM Maturity Hub Guide →",
+              "targetPlaybookId": "PLB-PMHUB",
+              "targetView": "sop",
+              "targetId": "SOP-005"
+            },
             "outputArtifact": "Baseline picture of current Lean capability & gaps",
             "targetView": { "type": "sop", "id": "SOP-001", "cta": "Open Stage 1 Assessment Guide →" }
           },
@@ -1741,6 +1782,13 @@
             "toolId": "TOL-002",
             "toolLabel": "Navigator Toolkit → Analysis Report",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
+            "crossRefNote": {
+              "text": "Using the standalone PM Maturity Hub for Score Explainer, Simulator, or CSV to JSON repair?",
+              "cta": "Click here to open the PM Maturity Hub Guide →",
+              "targetPlaybookId": "PLB-PMHUB",
+              "targetView": "sop",
+              "targetId": "SOP-005"
+            },
             "outputArtifact": "Focused view of 2–3 priority capability gaps & foundation gateway caps",
             "targetView": { "type": "sop", "id": "SOP-002", "cta": "Open Stage 2 Analysis Guide →" }
           },
@@ -1963,11 +2011,12 @@
       "referenceTables": [
         {
           "id": "REF-001",
-          "navTitle": "All 28 Questions & 17 Gateways (★)",
-          "eyebrow": "Site Assessment Reference",
-          "badge": "Navigator Toolkit / GS Lean Maturity",
-          "title": "All 28 Assessment Questions & 17 Gateways",
-          "subtitle": "Starred Gateway questions (★ Yes) must score at least 3 across roughly 70% of the site before higher-level questions count toward your final score.",
+          "kind": "scoring-matrix-1page",
+          "navTitle": "All 28 Questions, 17 Gateways (★) & 1–5 Scoring Guide",
+          "eyebrow": "Shared 16:9 One-Page Scoring & Criteria Matrix",
+          "badge": "Navigator Toolkit / PM Maturity Hub / GS Lean Maturity",
+          "title": "All 28 Questions, 17 Gateways (★) & 1–5 Scoring Guide",
+          "subtitle": "Interactive 1-Page 28-Question & 1–5 Scoring Rubric Matrix with New Standard (2026) / Old Standard toggle, Full Verbatim / Executive Concise toggle, and native PowerPoint (.pptx), 4K Image (.png), and 1-Page PDF exports.",
           "filterAllLabel": "All Questions (28)",
           "filterFlaggedLabel": "★ Starred Gateways Only (17)",
           "columns": ["#", "Assessment Question", "Topic", "Level", "Gateway?"],
@@ -2027,7 +2076,20 @@
       "processIds": ["PRC-003"],
       "sopIds": ["SOP-005", "SOP-006"],
       "toolIds": ["TOL-007", "TOL-003", "TOL-006", "TOL-011"],
-      "liveToolIds": ["LIVE-HUB", "LIVE-STORYBOOK"],
+      "liveToolIds": ["LIVE-HUB", "LIVE-PORTAL", "LIVE-NAVIGATOR", "LIVE-STORYBOOK"],
+      "crossRef": {
+        "kicker": "Related Playbook • 6-Stage Navigator Process",
+        "title": "Ready to run a leadership workshop with Voice of the Customer and a 1-Page Charter?",
+        "desc": "Switch to the Lean@GS Navigator Toolkit Playbook for the full 6-stage leadership process (Maturity Assessment → Analysis Report → VOC Input → Navigator Workshop → 1-Page Charter → Action Log).",
+        "targetPlaybookId": "PLB-001",
+        "primaryButtonLabel": "Switch to Lean@GS Navigator Toolkit Playbook →",
+        "deepLinks": [
+          { "label": "Stage 1–2 Assessment & Analysis →", "playbookId": "PLB-001", "view": "sop", "id": "SOP-001" },
+          { "label": "Stage 3 Voice of the Customer (VOC) →", "playbookId": "PLB-001", "view": "sop", "id": "SOP-003" },
+          { "label": "Stage 4–6 Workshop, Charter & Action Log →", "playbookId": "PLB-001", "view": "sop", "id": "SOP-004" },
+          { "label": "1-Page Charter Example →", "playbookId": "PLB-001", "view": "template", "id": "TPL-001" }
+        ]
+      },
       "chooserLabel": "Which PM Maturity Hub phase or utility are you using today?",
       "rulesKey": {
         "title": "Before You Start: How Lean@GS PM Maturity Hub Is Organised",
@@ -2262,6 +2324,19 @@
         }
       ],
       "referenceTables": [
+        {
+          "id": "REF-001",
+          "kind": "scoring-matrix-1page",
+          "navTitle": "All 28 Questions, 17 Gateways (★) & 1–5 Scoring Guide",
+          "eyebrow": "Shared 16:9 One-Page Scoring & Criteria Matrix",
+          "badge": "PM Maturity Hub / Navigator Toolkit / GS Lean Maturity",
+          "title": "All 28 Questions, 17 Gateways (★) & 1–5 Scoring Guide",
+          "subtitle": "Interactive 1-Page 28-Question & 1–5 Scoring Rubric Matrix with New Standard (2026) / Old Standard toggle, Full Verbatim / Executive Concise toggle, and native PowerPoint (.pptx), 4K Image (.png), and 1-Page PDF exports.",
+          "filterAllLabel": "All Questions (28)",
+          "filterFlaggedLabel": "★ Starred Gateways Only (17)",
+          "columns": ["#", "Assessment Question", "Topic", "Level", "Gateway?"],
+          "rows": []
+        },
         {
           "id": "REF-002",
           "navTitle": "PM Maturity Hub Navigation & Module Guide",

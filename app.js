@@ -30,10 +30,14 @@ let state = {
   studioDraftImageSrc: "",
   studioDraftCaption: "",
   studioDraftHotspot: null, // { xPercent, yPercent, widthPercent, heightPercent, label }
-  studioSavedSvgVisual: null
+  studioSavedSvgVisual: null,
+
+  // Stage 10 1-Page 28-Question Scoring Matrix State:
+  matrixStandard: "new", // "new" | "old"
+  matrixMode: "full" // "full" | "compact"
 };
 
-const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V15";
+const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V16";
 let DEFAULT_DB_SNAPSHOT = null;
 
 async function initApp() {
@@ -194,6 +198,27 @@ function switchPlaybook(newPlaybookId) {
   setActiveTopTab("journey");
   renderSidebar();
   renderMain();
+}
+
+function switchPlaybookAndOpen(targetPlaybookId, targetView, targetId) {
+  if (targetPlaybookId && targetPlaybookId !== state.playbookId) {
+    switchPlaybook(targetPlaybookId);
+  }
+  if (!targetView || targetView === "journey") {
+    showOverview();
+    return;
+  }
+  if (targetView === "sop" && targetId) {
+    selectSOP(targetId);
+  } else if (targetView === "tool" && targetId) {
+    selectTool(targetId);
+  } else if (targetView === "decision" && targetId) {
+    selectDecisionTool(targetId);
+  } else if (targetView === "template" && targetId) {
+    selectTemplate(targetId);
+  } else if (targetView === "reference" && targetId) {
+    selectReferenceTable(targetId);
+  }
 }
 
 /**
@@ -514,6 +539,20 @@ function renderSidebar() {
 
     <div>
       ${
+        plb.crossRef && plb.crossRef.targetPlaybookId
+          ? `<div class="sidebar-launcher-card" style="background:linear-gradient(135deg,#2E1065 0%,#4C1D95 100%);border-color:#A855F7;margin-bottom:10px;">
+              <div class="sidebar-launcher-title" style="color:#E9D5FF;">🔀 Sister Playbook Cross-Reference</div>
+              <div style="font-size:11.5px;color:#F3E8FF;line-height:1.4;margin-bottom:8px;">
+                ${escapeHtml(plb.crossRef.title)}
+              </div>
+              <button type="button" class="cross-ref-primary-btn" style="width:100%;justify-content:center;font-size:11.5px;padding:6px 10px;"
+                      onclick="switchPlaybookAndOpen('${escapeHtml(plb.crossRef.targetPlaybookId)}', 'journey', '')">
+                ${escapeHtml(plb.crossRef.primaryButtonLabel || "Switch Playbook →")}
+              </button>
+            </div>`
+          : ""
+      }
+      ${
         getActiveLiveTools(plb).length > 0
           ? `<div class="sidebar-launcher-card" aria-label="Live Lean@GS Intranet Tool Launcher">
               <div class="sidebar-launcher-title">🚀 Live Lean@GS Tool Launcher</div>
@@ -606,7 +645,7 @@ function renderJourneyPage(plb, canvas) {
           : ""
       }
 
-      <!-- Stage 7: Live Lean@GS Corporate Intranet Tool Launcher Bar -->
+      <!-- Stage 7 & 10: Live Lean@GS Corporate Intranet Tool Launcher Bar (All 3 Live Apps + Storybook) -->
       ${
         getActiveLiveTools(plb).length > 0
           ? `
@@ -618,15 +657,51 @@ function renderJourneyPage(plb, canvas) {
             ${getActiveLiveTools(plb)
               .map(
                 (lt) => `
-              <a href="${escapeHtml(lt.url)}" target="_blank" rel="noopener noreferrer" class="live-tool-btn" title="${escapeHtml(
-                  lt.description || lt.name
-                )}">
-                <span>Launch ${escapeHtml(lt.name)}</span>
+              <a href="${escapeHtml(lt.url)}" target="_blank" rel="noopener noreferrer" class="live-tool-btn ${
+                  lt.id === "LIVE-HUB" ? "purple" : ""
+                }" title="${escapeHtml(lt.description || lt.name)}">
+                <span>${escapeHtml(lt.shortLabel || `Launch ${lt.name} ↗`).replace(/\s*↗$/, "")}</span>
                 <span aria-hidden="true">↗</span>
               </a>`
               )
               .join("")}
           </div>
+        </div>`
+          : ""
+      }
+
+      <!-- Stage 10: Cross-Reference Callout Card Between PLB-001 (Navigator) & PLB-PMHUB (PM Maturity Hub) -->
+      ${
+        plb.crossRef && plb.crossRef.targetPlaybookId
+          ? `
+        <div class="cross-ref-callout-card" role="region" aria-label="Sister Playbook Cross-Reference">
+          <div class="cross-ref-header-row">
+            <div>
+              <span class="cross-ref-kicker">${escapeHtml(plb.crossRef.kicker || "Related Playbook")}</span>
+              <h3 class="cross-ref-title">${escapeHtml(plb.crossRef.title)}</h3>
+            </div>
+            <button type="button" class="cross-ref-primary-btn"
+                    onclick="switchPlaybookAndOpen('${escapeHtml(plb.crossRef.targetPlaybookId)}', 'journey', '')">
+              ${escapeHtml(plb.crossRef.primaryButtonLabel || "Switch Playbook →")}
+            </button>
+          </div>
+          <p class="cross-ref-desc">${escapeHtml(plb.crossRef.desc || "")}</p>
+          ${
+            Array.isArray(plb.crossRef.deepLinks) && plb.crossRef.deepLinks.length > 0
+              ? `<div class="cross-ref-btn-group">
+                  <span style="font-size:11.5px;font-weight:800;color:#4C1D95;">Jump directly to:</span>
+                  ${plb.crossRef.deepLinks
+                    .map(
+                      (dl) => `
+                    <button type="button" class="cross-ref-deep-btn"
+                            onclick="switchPlaybookAndOpen('${escapeHtml(dl.playbookId)}', '${escapeHtml(dl.view)}', '${escapeHtml(dl.id)}')">
+                      ${escapeHtml(dl.label)}
+                    </button>`
+                    )
+                    .join("")}
+                </div>`
+              : ""
+          }
         </div>`
           : ""
       }
@@ -722,6 +797,7 @@ function renderJourneyPage(plb, canvas) {
               const whoText = st.whoIsInvolved || st.whoAndDuration || st.leadRoleLabel || leadRoleObj?.title || "";
               const liveUrl = st.liveUrl || toolObj?.liveUrl || "";
               const secondaryLiveUrl = st.secondaryLiveUrl || toolObj?.secondaryLiveUrl || "";
+              const tertiaryLiveUrl = st.tertiaryLiveUrl || "";
 
               return `
               <div class="stage-flow-card ${isDimmed ? "dimmed" : ""}">
@@ -760,9 +836,29 @@ function renderJourneyPage(plb, canvas) {
                               </a>`
                             : ""
                         }
+                        ${
+                          tertiaryLiveUrl
+                            ? `<a href="${escapeHtml(tertiaryLiveUrl)}" target="_blank" rel="noopener noreferrer" class="live-tool-btn purple compact" title="Open Maturity Model Storybook in a new browser tab">
+                                ${escapeHtml(st.tertiaryLiveLabel || "Storybook ↗")}
+                              </a>`
+                            : ""
+                        }
                       </div>
                     </div>
                   </div>
+                  ${
+                    st.crossRefNote && st.crossRefNote.targetPlaybookId
+                      ? `<div class="stage-cross-ref-note">
+                          <span>${escapeHtml(st.crossRefNote.text || "")}</span>
+                          <button type="button" class="stage-cross-ref-link"
+                                  onclick="switchPlaybookAndOpen('${escapeHtml(st.crossRefNote.targetPlaybookId)}', '${escapeHtml(
+                          st.crossRefNote.targetView || "sop"
+                        )}', '${escapeHtml(st.crossRefNote.targetId || "")}')">
+                            ${escapeHtml(st.crossRefNote.cta || "Open Related Playbook →")}
+                          </button>
+                        </div>`
+                      : ""
+                  }
                 </div>
                 <div>
                   <div class="stage-io-box">
@@ -1122,6 +1218,59 @@ function getResolvedButtonsReference(sop, tools) {
   return combined;
 }
 
+function getButtonBadgeStyle(buttonName) {
+  const name = String(buttonName || "").toLowerCase();
+  // 1. Dark Sidebar Teal Accent (#1B1534 bg, #2dd4bf text, #0d9488 border): Maturity Model Storybook
+  if (name.includes("storybook")) {
+    return "background:#1B1534;color:#2DD4BF;border:1.5px solid #0D9488;";
+  }
+  // 2. Danger Red (#dc2626 bg, white text): Reset Progress, Clear Session, Delete, Clear
+  if (name.includes("reset") || name.includes("clear") || name.includes("delete") || name.includes("remove")) {
+    return "background:#DC2626;color:#FFFFFF;border:1px solid #B91C1C;";
+  }
+  // 3. Petrol (#009999 bg, white text): Export Assessment (.json & .csv), New Standard active toggle, Download / Export / Save / Auto-Select / + Add
+  if (
+    name.includes("export") ||
+    name.includes("download") ||
+    name.includes("new standard") ||
+    name.includes("save") ||
+    name.includes("auto-select") ||
+    name.includes("+ add")
+  ) {
+    return "background:#009999;color:#FFFFFF;border:1px solid #007A7A;";
+  }
+  // 4. Deep Plum / Indigo (#2e1065 bg, white text): View Dashboard, Import Assessment (.json / .csv), ? User Guide, View Key, Load JSON / CSV, Select, Upload
+  if (
+    name.includes("view dashboard") ||
+    name.includes("import") ||
+    name.includes("user guide") ||
+    name.includes("view key") ||
+    name.includes("load ") ||
+    name.includes("upload") ||
+    name.includes("select ") ||
+    name.includes("old standard") ||
+    name.includes("print")
+  ) {
+    return "background:#2E1065;color:#FFFFFF;border:1px solid #4C1D95;";
+  }
+  // 5. Bright Purple (#8A00E5 bg, white text): Maturity Explainer, Orientation, Question Card Modal: Mark as Evaluated, Open Simulator, primary action buttons
+  if (
+    name.includes("maturity explainer") ||
+    name.includes("orientation") ||
+    name.includes("mark as evaluated") ||
+    name.includes("question card") ||
+    name.includes("simulator") ||
+    name.includes("promote") ||
+    name.includes("start") ||
+    name.includes("filter") ||
+    name.includes("slider")
+  ) {
+    return "background:#8A00E5;color:#FFFFFF;border:1px solid #6D28D9;";
+  }
+  // 6. Dark Sidebar Slate (#1e1b4b bg, #e2e8f0 text): Sidebar navigation items & session buttons
+  return "background:#1E1B4B;color:#E2E8F0;border:1px solid #312E81;";
+}
+
 function renderButtonsReferenceSection(buttons, sectionHeading) {
   const list = Array.isArray(buttons) ? buttons : [];
   if (list.length === 0) return "";
@@ -1132,7 +1281,7 @@ function renderButtonsReferenceSection(buttons, sectionHeading) {
         <span class="muted-code-pill">Screen-by-Screen UI Reference (${list.length} Controls)</span>
       </div>
       <p style="font-size:13.5px;color:#54646E;margin-bottom:12px;">
-        Quick reference for every button, toggle, and input control on this screen in the live application:
+        Quick reference for every button, toggle, and input control on this screen in the live application (badges match real application button colours):
       </p>
       <table class="clean-table">
         <thead>
@@ -1148,9 +1297,11 @@ function renderButtonsReferenceSection(buttons, sectionHeading) {
               (b) => `
             <tr>
               <td>
-                <code style="color:#1B1534;background:#EAF4F8;border:1px solid #B8CEDB;padding:3px 8px;border-radius:5px;font-weight:700;font-size:12.5px;">
+                <span style="${getButtonBadgeStyle(
+                  b.button
+                )}display:inline-block;padding:4px 10px;border-radius:6px;font-weight:700;font-size:12px;line-height:1.35;font-family:'Inter',sans-serif;box-shadow:0 1px 2px rgba(0,0,0,0.12);">
                   ${escapeHtml(b.button)}
-                </code>
+                </span>
               </td>
               <td style="color:#4D217A;font-weight:600;font-size:13px;">${escapeHtml(b.where)}</td>
               <td style="color:#1B1534;font-size:13.5px;line-height:1.5;">${escapeHtml(b.whatItDoes)}</td>
@@ -1398,9 +1549,34 @@ function renderTemplatePage(tpl, plb, canvas) {
   const th = tpl.tableHeaders || {};
   const exampleRows = tpl.exampleRows || [];
   const fieldGuide = tpl.fieldGuide || [];
+  const allTpls = plb.templates || [];
+  const allRefs = plb.referenceTables || [];
+
+  const tab4SwitcherBar =
+    allTpls.length + allRefs.length > 1
+      ? `<div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
+          ${allTpls
+            .map(
+              (t) => `
+            <button type="button" class="funnel-chip ${t.id === tpl.id ? "active" : ""}" onclick="selectTemplate('${escapeHtml(t.id)}')">
+              📄 ${escapeHtml(t.navTitle)}
+            </button>`
+            )
+            .join("")}
+          ${allRefs
+            .map(
+              (r) => `
+            <button type="button" class="funnel-chip" onclick="selectReferenceTable('${escapeHtml(r.id)}')">
+              📊 ${escapeHtml(r.navTitle)}
+            </button>`
+            )
+            .join("")}
+        </div>`
+      : "";
 
   canvas.innerHTML = `
     <div class="content-container">
+      ${tab4SwitcherBar}
       <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;margin-bottom:18px;">
         <div style="max-width:740px;">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
@@ -1528,14 +1704,474 @@ function renderTemplatePage(tpl, plb, canvas) {
   `;
 }
 
+const MATRIX_DATA_NEW_STANDARD = [
+  { n: 1, t: "Foundation", tc: "theme-Foundation", g: "★ L1", q: "Is there a clear business reason driving this Lean Programme?", s1: "No documented or communicated link exists between Lean activities and a specific business problem.", s2: "BINARY", s3: "BINARY", s4: "BINARY", s5: "Yes: A specific, compelling business problem (True North) is clearly identified, well-communicated, and provides direction across the team. Generic efficiency platitudes do not qualify." },
+  { n: 2, t: "Foundation", tc: "theme-Foundation", g: "★ L1", q: "Is leadership committed and actively invested in being involved?", s1: "Leadership is unaware of or passive toward Lean activities, delegating all responsibility to specialists.", s2: "BINARY", s3: "BINARY", s4: "BINARY", s5: "Yes: Leadership consistently provides resources, time, and visible support for local Lean activities." },
+  { n: 3, t: "Foundation", tc: "theme-Foundation", g: "★ L1", q: "Has the team or organisation started acquiring foundational Lean knowledge?", s1: "No basic Lean training or introductory knowledge-sharing has occurred within the team.", s2: "BINARY", s3: "BINARY", s4: "BINARY", s5: "Yes: A core team (BE or Improvement team) has completed basic lean training beyond L4L or L4E." },
+  { n: 4, t: "Awareness & Training", tc: "theme-Awareness", g: "★ L1", q: "How clearly can your team describe what Lean means and how it supports your business goals?", s1: "The team cannot define Lean or explain how it relates to their business goals.", s2: "The team defines Lean purely as a cost-cutting tool or a set of manufacturing-specific methods.", s3: "Most (>70%) of the team share a definition of Lean aligned with process flow, waste elimination, and customer value.", s4: "The team can clearly explain how applying Lean principles directly supports and levers their current key performance indicators.", s5: "A comprehensive, value-driven definition of Lean is universally lived, with the team actively driving process changes to fulfill strategic goals." },
+  { n: 5, t: "Awareness & Training", tc: "theme-Awareness", g: "★ L1", q: "How deeply do team members understand core Lean concepts?", s1: "Limited or no understanding of core Lean concepts (such as the 8 wastes or continuous flow) exists.", s2: "The team understands Lean concepts theoretically but cannot recognize waste or flow bottlenecks in their daily work.", s3: "The team can practically apply core Lean concepts to solve basic, localized process problems under expert coaching.", s4: "Most (>70%) of the team can explain why flow beats batching and can independently initiate simple improvements to remove waste.", s5: "Deep, comprehensive understanding is demonstrated; team members routinely coach and mentor each other in scientific problem-solving." },
+  { n: 6, t: "Awareness & Training", tc: "theme-Awareness", g: "L2", q: "Is there a consistent and active plan to close competency gaps?", s1: "No method or plan exists to identify or track the skills and capability gaps of the team.", s2: "A training record is maintained centrally, but it is purely administrative and not used to manage on-the-job capability gaps.", s3: "The team has a visible and active method for identifying and closing skills gaps.", s4: "Competence development and tracking are managed through an active skills tracking mechanism, with clear, routine peer-shadowing plans.", s5: "Skills progression is fully integrated into daily operations, with team members systematically peer-coaching and cross-training each other." },
+  { n: 7, t: "Structure & Strategy", tc: "theme-Structure", g: "★ L2", q: "Is there a clear Lean structure and defined role ownership within the team?", s1: "No individual is assigned or takes ownership for driving Lean activities within the team.", s2: "Lean activities are driven purely by an ad-hoc individual enthusiast without formal responsibility or leadership support.", s3: "Defined responsibility is established for driving Lean activities, with named roles or documented expectations.", s4: "Defined roles are actively involved in daily routines, meetings, and operational problem-solving.", s5: "The structure is fully self-sustaining, resilient, and survives personnel and leadership changes." },
+  { n: 8, t: "Structure & Strategy", tc: "theme-Structure", g: "★ L2", q: "How effectively is strategy managed and reviewed at your level?", s1: "No strategic goals are communicated to the team; operations are purely reactive.", s2: "Strategic goals are broadcasted from the top down, but the team cannot link them to their daily improvement activities.", s3: "The team can clearly link local Lean initiatives and project targets directly to cascaded strategic goals.", s4: "A documented, bidirectional feedback process (Catchball) is actively used to confirm and negotiate objectives, targets, and initiative capacities against actual team resources.", s5: "Strategy deployment is a continuous, self-regulating PDCA cycle, with frontline capability directly guiding the organization's strategic direction." },
+  { n: 9, t: "Structure & Strategy", tc: "theme-Structure", g: "L3", q: "How well are strategic objectives cascaded to teams?", s1: "Strategic objectives are not cascaded to teams or are poorly understood.", s2: "Strategic objectives are cascaded, but understanding at the team level is very limited.", s3: "Strategic objectives are partially cascaded, with some understanding among teams, but consistency may vary.", s4: "Strategic objectives are well cascaded to teams, and there's a good understanding of their relevance to daily work.", s5: "Strategic objectives are fully integrated and clearly cascaded to all teams, who understand their contribution and track progress effectively." },
+  { n: 10, t: "Tools & KPI Alignment", tc: "theme-Tools", g: "★ L2", q: "Does the team actively execute structured, pilot experiments?", s1: "No structured experiments or tool trials have been attempted by the team.", s2: "Ad-hoc, uncoordinated attempts to use Lean tools have occurred, but without structure or visual tracking.", s3: "The team can present a visible, active roadmap, process map, or pilot storyboard used to track and manage active experiments. Standard, repeating behavior.", s4: "Structured experiments are consistently managed and documented, with the team active in analyzing pilot area results.", s5: "Active experimentation is a default, continuous habit, with pilot results systematically scaled across different areas." },
+  { n: 11, t: "Tools & KPI Alignment", tc: "theme-Tools", g: "L3", q: "Are Lean tools routinely applied and embedded in daily operations?", s1: "No Lean tools or routines are consistently utilized in the workspace.", s2: "The team occasionally attempts to use Lean templates (e.g., A3, standard work) but only when prompted by a specialist.", s3: "Defined standard work, templates, or visual aids are visually documented and understood for primary tools.", s4: "Lean tools are a live operational interface, updated in real-time and actively managed by the team on a daily basis.", s5: "The team has customized and optimized their operational tools to perfectly fit their workflow, operating on self-regulation." },
+  { n: 12, t: "Tools & KPI Alignment", tc: "theme-Tools", g: "★ L3", q: "Are performance metrics and Lean-relevant KPIs displayed and actively discussed in the work area?", s1: "No performance metrics or KPIs are captured or displayed in the work area.", s2: "The team tracks standard operational metrics, but these are purely lagging, traditional cost-accounting metrics.", s3: "The team actively tracks and visually displays flow-focused Lean KPIs (lead time, throughput, yield, defect rates). Traditional utilization/cost absorption do not qualify.", s4: "Lean KPIs are updated and discussed daily during huddles, directly guiding immediate team problem-solving priorities.", s5: "KPI tracking is live and predictive, with the team proactively adjusting daily workflows based on leading indicator trends." },
+  { n: 13, t: "Tools & KPI Alignment", tc: "theme-Tools", g: "L4", q: "Is the review of KPIs driven by Lean principles to prevent local optimization?", s1: "No structured review of KPIs occurs; metrics are compiled but ignored.", s2: "KPI reviews occur, but focus strictly on local targets with no consideration for end-to-end process impact.", s3: "KPI reviews occur regularly, with the team actively evaluating performance interfaces and cross-functional handoffs.", s4: "Metrics are balanced and reviewed through a Lean lens, ensuring improvements in one area reinforce performance in others and prioritize flow, quality, and waste reduction.", s5: "Leading indicators are used proactively to drive systemic improvements across the value stream, ensuring actions strengthen system-wide flow, quality, and performance." },
+  { n: 14, t: "Daily Mgmt & CI", tc: "theme-Daily", g: "★ L3", q: "Are daily huddles used consistently to raise and resolve issues?", s1: "The team does not conduct huddles or regular operational alignment meetings.", s2: "Operational meetings occur occasionally, but are unstructured, reactive, and lack visual tracking.", s3: "Short, daily huddles occur at a fixed time with a standard board, actively run by the lead to identify workflow obstacles and maintain process flow.", s4: "A fully functioning tiered huddle system is active, with formal, rapid escalation loops connecting multiple functional areas.", s5: "Daily huddles extend seamlessly to cross-functional partners and external suppliers, driving self-regulated, real-time adjustments." },
+  { n: 15, t: "Daily Mgmt & CI", tc: "theme-Daily", g: "★ L3", q: "How effectively are employee suggestions captured and implemented?", s1: "No process exists for employees to submit or track process improvement suggestions.", s2: "An ad-hoc suggestion box exists, but suggestions are rarely reviewed, tracked, or implemented.", s3: "A structured suggestion process is active and consistently tracked (logged, displayed, and reviewed).", s4: "Process improvements are systematically aligned with team KPIs and strategic business goals, eliminating arbitrary percentage targets.", s5: "The team owns and manages their standard work, utilizing a structured, verified process to safely update and test standards, serving as process owners." },
+  { n: 16, t: "Value Chain Integration", tc: "theme-ValueChain", g: "★ L3", q: "Does the team practice structured reflection?", s1: "The team does not conduct reflections, reviews, or debriefs after process changes.", s2: "The team has completed a retrospective or lessons-learned session at least once for a major project.", s3: "A structured learning/reflection process is the normal approach consistently used after major changes, driven actively by the Lead.", s4: "Reflections consistently evaluate both process performance (Did we hit the target?) and team learning (How can we improve our collaboration?).", s5: "The team systematically analyzes even highly successful tasks to understand systemic performance factors and capture learning." },
+  { n: 17, t: "Value Chain Integration", tc: "theme-ValueChain", g: "L4", q: "How consistently are lessons learned documented and applied?", s1: "Lessons learned are not documented, resulting in repeating the same process errors.", s2: "Documenting is ad-hoc (e.g., an occasional social media post or newsletter), focusing only on positive marketing.", s3: "Learnings (both successful wins and process failures/losses) are systematically documented in an accessible repository.", s4: "The team regularly reviews the learning repository to update local standards and prevent recurring bottlenecks.", s5: "The team systematically searches for and applies documented learnings from other business units before starting any new project or process change." },
+  { n: 18, t: "Value Chain Integration", tc: "theme-ValueChain", g: "★ L4", q: "Does your Lean philosophy extend across your entire value chain?", s1: "The team's Lean focus is exclusively on internal operations, with no consideration for external partners.", s2: "The team recognizes that supplier performance impacts them, but supplier relations remain purely transactional.", s3: "The team begins to formally share its Lean philosophy and expectations with key partners through structured communication.", s4: "Standards are shared, co-monitored, and acted upon collaboratively with value chain partners.", s5: "The entire value chain is integrated; suppliers, partners, and the team operate as one seamless, end-to-end value system." },
+  { n: 19, t: "Value Chain Integration", tc: "theme-ValueChain", g: "L4", q: "Are internal departmental handoffs integrated to ensure seamless process flow?", s1: "Internal departments operate in strict functional silos, with no collaboration on shared processes.", s2: "Information is shared occasionally between departments, but handoff bottlenecks are ignored until they cause a crisis.", s3: "Cross-functional process maps (such as SIPOC) are defined and agreed upon by the primary departmental interfaces.", s4: "Internal departments regularly and proactively collaborate to optimize end-to-end workflow across handoffs.", s5: "Cross-departmental boundaries are virtually invisible, with shared resource pools and natural collaboration driving flow." },
+  { n: 20, t: "Leadership & Culture", tc: "theme-Leadership", g: "L3", q: "Do leaders practice the 'Gemba Walk' habit consistently?", s1: "Leaders rarely or never visit the active workspace, managing operations strictly via spreadsheets and reports.", s2: "Leaders visit the workspace only when a major crisis or process failure occurs.", s3: "Scheduled Gemba walks with a focused operational theme occur consistently. Guidance contains standard 'Go and See' translations.", s4: "Leaders conduct Gemba walks to actively identify systemic bottlenecks, partnering with the team to remove them.", s5: "The Gemba habit is a natural, daily interaction; leaders are viewed as accessible coaches focused on raising standards." },
+  { n: 21, t: "Leadership & Culture", tc: "theme-Leadership", g: "L3", q: "Do leaders use a consistent questioning cycle to identify target conditions and obstacles?", s1: "Leaders manage via command-and-control, giving direct instructions rather than coaching the team.", s2: "Leaders attempt to ask questions, but these are often closed, leading questions that dictate the solution.", s3: "Leaders consistently use Socratic, open-ended questioning cycles to guide daily problem-solving and develop team thinking. Avoids Kata jargon.", s4: "Leaders utilize formal coaching frameworks (such as Toyota Kata) to systematically help the team define target conditions and obstacles.", s5: "Coaching is seamless, peer-to-peer, and constant; the leader has successfully built a self-sustaining coaching culture." },
+  { n: 22, t: "Leadership & Culture", tc: "theme-Leadership", g: "★ L3", q: "Is there a culture of psychological safety that encourages safe experimentation?", s1: "Fear culture - mistakes are punished, problems are hidden, and blame is assigned.", s2: "Silence and avoidance - team members hesitate to speak up; risks and failures are discussed late or indirectly.", s3: "Stated safety (but inconsistent) - No Blame mindset is communicated, but reactions to mistakes vary depending on the situation or leader.", s4: "Practiced transparency - teams openly share mistakes and near-misses in regular routines without negative consequences.", s5: "Active learning culture - leaders actively invite challenge and sharing; learning from experiments is recognized and mistakes are treated as system failures." },
+  { n: 23, t: "Learning & Scaling", tc: "theme-Scaling", g: "L4", q: "Are learnings from reflection used to update standard work?", s1: "Reflection is never linked to updating standards; process changes are purely ad-hoc.", s2: "The team occasionally updates standard work after a crisis, but without structured reflection.", s3: "Reflection is built into the weekly cadence, with some learnings captured to update local standard work templates.", s4: "Reflection is consistently used to improve how work is performed on a daily basis, ensuring standard work outcomes are updated based on behavioral changes.", s5: "Frontline teams dynamically evolve and update their own operational standards in real-time, within verified safety loops." },
+  { n: 24, t: "Learning & Scaling", tc: "theme-Scaling", g: "L4", q: "Is physical verification used to validate pilot project outcomes?", s1: "Pilot projects are not utilized; new processes are deployed across the whole site without testing.", s2: "Pilots are attempted theoretically, but are not verified physically or digitally in the work area.", s3: "To achieve Level 3, the team must present live, physical, or digital examples of active pilot work currently running in their area.", s4: "Pilot outcomes are rigorously analyzed using visual data over time before broader deployment is approved.", s5: "Structured pilot experimentation is the natural default for every process change, with outcomes visually verified by the team." },
+  { n: 25, t: "Learning & Scaling", tc: "theme-Scaling", g: "★ L4", q: "Are successful standards systematically scaled across the site?", s1: "Successful standards are never scaled; process improvements remain isolated to the original pilot cell.", s2: "Scaling happens occasionally by chance (viral), but without planning or leadership support.", s3: "A formal, documented deployment plan exists to scale successful standards from the pilot to the wider local site.", s4: "Standards are updated centrally to ensure broader adoption across the site or business area.", s5: "The organization scales process improvements faster than the market changes, with a seamless pipeline for standard updates." },
+  { n: 26, t: "Collaboration & Feedback", tc: "theme-Collaboration", g: "★ L3", q: "Do teams from different functions collaborate to improve shared processes?", s1: "Silos - focus stays strictly on individual functional areas.", s2: "Minimal coordination - information is shared occasionally, but teams work in silos and avoid joint problem-solving.", s3: "Coordination focus - regular meetings exist, but focus is on coordination rather than joint problem-solving.", s4: "Structured collaboration - teams proactively work together using structured methods to solve problems across handoffs.", s5: "End-to-end alignment - teams act as one end-to-end process team; people collaborate across functions naturally to improve flow." },
+  { n: 27, t: "Collaboration & Feedback", tc: "theme-Collaboration", g: "★ L5", q: "Are joint improvement projects executed with external partners?", s1: "No joint projects are executed; partner relations are purely transactional.", s2: "Joint meetings occur occasionally, but focus on negotiating transactional terms rather than eliminating waste.", s3: "Joint Kaizen events/projects are planned and executed with external value chain partners, focusing on waste reduction and collaborative monitoring.", s4: "Shared process-improvement savings are split mutually with partners, driven by collaborative, joint monitoring.", s5: "The team co-designs processes and products with partners from day one, eliminating shared waste proactively." },
+  { n: 28, t: "Communication", tc: "theme-Communication", g: "L2", q: "How consistently are success stories shared and replicated?", s1: "Process successes are never shared, keeping operational improvements isolated.", s2: "Successes are mentioned occasionally, but are purely promotional PR with no operational or learning details.", s3: "Lean successes are mentioned occasionally, but without detail or learning.", s4: "Teams share stories including problems, approach, and learnings to help others apply them.", s5: "Lean stories are actively used across teams to learn, replicate improvements, and onboard others." }
+];
+
+const MATRIX_DATA_OLD_STANDARD = [
+  { n: 1, t: "Foundation", tc: "theme-Foundation", g: "★ L1", q: "Is there a clear business reason (i.e., solving a specific problem) driving this Lean Programme?", s1: "The reason for implementing Lean is vague, undefined, or not communicated.", s2: "BINARY", s3: "BINARY", s4: "BINARY", s5: "A specific, compelling business problem or strategic goal that Lean will address has been clearly identified, well-communicated, and provides strong purpose and direction." },
+  { n: 2, t: "Foundation", tc: "theme-Foundation", g: "★ L1", q: "Is leadership committed & invested in being involved?", s1: "Leaders show no visible commitment or involvement, or are actively resistant.", s2: "BINARY", s3: "BINARY", s4: "BINARY", s5: "Leaders are highly committed, visibly championing Lean, actively involved, removing roadblocks, and inspiring others." },
+  { n: 3, t: "Foundation", tc: "theme-Foundation", g: "★ L1", q: "Has the team or organisation started acquiring foundational Lean knowledge?", s1: "No efforts to acquire Lean knowledge have begun.", s2: "BINARY", s3: "BINARY", s4: "BINARY", s5: "Foundational Lean knowledge acquisition is actively underway and accessible to all relevant team members/departments." },
+  { n: 4, t: "Awareness & Training", tc: "theme-Awareness", g: "★ L1", q: "How clearly can your team describe what Lean means and how it supports your business goals?", s1: "The team cannot clearly describe what Lean means or how it supports your business goals.", s2: "The team has a vague idea of Lean but struggles to link it to specific business goals.", s3: "The team can provide a basic definition of Lean and make general connections to business goals.", s4: "The team can describe Lean and articulate reasonably clear connections to specific business goals.", s5: "The team can articulate a very clear, consistent, and practical understanding of Lean and its direct support for specific, measurable business goals." },
+  { n: 5, t: "Awareness & Training", tc: "theme-Awareness", g: "★ L1", q: "How well does the team understand Lean concepts?", s1: "Team has very limited or no understanding of Lean concepts.", s2: "Team has a superficial understanding of a few basic concepts.", s3: "Team understands common Lean concepts but may struggle with application or deeper implications.", s4: "Team understands most key Lean concepts and can articulate their meaning and relevance.", s5: "Team has a deep, comprehensive understanding of Lean concepts and can readily apply them to identify and solve problems." },
+  { n: 6, t: "Awareness & Training", tc: "theme-Awareness", g: "L2", q: "How consistently do team members receive Lean training, and is there a plan for ongoing learning?", s1: "Training is inconsistent or ad-hoc, with no clear plan for ongoing learning.", s2: "Some training occurs, but it's not regular or structured, and ongoing learning is not planned.", s3: "There's an emerging consistency in training, and an initial plan for ongoing learning is being developed.", s4: "Team members receive consistent Lean training, and a clear plan for ongoing learning is in place.", s5: "Lean training is systematically integrated, highly consistent, and supported by a robust, regularly reviewed plan for ongoing learning and development." },
+  { n: 7, t: "Structure & Strategy", tc: "theme-Structure", g: "★ L2", q: "Is there a defined Lean structure or role ownership?", s1: "No defined Lean structure or clear role ownership exists.", s2: "Some individuals informally take on Lean tasks, but roles are not formalized.", s3: "Initial roles or a basic structure for Lean are being defined but not yet fully established.", s4: "There is a clearly defined Lean structure and role ownership in place, understood by relevant parties.", s5: "The Lean structure and role ownership are well-defined, integrated into the organizational hierarchy, and actively driving Lean initiatives." },
+  { n: 8, t: "Structure & Strategy", tc: "theme-Structure", g: "★ L2", q: "Is a strategy management system in place and regularly reviewed?", s1: "No strategy management system is in place.", s2: "Strategy is managed informally or on an ad-hoc basis, with irregular reviews.", s3: "A basic strategy management system is being developed, with some periodic reviews.", s4: "A strategy management system is in place and regularly reviewed, though perhaps not fully optimized.", s5: "A robust strategy management system is fully in place, regularly and systematically reviewed, and effectively guides organizational direction." },
+  { n: 9, t: "Structure & Strategy", tc: "theme-Structure", g: "L3", q: "How well are strategic objectives cascaded to teams?", s1: "Strategic objectives are not cascaded to teams or are poorly understood.", s2: "Strategic objectives are cascaded, but understanding at the team level is very limited.", s3: "Strategic objectives are partially cascaded, with some understanding among teams, but consistency may vary.", s4: "Strategic objectives are well cascaded to teams, and there's a good understanding of their relevance to daily work.", s5: "Strategic objectives are fully integrated and clearly cascaded to all teams, who understand their contribution and track progress effectively." },
+  { n: 10, t: "Tools & KPI Alignment", tc: "theme-Tools", g: "★ L2", q: "Has the team experimented with any Lean tools on a small scale or in a pilot project?", s1: "No Lean tools have been trialled or applied anywhere.", s2: "Awareness of some tools exists, but no practical trials have occurred.", s3: "A few basic Lean tools have been trialled in isolated, local areas.", s4: "Some Lean tools have been successfully trialled and applied locally in a few areas.", s5: "Active experimentation and local application of various Lean tools are ongoing across multiple teams or departments." },
+  { n: 11, t: "Tools & KPI Alignment", tc: "theme-Tools", g: "L3", q: "How embedded and routinely applied are Lean tools in your team's daily work?", s1: "No Lean tools are actively or consistently used.", s2: "A few Lean tools are used, but inconsistently or by a small number of people.", s3: "Some key Lean tools are starting to be actively used, but consistency is still developing.", s4: "Multiple Lean tools are actively and consistently used across several teams or processes.", s5: "A wide range of appropriate Lean tools are actively and consistently used, embedded into daily work across the organization." },
+  { n: 12, t: "Tools & KPI Alignment", tc: "theme-Tools", g: "★ L3", q: "Are Lean-related KPIs tracked and discussed in teams?", s1: "Lean-related KPIs are not tracked or discussed in teams.", s2: "Some informal tracking or occasional discussion of Lean-related metrics occurs.", s3: "Basic Lean-related KPIs are starting to be tracked, and discussions are emerging in some teams.", s4: "Lean-related KPIs are regularly tracked and discussed in many teams, informing local improvements.", s5: "Lean-related KPIs are systematically tracked, consistently discussed in all relevant teams, and directly drive problem-solving and improvement actions." },
+  { n: 13, t: "Tools & KPI Alignment", tc: "theme-Tools", g: "L4", q: "Are KPIs clearly aligned to Lean goals (flow, quality, waste)?", s1: "KPIs are not aligned to Lean goals; they may even conflict.", s2: "There is some loose or indirect alignment between KPIs and Lean goals, but it's not clear.", s3: "Some KPIs are clearly aligned to Lean goals, but others are not.", s4: "Most relevant KPIs are clearly aligned to Lean goals, providing good visibility of Lean performance.", s5: "KPIs are strongly and explicitly aligned to Lean goals (flow, quality, waste) across all relevant processes, driving the right behaviors." },
+  { n: 14, t: "Daily Mgmt & CI", tc: "theme-Daily", g: "★ L3", q: "Are daily huddles used consistently to raise and resolve issues?", s1: "Daily huddles are not used.", s2: "Huddles are used infrequently or without clear purpose for issue resolution.", s3: "Huddles are starting to be used more consistently, with an emerging focus on raising and resolving issues.", s4: "Daily huddles are used consistently in many areas to effectively raise and resolve issues.", s5: "Daily huddles are deeply embedded across relevant teams, consistently and effectively used for real-time issue identification, problem-solving, and resolution." },
+  { n: 15, t: "Daily Mgmt & CI", tc: "theme-Daily", g: "★ L3", q: "How often do employees suggest and act on improvements?", s1: "Employees rarely or never suggest or act on improvements.", s2: "Employees infrequently suggest improvements, and action taken is limited.", s3: "Employees periodically suggest improvements, and some action is taken, but it's not consistent.", s4: "Employees regularly suggest improvements, and a good proportion of these are acted upon.", s5: "Employees continuously and proactively suggest improvements, and a high percentage are acted upon, demonstrating an embedded culture of daily improvement." },
+  { n: 16, t: "Value Chain Integration", tc: "theme-ValueChain", g: "★ L3", q: "After an improvement is made, does the team reflect on the outcome to refine the process they just changed?", s1: "Learning and reflection practices are not used for system improvement.", s2: "Some informal learning or reflection may occur, but it's ad-hoc and not tied to system improvement.", s3: "Basic learning and reflection practices are emerging in some areas, with an initial focus on system improvement.", s4: "Learning and reflection practices are consistently used in many areas to identify and implement system improvements.", s5: "Learning and reflection practices are systematically embedded across the organization, continuously driving robust system improvements." },
+  { n: 17, t: "Value Chain Integration", tc: "theme-ValueChain", g: "L4", q: "How effectively does the organisation capture and share learnings from one team's improvements so that other teams can benefit?", s1: "Learning from improvement work is not captured or utilized.", s2: "Learning is occasionally captured but rarely utilized or shared beyond immediate teams.", s3: "Some learning is shared within departments, but cross-functional application is limited.", s4: "Learning from improvement work is effectively shared and applied across relevant parts of the organization.", s5: "Learning from improvement work is systematically captured, widely shared, and actively applied throughout the organization to drive continuous evolution." },
+  { n: 18, t: "Value Chain Integration", tc: "theme-ValueChain", g: "★ L4", q: "Does your Lean philosophy extend across your entire value chain?", s1: "The organization's Lean focus is exclusively on internal processes, with no strategic consideration for external partners.", s2: "An awareness exists that supplier performance and customer perception impact the value stream, but this is not yet part of the formal Lean strategy.", s3: "The organization begins to formally share its Lean philosophy and expectations with key partners through structured communication.", s4: "The organization consistently works to align partners with its Lean strategy through training, shared standards, and integrating the voice of the customer.", s5: "The Lean philosophy is fully integrated into partner relationships; the value chain is managed as one seamless, end-to-end system." },
+  { n: 19, t: "Value Chain Integration", tc: "theme-ValueChain", g: "L4", q: "To what extent are Lean practices integrated across departments and partners?", s1: "Lean practices are isolated to specific departments or functions, with no integration across boundaries.", s2: "Some limited integration of Lean practices exists between a few closely related departments.", s3: "Lean practices are partially integrated across several departments, but consistency or depth varies.", s4: "Lean practices are broadly integrated across many departments, and some foundational collaboration with partners exists.", s5: "Lean practices are deeply and consistently integrated across virtually all departments and key external partners, fostering seamless collaboration." },
+  { n: 20, t: "Leadership & Culture", tc: "theme-Leadership", g: "L3", q: "How present and engaged are leaders in supporting Lean efforts at the workplace?", s1: "Leaders are rarely or never present or engaged in Lean efforts at the workplace.", s2: "Leaders show sporadic presence but limited engagement in Lean efforts.", s3: "Leaders are periodically present and show some engagement in supporting Lean efforts.", s4: "Leaders are consistently present and actively engaged in supporting Lean efforts at the workplace.", s5: "Leaders demonstrate an inspiring presence, deeply engaged and hands-on in supporting Lean efforts, fostering a culture of ownership." },
+  { n: 21, t: "Leadership & Culture", tc: "theme-Leadership", g: "L3", q: "How often do leaders coach and guide teams by asking Lean-focused questions?", s1: "Leaders do not coach or guide teams using Lean-focused questions.", s2: "Leaders rarely or inconsistently use Lean-focused questions for coaching.", s3: "Leaders occasionally coach with Lean-focused questions, but it's not a regular practice.", s4: "Leaders regularly coach and guide teams by asking probing Lean-focused questions to stimulate thinking.", s5: "Coaching with Lean-focused questions is an embedded and consistent practice for leaders, significantly developing team problem-solving capabilities." },
+  { n: 22, t: "Leadership & Culture", tc: "theme-Leadership", g: "★ L3", q: "To what extent does our organization combine a psychologically safe culture with a structured process to drive effective experimentation?", s1: "The culture is punitive, and there is no process for experimentation. Change is feared, mistakes are punished.", s2: "The first signs of either a safe space or a basic process are appearing in isolation, but they are not connected.", s3: "A formal process for experimentation has been introduced, but the psychological safety to use it consistently is lacking.", s4: "Both a managed process and a high degree of psychological safety are consistently present. Teams reliably use the structured process.", s5: "A culture of high psychological safety and a mature, managed process are seamlessly integrated, driving rapid learning and CI." },
+  { n: 23, t: "Learning & Scaling", tc: "theme-Scaling", g: "L4", q: "How ingrained is the routine for your team to both reflect on improvements and actively share the results?", s1: "Teams rarely or never reflect on improvements or share learnings.", s2: "Reflection and sharing are ad-hoc, happening only occasionally and informally.", s3: "Teams are beginning to reflect on improvements and share learnings, but routines are inconsistent.", s4: "Teams regularly reflect on improvements and share what they've learned within their own or related teams.", s5: "Routine reflection on improvements is systematic within teams, and learnings are actively shared and utilized across the organization." },
+  { n: 24, t: "Learning & Scaling", tc: "theme-Scaling", g: "L4", q: "How often are pilot projects used to test, learn, and adapt Lean improvements?", s1: "Pilot projects are not used for testing Lean improvements.", s2: "Pilot projects are rarely used, or their learning potential is not fully leveraged.", s3: "Pilot projects are occasionally used to test improvements, with some learning and adaptation.", s4: "Pilot projects are regularly used to test, learn from, and adapt Lean improvements before wider rollout.", s5: "Pilot projects are systematically and frequently used as a core part of the Lean improvement cycle to rigorously test, learn, and adapt solutions." },
+  { n: 25, t: "Learning & Scaling", tc: "theme-Scaling", g: "★ L4", q: "How effectively are successful Lean practices spread across teams or departments?", s1: "Successful Lean practices remain isolated to their original team/department.", s2: "Some successful practices spread informally or ad-hoc, without a clear strategy.", s3: "There's an intentional but limited effort to spread successful practices to a few other teams/departments.", s4: "Successful Lean practices are effectively identified and spread across relevant teams or departments.", s5: "Successful Lean practices are systematically identified, standardized, and scaled effectively across the entire organization." },
+  { n: 26, t: "Collaboration & Feedback", tc: "theme-Collaboration", g: "★ L3", q: "How well do teams from different functions collaborate to improve shared processes?", s1: "Teams from different functions operate in silos with no collaboration on shared processes.", s2: "Interactions are minimal, often requiring escalation to resolve issues in shared processes.", s3: "Teams collaborate on shared processes mainly when problems arise, on a reactive basis.", s4: "Teams from different functions regularly and proactively collaborate to improve shared processes.", s5: "Collaboration across functions for shared process improvement is seamless, integrated, and a natural part of how work gets done." },
+  { n: 27, t: "Collaboration & Feedback", tc: "theme-Collaboration", g: "★ L5", q: "How actively do you execute joint improvement projects with external partners?", s1: "Interactions are purely transactional, with a complete absence of joint improvement activity.", s2: "Partners may discuss problems as they arise, but collaboration is informal and reactive.", s3: "Formal, proactive dialogues are established with key partners to identify opportunities for joint improvement in a structured manner.", s4: "The organization consistently engages in defined, project-based improvement events (e.g., VSM, Kaizen) with key partners.", s5: "Joint improvement is an embedded 'business as usual' activity. Strategic partnerships drive a continuous portfolio of initiatives." },
+  { n: 28, t: "Communication", tc: "theme-Communication", g: "L2", q: "How consistently are Lean success stories shared to inspire and align the wider business?", s1: "Lean success stories are not shared at all.", s2: "Success stories are shared infrequently or informally, with limited reach.", s3: "Success stories are periodically shared, but a consistent mechanism or broad impact is lacking.", s4: "Lean success stories are regularly shared through established channels to inspire and align the wider business.", s5: "Lean success stories are consistently and compellingly communicated across the entire organization, actively inspiring and aligning employees." }
+];
+
+function condenseMatrixText(text) {
+  if (!text || text === "BINARY") return text;
+  return text
+    .replace(/^The team /i, "")
+    .replace(/^The organization /i, "")
+    .replace(/Explicitly, traditional operational measures.*$/i, "")
+    .replace(/Generic efficiency platitudes do not qualify\./i, "")
+    .replace(/Guidance contains.*$/i, "")
+    .replace(/Terminology is inclusive.*$/i, "");
+}
+
+function setMatrixStandard(std) {
+  state.matrixStandard = std === "old" ? "old" : "new";
+  renderMain();
+}
+
+function setMatrixMode(mode) {
+  state.matrixMode = mode === "compact" ? "compact" : "full";
+  renderMain();
+}
+
+function exportMatrixToPPTX(singleSlide = true) {
+  if (typeof PptxGenJS === "undefined") {
+    alert("PowerPoint generator library is still loading. Please try again in a moment.");
+    return;
+  }
+  const pptx = new PptxGenJS();
+  pptx.layout = "LAYOUT_WIDE";
+  const dataset = state.matrixStandard === "new" ? MATRIX_DATA_NEW_STANDARD : MATRIX_DATA_OLD_STANDARD;
+  const stdLabel = state.matrixStandard === "new" ? "New Standard (2026)" : "Old Standard";
+
+  const chunks = singleSlide ? [dataset] : [dataset.slice(0, 14), dataset.slice(14, 28)];
+  const fontSize = singleSlide ? 5.2 : 7.5;
+  const headerFontSize = singleSlide ? 6.5 : 8.5;
+
+  chunks.forEach((chunk, pageIndex) => {
+    const slide = pptx.addSlide();
+    slide.background = { color: "FFFFFF" };
+
+    slide.addShape(pptx.ShapeType.rect, {
+      x: 0.15,
+      y: 0.1,
+      w: 13.03,
+      h: 0.32,
+      fill: { color: "1B1534" },
+      rectRadius: 0.04
+    });
+
+    const pageSuffix =
+      chunks.length > 1
+        ? ` (Part ${pageIndex + 1} of 2: Q${chunk[0].n}–Q${chunk[chunk.length - 1].n})`
+        : " (Complete 1-Page Matrix: Q1–Q28)";
+    slide.addText(`LEAN MATURITY ASSESSMENT — ${stdLabel.toUpperCase()}${pageSuffix}`, {
+      x: 0.25,
+      y: 0.12,
+      w: 8.5,
+      h: 0.28,
+      fontSize: 10,
+      bold: true,
+      color: "FFFFFF",
+      fontFace: "Calibri"
+    });
+
+    slide.addText("★ Gateway Question (Requires ≥ 3 or Yes to advance stage)", {
+      x: 8.8,
+      y: 0.12,
+      w: 4.3,
+      h: 0.28,
+      fontSize: 8,
+      bold: true,
+      color: "FBBF24",
+      align: "right",
+      fontFace: "Calibri"
+    });
+
+    const rows = [
+      [
+        { text: "#", options: { fill: "1B1534", color: "FFFFFF", bold: true, fontSize: headerFontSize, align: "center" } },
+        { text: "Theme", options: { fill: "1B1534", color: "FFFFFF", bold: true, fontSize: headerFontSize } },
+        { text: "Gate", options: { fill: "1B1534", color: "FFFFFF", bold: true, fontSize: headerFontSize, align: "center" } },
+        { text: "Assessment Question", options: { fill: "1B1534", color: "FFFFFF", bold: true, fontSize: headerFontSize } },
+        { text: "1: Absent", options: { fill: "334155", color: "FFFFFF", bold: true, fontSize: headerFontSize } },
+        { text: "2: Emerging", options: { fill: "475569", color: "FFFFFF", bold: true, fontSize: headerFontSize } },
+        { text: "3: Structured", options: { fill: "0F766E", color: "FFFFFF", bold: true, fontSize: headerFontSize } },
+        { text: "4: Consistent", options: { fill: "009999", color: "FFFFFF", bold: true, fontSize: headerFontSize } },
+        { text: "5: Embedded", options: { fill: "4D217A", color: "FFFFFF", bold: true, fontSize: headerFontSize } }
+      ]
+    ];
+
+    chunk.forEach((item) => {
+      const isGate = item.g.includes("★");
+      const rowFill = isGate ? "FFFBEB" : "FFFFFF";
+      const s1 = state.matrixMode === "compact" ? condenseMatrixText(item.s1) : item.s1;
+      const s2 = state.matrixMode === "compact" ? condenseMatrixText(item.s2) : item.s2;
+      const s3 = state.matrixMode === "compact" ? condenseMatrixText(item.s3) : item.s3;
+      const s4 = state.matrixMode === "compact" ? condenseMatrixText(item.s4) : item.s4;
+      const s5 = state.matrixMode === "compact" ? condenseMatrixText(item.s5) : item.s5;
+
+      if (item.s2 === "BINARY") {
+        rows.push([
+          { text: String(item.n), options: { fill: rowFill, bold: true, fontSize: fontSize, align: "center" } },
+          { text: item.t, options: { fill: rowFill, bold: true, fontSize: fontSize } },
+          { text: item.g, options: { fill: isGate ? "FDE68A" : rowFill, bold: true, fontSize: fontSize, align: "center" } },
+          { text: item.q, options: { fill: rowFill, bold: true, fontSize: fontSize } },
+          { text: s1, options: { fill: rowFill, fontSize: fontSize } },
+          {
+            text: "Binary Foundation Gate — Scored as 1 (No / Absent) or 5 (Yes / Embedded)",
+            options: { colspan: 3, fill: "F8FAFC", color: "64748B", italic: true, fontSize: fontSize, align: "center", valign: "middle" }
+          },
+          { text: s5, options: { fill: "F0FDFA", bold: true, fontSize: fontSize } }
+        ]);
+      } else {
+        rows.push([
+          { text: String(item.n), options: { fill: rowFill, bold: true, fontSize: fontSize, align: "center" } },
+          { text: item.t, options: { fill: rowFill, bold: true, fontSize: fontSize } },
+          { text: item.g, options: { fill: isGate ? "FDE68A" : rowFill, bold: true, fontSize: fontSize, align: "center" } },
+          { text: item.q, options: { fill: rowFill, bold: true, fontSize: fontSize } },
+          { text: s1, options: { fill: rowFill, fontSize: fontSize } },
+          { text: s2, options: { fill: rowFill, fontSize: fontSize } },
+          { text: s3, options: { fill: "F0FDFA", fontSize: fontSize } },
+          { text: s4, options: { fill: rowFill, fontSize: fontSize } },
+          { text: s5, options: { fill: "FAF5FF", fontSize: fontSize } }
+        ]);
+      }
+    });
+
+    slide.addTable(rows, {
+      x: 0.15,
+      y: 0.46,
+      w: 13.03,
+      colW: [0.28, 1.05, 0.42, 1.92, 1.87, 1.87, 1.87, 1.87, 1.88],
+      border: { type: "solid", pt: 0.5, color: "CBD5E1" },
+      fontFace: "Calibri",
+      margin: [1.2, 2.5, 1.2, 2.5],
+      valign: "top"
+    });
+  });
+
+  const fileSuffix = singleSlide ? "1Slide_OnePager" : "2Slide_LargeFont";
+  pptx.writeFile({ fileName: `Lean_Maturity_Assessment_Rubric_${state.matrixStandard.toUpperCase()}_${fileSuffix}.pptx` });
+}
+
+async function exportMatrixHighResPNG() {
+  const canvasEl = document.getElementById("matrix-slide-canvas");
+  if (!canvasEl || typeof html2canvas === "undefined") {
+    alert("Image export library is still loading. Please try again in a moment.");
+    return;
+  }
+  const canvas = await html2canvas(canvasEl, {
+    scale: 3,
+    backgroundColor: "#ffffff",
+    useCORS: true
+  });
+  const link = document.createElement("a");
+  link.download = `Lean_Maturity_Assessment_1Page_Slide_${state.matrixStandard.toUpperCase()}.png`;
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+}
+
+async function exportMatrixSlidePDF() {
+  const canvasEl = document.getElementById("matrix-slide-canvas");
+  if (!canvasEl || typeof html2canvas === "undefined" || !window.jspdf) {
+    alert("PDF export library is still loading. Please try again in a moment.");
+    return;
+  }
+  const { jsPDF } = window.jspdf;
+  const canvas = await html2canvas(canvasEl, {
+    scale: 2.5,
+    backgroundColor: "#ffffff",
+    useCORS: true
+  });
+  const imgData = canvas.toDataURL("image/png");
+  const pdf = new jsPDF({
+    orientation: "landscape",
+    unit: "pt",
+    format: [1280, 720]
+  });
+  pdf.addImage(imgData, "PNG", 0, 0, 1280, 720);
+  pdf.save(`Lean_Maturity_Assessment_1Page_${state.matrixStandard.toUpperCase()}.pdf`);
+}
+
 /**
  * Tab 4B: Universal Reference Table Renderer (Driven by activePlaybook.referenceTables)
+ * Supports the full interactive 16:9 1-Page 28-Question & 1–5 Scoring Rubric Matrix (REF-001)
  */
 function renderReferenceTablePage(ref, plb, canvas) {
   if (!ref) return;
+  const allRefs = plb.referenceTables || [];
+  const allTpls = plb.templates || [];
+  const q = state.searchQuery.toLowerCase().trim();
+
+  const refSwitcherBar =
+    allRefs.length > 1 || allTpls.length > 0
+      ? `<div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
+          ${allTpls
+            .map(
+              (t) => `
+            <button type="button" class="funnel-chip" onclick="selectTemplate('${escapeHtml(t.id)}')">
+              📄 ${escapeHtml(t.navTitle)}
+            </button>`
+            )
+            .join("")}
+          ${allRefs
+            .map(
+              (r) => `
+            <button type="button" class="funnel-chip ${r.id === ref.id ? "active" : ""}" onclick="selectReferenceTable('${escapeHtml(r.id)}')">
+              📊 ${escapeHtml(r.navTitle)}
+            </button>`
+            )
+            .join("")}
+        </div>`
+      : "";
+
+  if (ref.kind === "scoring-matrix-1page" || ref.id === "REF-001") {
+    const dataset = state.matrixStandard === "new" ? MATRIX_DATA_NEW_STANDARD : MATRIX_DATA_OLD_STANDARD;
+    const fontSizeStyle = state.matrixMode === "compact" ? "font-size: 10.4px; line-height: 1.24;" : "";
+    const filteredDataset = dataset.filter((item) => {
+      const isGateway = item.g.includes("★");
+      const matchFlag = state.referenceFilter === "all" || (state.referenceFilter === "flagged" && isGateway);
+      const matchQ =
+        !q ||
+        `q${item.n}`.includes(q) ||
+        item.t.toLowerCase().includes(q) ||
+        item.q.toLowerCase().includes(q) ||
+        item.s1.toLowerCase().includes(q) ||
+        item.s3.toLowerCase().includes(q) ||
+        item.s5.toLowerCase().includes(q);
+      return matchFlag && matchQ;
+    });
+
+    const matrixRowsHtml = filteredDataset
+      .map((item) => {
+        const isGateway = item.g.includes("★");
+        const rowClass = isGateway ? "gateway-row" : "";
+        const gateBadge = isGateway
+          ? `<span style="display:inline-block;background:#FBBF24;color:#0F172A;font-weight:800;padding:2px 5px;border-radius:4px;font-size:8.5px;">${escapeHtml(
+              item.g
+            )}</span>`
+          : `<span style="color:#64748B;font-weight:700;font-size:8.5px;">${escapeHtml(item.g)}</span>`;
+
+        const s1 = state.matrixMode === "compact" ? condenseMatrixText(item.s1) : item.s1;
+        const s2 = state.matrixMode === "compact" ? condenseMatrixText(item.s2) : item.s2;
+        const s3 = state.matrixMode === "compact" ? condenseMatrixText(item.s3) : item.s3;
+        const s4 = state.matrixMode === "compact" ? condenseMatrixText(item.s4) : item.s4;
+        const s5 = state.matrixMode === "compact" ? condenseMatrixText(item.s5) : item.s5;
+
+        if (item.s2 === "BINARY") {
+          return `
+            <tr class="${rowClass}">
+              <td style="text-align:center;font-weight:800;color:#334155;${fontSizeStyle}">${item.n}</td>
+              <td class="${escapeHtml(item.tc)}" style="${fontSizeStyle}">${escapeHtml(item.t)}</td>
+              <td style="text-align:center;">${gateBadge}</td>
+              <td style="font-weight:700;color:#0F172A;${fontSizeStyle}">${escapeHtml(item.q)}</td>
+              <td style="${fontSizeStyle}">${escapeHtml(s1)}</td>
+              <td colspan="3" class="binary-cell">Binary Foundation Gate — Scored as 1 [No / Absent] or 5 [Yes / Embedded]</td>
+              <td style="font-weight:600;color:#134E4A;background:#F0FDFA;${fontSizeStyle}">${escapeHtml(s5)}</td>
+            </tr>
+          `;
+        }
+
+        return `
+          <tr class="${rowClass}">
+            <td style="text-align:center;font-weight:800;color:#334155;${fontSizeStyle}">${item.n}</td>
+            <td class="${escapeHtml(item.tc)}" style="${fontSizeStyle}">${escapeHtml(item.t)}</td>
+            <td style="text-align:center;">${gateBadge}</td>
+            <td style="font-weight:700;color:#0F172A;${fontSizeStyle}">${escapeHtml(item.q)}</td>
+            <td style="${fontSizeStyle}">${escapeHtml(s1)}</td>
+            <td style="${fontSizeStyle}">${escapeHtml(s2)}</td>
+            <td style="background:#F0FDFA;${fontSizeStyle}">${escapeHtml(s3)}</td>
+            <td style="${fontSizeStyle}">${escapeHtml(s4)}</td>
+            <td style="background:#FAF5FF;${fontSizeStyle}">${escapeHtml(s5)}</td>
+          </tr>
+        `;
+      })
+      .join("");
+
+    canvas.innerHTML = `
+      <div class="content-container" style="max-width:1760px;">
+        ${refSwitcherBar}
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+          <span class="eyebrow-tag" style="margin-bottom:0;">${escapeHtml(ref.eyebrow || "16:9 Slide One-Pager")}</span>
+          <span class="muted-code-pill">${escapeHtml(ref.badge || "28 Questions & 17 Gateways")}</span>
+        </div>
+        <h1 class="page-title" style="margin-bottom:6px;">${escapeHtml(ref.title)}</h1>
+        <p class="page-subtitle" style="margin-bottom:14px;">
+          ${escapeHtml(ref.subtitle || "")}
+        </p>
+
+        <!-- Interactive Top Control & Export Bar -->
+        <div class="matrix-control-bar">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <span style="background:#009999;color:#FFFFFF;font-size:11px;font-weight:800;padding:4px 9px;border-radius:5px;text-transform:uppercase;letter-spacing:0.05em;">
+              16:9 Slide One-Pager
+            </span>
+            <div class="matrix-toggle-group" role="group" aria-label="Filter All vs Gateways">
+              <button type="button" class="matrix-toggle-btn ${state.referenceFilter === "all" ? "active-petrol" : ""}"
+                      onclick="setReferenceFilter('all')">
+                All 28 Questions
+              </button>
+              <button type="button" class="matrix-toggle-btn ${state.referenceFilter === "flagged" ? "active-petrol" : ""}"
+                      onclick="setReferenceFilter('flagged')">
+                ★ 17 Gateways Only
+              </button>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
+            <!-- Standard Switcher -->
+            <div class="matrix-toggle-group" role="group" aria-label="Assessment Standard Switcher">
+              <button type="button" class="matrix-toggle-btn ${state.matrixStandard === "new" ? "active-petrol" : ""}"
+                      onclick="setMatrixStandard('new')">
+                New Standard (2026)
+              </button>
+              <button type="button" class="matrix-toggle-btn ${state.matrixStandard === "old" ? "active-petrol" : ""}"
+                      onclick="setMatrixStandard('old')">
+                Old Standard
+              </button>
+            </div>
+
+            <!-- Text Density / Concise Toggle -->
+            <div class="matrix-toggle-group" role="group" aria-label="Text Density Switcher">
+              <button type="button" class="matrix-toggle-btn ${state.matrixMode === "full" ? "active-indigo" : ""}"
+                      onclick="setMatrixMode('full')">
+                Full Verbatim Text
+              </button>
+              <button type="button" class="matrix-toggle-btn ${state.matrixMode === "compact" ? "active-indigo" : ""}"
+                      onclick="setMatrixMode('compact')">
+                Executive Concise (Larger Font)
+              </button>
+            </div>
+
+            <!-- Working Export Buttons -->
+            <button type="button" onclick="exportMatrixToPPTX(true)" class="matrix-export-btn" style="background:#F59E0B;color:#0F172A;">
+              <span>⬇ Export 1-Slide PowerPoint (.pptx)</span>
+            </button>
+            <button type="button" onclick="exportMatrixToPPTX(false)" class="matrix-export-btn" style="background:#8A00E5;color:#FFFFFF;" title="Splits the 28 rows across 2 slides for larger font in PowerPoint">
+              <span>⬇ Export 2-Slide PPTX (Large Font)</span>
+            </button>
+            <button type="button" onclick="exportMatrixHighResPNG()" class="matrix-export-btn" style="background:#009999;color:#FFFFFF;">
+              <span>🖼 Download 4K Slide Image (.png)</span>
+            </button>
+            <button type="button" onclick="exportMatrixSlidePDF()" class="matrix-export-btn" style="background:#E11D48;color:#FFFFFF;">
+              <span>📄 Export 1-Page PDF</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 16:9 WIDESCREEN ONE-PAGER SLIDE CANVAS -->
+        <div id="matrix-slide-canvas" class="matrix-slide-wrapper">
+          <div class="matrix-slide-banner">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <strong style="font-size:13.5px;letter-spacing:0.01em;color:#FFFFFF;">
+                LEAN MATURITY ASSESSMENT — COMPLETE 28-QUESTION &amp; 1–5 SCORING RUBRIC
+              </strong>
+              <span style="background:#009999;color:#FFFFFF;font-size:10px;font-weight:800;padding:2px 8px;border-radius:4px;">
+                ${state.matrixStandard === "new" ? "NEW STANDARD (2026)" : "OLD STANDARD"}
+              </span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;font-size:10.5px;flex-wrap:wrap;">
+              <span>
+                <span style="display:inline-block;width:9px;height:9px;background:#FBBF24;border-radius:99px;margin-right:4px;"></span>
+                <strong>★ Gateway Question:</strong> Must score ≥ 3 (or 5 for Q1–Q3) to unlock next Maturity Stage
+              </span>
+              <span style="color:#CBD5E1;">
+                Stages: 1. Awareness | 2. Basic Implementation | 3. Structured Approach | 4. Integrated Culture | 5. Lean Enterprise
+              </span>
+            </div>
+          </div>
+
+          <table class="matrix-table">
+            <colgroup>
+              <col style="width:2.5%;" />
+              <col style="width:9.0%;" />
+              <col style="width:3.8%;" />
+              <col style="width:14.7%;" />
+              <col style="width:14.0%;" />
+              <col style="width:14.0%;" />
+              <col style="width:14.0%;" />
+              <col style="width:14.0%;" />
+              <col style="width:14.0%;" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th style="text-align:center;">#</th>
+                <th>Theme</th>
+                <th style="text-align:center;">Gate</th>
+                <th>Assessment Question</th>
+                <th style="background-color:#334155;">1: Absent</th>
+                <th style="background-color:#475569;">2: Emerging</th>
+                <th style="background-color:#0f766e;">3: Structured (Target Gate)</th>
+                <th style="background-color:#009999;">4: Consistent</th>
+                <th style="background-color:#4D217A;">5: Embedded</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${matrixRowsHtml}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
   const rows = ref.rows || [];
   const cols = ref.columns || ["Code", "Description", "Category", "Level", "Flag"];
-  const q = state.searchQuery.toLowerCase().trim();
   const primaryDec = (plb.decisionTools || [])[0];
 
   const filtered = rows.filter((r) => {
@@ -1551,6 +2187,7 @@ function renderReferenceTablePage(ref, plb, canvas) {
 
   canvas.innerHTML = `
     <div class="content-container">
+      ${refSwitcherBar}
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
         <span class="eyebrow-tag" style="margin-bottom:0;">${escapeHtml(ref.eyebrow || "")}</span>
         <span class="muted-code-pill">${escapeHtml(ref.badge || "")}</span>
@@ -3159,6 +3796,12 @@ window.selectTemplate = selectTemplate;
 window.selectReferenceTable = selectReferenceTable;
 window.switchTopTab = switchTopTab;
 window.switchPlaybook = switchPlaybook;
+window.switchPlaybookAndOpen = switchPlaybookAndOpen;
+window.setMatrixStandard = setMatrixStandard;
+window.setMatrixMode = setMatrixMode;
+window.exportMatrixToPPTX = exportMatrixToPPTX;
+window.exportMatrixHighResPNG = exportMatrixHighResPNG;
+window.exportMatrixSlidePDF = exportMatrixSlidePDF;
 window.toggleAccordion = toggleAccordion;
 window.setReferenceFilter = setReferenceFilter;
 window.openAdminModal = openAdminModal;

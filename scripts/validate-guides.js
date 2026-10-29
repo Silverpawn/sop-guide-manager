@@ -124,15 +124,23 @@ for (const plb of db.playbooks || []) {
       });
     }
 
-    // Strict Tool Boundary Rule: PLB-001 must never reference PM Maturity Hub or its sub-tools
+    // Strict Tool Boundary Rule: PLB-001 tools & SOPs must never mix in PM Maturity Hub modules,
+    // while PLB-001 itself must include explicit crossRef links to PLB-PMHUB and all 3 live corporate links.
     const plb001BannedPattern = /PM Maturity Hub|pm-maturity-hub|Score Explainer|Strategy Builder|Simulator|Metro Journey|4 Pillars|CSV to JSON Fixer/i;
-    if (plb001BannedPattern.test(JSON.stringify(plb))) {
-      errors.push(`[PLB-001] Violates Strict Tool Boundary Rule (references PM Maturity Hub or its sub-tools inside PLB-001).`);
+    if (!plb.crossRef || plb.crossRef.targetPlaybookId !== "PLB-PMHUB") {
+      errors.push(`[PLB-001] Missing mandatory crossRef object linking to PLB-PMHUB.`);
+    }
+    for (const reqLiveId of ["LIVE-NAVIGATOR", "LIVE-PORTAL", "LIVE-HUB"]) {
+      if (!(plb.liveToolIds || []).includes(reqLiveId)) {
+        errors.push(`[PLB-001] Missing required liveToolId '${reqLiveId}' in Top Intranet Launcher Bar.`);
+      }
     }
     for (const st of stages) {
-      const stageRaw = JSON.stringify(st);
+      const stClone = Object.assign({}, st);
+      delete stClone.crossRefNote;
+      const stageRaw = JSON.stringify(stClone);
       if (plb001BannedPattern.test(stageRaw)) {
-        errors.push(`[PLB-001 Stage ${st.stageNumber}] Violates Strict Tool Boundary Rule (references PM Maturity Hub inside PLB-001).`);
+        errors.push(`[PLB-001 Stage ${st.stageNumber}] Violates Strict Tool Boundary Rule (references PM Maturity Hub inside PLB-001 stage).`);
       }
     }
     for (const tId of plb.toolIds || []) {
@@ -146,6 +154,17 @@ for (const plb of db.playbooks || []) {
       if (plb001BannedPattern.test(sopRaw)) {
         errors.push(`[PLB-001 SOP ${sId}] Violates Strict Tool Boundary Rule (references PM Maturity Hub inside PLB-001).`);
       }
+    }
+  }
+  if (plb.id === "PLB-PMHUB") {
+    if (!plb.crossRef || plb.crossRef.targetPlaybookId !== "PLB-001") {
+      errors.push(`[PLB-PMHUB] Missing mandatory crossRef object linking to PLB-001.`);
+    }
+  }
+  if (plb.id === "PLB-001" || plb.id === "PLB-PMHUB") {
+    const hasMatrixRef = (plb.referenceTables || []).some((r) => r.id === "REF-001" && r.kind === "scoring-matrix-1page");
+    if (!hasMatrixRef) {
+      errors.push(`[${plb.id}] Missing shared 1-Page 28-Question Scoring Matrix ('REF-001' with kind = 'scoring-matrix-1page') in Tab 4.`);
     }
   }
   for (const st of stages) {

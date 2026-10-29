@@ -119,8 +119,24 @@ Overview stage cards must **NEVER** look like database records, audit checklists
    - **Never Clone Software Features Inside the User Guide:** This platform is a user guide and coaching manual, **NOT** a replacement for `Navigator Toolkit` or `PM Maturity Hub`.
    - Do **NOT** build interactive gap-selection checkboxes, filter pills, capacity counter bars, or `"Send to Charter"` state-builders that belong inside `Navigator Toolkit → Analysis Report`. Instead, render a clean **"How to Narrow Your Gaps to the 'Vital Few' (2 to 3 Key Actions)"** visual decision guide with a static **"What Good Looks Like"** comparison example and a direct `Launch Navigator Toolkit (Analysis Report) ↗` button.
    - Do **NOT** include `"Copy Template to Clipboard"` or `"← Adjust in Focus Action Prioritiser"` buttons on reference examples when the real template lives inside `Navigator Toolkit → Charter Input`. Frame Tab 4 as **`One-Page Navigator Charter — Annotated Example & Field Guide`** with a `Launch Navigator Toolkit (Charter Input) ↗` button.
-8. **Mandatory "Buttons & Controls on This Screen" Reference (`buttonsReference`):**
+8. **Mandatory "Buttons & Controls on This Screen" Reference (`buttonsReference`) & True-to-App Button Colour Badges:**
    - Every SOP and Tool Reference page **MUST** include a clear, scannable **"Buttons & Controls on This Screen"** table (`Button / Control Name` | `Where It Is` | `What It Does & When to Use It`) extracted directly from the real `navigator-toolkit` and `pm-maturity-hub` source code.
+   - Render every button badge using the exact background and text colour it has in the live application:
+     - **Petrol (`#009999` bg, white text):** `Export Assessment (.json & .csv)`, `New Standard` active toggle, `Download` / `Export` buttons.
+     - **Bright Purple (`#8A00E5` bg, white text):** `Maturity Explainer`, `Orientation`, `Question Card Modal: Mark as Evaluated`, primary action buttons.
+     - **Dark Sidebar Teal Accent (`#1B1534` bg, `#2dd4bf` text, `#0d9488` border):** `✦ Maturity Model Storybook`.
+     - **Deep Plum / Indigo (`#2E1065` bg, white text):** `View Dashboard`, `Import Assessment (.json / .csv)`, `? User Guide`, `View Key`.
+     - **Danger Red (`#DC2626` bg, white text):** `Reset Progress`, `Clear Session`.
+     - **Dark Sidebar Slate (`#1E1B4B` bg, `#e2e8f0` text):** Sidebar navigation items & session buttons.
+9. **Separate Playbooks with Explicit Cross-References (Do NOT Merge) & All 3 Live Corporate Intranet Links Accessible:**
+   - Keep **`PLB-001` (`Lean@GS Navigator Toolkit Guide`)**, **`PLB-PMHUB` (`Lean@GS PM Maturity Hub Guide`)**, and **`PLB-DEMO` (`Demo Example: The Office Brew Run`)** as separate, dedicated playbooks in the top Playbook Switcher.
+   - Include prominent **Cross-Reference Callout Cards & 1-Click Playbook Switcher Buttons** so a user inside the Navigator guide can switch directly to the `PM Maturity Hub Guide` (for standalone `Score Explainer`, `Metro Journey`, `4 Pillars`, `Strategy Builder & Simulator`, or `CSV to JSON Fixer`), and vice versa.
+   - Always make all 3 live corporate intranet application links accessible from the top intranet launcher bar:
+     - **Standalone GS Lean Maturity App:** `https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/`
+     - **Lean@GS Navigator Toolkit:** `https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/`
+     - **Lean@GS PM Maturity Hub:** `https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/`
+10. **Shared 1-Page 28-Question & 1–5 Scoring Rubric Matrix (`REF-001`):**
+    - In Tab 4 (`Templates & Reference`), embed the full interactive **16:9 1-Page 28-Question & 1–5 Scoring Rubric Matrix** across both `PLB-001` and `PLB-PMHUB`, with `New Standard (2026)` / `Old Standard` toggle, `Full Verbatim Text` / `Executive Concise (Larger Font)` toggle, and working `.pptx`, `.png`, and `.pdf` exports.
 
 ---
 
