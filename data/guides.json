@@ -1350,116 +1350,133 @@
     {
       "id": "PLB-001",
       "code": "PLB-001",
-      "title": "Maturity Assessment & Navigator Workshop",
+      "title": "The Lean@GS Navigator & Maturity Process",
       "eyebrow": "Siemens Energy • Lean@GS Playbook #1",
-      "subtitle": "Use these guides to check how Lean practices are working at your site and turn your findings into a practical leadership action plan.",
+      "subtitle": "A practical journey from understanding your organisation's current Lean capability to agreeing what Lean should actually do for the business. Note: The maturity assessment is not the Navigator process—it is one of Navigator's two principal inputs.",
+      "goldenPrinciple": {
+        "quote": "The goal isn't to improve the maturity score. The goal is to improve the business.",
+        "explanation": "The Maturity Assessment tells you what capability you have and what may need developing. The Voice of the Customer tells you what the business needs. Navigator brings the two together so your organisation can decide where Lean should focus."
+      },
+      "convergenceBanner": {
+        "input1Title": "Input 1: Lean Capability (Stages 1 & 2)",
+        "input1Question": "Where are we capable of operating today?",
+        "input2Title": "Input 2: Business Need (Stage 3)",
+        "input2Question": "What does the business need us to improve?",
+        "combinedTitle": "Combined in Stage 4 (Navigator Workshop)",
+        "combinedQuestion": "Turning Lean capability + business need into an agreed improvement direction."
+      },
       "filingRule": "Save finished .csv and .json files in '600 Maturity Submissions'. Never move or delete files in that folder.",
       "processIds": ["PRC-001", "PRC-002"],
       "sopIds": ["SOP-001", "SOP-002", "SOP-003", "SOP-004"],
       "toolIds": ["TOL-001", "TOL-002", "TOL-003", "TOL-004", "TOL-005"],
-      "chooserLabel": "Which job are you doing today?",
+      "chooserLabel": "Which part of the journey are you working on today?",
       "rulesKey": {
-        "title": "Before You Start: The 3 Rules of the Game",
-        "subtitle": "How site scoring works in plain English",
+        "title": "Before You Start: 3 Helpful Principles for Scoring & Prioritising",
+        "subtitle": "How the Maturity Assessment & Navigator work together",
         "items": [
           {
-            "term": "📋 1. The 28 Questions",
-            "desc": "You and a Lean Core Team partner rate 28 everyday habits from 1 (Not in place) to 5 (Self-running). Never score alone."
+            "term": "🤝 1. A Self-Assessment, Not an Audit",
+            "desc": "Complete the 28 questions openly with your leadership team and Lean Core Team partner to spot where support is needed—never chase a higher number for its own sake."
           },
           {
-            "term": "🏭 2. 70% Site Proof",
-            "desc": "To score a 3 or higher, a habit must be working with real boards and logs across roughly 70% of teams—one pilot area does not count."
+            "term": "🏭 2. Visible Across ~70% of Teams",
+            "desc": "To score a 3 or higher, a working habit should be visible with real boards and routines across roughly 7 out of 10 teams—a single pilot area scores a 2."
           },
           {
-            "term": "★ 3. 17 Starred Gateways",
-            "desc": "17 key questions are marked with a star (★). Every starred question in your current level must score at least 3 before you can move up to the next level."
+            "term": "🎯 3. Focus on 2–3 Key Actions at a Time",
+            "desc": "Avoid building a 28-item wishlist. Combine your capability gaps with business needs to focus on 2 or 3 high-impact actions at a time."
           }
         ]
       },
       "journeyMap": {
-        "formulaBanner": "Understand Where I Am → Understand What Matters → Know What To Do Next → Turn Into Action",
-        "mapHeading": "End-to-End 4-Stage Process Map (How Everything Connects)",
+        "formulaBanner": "Assess capability → Analyse gaps → Understand business priorities → Align the two with leadership → Agree objectives & initiatives → Build the action plan",
+        "mapHeading": "The 6-Stage Lean@GS Navigator & Maturity Journey",
         "roleFilters": [
           { "id": "all", "label": "All Roles" },
-          { "id": "ROL-001", "label": "Programme Manager Tasks" },
-          { "id": "ROL-002", "label": "Core Team Partner Tasks" }
+          { "id": "ROL-001", "label": "Local Programme Manager (LPM)" },
+          { "id": "ROL-002", "label": "Lean Core Team Partner" },
+          { "id": "ROL-003", "label": "Site Leadership Team" }
         ],
-        "briefingButtonLabel": "⏱ Explain to a Programme Manager (60-Sec Pitch)",
-        "briefingTitle": "60-Second Screen-Share Briefing for Local Programme Managers",
-        "briefingEquation": "90-Min Site Check (28 Qs) + Leader Priorities = 1-Page Action Plan of Max 5 Items",
+        "briefingButtonLabel": "⏱ Explain Navigator to Leadership (60-Sec Pitch)",
+        "briefingTitle": "60-Second Leadership Briefing: How Maturity & Navigator Fit Together",
+        "briefingEquation": "Input 1: Lean Capability (Stages 1–2) + Input 2: Business Need (Stage 3) = Agreed 1-Page Charter & Action Plan (Stages 4–6)",
         "briefingBullets": [
-          "1. Where we are: This is not an audit—we spend 90 minutes as a pair checking 28 everyday working habits across most of the site (at least 7 out of 10 areas) so we have an honest baseline.",
-          "2. What matters: Instead of trying to fix all 28 items at once, our 3-step funnel unlocks your Foundation Questions (★) and connects them directly to your Site Leader's top business challenges.",
-          "3. Our next step: We walk out with a single 1-page action charter containing a maximum of 5 focused actions and a 90-day coaching cadence."
+          "1. The goal isn't to improve the maturity score—the goal is to improve the business.",
+          "2. Stages 1 & 2 show our current Lean capability and highlight 2–3 key gaps; Stage 3 captures the Voice of the Customer (the business problems leadership needs solved).",
+          "3. In Stages 4 to 6, we bring both inputs into the Navigator Workshop, agree a 1-Page Charter with clear objectives, and convert it into an owned action plan."
         ],
         "stages": [
           {
             "stageNumber": 1,
-            "title": "Score Your Site Together in a Pair",
-            "summary": "Review all 28 site practices with a partner and check what is working across at least 7 out of 10 areas.",
-            "whoAndDuration": "Programme Manager + Core Team Partner • 90 mins",
-            "status": "Core Step",
-            "statusTone": "purple",
+            "title": "Establish the Baseline (Assess)",
+            "summary": "Complete the maturity self-assessment (ideally with your leadership team—this is a self-assessment, not an audit) to establish current Lean capability and highlight gaps.",
+            "whoIsInvolved": "Completed by Local Programme Manager (LPM) with Leadership Team",
             "leadRoleId": "ROL-001",
-            "leadRoleLabel": "Local Programme Manager",
-            "supportRoleId": "ROL-002",
-            "supportRoleLabel": "Lean Core Team Partner",
+            "supportRoleId": "ROL-003",
             "toolId": "TOL-001",
-            "toolLabel": "PM Maturity Hub (Assessment Tab)",
-            "inputArtifact": "Visible workplace habits across most of your site",
-            "outputArtifact": "Agreed scorecard for 28 site practices",
+            "toolLabel": "PM Maturity Hub (Assessment)",
+            "outputArtifact": "Baseline picture of current Lean capability & gaps",
             "targetView": { "type": "sop", "id": "SOP-001", "cta": "Open Stage 1 Guide →" }
           },
           {
             "stageNumber": 2,
-            "title": "See What Is Holding Your Score Back",
-            "summary": "Check which Foundation Questions (★) need attention to unlock the next level and ask leaders about their top challenges.",
-            "whoAndDuration": "Core Team Partner + Programme Manager • 45 mins",
-            "status": "Core Step",
-            "statusTone": "purple",
-            "leadRoleId": "ROL-002",
-            "leadRoleLabel": "Lean Core Team Partner",
-            "supportRoleId": "ROL-001",
-            "supportRoleLabel": "Local Programme Manager",
+            "title": "Understand the Gaps (Analyse)",
+            "summary": "Load your assessment into the Navigator analysis view to see strengths, gaps, and recommendations. Keep it focused—aim for 2 or 3 key capability actions at a time, not a huge list.",
+            "whoIsInvolved": "LPM (Recommended: work through together with your Lean Core Team partner)",
+            "leadRoleId": "ROL-001",
+            "supportRoleId": "ROL-002",
             "toolId": "TOL-002",
-            "toolLabel": "PM Maturity Hub (Score Explainer)",
-            "inputArtifact": "Agreed site scorecard",
-            "outputArtifact": "Foundation Questions (★) to unlock & leader challenges",
+            "toolLabel": "Navigator Analysis & Score Explainer",
+            "outputArtifact": "Focused view of 2–3 priority capability gaps to develop",
             "targetView": { "type": "sop", "id": "SOP-002", "cta": "Open Stage 2 Guide →" }
           },
           {
             "stageNumber": 3,
-            "title": "Pick Your Top 5 Focus Areas",
-            "summary": "Filter your gaps down to a maximum of 5 practical actions that unlock your score and solve leader challenges.",
-            "whoAndDuration": "Programme Manager + Core Team Partner • 30 mins",
-            "status": "Core Step",
-            "statusTone": "purple",
+            "title": "Understand the Business Need (Voice of the Customer)",
+            "summary": "Engage leadership and stakeholders to understand their critical business challenges, pain points, measures of breakthrough success, and the problems they need Lean to help solve.",
+            "whoIsInvolved": "LPM + Site Leadership / Stakeholders (with Core Team support)",
             "leadRoleId": "ROL-001",
-            "leadRoleLabel": "Local Programme Manager",
-            "supportRoleId": "ROL-002",
-            "supportRoleLabel": "Lean Core Team Partner",
-            "toolId": "TOL-003",
-            "toolLabel": "Top 5 Action Prioritiser",
-            "inputArtifact": "Foundation gaps + leader challenges",
-            "outputArtifact": "Shortlist of at most 5 focus actions",
-            "targetView": { "type": "decision", "id": "DEC-001", "cta": "Open Top 5 Prioritiser →" }
+            "supportRoleId": "ROL-003",
+            "toolId": "TOL-004",
+            "toolLabel": "Navigator Toolkit (Voice of the Customer Input)",
+            "outputArtifact": "Clear business priorities & leadership pain points",
+            "targetView": { "type": "sop", "id": "SOP-003", "cta": "Open Stage 3 Guide →" }
           },
           {
             "stageNumber": 4,
-            "title": "Agree Your 1-Page Action Plan",
-            "summary": "Run the leadership workshop to assign owners, lock measurable targets into a 1-page charter, and review monthly.",
-            "whoAndDuration": "Site Leader Sponsor + Programme Manager • Half Day",
-            "status": "Workshop & Charter",
-            "statusTone": "teal",
-            "leadRoleId": "ROL-001",
-            "leadRoleLabel": "Local Programme Manager",
+            "title": "Bring the Two Together (Navigator Workshop)",
+            "summary": "Bring your Lean capability insights (Stages 1–2) and business needs (Stage 3) into the leadership workshop to establish why we are using Lean, the current situation, and our strategic plan.",
+            "whoIsInvolved": "Site Leadership Team + LPM + Lean Core Team Facilitator",
+            "leadRoleId": "ROL-003",
             "supportRoleId": "ROL-002",
-            "supportRoleLabel": "Lean Core Team Partner",
             "toolId": "TOL-005",
-            "toolLabel": "Navigator Toolkit (Workshop & Charter)",
-            "inputArtifact": "Shortlist of 5 focus actions",
-            "outputArtifact": "Signed 1-page action charter & 90-day coaching plan",
-            "targetView": { "type": "template", "id": "TPL-001", "cta": "Open 1-Page Charter →" }
+            "toolLabel": "Navigator Toolkit (Workshop Guide)",
+            "outputArtifact": "Aligned strategic direction connecting Lean to business problems",
+            "targetView": { "type": "sop", "id": "SOP-004", "cta": "Open Stage 4 Workshop Guide →" }
+          },
+          {
+            "stageNumber": 5,
+            "title": "Agree What to Focus On (Charter)",
+            "summary": "Translate workshop agreement into clear objectives, key results, and supporting initiatives—along with your local improvement team, sponsor, and coaching roles.",
+            "whoIsInvolved": "Site Sponsor + LPM + Lean Core Team",
+            "leadRoleId": "ROL-003",
+            "supportRoleId": "ROL-001",
+            "toolId": "TOL-005",
+            "toolLabel": "Navigator Toolkit (1-Page Charter)",
+            "outputArtifact": "Agreed 1-Page Navigator Charter",
+            "targetView": { "type": "template", "id": "TPL-001", "cta": "Open Stage 5 Charter Template →" }
+          },
+          {
+            "stageNumber": 6,
+            "title": "Convert Into Action (Roadmap & Action Plan)",
+            "summary": "Assign clear owners and target dates to your agreed initiatives. Present and manage your roadmap in the visual format that works best for your local organisation.",
+            "whoIsInvolved": "Local Programme Manager + Action Owners + Core Team Coach",
+            "leadRoleId": "ROL-001",
+            "supportRoleId": "ROL-002",
+            "toolId": "TOL-005",
+            "toolLabel": "Navigator Action Log & Local Visual Roadmap",
+            "outputArtifact": "Active improvement plan with owners, dates, and coaching cadence",
+            "targetView": { "type": "sop", "id": "SOP-004", "cta": "Open Stage 6 Action Plan Guide →" }
           }
         ]
       },
@@ -1467,37 +1484,39 @@
         {
           "id": "DEC-001",
           "kind": "prioritiser-funnel",
-          "navTitle": "Top 5 Action Prioritiser",
-          "eyebrow": "Stage 4 Decision Funnel • Simplify the Decision",
-          "badge": "Max 5 Actions Rule",
-          "title": "How to Pick Your Top 5 Focus Actions (From 28 Questions to 5 Vital Few)",
-          "subtitle": "Never leave a site check with a 28-item wish list. Use this 3-step decision funnel to filter your gaps down to at most 5 high-impact actions, then send them straight into your 1-Page Navigator Charter.",
+          "navTitle": "Focus on 2–3 Key Actions Prioritiser",
+          "eyebrow": "Navigator Alignment Funnel • Connecting Capability + Business Need",
+          "badge": "Recommended Focus: 2–3 Key Actions (Max 5 Hard Cap)",
+          "title": "Select Your 2 to 3 Priority Focus Actions (Connecting Business Need + Lean Capability)",
+          "subtitle": "Keep your improvement plan focused and achievable. Aim for 2 to 3 key capability actions at a time (with a hard cap of 5) where foundational Lean gaps directly solve a critical business problem.",
+          "recommendedMin": 2,
+          "recommendedMax": 3,
           "maxCapacity": 5,
           "targetTemplateId": "TPL-001",
-          "sendButtonLabel": "1-Page Charter",
-          "overLimitWarning": "⚠️ Stop: Tackling more than 5 actions at once reduces completion rates. Drop lower-impact items before exporting.",
-          "withinLimitMessage": "✓ Focused Action Tray Ready (Keep at 5 or fewer actions for your 1-Page Charter)",
+          "sendButtonLabel": "1-Page Navigator Charter",
+          "overLimitWarning": "⚠️ Over Hard Cap (>5): Tackling more than 5 actions at once dilutes leadership focus. Aim for 2 to 3 key actions (max 5).",
+          "withinLimitMessage": "✓ Recommended Focus: 2 to 3 Key Actions at a Time (Max 5 Hard Cap)",
           "filter1": {
-            "badge": "Funnel Step 1 • Unblock the Score Cap",
-            "title": "1. Unlock Red Starred Gateways (★) First",
-            "desc": "Any Starred Gateway scoring below 3 in your current level caps your entire site maturity score.",
+            "badge": "Filter 1 • Capability Lift",
+            "title": "1. Does it unlock a foundational Lean Capability gap?",
+            "desc": "Prioritise foundational Gateway questions (★) that unlock the next maturity level across your site.",
             "allLabel": "Show All Candidate Actions",
-            "flaggedLabel": "★ Only Red Capped Gateways",
-            "priorityBadgeText": "PRIORITY 1: UNLOCKS MATURITY CAP"
+            "flaggedLabel": "★ Only Foundational Capability Gaps",
+            "priorityBadgeText": "FOUNDATIONAL CAPABILITY GAP (★)"
           },
           "filter2": {
-            "badge": "Funnel Step 2 • Match Leader VOC",
-            "title": "2. Match Site Leadership Priorities",
-            "desc": "Keep only actions that directly solve a problem your Site Leader raised in Stage 3 interviews.",
-            "allLabel": "All VOC Priorities",
-            "columnLabel": "Leader VOC Alignment",
+            "badge": "Filter 2 • Business Impact (Voice of the Customer)",
+            "title": "2. Does it address a critical Business Need / Leader Pain Point?",
+            "desc": "Match candidate capability actions directly to the business problems leadership needs Lean to help solve.",
+            "allLabel": "All Business Needs",
+            "columnLabel": "Business Need / Leader Pain Point",
             "options": ["Safety", "On-Time Delivery", "Quality / First-Time-Right", "Cost / Productivity"]
           },
           "filter3": {
-            "badge": "Funnel Step 3 • Rank Impact vs. Effort",
-            "title": "3. Filter by 2×2 Effort vs. Maturity Lift",
-            "desc": "Pick Quick Wins first, add max 1–2 Major Steps, and drop Hard Slogs.",
-            "allLabel": "All Quadrants",
+            "badge": "Filter 3 • Effort vs. Impact Ratio",
+            "title": "3. What is the Effort vs. Impact ratio?",
+            "desc": "Start with Quick Wins and 1–2 Major Initiatives; defer or drop low-impact items.",
+            "allLabel": "All Ratios",
             "options": ["Quick Win", "Major Step", "Fill-In", "Hard Slog"]
           },
           "candidates": [
@@ -1511,7 +1530,7 @@
               "tags": ["Quality / First-Time-Right", "Cost / Productivity"],
               "quadrant": "Quick Win",
               "effort": "Low Effort",
-              "impact": "High Maturity Lift",
+              "impact": "High Capability Lift",
               "defaultDue": "Q2",
               "defaultOwner": "@ProgrammeMgr",
               "selectedByDefault": true
@@ -1526,10 +1545,10 @@
               "tags": ["Safety", "On-Time Delivery"],
               "quadrant": "Quick Win",
               "effort": "Low Effort",
-              "impact": "High Maturity Lift",
+              "impact": "High Capability Lift",
               "defaultDue": "Q1",
               "defaultOwner": "@OpsLeader",
-              "selectedByDefault": true
+              "selectedByDefault": false
             },
             {
               "id": "ACT-Q08",
@@ -1541,7 +1560,7 @@
               "tags": ["On-Time Delivery", "Cost / Productivity"],
               "quadrant": "Quick Win",
               "effort": "Low Effort",
-              "impact": "High Maturity Lift",
+              "impact": "High Capability Lift",
               "defaultDue": "Q2",
               "defaultOwner": "@ProgrammeMgr",
               "selectedByDefault": false
@@ -1556,7 +1575,7 @@
               "tags": ["Safety", "Quality / First-Time-Right", "On-Time Delivery"],
               "quadrant": "Quick Win",
               "effort": "Low Effort",
-              "impact": "High Maturity Lift",
+              "impact": "High Capability Lift",
               "defaultDue": "Q2",
               "defaultOwner": "@OpsLeader",
               "selectedByDefault": true
@@ -1571,7 +1590,7 @@
               "tags": ["Safety", "On-Time Delivery", "Quality / First-Time-Right"],
               "quadrant": "Quick Win",
               "effort": "Low Effort",
-              "impact": "High Maturity Lift",
+              "impact": "High Capability Lift",
               "defaultDue": "Q3",
               "defaultOwner": "@ProgrammeMgr",
               "selectedByDefault": true
@@ -1586,7 +1605,7 @@
               "tags": ["Safety", "Cost / Productivity"],
               "quadrant": "Quick Win",
               "effort": "Low Effort",
-              "impact": "High Maturity Lift",
+              "impact": "High Capability Lift",
               "defaultDue": "Q3",
               "defaultOwner": "@OpsLeader",
               "selectedByDefault": false
@@ -1601,10 +1620,10 @@
               "tags": ["Quality / First-Time-Right", "Safety"],
               "quadrant": "Major Step",
               "effort": "High Effort",
-              "impact": "High Maturity Lift",
+              "impact": "High Capability Lift",
               "defaultDue": "Q3",
               "defaultOwner": "@OpsLeader",
-              "selectedByDefault": true
+              "selectedByDefault": false
             },
             {
               "id": "ACT-Q22",
@@ -1616,7 +1635,7 @@
               "tags": ["Safety", "Quality / First-Time-Right"],
               "quadrant": "Major Step",
               "effort": "High Effort",
-              "impact": "High Maturity Lift",
+              "impact": "High Capability Lift",
               "defaultDue": "Q3",
               "defaultOwner": "@ProgrammeMgr",
               "selectedByDefault": false
@@ -1631,7 +1650,7 @@
               "tags": ["On-Time Delivery", "Cost / Productivity"],
               "quadrant": "Major Step",
               "effort": "High Effort",
-              "impact": "High Maturity Lift",
+              "impact": "High Capability Lift",
               "defaultDue": "Q4",
               "defaultOwner": "@OpsLeader",
               "selectedByDefault": false
@@ -1778,6 +1797,18 @@
       "title": "Tiered Daily Management & Escalation Meetings",
       "eyebrow": "Siemens Energy • Lean@GS Playbook #2",
       "subtitle": "Run crisp 15-minute shift stand-up meetings, filter cross-department blockers down to at most 3 red tags, and lock 24-hour countermeasures.",
+      "goldenPrinciple": {
+        "quote": "The goal of a daily stand-up isn't to report numbers. The goal is to unblock the shift.",
+        "explanation": "Green metrics take five seconds. Spend your 15 minutes assigning clear 24-hour owners to cell-level misses and escalating at most three cross-department blockers to Tier 2."
+      },
+      "convergenceBanner": {
+        "input1Title": "Input 1: Shop-Floor Exceptions (Stages 1 & 2)",
+        "input1Desc": "Where did we miss safety, quality, delivery, or cost targets today?",
+        "input2Title": "Input 2: Escalation Triage (Stage 3)",
+        "input2Desc": "Which blockers cannot be fixed inside the cell within 2 hours?",
+        "combinedTitle": "Combined in Stage 4 (Tier 2 Close-Loop)",
+        "combinedDesc": "Locking 24-hour cross-department countermeasures and writing the fix time back on the cell board by 10:00 AM."
+      },
       "filingRule": "Post signed Tier 2 Countermeasure Logs on the Operations Board and archive weekly inside '200 Daily Management Logs'.",
       "processIds": ["PRC-003"],
       "sopIds": ["SOP-005", "SOP-006"],
@@ -1823,16 +1854,14 @@
             "stageNumber": 1,
             "title": "Prep Visual Board Metrics Before Shift",
             "summary": "Update yesterday's safety, quality, delivery, and cost numbers 5 minutes before the shift horn sounds.",
+            "whoIsInvolved": "Frontline Team Leader (5 mins before shift)",
             "whoAndDuration": "Frontline Team Leader • 5 mins before shift",
-            "status": "Daily Habit",
-            "statusTone": "purple",
             "leadRoleId": "ROL-004",
             "leadRoleLabel": "Frontline Team Leader",
             "supportRoleId": "ROL-001",
             "supportRoleLabel": "Local Programme Manager",
             "toolId": "TOL-006",
             "toolLabel": "Visual Stand-Up Board (SQDC)",
-            "inputArtifact": "Shift Handover Log",
             "outputArtifact": "Updated visual stand-up board",
             "targetView": { "type": "sop", "id": "SOP-005", "cta": "Open Stage 1–2 Guide →" }
           },
@@ -1840,16 +1869,14 @@
             "stageNumber": 2,
             "title": "Run 15-Minute Tier 1 Stand-Up Meeting",
             "summary": "Focus the 15-minute team check on missed targets and assign a 24-hour owner to every red item.",
+            "whoIsInvolved": "Frontline Team Leader + Cell Team (15 mins)",
             "whoAndDuration": "Frontline Team Leader + Cell Team • 15 mins",
-            "status": "Daily Habit",
-            "statusTone": "purple",
             "leadRoleId": "ROL-004",
             "leadRoleLabel": "Frontline Team Leader",
             "supportRoleId": "ROL-001",
             "supportRoleLabel": "Local Programme Manager",
             "toolId": "TOL-006",
             "toolLabel": "Visual Stand-Up Board (SQDC)",
-            "inputArtifact": "Updated visual stand-up board",
             "outputArtifact": "Immediate cell containment actions",
             "targetView": { "type": "sop", "id": "SOP-005", "cta": "Open Tier 1 Stand-Up SOP →" }
           },
@@ -1857,16 +1884,14 @@
             "stageNumber": 3,
             "title": "Filter & Escalate Blockers to Tier 2",
             "summary": "Screen red tags before 09:00 AM so at most 3 cross-department blockers go to the Tier 2 huddle.",
+            "whoIsInvolved": "Local Programme Manager (10 mins before Tier 2)",
             "whoAndDuration": "Local Programme Manager • 10 mins",
-            "status": "Triage Step",
-            "statusTone": "purple",
             "leadRoleId": "ROL-001",
             "leadRoleLabel": "Local Programme Manager",
             "supportRoleId": "ROL-004",
             "supportRoleLabel": "Frontline Team Leader",
             "toolId": "TOL-007",
             "toolLabel": "Escalation Triage Filter",
-            "inputArtifact": "Tier 1 Red Escalation Tags",
             "outputArtifact": "Max 3 escalated red blockers",
             "targetView": { "type": "decision", "id": "DEC-003", "cta": "Open Escalation Triage Filter →" }
           },
@@ -1874,16 +1899,14 @@
             "stageNumber": 4,
             "title": "Assign 24-Hour Countermeasures & Close Loop",
             "summary": "Assign support department owners at Tier 2 and write the agreed fix time back on the cell board by 10:00 AM.",
+            "whoIsInvolved": "Site Leadership Sponsor + Local Programme Manager (20 mins)",
             "whoAndDuration": "Site Leadership Sponsor + Programme Manager • 20 mins",
-            "status": "Close Loop",
-            "statusTone": "teal",
             "leadRoleId": "ROL-003",
             "leadRoleLabel": "Site Leadership Sponsor",
             "supportRoleId": "ROL-002",
             "supportRoleLabel": "Lean Core Team Partner",
             "toolId": "TOL-007",
             "toolLabel": "24-Hour Countermeasure Log",
-            "inputArtifact": "Max 3 escalated red blockers",
             "outputArtifact": "Signed countermeasure log & 10:00 AM cell feedback",
             "targetView": { "type": "sop", "id": "SOP-006", "cta": "Open Tier 2 Close-Loop SOP →" }
           }

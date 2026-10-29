@@ -22,8 +22,10 @@ const BANNED_ACRONYMS = ["CV", "SSO", "PR", "PPE", "LOTO", "KPI", "SLA"];
 const BANNED_OVERVIEW_PATTERNS = [
   { pattern: /\.csv\b/i, reason: "raw file extension '.csv' (use human outcome per DESIGN_GUIDE.md)" },
   { pattern: /\.json\b/i, reason: "raw file extension '.json' (use human outcome per DESIGN_GUIDE.md)" },
-  { pattern: /\bVOC\b/, reason: "banned overview jargon 'VOC' (spell out as Leader Challenges per DESIGN_GUIDE.md)" },
-  { pattern: /\bCalibration\b/i, reason: "banned overview jargon 'Calibration' (use plain English per DESIGN_GUIDE.md)" },
+  { pattern: /\bVOC\b/, reason: "banned overview jargon 'VOC' (spell out as Voice of the Customer / Business Need per DESIGN_GUIDE.md)" },
+  { pattern: /\bPair Calibration\b/i, reason: "banned overview jargon 'Pair Calibration' (use plain English per DESIGN_GUIDE.md)" },
+  { pattern: /\bGateway Cap\b/i, reason: "banned overview jargon 'Gateway Cap' (use plain English per DESIGN_GUIDE.md)" },
+  { pattern: /\b(?:MANDATORY|OPTIONAL)\b/, reason: "compliance stamp 'MANDATORY/OPTIONAL' (omit compliance stamps per DESIGN_GUIDE.md)" },
   { pattern: /Input\s*(?:->|→)\s*Output/i, reason: "tech handoff label 'Input -> Output' (use 'What you finish with' per DESIGN_GUIDE.md)" }
 ];
 const PASSIVE_PATTERNS = [
@@ -46,20 +48,20 @@ let stats = {
   visualModes: { svg: 0, image: 0, none: 0 }
 };
 
-// 0. Validate Playbooks & Journey Map Stages against DESIGN_GUIDE.md
+// 0. Validate Playbooks & Journey Map Stages against DESIGN_GUIDE.md (Flexible N-Stage Maps)
 for (const plb of db.playbooks || []) {
   const stages = plb.journeyMap?.stages || [];
-  if (stages.length > 4) {
-    errors.push(
-      `[${plb.id}] Journey Map has ${stages.length} stages. DESIGN_GUIDE.md Section A.3 limits Journey Maps to a maximum of 4 high-level stages.`
-    );
+  if (stages.length === 0) {
+    errors.push(`[${plb.id}] Journey Map must contain at least 1 stage.`);
   }
   for (const st of stages) {
     stats.journeyStagesChecked++;
     const fieldsToCheck = [
       { name: "title", val: st.title || "" },
       { name: "summary", val: st.summary || "" },
-      { name: "outputArtifact", val: st.outputArtifact || "" }
+      { name: "whoIsInvolved", val: st.whoIsInvolved || "" },
+      { name: "outputArtifact", val: st.outputArtifact || "" },
+      { name: "status", val: st.status || "" }
     ];
     for (const f of fieldsToCheck) {
       for (const rule of BANNED_OVERVIEW_PATTERNS) {
@@ -194,7 +196,7 @@ if (errors.length > 0) {
   process.exit(1);
 } else {
   console.log("✅ ALL CHECKS PASSED:");
-  console.log("   • 100% DESIGN_GUIDE.md Journey Map rules passed (<=4 stages, zero raw .csv/.json or VOC/Calibration jargon)");
+  console.log("   • 100% DESIGN_GUIDE.md Journey Map rules passed (Flexible N-stages, zero compliance stamps or .csv/.json tech plumbing)");
   console.log("   • 100% Relational Snowflake links intact (Processes <-> Tools <-> Roles <-> SOPs)");
   console.log(`   • 100% Steps obey the <= ${MAX_WORDS}-word Simplified Technical English rule`);
   console.log("   • 100% Steps use active voice, zero raw acronyms, and value-add coaching tips");

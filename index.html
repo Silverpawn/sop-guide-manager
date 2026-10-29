@@ -78,17 +78,20 @@
   <div id="jsonModal" class="modal-backdrop hidden">
     <div class="modal-dialog studio-modal-dialog">
       <div class="modal-top">
-        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
           <strong>⚙️ Lean@GS Guide Authoring Studio &amp; M365 Manager</strong>
           <div class="studio-tab-group" role="tablist">
-            <button type="button" class="studio-tab-btn active" id="tabBtnStudioVisual" onclick="switchStudioTab('visual')">
-              Tab A: Visual Step &amp; Screenshot Editor
+            <button type="button" class="studio-tab-btn active" id="tabBtnStudioPlaybook" onclick="switchStudioTab('playbook')">
+              Tab 1: Playbook &amp; Journey Builder
+            </button>
+            <button type="button" class="studio-tab-btn" id="tabBtnStudioVisual" onclick="switchStudioTab('visual')">
+              Tab 2: SOP &amp; Step WYSIWYG Editor
             </button>
             <button type="button" class="studio-tab-btn" id="tabBtnStudioRaw" onclick="switchStudioTab('raw')">
-              Tab B: Raw JSON Payload Loader
+              Tab 3: AI Generator Prompt &amp; Raw JSON
             </button>
             <button type="button" class="studio-tab-btn" id="tabBtnStudioDesign" onclick="switchStudioTab('design')">
-              Tab C: View Design &amp; Style Guide (DESIGN_GUIDE.md)
+              Tab 4: Design &amp; Style Guide
             </button>
           </div>
         </div>
@@ -100,8 +103,116 @@
         </div>
       </div>
 
-      <!-- TAB A: No-Code Visual Step & Screenshot Authoring Studio -->
-      <div id="studioTabVisual" class="studio-body">
+      <!-- TAB 1: Playbook & N-Stage Journey WYSIWYG Builder -->
+      <div id="studioTabPlaybook" class="studio-body">
+        <div class="studio-selectors-bar">
+          <div class="studio-field-inline">
+            <label for="builderPlaybookSelect">Active Playbook:</label>
+            <select id="builderPlaybookSelect" class="studio-select" onchange="onBuilderPlaybookChange(this.value)"></select>
+          </div>
+          <button type="button" class="header-btn" style="background:#009999;" onclick="createNewPlaybookInStudio()">
+            + Create New Playbook
+          </button>
+          <button type="button" class="header-btn" style="background:#8A00E5;" onclick="addJourneyStageInStudio()">
+            + Add Journey Stage
+          </button>
+          <span class="muted-code-pill" id="builderStageCountBadge">6 Stages</span>
+        </div>
+
+        <div class="studio-grid">
+          <!-- Left Column: Playbook Overview & Dynamic N-Stage Editor -->
+          <div class="studio-col" style="max-height:66vh;overflow-y:auto;padding-right:6px;">
+            <div style="background:#F8FAFC;border:1px solid #D7E4EE;border-radius:8px;padding:12px;margin-bottom:14px;">
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#4D217A;margin-bottom:8px;">
+                A. Playbook Identity, Purpose Banner &amp; Golden Principle
+              </div>
+              <div style="display:grid;grid-template-columns:2fr 1fr;gap:8px;">
+                <div>
+                  <label class="studio-label" for="builderTitleInput">Playbook Title:</label>
+                  <input type="text" id="builderTitleInput" class="studio-input" oninput="onBuilderPlaybookFieldInput()" />
+                </div>
+                <div>
+                  <label class="studio-label" for="builderEyebrowInput">Eyebrow Badge:</label>
+                  <input type="text" id="builderEyebrowInput" class="studio-input" oninput="onBuilderPlaybookFieldInput()" />
+                </div>
+              </div>
+
+              <label class="studio-label" for="builderRibbonInput" style="margin-top:8px;">One-Line Connected Journey Ribbon:</label>
+              <input type="text" id="builderRibbonInput" class="studio-input" placeholder="e.g., Assess capability → Analyse gaps → Understand business priorities..." oninput="onBuilderPlaybookFieldInput()" />
+
+              <label class="studio-label" for="builderSubtitleInput" style="margin-top:8px;">Overview Description (Plain English — What does this playbook achieve?):</label>
+              <textarea id="builderSubtitleInput" class="studio-textarea" rows="2" oninput="onBuilderPlaybookFieldInput()"></textarea>
+
+              <label class="studio-label" for="builderGoldenQuoteInput" style="margin-top:8px;">Golden Principle Headline Quote:</label>
+              <input type="text" id="builderGoldenQuoteInput" class="studio-input" placeholder="e.g., The goal isn't to improve the maturity score. The goal is to improve the business." oninput="onBuilderPlaybookFieldInput()" />
+
+              <label class="studio-label" for="builderGoldenDescInput" style="margin-top:8px;">Golden Principle Supporting Explanation:</label>
+              <textarea id="builderGoldenDescInput" class="studio-textarea" rows="2" oninput="onBuilderPlaybookFieldInput()"></textarea>
+            </div>
+
+            <!-- Dynamic Stage Selector + Reorder / Delete Bar -->
+            <div style="background:#FFFFFF;border:1px solid #C5D8E6;border-radius:8px;padding:12px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+                <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#007A7A;">
+                  B. Dynamic N-Stage Journey Card Editor (Clean 4-Element Layout)
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <button type="button" class="kitbag-tool-chip" onclick="moveJourneyStageInStudio(-1)" title="Move Stage Up / Earlier">↑ Move Earlier</button>
+                  <button type="button" class="kitbag-tool-chip" onclick="moveJourneyStageInStudio(1)" title="Move Stage Down / Later">↓ Move Later</button>
+                  <button type="button" class="kitbag-tool-chip" style="color:#DA1E28;border-color:#F5C2C7;" onclick="deleteJourneyStageInStudio()" title="Delete Selected Stage">🗑 Delete Stage</button>
+                </div>
+              </div>
+
+              <label class="studio-label" for="builderStageSelect">Select Stage to Edit:</label>
+              <select id="builderStageSelect" class="studio-select" style="width:100%;margin-bottom:10px;" onchange="onBuilderStageSelectChange(this.value)"></select>
+
+              <label class="studio-label" for="builderStageTitleInput">1. Stage Title (Plain English):</label>
+              <input type="text" id="builderStageTitleInput" class="studio-input" placeholder="e.g., Establish the Baseline (Assess)" oninput="onBuilderStageFieldInput()" />
+
+              <label class="studio-label" for="builderStageSummaryInput" style="margin-top:8px;">2. What Happens in This Stage? (1–2 Plain-English Sentences):</label>
+              <textarea id="builderStageSummaryInput" class="studio-textarea" rows="2" placeholder="Describe what happens in plain human English without jargon..." oninput="onBuilderStageFieldInput()"></textarea>
+
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
+                <div>
+                  <label class="studio-label" for="builderStageWhoInput">3a. Who Is Involved?</label>
+                  <input type="text" id="builderStageWhoInput" class="studio-input" placeholder="e.g., Completed by LPM with Leadership Team" oninput="onBuilderStageFieldInput()" />
+                </div>
+                <div>
+                  <label class="studio-label" for="builderStageToolInput">3b. Tool Used:</label>
+                  <input type="text" id="builderStageToolInput" class="studio-input" placeholder="e.g., PM Maturity Hub (Assessment)" oninput="onBuilderStageFieldInput()" />
+                </div>
+              </div>
+
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
+                <div>
+                  <label class="studio-label" for="builderStageOutputInput">4. What Do You Finish With?</label>
+                  <input type="text" id="builderStageOutputInput" class="studio-input" placeholder="e.g., Baseline picture of current Lean capability & gaps" oninput="onBuilderStageFieldInput()" />
+                </div>
+                <div>
+                  <label class="studio-label" for="builderStageCtaInput">Card Action Button Label:</label>
+                  <input type="text" id="builderStageCtaInput" class="studio-input" placeholder="e.g., Open Stage 1 Guide →" oninput="onBuilderStageFieldInput()" />
+                </div>
+              </div>
+              <div id="builderGuardrailFeedback" class="studio-guardrail-feedback" style="margin-top:8px;"></div>
+            </div>
+
+            <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;">
+              <button type="button" class="header-btn secondary" style="color:#1B1534;border-color:#B8CEDB;" onclick="resetSavedLocalStorageGuides()">
+                ↺ Reset Local Browser Edits
+              </button>
+              <button type="button" class="header-btn" style="padding:10px 20px;font-size:13.5px;" onclick="savePlaybookBuilderChanges()">
+                ✓ Save Playbook &amp; Journey Map
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Column: Live WYSIWYG Preview of Golden Principle + N Stage Cards -->
+          <div class="studio-col" style="max-height:66vh;overflow-y:auto;" id="builderLivePreviewCol"></div>
+        </div>
+      </div>
+
+      <!-- TAB 2: SOP & Step WYSIWYG Editor (+ New SOP Guide / + New Step) -->
+      <div id="studioTabVisual" class="studio-body hidden">
         <div class="studio-selectors-bar">
           <div class="studio-field-inline">
             <label for="studioPlaybookSelect">Playbook:</label>
@@ -111,18 +222,44 @@
             <label for="studioSopSelect">SOP Guide:</label>
             <select id="studioSopSelect" class="studio-select" onchange="onStudioSopChange(this.value)"></select>
           </div>
+          <button type="button" class="header-btn" style="background:#4D217A;" onclick="createNewSopInStudio()">
+            + New SOP Guide
+          </button>
           <div class="studio-field-inline">
             <label for="studioStepSelect">Step:</label>
             <select id="studioStepSelect" class="studio-select" onchange="onStudioStepChange(this.value)"></select>
           </div>
           <button type="button" class="header-btn" style="background:#009999;" onclick="addNewSopStepInStudio()">
-            + New SOP Step
+            + New Step
           </button>
         </div>
 
         <div class="studio-grid">
-          <!-- Left Column: Step Text, Guardrails, Coaching Tip & Visual Mode Radio Pills -->
-          <div class="studio-col">
+          <!-- Left Column: SOP Metadata + Step Text, Guardrails, Coaching Tip & Visual Mode Radio Pills -->
+          <div class="studio-col" style="max-height:66vh;overflow-y:auto;padding-right:6px;">
+            <details style="background:#F8FAFC;border:1px solid #D7E4EE;border-radius:8px;padding:10px 12px;margin-bottom:12px;">
+              <summary style="cursor:pointer;font-size:12px;font-weight:700;color:#4D217A;">
+                ▸ Edit SOP Guide Header, Pre-Flight Checklist &amp; Troubleshooting (Click to Expand)
+              </summary>
+              <div style="margin-top:10px;">
+                <div style="display:grid;grid-template-columns:2fr 1fr;gap:8px;">
+                  <div>
+                    <label class="studio-label" for="studioSopTitleInput">SOP Guide Title:</label>
+                    <input type="text" id="studioSopTitleInput" class="studio-input" oninput="onStudioStepFieldInput()" />
+                  </div>
+                  <div>
+                    <label class="studio-label" for="studioSopTimeInput">Estimated Time:</label>
+                    <input type="text" id="studioSopTimeInput" class="studio-input" placeholder="e.g., 45 mins" oninput="onStudioStepFieldInput()" />
+                  </div>
+                </div>
+                <label class="studio-label" for="studioSopGoalInput" style="margin-top:8px;">SOP Purpose / User Goal:</label>
+                <input type="text" id="studioSopGoalInput" class="studio-input" oninput="onStudioStepFieldInput()" />
+
+                <label class="studio-label" for="studioSopChecklistInput" style="margin-top:8px;">Pre-Flight Checklist ("Before You Start" — 1 item per line):</label>
+                <textarea id="studioSopChecklistInput" class="studio-textarea" rows="2" oninput="onStudioStepFieldInput()"></textarea>
+              </div>
+            </details>
+
             <div class="studio-label-row">
               <label for="studioActionInput" class="studio-label">1. Step Action Command (Max 20 Words • Active Verb):</label>
               <span id="studioWordCounterPill" class="studio-guardrail-pill">0 / 20 words</span>
@@ -136,7 +273,7 @@
             />
             <div id="studioGuardrailFeedback" class="studio-guardrail-feedback"></div>
 
-            <label for="studioDetailInput" class="studio-label" style="margin-top:12px;">2. Supporting Context / Detail (Optional):</label>
+            <label for="studioDetailInput" class="studio-label" style="margin-top:10px;">2. Supporting Context / Detail (Optional):</label>
             <input
               type="text"
               id="studioDetailInput"
@@ -145,7 +282,7 @@
               oninput="onStudioStepFieldInput()"
             />
 
-            <label for="studioCoachingInput" class="studio-label" style="margin-top:12px;">3. Good Practice Coaching Tip (Required Value-Add):</label>
+            <label for="studioCoachingInput" class="studio-label" style="margin-top:10px;">3. Good Practice Coaching Tip (Required Value-Add):</label>
             <textarea
               id="studioCoachingInput"
               class="studio-textarea"
@@ -154,7 +291,7 @@
               oninput="onStudioStepFieldInput()"
             ></textarea>
 
-            <div class="studio-label" style="margin-top:14px;">4. Visual Mode for This Step:</div>
+            <div class="studio-label" style="margin-top:12px;">4. Visual Mode for This Step:</div>
             <div class="studio-mode-pills" role="radiogroup" aria-label="Step Visual Mode">
               <button type="button" class="studio-mode-pill" id="modePillNone" onclick="setStudioVisualMode('none')">
                 📝 No Image (Text + Coaching Only)
@@ -167,7 +304,7 @@
               </button>
             </div>
 
-            <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:12px;border-top:1px solid #D7E4EE;">
+            <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:12px;border-top:1px solid #D7E4EE;">
               <button type="button" class="header-btn secondary" style="color:#1B1534;border-color:#B8CEDB;" onclick="resetSavedLocalStorageGuides()">
                 ↺ Reset Local Browser Edits
               </button>
@@ -177,77 +314,96 @@
             </div>
           </div>
 
-          <!-- Right Column: Interactive Screenshot Dropzone (Ctrl+V) & Click-to-Place Hotspot Canvas -->
-          <div class="studio-col" id="studioVisualRightCol"></div>
+          <!-- Right Column: Interactive Screenshot Dropzone (Ctrl+V) + Live Rendered Step Card Preview -->
+          <div class="studio-col" style="max-height:66vh;overflow-y:auto;" id="studioVisualRightCol"></div>
         </div>
       </div>
 
-      <!-- TAB B: Raw JSON Payload Loader -->
-      <div id="studioTabRaw" class="modal-grid hidden">
-        <div>
-          <textarea id="jsonEditor" class="code-editor" spellcheck="false" aria-label="JSON Payload Editor"></textarea>
+      <!-- TAB 3: AI Playbook Generator Prompt & Raw JSON Payload Loader -->
+      <div id="studioTabRaw" class="studio-body hidden">
+        <div class="plain-key-box" style="margin-bottom:14px;background:linear-gradient(90deg,#F5F0FF 0%,#EAF4F8 100%);border-color:#D0BDF4;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#1B1534;">
+                ✨ 1-Click AI Playbook Generator Prompt (For M365 Copilot or Gemini)
+              </div>
+              <p style="font-size:12.5px;color:#54646E;margin-top:2px;">
+                Want to turn a rough Word document, PowerPoint deck, or meeting notes into a complete Lean@GS Playbook? Copy the prompt below, paste it into M365 Copilot or Gemini with your notes, and paste the returned JSON below.
+              </p>
+            </div>
+            <button type="button" class="header-btn" style="background:#8A00E5;white-space:nowrap;" onclick="copyAiPlaybookPrompt()">
+              📋 Copy AI Playbook Prompt
+            </button>
+          </div>
+          <div id="aiPromptCopyStatus" style="font-size:12px;font-weight:700;color:#007A7A;margin-top:6px;display:none;"></div>
         </div>
-        <div style="display:flex;flex-direction:column;justify-content:space-between;">
+
+        <div class="modal-grid" style="padding:0;">
           <div>
-            <h4 style="margin-bottom:10px;color:#1B1534;">Schema &amp; Usability Audit</h4>
-            <div id="liveAuditReport" style="font-size:13.5px;color:#54646E;"></div>
-            <div style="margin-top:16px;">
-              <label for="jsonFileInput" style="font-size:12.5px;font-weight:600;color:#1B1534;display:block;margin-bottom:6px;">
-                Upload JSON File:
-              </label>
-              <input type="file" id="jsonFileInput" accept=".json" style="font-size:12px;color:#54646E;" />
+            <textarea id="jsonEditor" class="code-editor" spellcheck="false" aria-label="JSON Payload Editor"></textarea>
+          </div>
+          <div style="display:flex;flex-direction:column;justify-content:space-between;">
+            <div>
+              <h4 style="margin-bottom:10px;color:#1B1534;">Schema &amp; Usability Audit</h4>
+              <div id="liveAuditReport" style="font-size:13.5px;color:#54646E;"></div>
+              <div style="margin-top:16px;">
+                <label for="jsonFileInput" style="font-size:12.5px;font-weight:600;color:#1B1534;display:block;margin-bottom:6px;">
+                  Upload JSON File:
+                </label>
+                <input type="file" id="jsonFileInput" accept=".json" style="font-size:12px;color:#54646E;" />
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <button type="button" class="header-btn secondary" style="color:#1B1534;border-color:#B8CEDB;padding:9px;" onclick="resetSavedLocalStorageGuides()">
+                ↺ Reset to Default Payload
+              </button>
+              <button type="button" class="header-btn" id="applyJsonBtn" style="padding:11px;font-size:13.5px;">
+                Apply Raw JSON Changes
+              </button>
             </div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:8px;">
-            <button type="button" class="header-btn secondary" style="color:#1B1534;border-color:#B8CEDB;padding:9px;" onclick="resetSavedLocalStorageGuides()">
-              ↺ Reset to Default Payload
-            </button>
-            <button type="button" class="header-btn" id="applyJsonBtn" style="padding:11px;font-size:13.5px;">
-              Apply Raw JSON Changes
-            </button>
-          </div>
         </div>
       </div>
 
-      <!-- TAB C: Living Design & Plain-English Style Guide (DESIGN_GUIDE.md) -->
+      <!-- TAB 4: Living Design & Plain-English Style Guide (DESIGN_GUIDE.md) -->
       <div id="studioTabDesign" class="studio-body hidden">
         <div class="plain-key-box" style="margin-bottom:18px;">
           <div class="plain-key-header">
-            <span class="plain-key-title">📐 Section A: The "Naive Colleague" 10-Second Rule (Core Philosophy)</span>
+            <span class="plain-key-title">📐 Section A: The "Naive Colleague" 10-Second Rule &amp; Flexible N-Stage Journeys</span>
             <span class="muted-code-pill">Enforced by DESIGN_GUIDE.md &amp; validate-guides.js</span>
           </div>
           <div class="plain-key-grid">
             <div class="plain-key-item">
-              <div class="plain-key-term">1. Why am I here?</div>
-              <p class="plain-key-desc">Every Playbook Overview starts with a 2-sentence plain-English goal explaining what the guide helps you achieve in the real world.</p>
+              <div class="plain-key-term">1. Why am I here &amp; Golden Principle</div>
+              <p class="plain-key-desc">Every Playbook starts with a plain-English goal and a high-contrast Golden Principle box (e.g., <em>"The goal isn't to improve the maturity score. The goal is to improve the business."</em>).</p>
             </div>
             <div class="plain-key-item">
-              <div class="plain-key-term">2. How do I use this?</div>
-              <p class="plain-key-desc">Never stamp loud compliance badges like <code>MANDATORY</code> or <code>OPTIONAL</code> across stage cards. Show a simple "Ways to Use This Guide" banner instead.</p>
+              <div class="plain-key-term">2. Zero Compliance Stamps or Tech Plumbing</div>
+              <p class="plain-key-desc">Never stamp <code>MANDATORY</code> / <code>OPTIONAL</code> or <code>Input → Output: Raw scores.csv / .json</code> on stage cards. Use a helpful "Ways to Use This Guide" banner instead.</p>
             </div>
             <div class="plain-key-item">
-              <div class="plain-key-term">3. What do I do next?</div>
-              <p class="plain-key-desc">Maximum <strong>4 high-level stages</strong> on any Journey Map, aligned 1-to-1 with the 4 universal navigation tabs.</p>
+              <div class="plain-key-term">3. 4 Universal App Tabs + Flexible N Stages</div>
+              <p class="plain-key-desc">Keep the 4 top navigation tabs fixed while allowing Tab 1's Journey Map to render as many connected stage cards as the real process requires (e.g., 6 stages for Navigator, 4 for Daily Management).</p>
             </div>
           </div>
         </div>
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;">
           <div style="background:#F8FAFC;border:1px solid #D7E4EE;border-radius:10px;padding:16px;">
-            <h4 style="color:#1B1534;margin-bottom:8px;">Section B: Strict Card Density Standard (Max 4 Elements)</h4>
+            <h4 style="color:#1B1534;margin-bottom:8px;">Section B: Clean 4-Element Stage Card Layout</h4>
             <ol style="padding-left:18px;font-size:13px;color:#54646E;display:flex;flex-direction:column;gap:6px;">
-              <li><strong style="color:#1B1534;">Plain-English Title:</strong> Max 7 words, starting with an action verb (e.g., <em>"1. Score Your Site Together in a Pair"</em>).</li>
-              <li><strong style="color:#1B1534;">One-Sentence Summary:</strong> Plain-English explanation of what happens in that stage (no unexplained rules).</li>
-              <li><strong style="color:#1B1534;">Who &amp; How Long:</strong> Single clean line (e.g., <em>"Programme Manager + Core Team Partner • 90 mins"</em>). No double labels.</li>
-              <li><strong style="color:#1B1534;">What You Finish With:</strong> Human outcome (e.g., <em>"Agreed scorecard for 28 site practices"</em>). Never show <code>.csv / .json</code> or <code>Input → Output:</code> on overview cards.</li>
+              <li><strong style="color:#1B1534;">Stage Number &amp; Plain-English Title:</strong> e.g., <em>"Stage 1: Establish the Baseline (Assess)"</em>.</li>
+              <li><strong style="color:#1B1534;">What Happens:</strong> 1–2 plain-English sentences explaining what happens in the real world.</li>
+              <li><strong style="color:#1B1534;">Who Is Involved &amp; Tool Used:</strong> Clear human roles and clickable tool badge.</li>
+              <li><strong style="color:#1B1534;">What You Finish With:</strong> Tangible outcome (e.g., <em>"Focused view of 2–3 priority capability gaps to develop"</em>).</li>
             </ol>
           </div>
 
           <div style="background:#F8FAFC;border:1px solid #D7E4EE;border-radius:10px;padding:16px;">
-            <h4 style="color:#1B1534;margin-bottom:8px;">Section D &amp; E: SOP Step, Visual &amp; Brand Standards</h4>
+            <h4 style="color:#1B1534;margin-bottom:8px;">Section D &amp; E: Focus on 2–3 Key Actions &amp; Step Rules</h4>
             <ul style="padding-left:18px;font-size:13px;color:#54646E;display:flex;flex-direction:column;gap:6px;">
-              <li><strong style="color:#1B1534;">≤20-Word Rule &amp; Active Verb Start:</strong> Every step action must be ≤20 words and start with a direct action verb.</li>
-              <li><strong style="color:#1B1534;">Zero Raw Acronyms &amp; Point-of-Use Delivery:</strong> Explain rules in Step 1 where needed; put filing rules at the final step where saving happens.</li>
+              <li><strong style="color:#1B1534;">Focus on 2–3 Key Actions (Max 5 Hard Cap):</strong> Recommend 2 to 3 focused capability actions at a time so teams actually finish what they start.</li>
+              <li><strong style="color:#1B1534;">≤20-Word Rule &amp; Active Verb Start:</strong> Every SOP step action must be ≤20 words and start with a direct action verb.</li>
               <li><strong style="color:#1B1534;">Flexible 3-Mode Visuals (M365 Ready):</strong> Supports <code>image</code> (Ctrl+V Snipping Tool Base64 + hotspot), <code>svg</code>, or <code>none</code>.</li>
               <li><strong style="color:#1B1534;">Siemens Energy Brand Tokens:</strong> Header <code>#1B1534 → #4D217A</code>, Petrol <code>#009999</code>, Bright Purple CTA <code>#8A00E5</code>, Ice-Blue cards <code>#EAF4F8</code>.</li>
             </ul>
@@ -265,31 +421,23 @@
           <tbody>
             <tr>
               <td style="color:#DA1E28;font-weight:600;">"Self / Pair Calibration &amp; Scoring"</td>
-              <td style="color:#007A7A;font-weight:700;">"Score Your Site Together in a Pair"</td>
+              <td style="color:#007A7A;font-weight:700;">"Establish the Baseline (Assess)"</td>
             </tr>
             <tr>
               <td style="color:#DA1E28;font-weight:600;">"Gateway Cap &amp; Gap Diagnosis"</td>
-              <td style="color:#007A7A;font-weight:700;">"See What Is Holding Your Score Back"</td>
-            </tr>
-            <tr>
-              <td style="color:#DA1E28;font-weight:600;">"Starred Gateways (★) / Red Gateways"</td>
-              <td style="color:#007A7A;font-weight:700;">"Foundation Questions (★) that unlock the next level"</td>
-            </tr>
-            <tr>
-              <td style="color:#DA1E28;font-weight:600;">"70% Site Rule / Workplace Evidence"</td>
-              <td style="color:#007A7A;font-weight:700;">"Visible across most of your site (at least 7 out of 10 areas)"</td>
+              <td style="color:#007A7A;font-weight:700;">"Understand the Gaps (Analyse)"</td>
             </tr>
             <tr>
               <td style="color:#DA1E28;font-weight:600;">"Leader Interviews (VOC)"</td>
-              <td style="color:#007A7A;font-weight:700;">"Ask Site Leaders About Their Biggest Challenges"</td>
+              <td style="color:#007A7A;font-weight:700;">"Understand the Business Need (Voice of the Customer)"</td>
             </tr>
             <tr>
-              <td style="color:#DA1E28;font-weight:600;">"Prioritise the 'Vital Few'"</td>
-              <td style="color:#007A7A;font-weight:700;">"Pick Your Top 5 Focus Areas"</td>
+              <td style="color:#DA1E28;font-weight:600;">"Prioritise the 'Vital Few' (Max 5)"</td>
+              <td style="color:#007A7A;font-weight:700;">"Focus on 2–3 Key Actions at a Time (Max 5 Hard Cap)"</td>
             </tr>
             <tr>
               <td style="color:#DA1E28;font-weight:600;">"Input → Output: Raw scores.csv / .json"</td>
-              <td style="color:#007A7A;font-weight:700;">"What you finish with: Saved site scorecard"</td>
+              <td style="color:#007A7A;font-weight:700;">"What you finish with: Baseline picture of current Lean capability &amp; gaps"</td>
             </tr>
           </tbody>
         </table>

@@ -19,8 +19,10 @@ let state = {
   openInlineToolId: null,
   sidebarToolsOpen: false,
 
-  // Stage 4 Authoring Studio State:
-  studioTab: "visual", // "visual" | "raw"
+  // Stage 4 & 5 Authoring Studio State:
+  studioTab: "playbook", // "playbook" | "visual" | "raw" | "design"
+  builderPlaybookId: "PLB-001",
+  builderStageIndex: 0,
   studioPlaybookId: "PLB-001",
   studioSopId: "SOP-001",
   studioStepIndex: 0,
@@ -31,7 +33,7 @@ let state = {
   studioSavedSvgVisual: null
 };
 
-const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V4";
+const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V5";
 let DEFAULT_DB_SNAPSHOT = null;
 
 async function initApp() {
@@ -518,16 +520,8 @@ function renderSidebar() {
     </div>
 
     <div>
-      <div class="filing-callout">
-        <div style="font-family:ui-monospace,monospace;font-size:10.5px;font-weight:700;color:#009999;text-transform:uppercase;margin-bottom:4px;">
-          ${escapeHtml(plb.code)} • Filing Rule
-        </div>
-        <div>
-          ${escapeHtml(plb.filingRule || DB.meta?.filingRule || "")}
-        </div>
-      </div>
       <button type="button" class="quiet-admin-link" onclick="openAdminModal()">
-        ⚙️ Admin: Edit Guide Payload
+        ⚙️ Playbook &amp; SOP Authoring Studio
       </button>
     </div>
   `;
@@ -564,7 +558,7 @@ function renderMain() {
 }
 
 /**
- * Tab 1: Universal End-to-End Journey Page (100% Driven by activePlaybook.journeyMap, processes, and rulesKey)
+ * Tab 1: Universal End-to-End Journey Page (100% Driven by activePlaybook.journeyMap, goldenPrinciple, convergenceBanner, processes, and rulesKey)
  */
 function renderJourneyPage(plb, canvas) {
   const jMap = plb.journeyMap || {};
@@ -572,17 +566,36 @@ function renderJourneyPage(plb, canvas) {
   const roleFilters = jMap.roleFilters || [{ id: "all", label: "All Roles" }];
   const processes = getActiveProcesses();
   const rulesKey = plb.rulesKey;
+  const gp = plb.goldenPrinciple;
+  const conv = plb.convergenceBanner;
 
   canvas.innerHTML = `
     <div class="content-container">
-      <div class="eyebrow-tag">
-        <span class="petrol-dot" style="width:7px;height:7px;"></span>
-        <span>${escapeHtml(plb.eyebrow || plb.code)}</span>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+        <div class="eyebrow-tag">
+          <span class="petrol-dot" style="width:7px;height:7px;"></span>
+          <span>${escapeHtml(plb.eyebrow || plb.code)}</span>
+        </div>
+        <button type="button" class="breadcrumb-link" onclick="openPlaybookBuilderModal('${escapeHtml(plb.id)}', 0)">
+          ⚙️ Edit Journey Stages or Create New Playbook →
+        </button>
       </div>
       <h1 class="page-title">${escapeHtml(plb.title)}</h1>
-      <p class="page-subtitle">
+      <p class="page-subtitle" style="margin-bottom:18px;">
         ${escapeHtml(plb.subtitle)}
       </p>
+
+      <!-- Stage 5: High-Contrast Golden Principle Callout Box -->
+      ${
+        gp && gp.quote
+          ? `
+        <div class="golden-principle-box">
+          <div class="golden-principle-kicker">Core Navigator Principle</div>
+          <div class="golden-principle-quote">“${escapeHtml(gp.quote)}”</div>
+          <div class="golden-principle-desc">${escapeHtml(gp.explanation || "")}</div>
+        </div>`
+          : ""
+      }
 
       <!-- Connected End-to-End Process Map Driven by activePlaybook.journeyMap -->
       <section class="journey-map-section" aria-label="Connected End-to-End Process Map">
@@ -635,32 +648,60 @@ function renderJourneyPage(plb, canvas) {
           </div>
         </div>
 
-        <!-- Connected Stage Cards -->
+        <!-- Stage 5: Visual Convergence Banner (Input 1 + Input 2 -> Combined) -->
+        ${
+          conv && conv.input1Title
+            ? `
+          <div class="convergence-banner">
+            <div class="convergence-banner-header">How the Two Principal Inputs Converge in the Navigator Process</div>
+            <div class="convergence-grid">
+              <div class="convergence-card">
+                <div class="convergence-card-title">📊 ${escapeHtml(conv.input1Title)}</div>
+                <div class="convergence-card-desc">${escapeHtml(conv.input1Desc || "")}</div>
+              </div>
+              <div class="convergence-operator">+</div>
+              <div class="convergence-card">
+                <div class="convergence-card-title">🎯 ${escapeHtml(conv.input2Title)}</div>
+                <div class="convergence-card-desc">${escapeHtml(conv.input2Desc || "")}</div>
+              </div>
+              <div class="convergence-operator">→</div>
+              <div class="convergence-card combined">
+                <div class="convergence-card-title">🤝 ${escapeHtml(conv.combinedTitle)}</div>
+                <div class="convergence-card-desc">${escapeHtml(conv.combinedDesc || "")}</div>
+              </div>
+            </div>
+          </div>`
+            : ""
+        }
+
+        <!-- Connected N-Stage Cards (Clean 4-Element Layout: Zero Compliance Stamps, Zero .csv/.json Tech Plumbing) -->
         <div class="six-stage-grid">
           ${stages
-            .map((st) => {
+            .map((st, idx) => {
               const isDimmed =
                 state.journeyRoleFilter !== "all" &&
                 st.leadRoleId !== state.journeyRoleFilter &&
                 st.supportRoleId !== state.journeyRoleFilter;
-              const badgeClass = st.statusTone === "purple" ? "status-badge-purple" : "status-badge-teal";
               const leadRoleObj = DB.roles[st.leadRoleId];
-              const supportRoleObj = DB.roles[st.supportRoleId];
               const toolObj = DB.tools[st.toolId];
+              const whoText = st.whoIsInvolved || st.whoAndDuration || st.leadRoleLabel || leadRoleObj?.title || "";
 
               return `
               <div class="stage-flow-card ${isDimmed ? "dimmed" : ""}">
                 <div>
                   <div class="stage-card-top">
                     <span class="stage-num-circle">STAGE ${st.stageNumber}</span>
-                    <span class="${badgeClass}">${escapeHtml(st.status)}</span>
+                    <button type="button" class="breadcrumb-link" style="font-size:11px;"
+                            onclick="openPlaybookBuilderModal('${escapeHtml(plb.id)}', ${idx})">
+                      Edit Stage
+                    </button>
                   </div>
                   <h3 class="stage-card-title">${escapeHtml(st.title)}</h3>
+                  <p class="stage-summary-text">${escapeHtml(st.summary || "")}</p>
                   <div class="stage-meta-rows">
-                    <div><strong>Lead:</strong> ${escapeHtml(st.leadRoleLabel || leadRoleObj?.title || st.leadRoleId)}</div>
-                    <div><strong>Support:</strong> ${escapeHtml(st.supportRoleLabel || supportRoleObj?.title || st.supportRoleId)}</div>
+                    <div><strong>Who is involved:</strong> ${escapeHtml(whoText)}</div>
                     <div>
-                      <strong>Tool:</strong>
+                      <strong>Tool used:</strong>
                       <button type="button" class="breadcrumb-link" style="font-size:12px;"
                               onclick="selectTool('${escapeHtml(st.toolId)}')">
                         ${escapeHtml(st.toolLabel || toolObj?.name || st.toolId)}
@@ -670,14 +711,14 @@ function renderJourneyPage(plb, canvas) {
                 </div>
                 <div>
                   <div class="stage-io-box">
-                    <strong>Input → Output:</strong><br/>
-                    ${escapeHtml(st.inputArtifact)} → <strong>${escapeHtml(st.outputArtifact)}</strong>
+                    <strong>What you finish with:</strong><br/>
+                    <span>${escapeHtml(st.outputArtifact || "")}</span>
                   </div>
                   <button type="button" class="stage-card-btn"
                           onclick="openJourneyStage('${escapeHtml(st.targetView?.type || "sop")}', '${escapeHtml(
                 st.targetView?.id || ""
               )}')">
-                    ${escapeHtml(st.targetView?.cta || "")}
+                    ${escapeHtml(st.targetView?.cta || "Open Stage Guide →")}
                   </button>
                 </div>
               </div>`;
@@ -1263,7 +1304,13 @@ function renderDecisionToolPage(dec, plb, canvas) {
       <div class="capacity-tray ${isOverLimit ? "over-limit" : ""}">
         <div>
           <div class="capacity-meter">
-            <span class="capacity-count-pill">${selectedCount} / ${maxCap} Capacity Used</span>
+            <span class="capacity-count-pill">
+              ${selectedCount} Selected ${
+      dec.recommendedMin && dec.recommendedMax
+        ? `(Target: ${dec.recommendedMin}–${dec.recommendedMax} • Max ${maxCap})`
+        : `/ ${maxCap} Capacity`
+    }
+            </span>
             <strong style="font-size:15.5px;">
               ${escapeHtml(isOverLimit ? dec.overLimitWarning : dec.withinLimitMessage)}
             </strong>
@@ -1273,7 +1320,7 @@ function renderDecisionToolPage(dec, plb, canvas) {
         <button type="button" class="header-btn"
                 style="background:${isOverLimit ? "#641E8C" : "#8A00E5"};padding:10px 18px;font-size:13.5px;font-weight:700;"
                 onclick="sendSelectedToTemplate('${escapeHtml(dec.id)}', '${escapeHtml(dec.targetTemplateId || "")}', ${maxCap})">
-          Send (${selectedCount}/${maxCap}) to ${escapeHtml(dec.sendButtonLabel || "Template")} →
+          Send (${selectedCount}) to ${escapeHtml(dec.sendButtonLabel || "Template")} →
         </button>
       </div>
 
@@ -1856,6 +1903,8 @@ function setActiveTopTab(tabName) {
 }
 
 function openAdminModal() {
+  state.builderPlaybookId = state.playbookId || "PLB-001";
+  state.builderStageIndex = 0;
   state.studioPlaybookId = state.playbookId || "PLB-001";
   const plb = getPlaybooks().find((p) => p.id === state.studioPlaybookId) || getPlaybooks()[0];
   if (state.view === "sop" && state.selectedId && DB.sops[state.selectedId]) {
@@ -1869,9 +1918,24 @@ function openAdminModal() {
   document.getElementById("jsonEditor").value = raw;
   runLiveJsonAudit(raw);
 
-  switchStudioTab("visual");
+  populateBuilderTab();
   populateStudioSelectors();
   loadStudioStepIntoForm();
+  switchStudioTab(state.view === "sop" ? "visual" : "playbook");
+  document.getElementById("jsonModal").classList.remove("hidden");
+}
+
+function openPlaybookBuilderModal(plbId, stageIdx) {
+  state.builderPlaybookId = plbId || state.playbookId || "PLB-001";
+  state.builderStageIndex = typeof stageIdx === "number" ? stageIdx : 0;
+  const raw = JSON.stringify(DB, null, 2);
+  document.getElementById("jsonEditor").value = raw;
+  runLiveJsonAudit(raw);
+
+  populateBuilderTab();
+  populateStudioSelectors();
+  loadStudioStepIntoForm();
+  switchStudioTab("playbook");
   document.getElementById("jsonModal").classList.remove("hidden");
 }
 
@@ -1880,6 +1944,7 @@ function openStudioForSop(sopId, stepIdx) {
   if (!sop) return;
   const ownerPlb = getPlaybooks().find((p) => (p.sopIds || []).includes(sopId));
   state.studioPlaybookId = ownerPlb ? ownerPlb.id : state.playbookId;
+  state.builderPlaybookId = state.studioPlaybookId;
   state.studioSopId = sopId;
   state.studioStepIndex = typeof stepIdx === "number" ? stepIdx : 0;
 
@@ -1887,26 +1952,564 @@ function openStudioForSop(sopId, stepIdx) {
   document.getElementById("jsonEditor").value = raw;
   runLiveJsonAudit(raw);
 
-  switchStudioTab("visual");
+  populateBuilderTab();
   populateStudioSelectors();
   loadStudioStepIntoForm();
+  switchStudioTab("visual");
   document.getElementById("jsonModal").classList.remove("hidden");
 }
 
 function switchStudioTab(tab) {
   state.studioTab = tab;
+  document.getElementById("tabBtnStudioPlaybook")?.classList.toggle("active", tab === "playbook");
   document.getElementById("tabBtnStudioVisual")?.classList.toggle("active", tab === "visual");
   document.getElementById("tabBtnStudioRaw")?.classList.toggle("active", tab === "raw");
   document.getElementById("tabBtnStudioDesign")?.classList.toggle("active", tab === "design");
 
+  document.getElementById("studioTabPlaybook")?.classList.toggle("hidden", tab !== "playbook");
   document.getElementById("studioTabVisual")?.classList.toggle("hidden", tab !== "visual");
   document.getElementById("studioTabRaw")?.classList.toggle("hidden", tab !== "raw");
   document.getElementById("studioTabDesign")?.classList.toggle("hidden", tab !== "design");
 
-  if (tab === "raw") {
+  if (tab === "playbook") {
+    populateBuilderTab();
+  } else if (tab === "raw") {
     const raw = JSON.stringify(DB, null, 2);
     document.getElementById("jsonEditor").value = raw;
     runLiveJsonAudit(raw);
+  }
+}
+
+/* ============================================================================
+   TAB 1: PLAYBOOK & DYNAMIC N-STAGE JOURNEY WYSIWYG BUILDER
+   ============================================================================ */
+function getBuilderPlaybook() {
+  const list = getPlaybooks();
+  return list.find((p) => p.id === state.builderPlaybookId) || list[0] || null;
+}
+
+function populateBuilderTab() {
+  const plbSel = document.getElementById("builderPlaybookSelect");
+  if (!plbSel) return;
+  const playbooks = getPlaybooks();
+  plbSel.innerHTML = playbooks
+    .map(
+      (p) =>
+        `<option value="${escapeHtml(p.id)}" ${p.id === state.builderPlaybookId ? "selected" : ""}>${escapeHtml(
+          p.code
+        )} • ${escapeHtml(p.title)}</option>`
+    )
+    .join("");
+
+  const plb = getBuilderPlaybook();
+  if (!plb) return;
+
+  document.getElementById("builderTitleInput").value = plb.title || "";
+  document.getElementById("builderEyebrowInput").value = plb.eyebrow || plb.code || "";
+  document.getElementById("builderRibbonInput").value = plb.journeyMap?.formulaBanner || "";
+  document.getElementById("builderSubtitleInput").value = plb.subtitle || "";
+  document.getElementById("builderGoldenQuoteInput").value = plb.goldenPrinciple?.quote || "";
+  document.getElementById("builderGoldenDescInput").value = plb.goldenPrinciple?.explanation || "";
+
+  const stages = plb.journeyMap?.stages || [];
+  if (state.builderStageIndex >= stages.length) {
+    state.builderStageIndex = Math.max(0, stages.length - 1);
+  }
+
+  const badge = document.getElementById("builderStageCountBadge");
+  if (badge) badge.textContent = `${stages.length} Stage${stages.length === 1 ? "" : "s"}`;
+
+  const stageSel = document.getElementById("builderStageSelect");
+  if (stageSel) {
+    stageSel.innerHTML = stages
+      .map(
+        (st, idx) =>
+          `<option value="${idx}" ${idx === state.builderStageIndex ? "selected" : ""}>Stage ${st.stageNumber}: ${escapeHtml(
+            st.title
+          )}</option>`
+      )
+      .join("");
+  }
+
+  loadBuilderStageIntoForm();
+  renderBuilderLivePreview();
+}
+
+function loadBuilderStageIntoForm() {
+  const plb = getBuilderPlaybook();
+  const stage = plb?.journeyMap?.stages?.[state.builderStageIndex];
+  if (!stage) return;
+
+  document.getElementById("builderStageTitleInput").value = stage.title || "";
+  document.getElementById("builderStageSummaryInput").value = stage.summary || "";
+  document.getElementById("builderStageWhoInput").value = stage.whoIsInvolved || stage.whoAndDuration || "";
+  document.getElementById("builderStageToolInput").value = stage.toolLabel || "";
+  document.getElementById("builderStageOutputInput").value = stage.outputArtifact || "";
+  document.getElementById("builderStageCtaInput").value = stage.targetView?.cta || "Open Stage Guide →";
+  validateBuilderGuardrails();
+}
+
+function onBuilderPlaybookChange(plbId) {
+  state.builderPlaybookId = plbId;
+  state.builderStageIndex = 0;
+  populateBuilderTab();
+}
+
+function onBuilderStageSelectChange(idxStr) {
+  state.builderStageIndex = parseInt(idxStr, 10) || 0;
+  loadBuilderStageIntoForm();
+  renderBuilderLivePreview();
+}
+
+function onBuilderPlaybookFieldInput() {
+  const plb = getBuilderPlaybook();
+  if (!plb) return;
+  plb.title = document.getElementById("builderTitleInput").value;
+  plb.eyebrow = document.getElementById("builderEyebrowInput").value;
+  if (!plb.journeyMap) plb.journeyMap = { stages: [] };
+  plb.journeyMap.formulaBanner = document.getElementById("builderRibbonInput").value;
+  plb.subtitle = document.getElementById("builderSubtitleInput").value;
+  if (!plb.goldenPrinciple) plb.goldenPrinciple = {};
+  plb.goldenPrinciple.quote = document.getElementById("builderGoldenQuoteInput").value;
+  plb.goldenPrinciple.explanation = document.getElementById("builderGoldenDescInput").value;
+  renderBuilderLivePreview();
+}
+
+function onBuilderStageFieldInput() {
+  const plb = getBuilderPlaybook();
+  const stage = plb?.journeyMap?.stages?.[state.builderStageIndex];
+  if (!stage) return;
+
+  stage.title = document.getElementById("builderStageTitleInput").value;
+  stage.summary = document.getElementById("builderStageSummaryInput").value;
+  stage.whoIsInvolved = document.getElementById("builderStageWhoInput").value;
+  stage.whoAndDuration = stage.whoIsInvolved;
+  stage.toolLabel = document.getElementById("builderStageToolInput").value;
+  stage.outputArtifact = document.getElementById("builderStageOutputInput").value;
+  if (!stage.targetView) stage.targetView = { type: "sop", id: plb.sopIds?.[0] || "SOP-001" };
+  stage.targetView.cta = document.getElementById("builderStageCtaInput").value;
+
+  const stageSel = document.getElementById("builderStageSelect");
+  if (stageSel && stageSel.options[state.builderStageIndex]) {
+    stageSel.options[state.builderStageIndex].textContent = `Stage ${stage.stageNumber}: ${stage.title}`;
+  }
+
+  validateBuilderGuardrails();
+  renderBuilderLivePreview();
+}
+
+function validateBuilderGuardrails() {
+  const fb = document.getElementById("builderGuardrailFeedback");
+  if (!fb) return;
+  const plb = getBuilderPlaybook();
+  const stage = plb?.journeyMap?.stages?.[state.builderStageIndex];
+  if (!stage) return;
+
+  const combined = `${stage.title || ""} ${stage.summary || ""} ${stage.whoIsInvolved || ""} ${stage.outputArtifact || ""}`;
+  const hasTechExt = /\.(csv|json)\b/i.test(combined);
+  const hasCompliance = /\b(MANDATORY|OPTIONAL)\b/i.test(combined);
+
+  const extBadge = !hasTechExt
+    ? `<span style="color:#007A7A;font-weight:700;">✓ Zero .csv/.json Tech Plumbing</span>`
+    : `<span style="color:#DA1E28;font-weight:700;">✗ Remove .csv/.json from Journey Card</span>`;
+  const compBadge = !hasCompliance
+    ? `<span style="color:#007A7A;font-weight:700;">✓ Zero Compliance Stamps</span>`
+    : `<span style="color:#DA1E28;font-weight:700;">✗ Avoid MANDATORY/OPTIONAL on Journey Cards</span>`;
+
+  fb.innerHTML = `${extBadge} <span>•</span> ${compBadge} <span>•</span> <span style="color:#007A7A;font-weight:700;">✓ Clean 4-Element Stage Card</span>`;
+}
+
+function addJourneyStageInStudio() {
+  const plb = getBuilderPlaybook();
+  if (!plb) return;
+  if (!plb.journeyMap) plb.journeyMap = { stages: [] };
+  if (!Array.isArray(plb.journeyMap.stages)) plb.journeyMap.stages = [];
+
+  const nextNum = plb.journeyMap.stages.length + 1;
+  plb.journeyMap.stages.push({
+    stageNumber: nextNum,
+    title: `New Process Stage ${nextNum}`,
+    summary: "Describe what happens in this stage in one or two plain-English sentences.",
+    whoIsInvolved: "Local Programme Manager + Team",
+    whoAndDuration: "Local Programme Manager + Team",
+    leadRoleId: "ROL-001",
+    leadRoleLabel: "Local Programme Manager (LPM)",
+    supportRoleId: "ROL-002",
+    supportRoleLabel: "Lean Core Team Partner",
+    toolId: plb.toolIds?.[0] || "TOL-001",
+    toolLabel: "Standard Lean@GS Tool",
+    outputArtifact: "Agreed action output for the next stage",
+    targetView: { type: "sop", id: plb.sopIds?.[0] || "SOP-001", cta: `Open Stage ${nextNum} Guide →` }
+  });
+
+  state.builderStageIndex = plb.journeyMap.stages.length - 1;
+  populateBuilderTab();
+}
+
+function moveJourneyStageInStudio(dir) {
+  const plb = getBuilderPlaybook();
+  const stages = plb?.journeyMap?.stages || [];
+  const idx = state.builderStageIndex;
+  const targetIdx = idx + dir;
+  if (targetIdx < 0 || targetIdx >= stages.length) return;
+
+  const temp = stages[idx];
+  stages[idx] = stages[targetIdx];
+  stages[targetIdx] = temp;
+  stages.forEach((st, i) => {
+    st.stageNumber = i + 1;
+  });
+
+  state.builderStageIndex = targetIdx;
+  populateBuilderTab();
+}
+
+function deleteJourneyStageInStudio() {
+  const plb = getBuilderPlaybook();
+  const stages = plb?.journeyMap?.stages || [];
+  if (stages.length <= 1) {
+    alert("A Playbook Journey Map must have at least 1 stage.");
+    return;
+  }
+  stages.splice(state.builderStageIndex, 1);
+  stages.forEach((st, i) => {
+    st.stageNumber = i + 1;
+  });
+  state.builderStageIndex = Math.max(0, state.builderStageIndex - 1);
+  populateBuilderTab();
+}
+
+function createNewPlaybookInStudio() {
+  const playbooks = getPlaybooks();
+  const nextNum = playbooks.length + 1;
+  const newCode = `PLB-00${nextNum}`;
+  const newSopId = `SOP-00${Object.keys(DB.sops || {}).length + 1}`;
+  const newProcId = `PRC-00${Object.keys(DB.processes || {}).length + 1}`;
+
+  DB.processes[newProcId] = {
+    id: newProcId,
+    title: `New Lean@GS Operational Process (${newCode})`,
+    category: "Operational Standard",
+    appName: "Lean@GS Suite",
+    versionBadge: "v1.0.0",
+    durationBadge: "30 mins",
+    whenToUse: "When running this standard operational workflow with your team.",
+    cardOutput: "Completed operational checklist and action owners.",
+    ctaLabel: "Start Step-by-Step Guide",
+    userGoal: "Follow a clear, repeatable process to align the team and lock practical improvement actions.",
+    trigger: "Scheduled operational cadence",
+    finalOutcome: "Agreed actions and owners",
+    valueAddCoaching: "Focus on real workplace improvements rather than administrative reporting.",
+    raci: { responsible: "ROL-001", accountable: "ROL-003", consulted: ["ROL-002"], informed: ["ROL-004"] },
+    stages: [{ stageNumber: 1, name: "Execute Standard Workflow", sopId: newSopId, summary: "Complete the core steps with the team." }]
+  };
+
+  DB.sops[newSopId] = {
+    id: newSopId,
+    title: "Run the Core Team Standard Workflow",
+    processId: newProcId,
+    roleId: "ROL-001",
+    toolIds: ["TOL-001"],
+    estimatedTime: "30 mins",
+    stationLocation: "Team Area / Collaboration Workspace",
+    kitBag: {
+      leadRole: "Local Programme Manager (LPM)",
+      supportRole: "Lean Core Team Partner",
+      mandatoryStatus: "CORE WORKFLOW",
+      inputNeeded: "Current Team Metrics & Priorities",
+      outputProduced: "Agreed Action Plan with Owners"
+    },
+    userGoal: "Guide your team through the workflow in plain English and lock 2 to 3 focused actions.",
+    gettingStarted: [
+      "Confirm the right team members and sponsor are present before starting.",
+      "Open the current workplace metrics and last meeting's action log."
+    ],
+    steps: [
+      {
+        stepNumber: 1,
+        action: "Review current workplace performance with the team and highlight the biggest gap.",
+        detail: "Keep the discussion grounded in real operational evidence rather than assumptions.",
+        toolId: "TOL-001",
+        coachingTip: "Focus on what is blocking the team today so everyone sees the value immediately.",
+        visual: { type: "none" }
+      },
+      {
+        stepNumber: 2,
+        action: "Agree two or three practical actions with named owners and target dates.",
+        detail: "Avoid long wish-lists that dilute team focus.",
+        toolId: "TOL-001",
+        coachingTip: "Two finished improvements beat ten unfinished ideas every time.",
+        visual: { type: "none" }
+      }
+    ],
+    troubleshooting: [
+      {
+        symptom: "The team lists too many actions at once.",
+        cause: "Trying to fix every issue in a single cycle.",
+        fix: "Filter down to the 2 or 3 highest-impact actions and park the rest for the next review."
+      }
+    ]
+  };
+
+  const newPlb = {
+    id: newCode,
+    code: newCode,
+    title: `New Lean@GS Playbook (${newCode})`,
+    eyebrow: `Siemens Energy • Lean@GS Playbook #${nextNum}`,
+    subtitle: "A practical, plain-English guide to help your team execute this process and improve business outcomes.",
+    goldenPrinciple: {
+      quote: "Focus on improving the work, not just completing the checklist.",
+      explanation: "Keep every step simple, visible, and tied to a real operational improvement."
+    },
+    filingRule: "Save agreed outputs in your local Lean@GS team folder.",
+    processIds: [newProcId],
+    sopIds: [newSopId],
+    toolIds: ["TOL-001"],
+    chooserLabel: "Ways to Use This Guide",
+    rulesKey: {
+      title: "Before You Start: 3 Plain-English Principles",
+      subtitle: "How to get the best result from this playbook",
+      items: [
+        { term: "1. Keep It Practical", desc: "Use plain language that any colleague on site can understand in 10 seconds." },
+        { term: "2. Focus on 2–3 Actions", desc: "Agree 2 or 3 high-impact actions at a time so the team finishes what they start." },
+        { term: "3. Lock Owners & Dates", desc: "Every action needs one named owner and a clear follow-up date." }
+      ]
+    },
+    journeyMap: {
+      formulaBanner: "Understand Current State → Identify Key Gaps → Agree 2–3 Actions → Review Progress",
+      mapHeading: "Connected End-to-End Process Map",
+      roleFilters: [
+        { id: "all", label: "All Roles" },
+        { id: "ROL-001", label: "Highlight LPM Tasks" },
+        { id: "ROL-002", label: "Highlight Core Team Tasks" }
+      ],
+      briefingButtonLabel: "⏱ 60-Second Overview Pitch",
+      briefingTitle: "60-Second Briefing: How This Playbook Works",
+      briefingEquation: "Clear Baseline + Focused Priorities = Practical Action Plan",
+      briefingBullets: [
+        "1. Understand where we are today using real workplace evidence.",
+        "2. Focus on 2 to 3 key priorities rather than an overwhelming list.",
+        "3. Assign clear owners and review progress on a regular cadence."
+      ],
+      stages: [
+        {
+          stageNumber: 1,
+          title: "Establish the Current Picture",
+          summary: "Review current performance with the team to see what is working and where gaps exist.",
+          whoIsInvolved: "Local Programme Manager + Team",
+          whoAndDuration: "Local Programme Manager + Team",
+          leadRoleId: "ROL-001",
+          leadRoleLabel: "Local Programme Manager (LPM)",
+          supportRoleId: "ROL-002",
+          supportRoleLabel: "Lean Core Team Partner",
+          toolId: "TOL-001",
+          toolLabel: "Lean@GS Assessment & Checklist",
+          outputArtifact: "Shared baseline picture of current gaps",
+          targetView: { type: "sop", id: newSopId, cta: "Open Stage 1 Guide →" }
+        },
+        {
+          stageNumber: 2,
+          title: "Agree 2–3 Priority Actions",
+          summary: "Select the 2 or 3 most important improvements and assign a clear owner and date to each.",
+          whoIsInvolved: "Local Programme Manager + Action Owners",
+          whoAndDuration: "Local Programme Manager + Action Owners",
+          leadRoleId: "ROL-001",
+          leadRoleLabel: "Local Programme Manager (LPM)",
+          supportRoleId: "ROL-002",
+          supportRoleLabel: "Lean Core Team Partner",
+          toolId: "TOL-001",
+          toolLabel: "Lean@GS Action Plan",
+          outputArtifact: "Signed action plan with owners and dates",
+          targetView: { type: "sop", id: newSopId, cta: "Open Stage 2 Guide →" }
+        }
+      ]
+    },
+    decisionTools: [],
+    templates: [],
+    referenceTables: []
+  };
+
+  DB.playbooks.push(newPlb);
+  state.builderPlaybookId = newPlb.id;
+  state.builderStageIndex = 0;
+  state.studioPlaybookId = newPlb.id;
+  state.studioSopId = newSopId;
+  populateBuilderTab();
+  populateStudioSelectors();
+}
+
+function renderBuilderLivePreview() {
+  const previewCol = document.getElementById("builderLivePreviewCol");
+  const plb = getBuilderPlaybook();
+  if (!previewCol || !plb) return;
+
+  const gp = plb.goldenPrinciple || {};
+  const stages = plb.journeyMap?.stages || [];
+
+  previewCol.innerHTML = `
+    <div style="background:#FFFFFF;border:1.5px solid #D7E4EE;border-radius:12px;padding:16px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#8A00E5;">
+          👁 Live WYSIWYG Overview &amp; (${stages.length}-Stage) Journey Preview
+        </span>
+        <span class="muted-code-pill">${escapeHtml(plb.code)}</span>
+      </div>
+
+      <h3 style="font-size:18px;font-weight:800;color:#1B1534;margin-bottom:4px;">${escapeHtml(plb.title)}</h3>
+      <p style="font-size:12.5px;color:#54646E;margin-bottom:12px;">${escapeHtml(plb.subtitle)}</p>
+
+      ${
+        gp.quote
+          ? `
+        <div class="golden-principle-box" style="padding:14px 16px;margin-bottom:14px;">
+          <div class="golden-principle-kicker">Core Principle</div>
+          <div class="golden-principle-quote" style="font-size:15px;">“${escapeHtml(gp.quote)}”</div>
+          <div class="golden-principle-desc" style="font-size:12px;">${escapeHtml(gp.explanation || "")}</div>
+        </div>`
+          : ""
+      }
+
+      <div style="font-size:11px;font-weight:800;text-transform:uppercase;color:#007A7A;margin-bottom:8px;">
+        ${escapeHtml(plb.journeyMap?.formulaBanner || "")}
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        ${stages
+          .map((st, idx) => {
+            const isSelected = idx === state.builderStageIndex;
+            return `
+            <div class="stage-flow-card"
+                 onclick="onBuilderStageSelectChange('${idx}')"
+                 style="padding:12px;cursor:pointer;border:${
+                   isSelected ? "2px solid #8A00E5" : "1px solid #D7E4EE"
+                 };background:${isSelected ? "#FAF5FF" : "#FFFFFF"};">
+              <div>
+                <div class="stage-card-top" style="margin-bottom:6px;">
+                  <span class="stage-num-circle">STAGE ${st.stageNumber}</span>
+                  ${isSelected ? `<span style="font-size:10px;font-weight:800;color:#8A00E5;">EDITING</span>` : ""}
+                </div>
+                <div style="font-size:13.5px;font-weight:700;color:#1B1534;margin-bottom:4px;">${escapeHtml(st.title)}</div>
+                <div style="font-size:11.5px;color:#54646E;margin-bottom:8px;line-height:1.4;">${escapeHtml(st.summary || "")}</div>
+                <div style="font-size:11px;color:#1B1534;background:#F8FAFC;padding:6px 8px;border-radius:6px;margin-bottom:6px;">
+                  <div><strong>Who:</strong> ${escapeHtml(st.whoIsInvolved || st.whoAndDuration || "")}</div>
+                  <div><strong>Tool:</strong> ${escapeHtml(st.toolLabel || "")}</div>
+                </div>
+              </div>
+              <div style="font-size:11px;background:#EAF4F8;padding:6px 8px;border-radius:6px;border-left:3px solid #009999;">
+                <strong>Finish with:</strong> ${escapeHtml(st.outputArtifact || "")}
+              </div>
+            </div>`;
+          })
+          .join("")}
+      </div>
+    </div>
+  `;
+}
+
+function savePlaybookBuilderChanges() {
+  const plb = getBuilderPlaybook();
+  if (!plb) return;
+
+  try {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(DB));
+  } catch (e) {
+    console.warn("Could not save to localStorage:", e);
+  }
+
+  state.playbookId = plb.id;
+  state.view = "journey";
+  renderPlaybookSwitcher();
+  renderTopTabs();
+  renderSidebar();
+  renderMain();
+  document.getElementById("jsonModal").classList.add("hidden");
+}
+
+/* ============================================================================
+   TAB 2: SOP & STEP WYSIWYG EDITOR (+ NEW SOP GUIDE / + NEW STEP)
+   ============================================================================ */
+function createNewSopInStudio() {
+  const plb = getPlaybooks().find((p) => p.id === state.studioPlaybookId) || getActivePlaybook();
+  if (!plb) return;
+  const nextSopNum = Object.keys(DB.sops || {}).length + 1;
+  const newSopId = `SOP-00${nextSopNum}`;
+  const procId = plb.processIds?.[0] || "PRC-001";
+
+  DB.sops[newSopId] = {
+    id: newSopId,
+    title: `New Step-by-Step Guide (${newSopId})`,
+    processId: procId,
+    roleId: "ROL-001",
+    toolIds: [plb.toolIds?.[0] || "TOL-001"],
+    estimatedTime: "30 mins",
+    stationLocation: "Site Workspace / Microsoft Teams",
+    kitBag: {
+      leadRole: "Local Programme Manager (LPM)",
+      supportRole: "Lean Core Team Partner",
+      mandatoryStatus: "CORE GUIDE",
+      inputNeeded: "Current Baseline Data",
+      outputProduced: "Completed Action Output"
+    },
+    userGoal: "Complete this task step-by-step using plain-English actions and coaching tips.",
+    gettingStarted: [
+      "Open the required tool and confirm the right colleagues are in the room."
+    ],
+    steps: [
+      {
+        stepNumber: 1,
+        action: "Open the workspace view and review the current baseline information with your partner.",
+        detail: "Check that all inputs are up to date before recording decisions.",
+        toolId: plb.toolIds?.[0] || "TOL-001",
+        coachingTip: "Reviewing the baseline together prevents misunderstandings later in the workshop.",
+        visual: { type: "none" }
+      }
+    ],
+    troubleshooting: [
+      {
+        symptom: "Information is missing when opening the workspace.",
+        cause: "The previous stage file was not loaded.",
+        fix: "Load the latest saved file from your local Lean@GS folder."
+      }
+    ]
+  };
+
+  if (!Array.isArray(plb.sopIds)) plb.sopIds = [];
+  plb.sopIds.push(newSopId);
+  const proc = DB.processes[procId];
+  if (proc && Array.isArray(proc.stages)) {
+    proc.stages.push({
+      stageNumber: proc.stages.length + 1,
+      name: DB.sops[newSopId].title,
+      sopId: newSopId,
+      summary: DB.sops[newSopId].userGoal
+    });
+  }
+
+  state.studioSopId = newSopId;
+  state.studioStepIndex = 0;
+  populateStudioSelectors();
+  loadStudioStepIntoForm();
+}
+
+function copyAiPlaybookPrompt() {
+  const promptText = `You are a Lean@GS Documentation Architect for Siemens Energy. Convert the attached notes/document into a valid Playbook JSON object for our SOP Guide Manager.
+
+Follow these strict DESIGN_GUIDE.md rules:
+1. Plain Human English: Write for a colleague on their first day. Never use compliance stamps ("MANDATORY"/"OPTIONAL") or file extensions (".csv"/".json") on Journey Map cards.
+2. Flexible N-Stage Journey Map: Create as many stages in journeyMap.stages as the real process requires (each with stageNumber, title, summary, whoIsInvolved, toolLabel, outputArtifact, and targetView).
+3. Include a goldenPrinciple ({ quote, explanation }) that captures the real-world purpose of the process.
+4. SOP Steps: Every step.action MUST be <= 20 words, start with an active imperative verb (Click, Open, Review, Write, Agree), contain zero raw acronyms, and include a practical coachingTip. Set visual to { "type": "none" } so authors can paste screenshots via Ctrl+V later.
+
+Return ONLY valid JSON matching the playbooks[], processes{}, and sops{} schema in data/guides.json.`;
+
+  navigator.clipboard.writeText(promptText);
+  const statusEl = document.getElementById("aiPromptCopyStatus");
+  if (statusEl) {
+    statusEl.style.display = "block";
+    statusEl.textContent = "✓ Copied AI Playbook Generator Prompt to clipboard! Paste it into M365 Copilot or Gemini along with your rough notes.";
+    setTimeout(() => {
+      statusEl.style.display = "none";
+    }, 4500);
   }
 }
 
@@ -1984,7 +2587,17 @@ function onStudioStepChange(stepIdxStr) {
 function loadStudioStepIntoForm() {
   const sop = DB.sops[state.studioSopId];
   const step = sop?.steps?.[state.studioStepIndex];
-  if (!step) return;
+  if (!sop || !step) return;
+
+  const sopTitleEl = document.getElementById("studioSopTitleInput");
+  const sopTimeEl = document.getElementById("studioSopTimeInput");
+  const sopGoalEl = document.getElementById("studioSopGoalInput");
+  const sopChecklistEl = document.getElementById("studioSopChecklistInput");
+
+  if (sopTitleEl) sopTitleEl.value = sop.title || "";
+  if (sopTimeEl) sopTimeEl.value = sop.estimatedTime || "";
+  if (sopGoalEl) sopGoalEl.value = sop.userGoal || "";
+  if (sopChecklistEl) sopChecklistEl.value = (sop.gettingStarted || []).join("\n");
 
   document.getElementById("studioActionInput").value = step.action || "";
   document.getElementById("studioDetailInput").value = step.detail || "";
@@ -2308,6 +2921,21 @@ function saveStudioStepChanges() {
     }
   }
 
+  const sopTitleVal = (document.getElementById("studioSopTitleInput")?.value || "").trim();
+  const sopTimeVal = (document.getElementById("studioSopTimeInput")?.value || "").trim();
+  const sopGoalVal = (document.getElementById("studioSopGoalInput")?.value || "").trim();
+  const sopChecklistVal = (document.getElementById("studioSopChecklistInput")?.value || "").trim();
+
+  if (sopTitleVal) sop.title = sopTitleVal;
+  if (sopTimeVal) sop.estimatedTime = sopTimeVal;
+  if (sopGoalVal) sop.userGoal = sopGoalVal;
+  if (sopChecklistVal) {
+    sop.gettingStarted = sopChecklistVal
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean);
+  }
+
   step.action = actionVal;
   step.detail = detailVal;
   step.coachingTip = coachingVal;
@@ -2495,8 +3123,20 @@ window.toggleAccordion = toggleAccordion;
 window.setReferenceFilter = setReferenceFilter;
 window.copyCharterText = copyCharterText;
 window.openAdminModal = openAdminModal;
+window.openPlaybookBuilderModal = openPlaybookBuilderModal;
 window.openStudioForSop = openStudioForSop;
 window.switchStudioTab = switchStudioTab;
+window.onBuilderPlaybookChange = onBuilderPlaybookChange;
+window.onBuilderStageSelectChange = onBuilderStageSelectChange;
+window.onBuilderPlaybookFieldInput = onBuilderPlaybookFieldInput;
+window.onBuilderStageFieldInput = onBuilderStageFieldInput;
+window.addJourneyStageInStudio = addJourneyStageInStudio;
+window.moveJourneyStageInStudio = moveJourneyStageInStudio;
+window.deleteJourneyStageInStudio = deleteJourneyStageInStudio;
+window.createNewPlaybookInStudio = createNewPlaybookInStudio;
+window.savePlaybookBuilderChanges = savePlaybookBuilderChanges;
+window.createNewSopInStudio = createNewSopInStudio;
+window.copyAiPlaybookPrompt = copyAiPlaybookPrompt;
 window.onStudioPlaybookChange = onStudioPlaybookChange;
 window.onStudioSopChange = onStudioSopChange;
 window.onStudioStepChange = onStudioStepChange;
