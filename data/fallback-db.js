@@ -8,7 +8,7 @@ window.FALLBACK_GUIDES_DB = {
   },
   "glossary": {
     "voc": {
-      "term": "Voice of the Customer (avoid raw 'VOC' without context)",
+      "term": "Voice of the Customer",
       "plainText": "Leader Business Priorities",
       "definition": "Short interviews with site leaders to capture the top 3 operational headaches the Lean programme must solve."
     },
@@ -52,7 +52,8 @@ window.FALLBACK_GUIDES_DB = {
     "TOL-001": {
       "id": "TOL-001",
       "name": "Maturity Assessment & Explainer",
-      "suite": "PM Maturity Hub (v6.0.0)",
+      "suite": "PM Maturity Hub",
+      "versionBadge": "v6.0.0",
       "category": "Phase 1: Assess",
       "purpose": "Score all 28 site Lean questions in pairs, view plain-English Level 1–5 flashcards, and export your .json and .csv files.",
       "accessUrl": "PM Maturity Hub → Phase 1: Assess",
@@ -82,7 +83,8 @@ window.FALLBACK_GUIDES_DB = {
     "TOL-002": {
       "id": "TOL-002",
       "name": "Score Explainer, Metro Journey & 4 Pillars",
-      "suite": "PM Maturity Hub (v6.0.0)",
+      "suite": "PM Maturity Hub",
+      "versionBadge": "v6.0.0",
       "category": "Phase 2: Visualize",
       "purpose": "Show leaders visually which Gateways passed or failed, where the Metro train stops, and how the 1–4 level cap works.",
       "accessUrl": "PM Maturity Hub → Phase 2: Visualize",
@@ -112,7 +114,8 @@ window.FALLBACK_GUIDES_DB = {
     "TOL-003": {
       "id": "TOL-003",
       "name": "Strategy Builder, Simulator & CSV Fixer",
-      "suite": "PM Maturity Hub (v6.0.0)",
+      "suite": "PM Maturity Hub",
+      "versionBadge": "v6.0.0",
       "category": "Phase 3: Plan & Utilities",
       "purpose": "Simulate how fixing red Gateways raises your score and export a local site improvement plan without needing a full workshop.",
       "accessUrl": "PM Maturity Hub → Phase 3: Plan",
@@ -141,13 +144,14 @@ window.FALLBACK_GUIDES_DB = {
     "TOL-004": {
       "id": "TOL-004",
       "name": "Analysis Report & VOC Input",
-      "suite": "Navigator Toolkit (v2.4.4)",
+      "suite": "Navigator Toolkit",
+      "versionBadge": "v2.4.4",
       "category": "Steps 2 & 3: Analyze & Prepare",
       "purpose": "Turn low Maturity scores into suggested Stage 0–9 actions and capture leader interview priorities before the workshop.",
       "accessUrl": "Navigator Toolkit → Analysis Report / VOC Input",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
-        "Complete Part 1 Maturity Assessment and save your Data.json file before opening Analysis Report.",
+        "Complete your Site Maturity Assessment and save your Data.json file before opening Analysis Report.",
         "Schedule 20-minute pre-workshop interviews with key site leaders to ask for their top 3 operational headaches."
       ],
       "quickCommands": [
@@ -171,13 +175,14 @@ window.FALLBACK_GUIDES_DB = {
     "TOL-005": {
       "id": "TOL-005",
       "name": "Workshop Guide, Charter Input & Action Log",
-      "suite": "Navigator Toolkit (v2.4.4)",
+      "suite": "Navigator Toolkit",
+      "versionBadge": "v2.4.4",
       "category": "Steps 4–6: Align, Charter & Track",
       "purpose": "Facilitate the 3-part leadership workshop, lock 12-month OKRs into a 1-page Charter, and track monthly completion.",
       "accessUrl": "Navigator Toolkit → Workshop Guide / Charter & Action Log",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
-        "Have your Briefing Pack.pptx (VOC) and Action Report.pptx (Maturity Gaps) ready on screen."
+        "Have your Briefing Pack.pptx (Leader Needs) and Action Report.pptx (Maturity Gaps) ready on screen."
       ],
       "quickCommands": [
         {
@@ -201,10 +206,16 @@ window.FALLBACK_GUIDES_DB = {
   "processes": {
     "PRC-001": {
       "id": "PRC-001",
-      "title": "Part 1: Standalone Site Maturity Assessment (PM Maturity Hub v6.0.0)",
-      "category": "Standalone Health Check • Use Anytime",
+      "title": "Check Your Site's Current Score",
+      "appName": "PM Maturity Hub",
+      "versionBadge": "v6.0.0",
+      "durationBadge": "90 mins",
+      "whenToUse": "Every quarter with a Lean Core Team partner.",
+      "cardOutput": "Completed 28-question health check & local action plan.",
+      "ctaLabel": "Start Site Assessment Guide",
+      "category": "Standalone Site Health Check",
       "userGoal": "Score your site's 28 Lean questions fairly in pairs, verify real workplace proof across 70% of teams, and build a local improvement plan.",
-      "trigger": "Scheduled site Lean health check or pre-work before a leadership Navigator Workshop.",
+      "trigger": "Quarterly site Lean health check or preparation before a leadership Navigator Workshop.",
       "finalOutcome": "Calibrated Data.json and Data.csv saved in '600 Maturity Submissions' plus a visual Metro Journey and local Strategy Builder plan.",
       "valueAddCoaching": "Treat the assessment as a helpful coaching conversation, never an audit. Lowering an old score when a habit stops is a win because it directs help to the real bottleneck.",
       "raci": {
@@ -216,27 +227,33 @@ window.FALLBACK_GUIDES_DB = {
       "stages": [
         {
           "stageNumber": 1,
-          "name": "Calibrate & Score All 28 Questions in Pairs (5-Step Ground Rules)",
+          "name": "Score All 28 Questions Together in a Pair",
           "sopId": "SOP-001",
           "toolIds": ["TOL-001"],
           "summary": "Score together with a Core Team partner using the 70% site rule and real workplace proof."
         },
         {
           "stageNumber": 2,
-          "name": "Diagnose Gateway Caps & Build a Local Action Plan",
+          "name": "Check Starred Gateways & Build a Local Action Plan",
           "sopId": "SOP-002",
           "toolIds": ["TOL-002", "TOL-003"],
-          "summary": "Check which starred Gateways cap your level, export the Metro Journey PDF, and build a local plan in Strategy Builder."
+          "summary": "See which starred Gateways cap your level, export the Metro Journey PDF, and build a local plan in Strategy Builder."
         }
       ]
     },
     "PRC-002": {
       "id": "PRC-002",
-      "title": "Part 2: The 6-Step Leadership Navigator Workshop (Navigator Toolkit v2.4.4)",
-      "category": "Leadership Alignment Workshop • 6-Step Process",
-      "userGoal": "Combine your site's Maturity gap scores with leadership business priorities (VOC) to agree on a 1-page Charter, OKRs, and 12-month roadmap.",
+      "title": "Run a Leadership Action Workshop",
+      "appName": "Navigator Toolkit",
+      "versionBadge": "v2.4.4",
+      "durationBadge": "Half Day",
+      "whenToUse": "After completing your site check.",
+      "cardOutput": "Signed 1-page action charter & 12-month roadmap.",
+      "ctaLabel": "Start Workshop Guide",
+      "category": "6-Step Leadership Alignment",
+      "userGoal": "Combine your site's Maturity gap scores with leadership business priorities to agree on a 1-page Charter, measurable goals, and a 12-month roadmap.",
       "trigger": "Site is ready to align leadership priorities and Lean resources for the next 6 to 12 months.",
-      "finalOutcome": "Signed 1-Page Navigator Charter with 2–3 measurable OKRs, a Q1–Q4 Interactive Roadmap, and monthly tracking in the Action Log.",
+      "finalOutcome": "Signed 1-Page Navigator Charter with 2–3 measurable Key Results, a Q1–Q4 Interactive Roadmap, and monthly tracking in the Action Log.",
       "valueAddCoaching": "Never walk into a Navigator Workshop with only Maturity scores. Pairing red Gateway gaps with the Site Leader's top 3 business headaches turns 'Lean tasks' into urgent business solutions.",
       "raci": {
         "responsible": "ROL-001",
@@ -247,17 +264,17 @@ window.FALLBACK_GUIDES_DB = {
       "stages": [
         {
           "stageNumber": 1,
-          "name": "Steps 1–3: Analyze Maturity Gaps & Capture Leader Priorities (VOC)",
+          "name": "Prepare Gap Slides & Interview Site Leaders",
           "sopId": "SOP-003",
           "toolIds": ["TOL-004"],
-          "summary": "Upload your Part 1 .json into Analysis Report and interview site leaders to build the VOC Briefing Pack."
+          "summary": "Upload your site score .json into Analysis Report and interview site leaders to build the pre-workshop Briefing Pack."
         },
         {
           "stageNumber": 2,
-          "name": "Steps 4–6: Facilitate the Half-Day Workshop, Lock OKRs & Track Monthly",
+          "name": "Facilitate the Workshop, Lock Goals & Track Monthly",
           "sopId": "SOP-004",
           "toolIds": ["TOL-005"],
-          "summary": "Run the 3-part agenda, write outcome-based OKRs in Charter Input, and review monthly in Action Log."
+          "summary": "Run the 3-part agenda, write measurable goals in Charter Input, and review monthly in Action Log."
         }
       ]
     }
@@ -270,7 +287,7 @@ window.FALLBACK_GUIDES_DB = {
       "roleId": "ROL-001",
       "toolIds": ["TOL-001"],
       "estimatedTime": "90 mins",
-      "stationLocation": "PM Maturity Hub (v6.0.0) → Phase 1: Assess",
+      "stationLocation": "PM Maturity Hub → Phase 1: Assess",
       "userGoal": "Complete a fair, evidence-based 1–5 rating for all 28 Lean@GS questions and save the official submission files.",
       "gettingStarted": [
         "Pair the Local Programme Manager with a Lean Core Team member—new or uncertified managers must never score alone.",
@@ -288,7 +305,7 @@ window.FALLBACK_GUIDES_DB = {
             "type": "ui-mockup",
             "caption": "5-Step Calibration Flow — Step 1: Score in a Pair",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "PM Maturity Hub v6.0.0 • Calibration Workflow", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "w1", "kind": "window", "label": "PM Maturity Hub • Calibration Workflow", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
               { "id": "b1", "kind": "card", "label": "STEP 1: Score in a Pair (Programme Mgr + Core Team)", "x": 40, "y": 58, "w": 255, "h": 50, "state": "active" },
               { "id": "b2", "kind": "button", "label": "Open Explainer Cards", "x": 310, "y": 58, "w": 150, "h": 50, "state": "success" },
               { "id": "b3", "kind": "badge", "label": "Rule: Never score alone • Certified Core Team partner required", "x": 40, "y": 124, "w": 420, "h": 34, "state": "default" }
@@ -398,10 +415,10 @@ window.FALLBACK_GUIDES_DB = {
       "roleId": "ROL-001",
       "toolIds": ["TOL-002", "TOL-003"],
       "estimatedTime": "45 mins",
-      "stationLocation": "PM Maturity Hub (v6.0.0) → Phases 2 & 3",
+      "stationLocation": "PM Maturity Hub → Phases 2 & 3",
       "userGoal": "Identify which starred Gateway questions cap your site's level and export a targeted local action plan.",
       "gettingStarted": [
-        "Locate your saved Data.json file from SOP-001.",
+        "Locate your saved Data.json file from your site assessment.",
         "Open Score Explainer, Metro Journey, and Strategy Builder inside the PM Maturity Hub."
       ],
       "steps": [
@@ -494,21 +511,21 @@ window.FALLBACK_GUIDES_DB = {
     },
     "SOP-003": {
       "id": "SOP-003",
-      "title": "Prepare the Navigator Workshop Inputs (Analysis Report & VOC)",
+      "title": "Prepare the Navigator Workshop Inputs",
       "processId": "PRC-002",
       "roleId": "ROL-001",
       "toolIds": ["TOL-004"],
       "estimatedTime": "2 hours (Pre-Work)",
-      "stationLocation": "Navigator Toolkit (v2.4.4) → Steps 1 to 3",
-      "userGoal": "Prepare the two mandatory workshop inputs: the Maturity Gap Action Report and the Leader Voice of the Customer (VOC) Briefing Pack.",
+      "stationLocation": "Navigator Toolkit → Steps 1 to 3",
+      "userGoal": "Prepare the two mandatory workshop inputs: the Maturity Gap Action Report and the Leader Priorities Briefing Pack.",
       "gettingStarted": [
-        "Have your completed Part 1 Maturity Data.json file ready.",
+        "Have your completed Site Maturity Data.json file ready.",
         "Complete short 1-on-1 interviews with site leaders to ask for their top 3 business headaches."
       ],
       "steps": [
         {
           "stepNumber": 1,
-          "action": "Upload your Part 1 .json file into Analysis Report and click 'Export to PowerPoint'.",
+          "action": "Upload your site score .json file into Analysis Report and click 'Export to PowerPoint'.",
           "detail": "Review the suggested actions across Stages 0–9 and add local Lean Core Team notes before exporting.",
           "toolId": "TOL-004",
           "coachingTip": "Highlight the exact 2 or 3 red Gateway questions that block the next maturity level so leaders don't drown in all 28 questions.",
@@ -516,7 +533,7 @@ window.FALLBACK_GUIDES_DB = {
             "type": "ui-mockup",
             "caption": "Navigator Step 2 (ANALYZE) — Analysis Report Tool",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "Navigator Toolkit v2.4.4 • Analysis Report (Step 2)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "w1", "kind": "window", "label": "Navigator Toolkit • Analysis Report (Step 2)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
               { "id": "c1", "kind": "card", "label": "Input 1: Maturity Data.json Loaded ✓", "x": 40, "y": 60, "w": 230, "h": 48, "state": "active" },
               { "id": "c2", "kind": "button", "label": "Export to PowerPoint", "x": 285, "y": 60, "w": 175, "h": 48, "state": "success" },
               { "id": "c3", "kind": "badge", "label": "Files Out: Action Report.pptx + Summary.csv (Stages 0–9)", "x": 40, "y": 124, "w": 420, "h": 34, "state": "default" }
@@ -542,10 +559,10 @@ window.FALLBACK_GUIDES_DB = {
             "type": "ui-mockup",
             "caption": "Navigator Step 3 (PREPARE) — VOC Input Tool",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "Navigator Toolkit v2.4.4 • VOC Input (Leader Needs)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "w1", "kind": "window", "label": "Navigator Toolkit • VOC Input (Leader Needs)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
               { "id": "c1", "kind": "card", "label": "Input 2: Top 3 Leader Pain Points", "x": 40, "y": 60, "w": 230, "h": 48, "state": "active" },
               { "id": "c2", "kind": "button", "label": "Download Briefing Pack.pptx", "x": 285, "y": 60, "w": 175, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Combines Input 1 (Maturity JSON) + Input 2 (Leader VOC) for Workshop", "x": 40, "y": 124, "w": 420, "h": 34, "state": "default" }
+              { "id": "c3", "kind": "badge", "label": "Combines Input 1 (Maturity JSON) + Input 2 (Leader Priorities)", "x": 40, "y": 124, "w": 420, "h": 34, "state": "default" }
             ],
             "annotation": {
               "targetX": 285,
@@ -561,21 +578,21 @@ window.FALLBACK_GUIDES_DB = {
       ],
       "troubleshooting": [
         {
-          "symptom": "Site leaders want to skip pre-workshop VOC interviews to save time.",
+          "symptom": "Site leaders want to skip pre-workshop interviews to save time.",
           "cause": "Busy calendars before the workshop.",
-          "fix": "Do a 10-minute hallway or phone check for just their top 3 headaches—entering the workshop without VOC turns the meeting into a debate."
+          "fix": "Do a 10-minute hallway or phone check for just their top 3 headaches—entering the workshop without leader priorities turns the meeting into a debate."
         }
       ]
     },
     "SOP-004": {
       "id": "SOP-004",
-      "title": "Facilitate the Half-Day Workshop, Write OKRs, and Track Monthly",
+      "title": "Facilitate the Half-Day Workshop, Write Goals, and Track Monthly",
       "processId": "PRC-002",
       "roleId": "ROL-001",
       "toolIds": ["TOL-005"],
       "estimatedTime": "3 hours (180 mins)",
-      "stationLocation": "Navigator Toolkit (v2.4.4) → Steps 4 to 6",
-      "userGoal": "Guide leaders through the 3-part agenda, lock 2–3 measurable OKRs into the 1-Page Charter, and track monthly in Action Log.",
+      "stationLocation": "Navigator Toolkit → Steps 4 to 6",
+      "userGoal": "Guide leaders through the 3-part agenda, lock 2–3 measurable goals into the 1-Page Charter, and track monthly in Action Log.",
       "gettingStarted": [
         "Open Workshop Guide on the main projector screen with the Site Leader Sponsor and Lean Core Team.",
         "Have Charter Input and Interactive Roadmap open in adjacent tabs to capture decisions live."
@@ -584,7 +601,7 @@ window.FALLBACK_GUIDES_DB = {
         {
           "stepNumber": 1,
           "action": "Run Part 1 (45m) and Part 2 (60m) to connect leader problems to failed Gateways.",
-          "detail": "Part 1 locks the Top 3 business problems (VOC); Part 2 connects those problems to red Gateway gaps.",
+          "detail": "Part 1 locks the Top 3 business problems; Part 2 connects those problems to red Gateway gaps.",
           "toolId": "TOL-005",
           "coachingTip": "Show how fixing Gateway #10 (Pilot Experiments) or #14 (Daily Huddles) directly solves the leader's lead-time or defect headache.",
           "visual": {
@@ -610,12 +627,12 @@ window.FALLBACK_GUIDES_DB = {
         {
           "stepNumber": 2,
           "action": "Write 2–3 Objectives and measurable Key Results inside Charter Input during Part 3 (75m).",
-          "detail": "Follow the strict OKR pattern: [Measure] from [Start] to [Target] by [Date], then place tasks into Q1–Q4.",
+          "detail": "Follow the strict goal pattern: [Measure] from [Start] to [Target] by [Date], then place tasks into Q1–Q4.",
           "toolId": "TOL-005",
           "coachingTip": "Never write 'Train 30 people'. Write: 'Increase daily shift huddles solving issues within 48h from 25% to 75% by Q3'.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "Navigator Step 5 (CREATE) — Charter Input & Strong OKR Pattern",
+            "caption": "Navigator Step 5 (CREATE) — Charter Input & Strong Goal Pattern",
             "elements": [
               { "id": "w1", "kind": "window", "label": "Charter Input • Objectives & Key Results (Part 3: 75m)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
               { "id": "c1", "kind": "card", "label": "Weak: 'Train 30 people' ✗", "x": 35, "y": 60, "w": 175, "h": 48, "state": "danger" },
@@ -646,7 +663,7 @@ window.FALLBACK_GUIDES_DB = {
               { "id": "w1", "kind": "window", "label": "Step 6 • Charter & Roadmaps + Monthly Action Log", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
               { "id": "c1", "kind": "card", "label": "Export 1-Page Charter Poster", "x": 35, "y": 60, "w": 200, "h": 48, "state": "active" },
               { "id": "c2", "kind": "button", "label": "Open Monthly Action Log", "x": 250, "y": 60, "w": 210, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Sustains Momentum for 6–12 Months Until Next Maturity Re-Assessment", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
+              { "id": "c3", "kind": "badge", "label": "Sustains Momentum for 6–12 Months Until Next Site Re-Assessment", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
             ],
             "annotation": {
               "targetX": 250,
@@ -662,13 +679,13 @@ window.FALLBACK_GUIDES_DB = {
       ],
       "troubleshooting": [
         {
-          "symptom": "Workshop discussion gets stuck debating a single question score from Part 1.",
+          "symptom": "Workshop discussion gets stuck debating a single question score from the site check.",
           "cause": "Re-litigating individual scores instead of focusing on strategic bottlenecks.",
-          "fix": "Remind the room that scores were calibrated in Step 1; pivot immediately to which red Gateway blocks the leader's top 3 VOC priorities."
+          "fix": "Remind the room that scores were calibrated in pairs; pivot immediately to which red Gateway blocks the leader's top 3 priorities."
         }
       ]
     }
-  },
+  ],
   "questions28": [
     { "id": 1, "text": "Is there a clear business reason driving this Lean Programme?", "theme": "Foundation", "level": 0, "gateway": true },
     { "id": 2, "text": "Is leadership committed and actively invested in being involved?", "theme": "Foundation", "level": 0, "gateway": true },

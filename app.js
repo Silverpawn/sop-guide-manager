@@ -39,23 +39,23 @@ function countWords(str) {
  */
 function renderSEArchitecturalCard(procId) {
   const isPart1 = procId === "PRC-001";
-  const badgeText = isPart1 ? "PM MATURITY HUB v6.0.0" : "NAVIGATOR TOOLKIT v2.4.4";
+  const badgeText = isPart1 ? "PM MATURITY HUB" : "NAVIGATOR TOOLKIT";
   const accentColor = isPart1 ? "#009999" : "#8A00E5";
 
   return `
   <div class="illustration-card">
-    <svg class="illus-svg" viewBox="0 0 460 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${badgeText} Architecture">
-      <!-- Connected Relational Nodes (Snowflake Schema) -->
+    <svg class="illus-svg" viewBox="0 0 460 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${badgeText} Visual Overview">
+      <!-- Connected Relational Nodes -->
       <line x1="295" y1="62" x2="355" y2="38" stroke="#96B0C0" stroke-width="1.8"/>
       <line x1="295" y1="62" x2="355" y2="88" stroke="#96B0C0" stroke-width="1.8"/>
       <rect x="215" y="42" width="80" height="38" rx="6" fill="#FFFFFF" stroke="#B8CEDB" stroke-width="1.5"/>
-      <text x="227" y="65" fill="#1B1534" font-family="Inter, sans-serif" font-size="10" font-weight="700">${isPart1 ? "28 Questions" : "VOC + JSON"}</text>
+      <text x="227" y="65" fill="#1B1534" font-family="Inter, sans-serif" font-size="10" font-weight="700">${isPart1 ? "28 Questions" : "Leader Needs"}</text>
 
       <rect x="355" y="18" width="84" height="36" rx="6" fill="#FFFFFF" stroke="#009999" stroke-width="1.5"/>
-      <text x="366" y="40" fill="#007A7A" font-family="Inter, sans-serif" font-size="10" font-weight="700">${isPart1 ? "17 Gateways ★" : "Charter OKRs"}</text>
+      <text x="366" y="40" fill="#007A7A" font-family="Inter, sans-serif" font-size="10" font-weight="700">${isPart1 ? "17 Gateways ★" : "1-Page Charter"}</text>
 
       <rect x="355" y="70" width="84" height="36" rx="6" fill="#FFFFFF" stroke="#8A00E5" stroke-width="1.5"/>
-      <text x="366" y="92" fill="#641E8C" font-family="Inter, sans-serif" font-size="10" font-weight="700">${isPart1 ? "70% Site Rule" : "Action Log"}</text>
+      <text x="366" y="92" fill="#641E8C" font-family="Inter, sans-serif" font-size="10" font-weight="700">${isPart1 ? "70% Site Proof" : "Action Log"}</text>
 
       <!-- Left Decorative Hierarchy Bars -->
       <rect x="32" y="180" width="46" height="8" rx="4" fill="#B8CEDB"/>
@@ -195,7 +195,7 @@ function renderStepIllustrationCard(step) {
     </svg>
     <div style="margin-top:8px;display:flex;justify-content:space-between;font-size:12px;color:#54646E;font-weight:600;">
       <span>${escapeHtml(visual.caption || "")}</span>
-      <span style="color:#007A7A;">Annotated Visual Guide</span>
+      <span style="color:#007A7A;">Visual Step Guide</span>
     </div>
   </div>`;
 }
@@ -211,14 +211,15 @@ function renderSidebar() {
     (t) => !q || JSON.stringify(t).toLowerCase().includes(q)
   );
 
+  // Fix 1: Dropped "0." prefix and stripped raw SOP-001 / PRC-001 database codes from tree labels
   let html = `
     <div>
       <button type="button" class="tree-item ${state.view === "overview" ? "active" : ""}" onclick="showOverview()">
-        <span>0. Overview: Two Apps &amp; Processes</span>
+        <span>Overview</span>
       </button>
 
       <div class="sidebar-divider"></div>
-      <div class="sidebar-section-label">Processes &amp; SOP Runbooks</div>
+      <div class="sidebar-section-label">Step-by-Step Guides</div>
 
       ${processes
         .map((proc) => {
@@ -241,7 +242,7 @@ function renderSidebar() {
                           (s) => `
                         <button type="button" class="tree-child ${state.view === "sop" && state.selectedId === s.id ? "active" : ""}"
                                 onclick="selectSOP('${s.id}')">
-                          ${s.id}: ${escapeHtml(s.title)}
+                          ${escapeHtml(s.title)}
                         </button>`
                         )
                         .join("")}
@@ -254,7 +255,7 @@ function renderSidebar() {
         .join("")}
 
       <div class="sidebar-divider"></div>
-      <div class="sidebar-section-label">Interactive Reference</div>
+      <div class="sidebar-section-label">Quick Reference &amp; Templates</div>
 
       <button type="button" class="tree-item ${state.view === "questions" ? "active" : ""}" onclick="switchTopTab('questions')">
         <span>All 28 Questions &amp; Gateways (★)</span>
@@ -272,7 +273,7 @@ function renderSidebar() {
       </button>
 
       <div class="sidebar-divider"></div>
-      <div class="sidebar-section-label">Reusable Software Tools</div>
+      <div class="sidebar-section-label">Software Tool Help</div>
 
       ${tools
         .map((tool) => {
@@ -287,13 +288,18 @@ function renderSidebar() {
         .join("")}
     </div>
 
-    <div class="filing-callout">
-      <div style="font-family:ui-monospace,monospace;font-size:10.5px;font-weight:700;color:#009999;text-transform:uppercase;margin-bottom:4px;">
-        Official Filing Rule
+    <div>
+      <div class="filing-callout">
+        <div style="font-family:ui-monospace,monospace;font-size:10.5px;font-weight:700;color:#009999;text-transform:uppercase;margin-bottom:4px;">
+          Where to Save Final Files
+        </div>
+        <div>
+          ${escapeHtml(DB.meta?.filingRule || "Save finished .csv and .json files in 600 Maturity Submissions.")}
+        </div>
       </div>
-      <div>
-        ${escapeHtml(DB.meta?.filingRule || "Save finished .csv and .json files in 600 Maturity Submissions.")}
-      </div>
+      <button type="button" class="quiet-admin-link" onclick="openAdminModal()">
+        ⚙️ Admin: Edit Guide Payload
+      </button>
     </div>
   `;
 
@@ -322,8 +328,16 @@ function renderMain() {
   }
 }
 
+/**
+ * Landing Page with:
+ * - Fix 1: Human 1-sentence subtitle & muted version/ID pills
+ * - Fix 2: "Which Job Are You Doing Today?" 2-Card Chooser
+ * - Fix 3: 3-Term "Before You Start" Plain-English Key
+ */
 function renderOverviewPage(canvas) {
   const processes = Object.values(DB.processes || {});
+  const p1 = DB.processes["PRC-001"] || processes[0];
+  const p2 = DB.processes["PRC-002"] || processes[1];
 
   canvas.innerHTML = `
     <div class="content-container">
@@ -333,24 +347,96 @@ function renderOverviewPage(canvas) {
       </div>
       <h1 class="page-title">Maturity Assessment &amp; Navigator Workshop Guides</h1>
       <p class="page-subtitle">
-        Plain English • ≤20-word active steps • Annotated visuals. Select a process below or from the left menu to run a standalone <strong>PM Maturity Hub (v6.0.0)</strong> health check or facilitate a 6-step <strong>Navigator Workshop (v2.4.4)</strong>.
+        Use these guides to check how Lean practices are working at your site and turn your findings into a practical leadership action plan.
       </p>
 
+      <!-- Fix 2: "Which Job Are You Doing Today?" 2-Card Chooser -->
+      <div class="chooser-section-label">Which job are you doing today?</div>
+      <div class="job-chooser-grid">
+        <!-- Card 1 -->
+        <div class="job-card">
+          <div>
+            <div class="job-card-top">
+              <span class="time-pill">⏱ ${escapeHtml(p1.durationBadge || "90 mins")}</span>
+              <span class="muted-code-pill">${escapeHtml(p1.appName || "PM Maturity Hub")} • ${escapeHtml(p1.versionBadge || "v6.0.0")}</span>
+            </div>
+            <h2 class="job-card-title">${escapeHtml(p1.title)}</h2>
+            <div class="job-meta-list">
+              <div><strong>When to use:</strong> ${escapeHtml(p1.whenToUse || "Every quarter with a partner.")}</div>
+              <div><strong>Output:</strong> ${escapeHtml(p1.cardOutput || "Completed 28-question health check.")}</div>
+            </div>
+          </div>
+          <button type="button" class="job-cta-btn" onclick="selectSOP('SOP-001')">
+            <span>${escapeHtml(p1.ctaLabel || "Start Site Assessment Guide")}</span>
+            <span>→</span>
+          </button>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="job-card">
+          <div>
+            <div class="job-card-top">
+              <span class="time-pill">⏱ ${escapeHtml(p2.durationBadge || "Half Day")}</span>
+              <span class="muted-code-pill">${escapeHtml(p2.appName || "Navigator Toolkit")} • ${escapeHtml(p2.versionBadge || "v2.4.4")}</span>
+            </div>
+            <h2 class="job-card-title">${escapeHtml(p2.title)}</h2>
+            <div class="job-meta-list">
+              <div><strong>When to use:</strong> ${escapeHtml(p2.whenToUse || "After your site check.")}</div>
+              <div><strong>Output:</strong> ${escapeHtml(p2.cardOutput || "Signed 1-page action charter.")}</div>
+            </div>
+          </div>
+          <button type="button" class="job-cta-btn" onclick="selectSOP('SOP-003')">
+            <span>${escapeHtml(p2.ctaLabel || "Start Workshop Guide")}</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Fix 3: 3-Term "Before You Start" Plain-English Key -->
+      <div class="plain-key-box">
+        <div class="plain-key-header">
+          <span class="plain-key-title">Before You Start: The 3 Rules of the Game</span>
+          <span style="font-size:12px;color:var(--se-gray-5);">How site scoring works in plain English</span>
+        </div>
+        <div class="plain-key-grid">
+          <div class="plain-key-item">
+            <div class="plain-key-term">📋 1. The 28 Questions</div>
+            <p class="plain-key-desc">
+              You and a Lean Core Team partner rate 28 everyday habits from <strong>1 (Not in place)</strong> to <strong>5 (Self-running)</strong>. Never score alone.
+            </p>
+          </div>
+          <div class="plain-key-item">
+            <div class="plain-key-term">🏭 2. 70% Site Proof</div>
+            <p class="plain-key-desc">
+              To score a <strong>3 or higher</strong>, a habit must be working with real boards and logs across <strong>roughly 70% of teams</strong>—one pilot area does not count.
+            </p>
+          </div>
+          <div class="plain-key-item">
+            <div class="plain-key-term">★ 3. 17 Starred Gateways</div>
+            <p class="plain-key-desc">
+              17 key questions are marked with a star (<strong>★</strong>). Every starred question in your current level must score at least <strong>3</strong> before you can move up to the next level.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Process & Stage Accordions Below the Chooser -->
       ${processes
         .map((proc) => {
           const stages = proc.stages || [];
           return `
           <section class="feature-split">
             <div>
-              <div style="font-family:ui-monospace,monospace;font-size:11.5px;font-weight:700;color:#007A7A;text-transform:uppercase;margin-bottom:4px;">
-                ${escapeHtml(proc.category)}
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                <span class="muted-code-pill">${escapeHtml(proc.appName || "")} ${escapeHtml(proc.versionBadge || "")}</span>
+                <span class="muted-code-pill">${proc.id}</span>
               </div>
               <h2 class="section-h2">${escapeHtml(proc.title)}</h2>
               <p class="section-lead">
                 ${escapeHtml(proc.userGoal)}
               </p>
               <button type="button" class="see-all-link" onclick="selectProcess('${proc.id}')">
-                Open Process Hub (${proc.id}) <span>→</span>
+                View full process overview <span>→</span>
               </button>
 
               <div class="accordion-list">
@@ -367,7 +453,7 @@ function renderOverviewPage(canvas) {
                       <div class="accordion-body">
                         <p>${escapeHtml(st.summary)} (${escapeHtml(sop?.estimatedTime || "45 mins")})</p>
                         <button type="button" class="learn-more-link" onclick="event.stopPropagation(); selectSOP('${st.sopId}')">
-                          Open Step-by-Step SOP (${st.sopId}) <span>→</span>
+                          Open step-by-step guide <span>→</span>
                         </button>
                       </div>
                     </div>`;
@@ -390,30 +476,29 @@ function renderSOPPage(sop, canvas) {
   const proc = DB.processes[sop.processId];
   const role = DB.roles[sop.roleId];
   const tools = (sop.toolIds || []).map((id) => DB.tools[id]).filter(Boolean);
-  const maxW = DB.meta?.strictWordLimit || 20;
 
   canvas.innerHTML = `
     <div class="content-container">
       <div class="breadcrumb-row">
-        <button type="button" class="breadcrumb-link" onclick="showOverview()">User Guides</button>
+        <button type="button" class="breadcrumb-link" onclick="showOverview()">Overview</button>
         <span>/</span>
         ${
           proc
             ? `<button type="button" class="breadcrumb-link" onclick="selectProcess('${proc.id}')">${escapeHtml(proc.title)}</button><span>/</span>`
             : ""
         }
-        <span>${sop.id}</span>
+        <span class="muted-code-pill">${sop.id}</span>
       </div>
 
       <h1 class="page-title">${escapeHtml(sop.title)}</h1>
       <p class="page-subtitle" style="margin-bottom:24px;">${escapeHtml(sop.userGoal)}</p>
 
       <div class="meta-strip">
-        <div><strong>Role Owner:</strong> ${escapeHtml(role?.title || sop.roleId)}</div>
-        <div><strong>Duration:</strong> ${escapeHtml(sop.estimatedTime)}</div>
-        <div><strong>App Context:</strong> ${escapeHtml(sop.stationLocation)}</div>
+        <div><strong>Who does this:</strong> ${escapeHtml(role?.title || sop.roleId)}</div>
+        <div><strong>Time needed:</strong> ${escapeHtml(sop.estimatedTime)}</div>
+        <div><strong>Where in app:</strong> ${escapeHtml(sop.stationLocation)}</div>
         <div>
-          <strong>Connected Tools:</strong>
+          <strong>Related Tools:</strong>
           ${tools
             .map(
               (t) =>
@@ -427,7 +512,7 @@ function renderSOPPage(sop, canvas) {
 
       <!-- Anchor 1: Getting Started -->
       <section class="editorial-section">
-        <h3 class="editorial-h3">1. Getting started (Pre-flight setup)</h3>
+        <h3 class="editorial-h3">1. Before you begin (Setup checklist)</h3>
         <ul class="clean-list">
           ${(sop.gettingStarted || [])
             .map(
@@ -441,25 +526,23 @@ function renderSOPPage(sop, canvas) {
         </ul>
       </section>
 
-      <!-- Anchor 2: Visual-First Action Steps (<=20 Words) -->
+      <!-- Anchor 2: Visual-First Action Steps -->
       <section class="editorial-section">
         <h3 class="editorial-h3">2. Step-by-step instructions</h3>
         ${(sop.steps || [])
           .map((st) => {
-            const wc = countWords(st.action);
             return `
             <div class="step-split-row">
               <div>
                 <div class="step-kicker">
                   <span>STEP ${st.stepNumber}</span>
-                  <span style="color:#54646E;font-weight:500;">• ${wc}/${maxW} words</span>
                 </div>
                 <h4 class="step-headline">${escapeHtml(st.action)}</h4>
                 <p class="step-subtext">${escapeHtml(st.detail || "")}</p>
                 ${
                   st.coachingTip
                     ? `<div class="step-note">
-                         <strong>Lean@GS Coaching Tip:</strong> ${escapeHtml(st.coachingTip)}
+                         <strong>Good Practice Tip:</strong> ${escapeHtml(st.coachingTip)}
                        </div>`
                     : ""
                 }
@@ -506,9 +589,10 @@ function renderProcessPage(proc, canvas) {
   canvas.innerHTML = `
     <div class="content-container">
       <div class="breadcrumb-row">
-        <button type="button" class="breadcrumb-link" onclick="showOverview()">User Guides</button>
+        <button type="button" class="breadcrumb-link" onclick="showOverview()">Overview</button>
         <span>/</span>
-        <span>${proc.id}</span>
+        <span class="muted-code-pill">${escapeHtml(proc.appName || "")} ${escapeHtml(proc.versionBadge || "")}</span>
+        <span class="muted-code-pill">${proc.id}</span>
       </div>
 
       <div class="feature-split">
@@ -517,10 +601,10 @@ function renderProcessPage(proc, canvas) {
           <h1 class="page-title">${escapeHtml(proc.title)}</h1>
           <p class="section-lead">${escapeHtml(proc.userGoal)}</p>
           <div class="step-note" style="margin-bottom:28px;">
-            <strong>Value-Add Coaching:</strong> ${escapeHtml(proc.valueAddCoaching)}
+            <strong>Why this matters:</strong> ${escapeHtml(proc.valueAddCoaching)}
           </div>
 
-          <h3 class="editorial-h3">Connected execution stages</h3>
+          <h3 class="editorial-h3">Step-by-step stages</h3>
           <div class="accordion-list">
             ${(proc.stages || [])
               .map(
@@ -533,7 +617,7 @@ function renderProcessPage(proc, canvas) {
                 <div class="accordion-body">
                   <p>${escapeHtml(st.summary)}</p>
                   <button type="button" class="learn-more-link" onclick="event.stopPropagation(); selectSOP('${st.sopId}')">
-                    Open SOP Runbook (${st.sopId}) <span>→</span>
+                    Start Stage ${st.stageNumber} Guide <span>→</span>
                   </button>
                 </div>
               </div>`
@@ -545,9 +629,9 @@ function renderProcessPage(proc, canvas) {
         <div>
           ${renderSEArchitecturalCard(proc.id)}
           <div style="margin-top:20px;padding:18px;background:var(--se-canvas-subtle);border:1px solid var(--se-gray-1);border-radius:10px;font-size:13.5px;color:var(--se-gray-5);">
-            <div><strong style="color:#1B1534;">Trigger:</strong> ${escapeHtml(proc.trigger)}</div>
-            <div style="margin-top:8px;"><strong style="color:#1B1534;">Definition of Done:</strong> ${escapeHtml(proc.finalOutcome)}</div>
-            <div style="margin-top:8px;"><strong style="color:#1B1534;">Responsible Role:</strong> ${escapeHtml(resp?.title || proc.raci?.responsible)}</div>
+            <div><strong style="color:#1B1534;">When to start:</strong> ${escapeHtml(proc.trigger)}</div>
+            <div style="margin-top:8px;"><strong style="color:#1B1534;">Final outcome:</strong> ${escapeHtml(proc.finalOutcome)}</div>
+            <div style="margin-top:8px;"><strong style="color:#1B1534;">Lead role:</strong> ${escapeHtml(resp?.title || proc.raci?.responsible)}</div>
           </div>
         </div>
       </div>
@@ -559,24 +643,22 @@ function renderToolPage(tool, canvas) {
   canvas.innerHTML = `
     <div class="content-container">
       <div class="breadcrumb-row">
-        <button type="button" class="breadcrumb-link" onclick="showOverview()">User Guides</button>
+        <button type="button" class="breadcrumb-link" onclick="showOverview()">Overview</button>
         <span>/</span>
-        <span>${escapeHtml(tool.suite || "Lean@GS Tool")}</span>
-        <span>/</span>
-        <span>${tool.id}</span>
+        <span class="muted-code-pill">${escapeHtml(tool.suite || "Lean@GS Tool")} ${escapeHtml(tool.versionBadge || "")}</span>
+        <span class="muted-code-pill">${tool.id}</span>
       </div>
 
-      <div class="eyebrow-tag">${escapeHtml(tool.suite || tool.category)}</div>
       <h1 class="page-title">${escapeHtml(tool.name)}</h1>
       <p class="page-subtitle" style="margin-bottom:24px;">${escapeHtml(tool.purpose)}</p>
 
       <div class="meta-strip">
-        <div><strong>Application Suite:</strong> ${escapeHtml(tool.suite || "-")}</div>
-        <div><strong>Menu Location:</strong> ${escapeHtml(tool.accessUrl)}</div>
+        <div><strong>Application:</strong> ${escapeHtml(tool.suite || "-")} <span class="muted-code-pill">${escapeHtml(tool.versionBadge || "")}</span></div>
+        <div><strong>Where to find it:</strong> ${escapeHtml(tool.accessUrl)}</div>
       </div>
 
       <section class="editorial-section">
-        <h3 class="editorial-h3">1. Getting started</h3>
+        <h3 class="editorial-h3">1. Before you start</h3>
         <ul class="clean-list">
           ${(tool.gettingStarted || [])
             .map((g) => `<li><input type="checkbox" /><span>${escapeHtml(g)}</span></li>`)
@@ -588,7 +670,7 @@ function renderToolPage(tool, canvas) {
         <h3 class="editorial-h3">2. Quick reference actions</h3>
         <table class="clean-table">
           <thead>
-            <tr><th>What You Want to Achieve</th><th>Exact Rule or Action</th></tr>
+            <tr><th>What You Want to Do</th><th>Exact Rule or Action</th></tr>
           </thead>
           <tbody>
             ${(tool.quickCommands || [])
@@ -605,10 +687,10 @@ function renderToolPage(tool, canvas) {
       </section>
 
       <section class="editorial-section">
-        <h3 class="editorial-h3">3. Troubleshooting</h3>
+        <h3 class="editorial-h3">3. Common problems &amp; fixes</h3>
         <table class="clean-table">
           <thead>
-            <tr><th>Symptom</th><th>Cause</th><th>Instant Fix</th></tr>
+            <tr><th>Symptom</th><th>Why It Happens</th><th>How to Fix It Now</th></tr>
           </thead>
           <tbody>
             ${(tool.troubleshooting || [])
@@ -629,7 +711,7 @@ function renderToolPage(tool, canvas) {
 }
 
 /**
- * Interactive 28 Questions & 17 Gateways Explorer from the Lean@GS Reference Manual
+ * Interactive 28 Questions & 17 Gateways Explorer
  */
 function renderQuestionsPage(canvas) {
   const questions = DB.questions28 || [];
@@ -647,10 +729,13 @@ function renderQuestionsPage(canvas) {
 
   canvas.innerHTML = `
     <div class="content-container">
-      <div class="eyebrow-tag">Part 1 Reference • PM Maturity Hub (v6.0.0)</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span class="eyebrow-tag" style="margin-bottom:0;">Site Assessment Reference</span>
+        <span class="muted-code-pill">PM Maturity Hub • v6.0.0</span>
+      </div>
       <h1 class="page-title">All 28 Assessment Questions &amp; 17 Gateways</h1>
       <p class="page-subtitle" style="margin-bottom:24px;">
-        Starred Gateway questions (<strong style="color:#007A7A;">★ Gateway</strong>) must score at least <strong>3 across ~70% of the site</strong> before higher-level questions count toward your final score.
+        Starred Gateway questions (<strong style="color:#007A7A;">★ Yes</strong>) must score at least <strong>3 across roughly 70% of the site</strong> before higher-level questions count toward your final score.
       </p>
 
       <div style="display:flex;gap:10px;margin-bottom:20px;">
@@ -673,7 +758,7 @@ function renderQuestionsPage(canvas) {
           <tr>
             <th style="width:65px;">#</th>
             <th>Assessment Question</th>
-            <th style="width:220px;">Pillar / Topic</th>
+            <th style="width:220px;">Topic</th>
             <th style="width:95px;">Level</th>
             <th style="width:110px;">Gateway?</th>
           </tr>
@@ -704,7 +789,7 @@ function renderQuestionsPage(canvas) {
 }
 
 /**
- * Interactive Gateway Score Cap Calculator from Section 4 of the Lean@GS Manual
+ * Interactive Gateway Score Cap Calculator
  */
 function renderCalculatorPage(canvas) {
   const levelNames = [
@@ -719,17 +804,17 @@ function renderCalculatorPage(canvas) {
 
   canvas.innerHTML = `
     <div class="content-container">
-      <div class="eyebrow-tag">Score Explainer • Interactive Sandbox</div>
+      <div class="eyebrow-tag">Score Explainer • Interactive Calculator</div>
       <h1 class="page-title">How Gateway Score Caps Work</h1>
       <p class="page-subtitle" style="margin-bottom:28px;">
-        Why high scores on Level 2–4 questions do not raise your total score if a Level 1 Gateway (such as <strong>Q10: Pilot Experiments</strong>) scores below 3.
+        Why high scores on Level 2–4 questions do not raise your total score if a Level 1 Starred Gateway (such as <strong>Q10: Pilot Experiments</strong>) scores below 3.
       </p>
 
       <div class="step-split-row" style="padding-top:0;">
         <div>
-          <h3 class="editorial-h3">The 4-Step Scoring Formula</h3>
+          <h3 class="editorial-h3">How Your Site Score Is Worked Out</h3>
           <ol class="clean-list" style="margin-bottom:20px;">
-            <li><strong>1. Check Gateways:</strong> Find the highest level where every starred Gateway question scored at least 3.</li>
+            <li><strong>1. Check Starred Gateways:</strong> Find the highest level where every starred Gateway question scored at least 3.</li>
             <li><strong>2. Count Unlocked Questions:</strong> Only include questions up to your unlocked level (e.g., 10 of 28 questions at Level 1).</li>
             <li><strong>3. Find the Average:</strong> Divide total points by unlocked questions (<code>34 ÷ 10 = 3.40</code>).</li>
             <li><strong>4. Apply Level Cap:</strong> <code>Level + [(Average - 1) / 4]</code> keeps your final score inside your unlocked level (<code>1.6</code>).</li>
@@ -738,7 +823,7 @@ function renderCalculatorPage(canvas) {
 
         <div class="sandbox-card">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-            <strong style="font-size:16px;">Interactive Score Simulator</strong>
+            <strong style="font-size:16px;">Try the Score Calculator</strong>
             <span class="lean-pill">Move Sliders</span>
           </div>
 
@@ -754,7 +839,6 @@ function renderCalculatorPage(canvas) {
               step="1"
               value="${state.simLevel}"
               style="width:100%;accent-color:#009999;cursor:pointer;"
-              oninput="updateSim(${this.value}, null)"
             />
           </div>
 
@@ -770,7 +854,6 @@ function renderCalculatorPage(canvas) {
               step="0.1"
               value="${state.simRawAvg}"
               style="width:100%;accent-color:#009999;cursor:pointer;"
-              oninput="updateSim(null, ${this.value})"
             />
           </div>
 
@@ -804,14 +887,17 @@ function renderCalculatorPage(canvas) {
 }
 
 /**
- * 1-Page Navigator Charter Template from Section 10 of the Lean@GS Manual
+ * 1-Page Navigator Charter Template
  */
 function renderCharterPage(canvas) {
   canvas.innerHTML = `
     <div class="content-container">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
         <div>
-          <div class="eyebrow-tag">Part 2 Output • Navigator Toolkit (v2.4.4)</div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <span class="eyebrow-tag" style="margin-bottom:0;">Workshop Output Template</span>
+            <span class="muted-code-pill">Navigator Toolkit • v2.4.4</span>
+          </div>
           <h1 class="page-title" style="margin-bottom:4px;">One-Page Navigator Charter Template</h1>
         </div>
         <button type="button" class="header-btn" id="copyCharterBtn" onclick="copyCharterText()">
@@ -829,7 +915,7 @@ function renderCharterPage(canvas) {
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;">
           <div style="padding:16px;background:var(--se-canvas-subtle);border:1px solid var(--se-gray-1);border-radius:10px;">
-            <strong style="color:#1B1534;display:block;margin-bottom:8px;">1. Top 3 Leader Priorities (Voice of the Customer)</strong>
+            <strong style="color:#1B1534;display:block;margin-bottom:8px;">1. Top 3 Leader Priorities (Business Problems to Solve)</strong>
             <ul style="padding-left:18px;color:#54646E;font-size:14px;">
               <li>Shorten delivery lead time on the main line.</li>
               <li>Cut repeat quality defects across shifts.</li>
@@ -837,7 +923,7 @@ function renderCharterPage(canvas) {
             </ul>
           </div>
           <div style="padding:16px;background:var(--se-canvas-subtle);border:1px solid var(--se-gray-1);border-radius:10px;">
-            <strong style="color:#1B1534;display:block;margin-bottom:8px;">2. Starting Maturity Score &amp; Red Gateways</strong>
+            <strong style="color:#1B1534;display:block;margin-bottom:8px;">2. Starting Site Score &amp; Starred Gateways to Fix</strong>
             <div style="color:#54646E;font-size:14px;">
               <div><strong>Current Score:</strong> 1.6 / 4.0 (Level 1: Basic Implementation)</div>
               <div style="margin-top:6px;"><strong>Gateways to Fix:</strong> Q10 (Pilot Experiments: 2/5), Q16 (Structured Reflection: 2/5)</div>
@@ -968,6 +1054,13 @@ function setActiveTopTab(tabName) {
   });
 }
 
+function openAdminModal() {
+  const raw = JSON.stringify(DB, null, 2);
+  document.getElementById("jsonEditor").value = raw;
+  runLiveJsonAudit(raw);
+  document.getElementById("jsonModal").classList.remove("hidden");
+}
+
 function bindEvents() {
   const searchInput = document.getElementById("searchInput");
   searchInput.addEventListener("input", (e) => {
@@ -987,12 +1080,7 @@ function bindEvents() {
     }
   });
 
-  document.getElementById("openBuilderBtn").addEventListener("click", () => {
-    const raw = JSON.stringify(DB, null, 2);
-    document.getElementById("jsonEditor").value = raw;
-    runLiveJsonAudit(raw);
-    document.getElementById("jsonModal").classList.remove("hidden");
-  });
+  document.getElementById("openBuilderBtn").addEventListener("click", openAdminModal);
 
   document.getElementById("closeModalBtn").addEventListener("click", () => {
     document.getElementById("jsonModal").classList.add("hidden");
@@ -1056,4 +1144,5 @@ window.switchTopTab = switchTopTab;
 window.toggleAccordion = toggleAccordion;
 window.setQuestionFilter = setQuestionFilter;
 window.copyCharterText = copyCharterText;
+window.openAdminModal = openAdminModal;
 window.addEventListener("DOMContentLoaded", initApp);

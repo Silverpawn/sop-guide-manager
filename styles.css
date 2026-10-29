@@ -95,7 +95,7 @@ body {
 .header-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .search-wrapper {
@@ -173,6 +173,28 @@ body {
   background: rgba(255, 255, 255, 0.22);
 }
 
+/* Quiet Admin Gear Button (hides developer JSON chrome from regular users) */
+.admin-gear-btn {
+  background: transparent;
+  color: rgba(234, 244, 248, 0.6);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.admin-gear-btn:hover {
+  color: var(--se-white);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(234, 244, 248, 0.25);
+}
+
 /* Signature Siemens Energy Fading Petrol Line */
 .se-fading-line {
   height: 2px;
@@ -180,7 +202,7 @@ body {
   flex-shrink: 0;
 }
 
-/* 2. Secondary Horizontal Category Bar (Snowflake Structural Pattern on Deep Purple) */
+/* 2. Secondary Horizontal Category Bar */
 .sub-navbar {
   height: 44px;
   background: var(--se-dark-purple);
@@ -217,10 +239,10 @@ body {
   border-bottom-color: var(--se-petrol);
 }
 
-/* 3. Main 2-Column Layout (Left Navigation Tree + Generous White Canvas) */
+/* 3. Main 2-Column Layout */
 .portal-layout {
   display: grid;
-  grid-template-columns: 285px 1fr;
+  grid-template-columns: 280px 1fr;
   flex: 1;
   overflow: hidden;
 }
@@ -330,10 +352,40 @@ body {
   border-left: 4px solid var(--se-petrol);
 }
 
-/* Center Scrollable Stage — Generous White Space (#FFFFFF) */
+.quiet-admin-link {
+  margin-top: 10px;
+  background: none;
+  border: none;
+  color: var(--se-gray-5);
+  font-size: 11.5px;
+  cursor: pointer;
+  text-align: left;
+  padding: 4px 6px;
+}
+
+.quiet-admin-link:hover {
+  color: var(--se-dark-purple);
+  text-decoration: underline;
+}
+
+/* Muted Code/Version Pill Badges (Demoted from Main Headings) */
+.muted-code-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--se-gray-5);
+  background: var(--se-gray-0);
+  border: 1px solid var(--se-gray-1);
+  padding: 2px 8px;
+  border-radius: 99px;
+}
+
+/* Center Scrollable Stage */
 .content-stage {
   overflow-y: auto;
-  padding: 52px 68px 96px;
+  padding: 44px 64px 96px;
   background: var(--se-white);
 }
 
@@ -358,38 +410,190 @@ body {
 }
 
 .page-title {
-  font-size: 36px;
+  font-size: 34px;
   font-weight: 700;
   letter-spacing: -0.025em;
   color: var(--se-dark-purple);
   line-height: 1.18;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .page-subtitle {
-  font-size: 16px;
+  font-size: 16.5px;
   color: var(--se-gray-5);
-  max-width: 720px;
+  max-width: 760px;
+  margin-bottom: 32px;
+}
+
+/* Fix 2: "Which Job Are You Doing Today?" 2-Card Chooser */
+.chooser-section-label {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--se-gray-5);
+  margin-bottom: 14px;
+}
+
+.job-chooser-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.job-card {
+  background: var(--se-white);
+  border: 1.5px solid var(--se-gray-1);
+  border-radius: 14px;
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 8px 24px rgba(27, 21, 52, 0.04);
+  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.job-card:hover {
+  border-color: var(--se-petrol);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(27, 21, 52, 0.08);
+}
+
+.job-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.time-pill {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--se-petrol-dark);
+  background: var(--se-gray-0);
+  padding: 3px 10px;
+  border-radius: 99px;
+}
+
+.job-card-title {
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--se-dark-purple);
+  line-height: 1.3;
+  margin-bottom: 14px;
+}
+
+.job-meta-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 22px;
+  padding: 12px 14px;
+  background: var(--se-canvas-subtle);
+  border: 1px solid var(--se-gray-1);
+  border-radius: 10px;
+  font-size: 14px;
+  color: var(--se-gray-5);
+}
+
+.job-meta-list strong {
+  color: var(--se-dark-purple);
+}
+
+.job-cta-btn {
+  width: 100%;
+  background: var(--se-bright-purple);
+  color: var(--se-white);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.15s ease;
+}
+
+.job-cta-btn:hover {
+  background: var(--se-purple);
+}
+
+/* Fix 3: 3-Term "Before You Start" Plain-English Key */
+.plain-key-box {
+  background: var(--se-canvas-subtle);
+  border: 1px solid var(--se-gray-1);
+  border-left: 4px solid var(--se-petrol);
+  border-radius: 12px;
+  padding: 20px 24px;
   margin-bottom: 48px;
 }
 
-/* Split Feature Section (Snowflake Editorial Pattern) */
+.plain-key-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.plain-key-title {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--se-dark-purple);
+}
+
+.plain-key-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.plain-key-item {
+  background: var(--se-white);
+  border: 1px solid var(--se-gray-1);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+
+.plain-key-term {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--se-dark-purple);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.plain-key-desc {
+  font-size: 13.5px;
+  color: var(--se-gray-5);
+  line-height: 1.5;
+}
+
+/* Split Feature Section */
 .feature-split {
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
   gap: 56px;
   align-items: start;
-  margin-bottom: 72px;
-  padding-bottom: 56px;
+  margin-bottom: 64px;
+  padding-bottom: 52px;
   border-bottom: 1px solid var(--se-gray-1);
 }
 
 .section-h2 {
-  font-size: 24px;
+  font-size: 23px;
   font-weight: 700;
   color: var(--se-dark-purple);
   letter-spacing: -0.015em;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .section-lead {
@@ -410,7 +614,7 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .learn-more-link {
@@ -438,7 +642,7 @@ body {
   width: 100%;
   background: transparent;
   border: none;
-  padding: 16px 4px;
+  padding: 15px 4px;
   color: var(--se-dark-purple);
   font-size: 15px;
   font-weight: 600;
@@ -567,7 +771,7 @@ body {
   accent-color: var(--se-petrol);
 }
 
-/* Step Split Row (Left <=20-Word Active Action + Right Annotated Illustration) */
+/* Step Split Row */
 .step-split-row {
   display: grid;
   grid-template-columns: 1fr 1.05fr;
@@ -696,6 +900,15 @@ body {
   padding: 14px;
   font-family: ui-monospace, monospace;
   font-size: 12.5px;
+}
+
+@media (max-width: 960px) {
+  .job-chooser-grid,
+  .plain-key-grid,
+  .feature-split,
+  .step-split-row {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media print {
