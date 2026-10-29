@@ -2416,21 +2416,21 @@ window.FALLBACK_GUIDES_DB = {
         },
         {
           "stepNumber": 3,
-          "action": "Use Tab 3 ('Copy AI Playbook Prompt') to convert rough Word notes into JSON.",
-          "detail": "Click '📋 Copy AI Playbook Prompt' in Tab 3, paste it into M365 Copilot or Gemini with your rough notes, and paste the returned JSON into the editor.",
+          "action": "Open Tab 3 ('✨ AI Playbook Generator & JSON Importer') to generate and import a Playbook.",
+          "detail": "In the Left Pane of Tab 3, enter your Topic, Target Roles/Tool, and Rough Notes, then click '📋 Copy Ready-to-Use AI Prompt'. Paste the AI's JSON output into the Right Pane, verify the three green Poka-Yoke ticks, and click '✓ Validate & Import Playbook into Studio'.",
           "toolId": "TOL-AUTH-1",
-          "coachingTip": "The AI prompt already includes all 20-word, plain-English, and schema rules—turning a 10-page Word SOP into a structured Playbook in 60 seconds.",
+          "coachingTip": "Clicking '✓ Validate & Import Playbook into Studio' merges your new AI-generated Playbook into your active library and opens it immediately in Tab 1 so you can review the Journey Map and jump to Tab 2 to paste screenshots (Ctrl+V).",
           "visual": {
             "type": "image",
             "imageSrc": "assets/screenshots/studio-tab3-ai-json.png",
             "src": "assets/screenshots/studio-tab3-ai-json.png",
-            "caption": "WYSIWYG Authoring Studio — Tab 3: 1-Click AI Playbook Prompt & Live Schema Audit",
+            "caption": "WYSIWYG Authoring Studio — Tab 3: 2-Column AI Playbook Generator & Live JSON Importer",
             "hotspot": {
-              "xPercent": 13,
-              "yPercent": 38,
-              "widthPercent": 16,
-              "heightPercent": 6,
-              "label": "3. Click 'Copy AI Playbook Prompt'"
+              "xPercent": 3,
+              "yPercent": 15,
+              "widthPercent": 94,
+              "heightPercent": 78,
+              "label": "3. Left: Build & Copy AI Prompt • Right: Paste JSON, Validate & Import into Studio"
             }
           }
         }
@@ -5021,19 +5021,19 @@ window.FALLBACK_GUIDES_DB = {
           ],
           "aiCheatSheet": [
             {
-              "stepBadge": "STEP 1 • COPY SYSTEM PROMPT",
-              "title": "Click '📋 Copy AI Playbook Prompt'",
-              "detail": "Open Authoring Studio → Tab 3 (or click the purple button above) to copy the pre-engineered Lean@GS JSON schema & 20-word style prompt."
+              "stepBadge": "STEP 1 • BUILD & COPY AI PROMPT (LEFT PANE)",
+              "title": "Enter Topic + Rough Notes & Click '📋 Copy Ready-to-Use AI Prompt'",
+              "detail": "In Authoring Studio → Tab 3 ('✨ AI Playbook Generator & JSON Importer'), enter your Process Name, Target Roles/Tool, and rough notes/SOP text. Click '📋 Copy Ready-to-Use AI Prompt' and paste into M365 Copilot or Gemini."
             },
             {
-              "stepBadge": "STEP 2 • PASTE WITH YOUR ROUGH NOTES",
-              "title": "Paste into M365 Copilot or Gemini",
-              "detail": "Paste the prompt into Microsoft 365 Copilot or Google Gemini, attach or paste your rough Word SOP, PowerPoint slides, or bullet notes, and hit Enter."
+              "stepBadge": "STEP 2 • PASTE AI JSON & CHECK POKA-YOKE (RIGHT PANE)",
+              "title": "Paste Returned JSON & Check 3 Live Green Ticks",
+              "detail": "Paste the AI's JSON output into the Right Pane (markdown ```json fences are stripped automatically). Click '🔧 Auto-Fix Minor Schema / ID Gaps' if any step exceeds 20 words."
             },
             {
-              "stepBadge": "STEP 3 • LOAD & ADD SCREENSHOTS",
-              "title": "Paste Returned JSON & Snip Screens",
-              "detail": "Paste the AI's JSON output into Studio Tab 3 ('Apply Raw JSON Changes') or save it as a .leanguide.json file, then open Tab 2 to press Ctrl+V and add real screenshots."
+              "stepBadge": "STEP 3 • IMPORT & SNIP SCREENSHOTS",
+              "title": "Click '✓ Validate & Import Playbook into Studio'",
+              "detail": "Merges your new Playbook into the active library and opens it immediately in Tab 1 so you can review the Journey Map and jump to Tab 2 to paste real screenshots (Ctrl+V)."
             }
           ],
           "fieldGuide": [
@@ -5144,4 +5144,5 @@ window.FALLBACK_GUIDES_DB = {
       "referenceTables": []
     }
   ]
-};
+}
+;

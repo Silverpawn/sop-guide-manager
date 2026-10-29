@@ -138,7 +138,7 @@
               Tab 2: SOP &amp; Step WYSIWYG Editor
             </button>
             <button type="button" class="studio-tab-btn" id="tabBtnStudioRaw" onclick="switchStudioTab('raw')">
-              Tab 3: AI Generator Prompt &amp; Raw JSON
+              Tab 3: ✨ AI Playbook Generator &amp; JSON Importer
             </button>
             <button type="button" class="studio-tab-btn" id="tabBtnStudioDesign" onclick="switchStudioTab('design')">
               Tab 4: Design &amp; Style Guide
@@ -155,6 +155,9 @@
           <button type="button" class="header-btn" style="background:#8A00E5;" onclick="downloadUpdatedGuidesJson()" title="Download complete master guides.json for server deployment">
             ⬇ Download Master Library (guides.json)
           </button>
+          <button type="button" class="header-btn secondary" id="toggleStudioFullscreenBtn" onclick="toggleStudioFullscreen()" title="Toggle Fullscreen (100vw x 100vh)">
+            ⛶ Fullscreen
+          </button>
           <button type="button" class="header-btn secondary" id="closeModalBtn">Close ✕</button>
         </div>
       </div>
@@ -169,6 +172,9 @@
           <button type="button" class="header-btn" style="background:#009999;" onclick="createNewPlaybookInStudio()">
             + Create New Playbook
           </button>
+          <button type="button" class="header-btn" style="background:#641E8C;border:1px solid #C084FC;" onclick="switchStudioTab('raw')" title="Generate a complete Playbook from rough notes using M365 Copilot or Gemini">
+            ✨ Generate New Playbook with AI
+          </button>
           <button type="button" class="header-btn" style="background:#8A00E5;" onclick="addJourneyStageInStudio()">
             + Add Journey Stage
           </button>
@@ -177,7 +183,7 @@
 
         <div class="studio-grid">
           <!-- Left Column: Playbook Overview & Dynamic N-Stage Editor -->
-          <div class="studio-col" style="max-height:66vh;overflow-y:auto;padding-right:6px;">
+          <div class="studio-col" style="padding-right:6px;">
             <div style="background:#F8FAFC;border:1px solid #D7E4EE;border-radius:8px;padding:12px;margin-bottom:14px;">
               <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#4D217A;margin-bottom:8px;">
                 A. Playbook Identity, Purpose Banner &amp; Golden Principle
@@ -263,7 +269,7 @@
           </div>
 
           <!-- Right Column: Live WYSIWYG Preview of Golden Principle + N Stage Cards -->
-          <div class="studio-col" style="max-height:66vh;overflow-y:auto;" id="builderLivePreviewCol"></div>
+          <div class="studio-col" id="builderLivePreviewCol"></div>
         </div>
       </div>
 
@@ -292,7 +298,7 @@
 
         <div class="studio-grid">
           <!-- Left Column: SOP Metadata + Step Text, Guardrails, Coaching Tip & Visual Mode Radio Pills -->
-          <div class="studio-col" style="max-height:66vh;overflow-y:auto;padding-right:6px;">
+          <div class="studio-col" style="padding-right:6px;">
             <details style="background:#F8FAFC;border:1px solid #D7E4EE;border-radius:8px;padding:10px 12px;margin-bottom:12px;">
               <summary style="cursor:pointer;font-size:12px;font-weight:700;color:#4D217A;">
                 ▸ Edit SOP Guide Header, Pre-Flight Checklist &amp; Troubleshooting (Click to Expand)
@@ -371,50 +377,136 @@
           </div>
 
           <!-- Right Column: Interactive Screenshot Dropzone (Ctrl+V) + Live Rendered Step Card Preview -->
-          <div class="studio-col" style="max-height:66vh;overflow-y:auto;" id="studioVisualRightCol"></div>
+          <div class="studio-col" id="studioVisualRightCol"></div>
         </div>
       </div>
 
-      <!-- TAB 3: AI Playbook Generator Prompt & Raw JSON Payload Loader -->
+      <!-- TAB 3: End-to-End AI Playbook Generator & Live JSON Importer -->
       <div id="studioTabRaw" class="studio-body hidden">
-        <div class="plain-key-box" style="margin-bottom:14px;background:linear-gradient(90deg,#F5F0FF 0%,#EAF4F8 100%);border-color:#D0BDF4;">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
-            <div>
-              <div style="font-size:13px;font-weight:700;color:#1B1534;">
-                ✨ 1-Click AI Playbook Generator Prompt (For M365 Copilot or Gemini)
+        <div class="studio-grid">
+          <!-- Left Pane of Tab 3: Step 1 — Generate Playbook JSON via AI (M365 Copilot / Gemini) -->
+          <div class="studio-col" style="padding-right:6px;">
+            <div style="background:linear-gradient(90deg,#F5F0FF 0%,#EAF4F8 100%);border:1.5px solid #C084FC;border-radius:10px;padding:14px;margin-bottom:12px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+                <span style="background:#8A00E5;color:#FFFFFF;font-size:11px;font-weight:800;padding:3px 9px;border-radius:99px;letter-spacing:0.04em;">
+                  STEP 1 • AI PROMPT BUILDER
+                </span>
+                <span style="font-size:11.5px;font-weight:700;color:#4D217A;">For M365 Copilot or Google Gemini</span>
               </div>
-              <p style="font-size:12.5px;color:#54646E;margin-top:2px;">
-                Want to turn a rough Word document, PowerPoint deck, or meeting notes into a complete Lean@GS Playbook? Copy the prompt below, paste it into M365 Copilot or Gemini with your notes, and paste the returned JSON below.
+              <h4 style="font-size:15px;font-weight:800;color:#1B1534;margin-bottom:4px;">
+                Turn Rough Notes or a Word SOP into a Complete Lean@GS Playbook
+              </h4>
+              <p style="font-size:12.5px;color:#54646E;line-height:1.45;">
+                Enter your process name, target roles, and rough notes below. Click <strong>Copy Ready-to-Use AI Prompt</strong>, paste it into M365 Copilot or Gemini, and paste the returned JSON into the Right Pane.
               </p>
             </div>
-            <button type="button" class="header-btn" style="background:#8A00E5;white-space:nowrap;" onclick="copyAiPlaybookPrompt()">
-              📋 Copy AI Playbook Prompt
-            </button>
-          </div>
-          <div id="aiPromptCopyStatus" style="font-size:12px;font-weight:700;color:#007A7A;margin-top:6px;display:none;"></div>
-        </div>
 
-        <div class="modal-grid" style="padding:0;">
-          <div>
-            <textarea id="jsonEditor" class="code-editor" spellcheck="false" aria-label="JSON Payload Editor"></textarea>
-          </div>
-          <div style="display:flex;flex-direction:column;justify-content:space-between;">
-            <div>
-              <h4 style="margin-bottom:10px;color:#1B1534;">Schema &amp; Usability Audit</h4>
-              <div id="liveAuditReport" style="font-size:13.5px;color:#54646E;"></div>
-              <div style="margin-top:16px;">
-                <label for="jsonFileInput" style="font-size:12.5px;font-weight:600;color:#1B1534;display:block;margin-bottom:6px;">
-                  Upload JSON File:
-                </label>
-                <input type="file" id="jsonFileInput" accept=".json" style="font-size:12px;color:#54646E;" />
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+              <div>
+                <label class="studio-label" for="aiTopicInput">1a. Playbook Topic / Process Name:</label>
+                <input
+                  type="text"
+                  id="aiTopicInput"
+                  class="studio-input"
+                  placeholder="e.g., 8D Problem Solving, Daily Tiered Stand-Up Meetings, SMED Changeover"
+                  oninput="onAiGeneratorInputChange()"
+                />
+              </div>
+              <div>
+                <label class="studio-label" for="aiRolesToolInput">1b. Target Roles &amp; Tool Used:</label>
+                <input
+                  type="text"
+                  id="aiRolesToolInput"
+                  class="studio-input"
+                  placeholder="e.g., Local Programme Manager + Shift Leads • Shopfloor Board"
+                  oninput="onAiGeneratorInputChange()"
+                />
               </div>
             </div>
-            <div style="display:flex;flex-direction:column;gap:8px;">
-              <button type="button" class="header-btn secondary" style="color:#1B1534;border-color:#B8CEDB;padding:9px;" onclick="resetSavedLocalStorageGuides()">
-                ↺ Reset to Default Payload
+
+            <label class="studio-label" for="aiRoughNotesInput">1c. Paste Your Rough Notes / Existing Word SOP / Meeting Transcript:</label>
+            <textarea
+              id="aiRoughNotesInput"
+              class="studio-textarea"
+              rows="6"
+              placeholder="Paste unstructured meeting notes, bullet points, or steps from an existing Word/PowerPoint SOP here..."
+              oninput="onAiGeneratorInputChange()"
+            ></textarea>
+
+            <div style="margin-top:10px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+              <button
+                type="button"
+                class="header-btn"
+                style="background:#8A00E5;padding:10px 16px;font-size:13px;font-weight:800;"
+                onclick="copyAiPlaybookPrompt()"
+              >
+                📋 Copy Ready-to-Use AI Prompt (For M365 Copilot / Gemini)
               </button>
-              <button type="button" class="header-btn" id="applyJsonBtn" style="padding:11px;font-size:13.5px;">
-                Apply Raw JSON Changes
+              <span id="aiPromptCopyStatus" style="font-size:12px;font-weight:800;color:#007A7A;display:none;"></span>
+            </div>
+
+            <label class="studio-label" for="aiPromptPreviewTextarea">Live Preview of Generated AI Prompt (Includes Your Notes + All DESIGN_GUIDE.md Rules + JSON Schema):</label>
+            <textarea
+              id="aiPromptPreviewTextarea"
+              class="code-editor"
+              style="height:220px;font-size:11.5px;background:#1E1B4B;color:#E2E8F0;"
+              readonly
+              aria-label="Live Preview of Generated AI Prompt"
+            ></textarea>
+          </div>
+
+          <!-- Right Pane of Tab 3: Steps 2 & 3 — Paste AI JSON, Validate & Import Straight Into Studio -->
+          <div class="studio-col" style="display:flex;flex-direction:column;justify-content:space-between;">
+            <div>
+              <div style="background:#F0FDF9;border:1.5px solid #009999;border-radius:10px;padding:12px 14px;margin-bottom:10px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+                  <span style="background:#009999;color:#FFFFFF;font-size:11px;font-weight:800;padding:3px 9px;border-radius:99px;letter-spacing:0.04em;">
+                    STEPS 2 &amp; 3 • PASTE AI JSON, VALIDATE &amp; IMPORT
+                  </span>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                    <input type="file" id="jsonFileInput" accept=".json,.leanguide.json" style="display:none;" />
+                    <button type="button" class="kitbag-tool-chip" onclick="document.getElementById('jsonFileInput').click()">
+                      📂 Or Load .json File from Disk
+                    </button>
+                    <button type="button" class="kitbag-tool-chip" style="color:#4D217A;border-color:#C084FC;" onclick="loadSampleAiPlaybookIntoImporter()">
+                      🧪 Load Sample AI Playbook Template
+                    </button>
+                    <button type="button" class="kitbag-tool-chip" style="color:#007A7A;border-color:#009999;" onclick="autoFixAiJsonInImporter()">
+                      🔧 Auto-Fix Minor Schema / ID Gaps
+                    </button>
+                  </div>
+                </div>
+                <p style="font-size:12px;color:#1B1534;margin:0;">
+                  Paste the JSON output from M365 Copilot or Gemini below (markdown <code>```json</code> fences are stripped automatically), check the live Poka-Yoke validator, and click <strong>✓ Validate &amp; Import Playbook into Studio</strong>.
+                </p>
+              </div>
+
+              <textarea
+                id="jsonEditor"
+                class="code-editor"
+                style="height:280px;"
+                spellcheck="false"
+                placeholder="Paste the AI-generated Playbook JSON here (or click '🧪 Load Sample AI Playbook Template' above to test)..."
+                aria-label="JSON Payload Editor"
+              ></textarea>
+
+              <div style="margin-top:10px;background:#F8FAFC;border:1px solid #D7E4EE;border-radius:10px;padding:12px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                  <strong style="font-size:12.5px;color:#1B1534;text-transform:uppercase;letter-spacing:0.04em;">
+                    Live Pre-Import Poka-Yoke Validator
+                  </strong>
+                  <span class="muted-code-pill">Instant Schema &amp; 20-Word Audit</span>
+                </div>
+                <div id="liveAuditReport" style="font-size:13px;color:#54646E;"></div>
+              </div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px solid #D7E4EE;">
+              <button type="button" class="header-btn secondary" style="color:#1B1534;border-color:#B8CEDB;" onclick="resetSavedLocalStorageGuides()">
+                ↺ Reset to Default Library
+              </button>
+              <button type="button" class="header-btn" id="applyJsonBtn" style="background:#009999;padding:11px 22px;font-size:13.5px;font-weight:800;">
+                ✓ Validate &amp; Import Playbook into Studio
               </button>
             </div>
           </div>
@@ -483,6 +575,8 @@
               <li><strong style="color:#1B1534;">Mandatory Assessment Header Rule (<code>Org</code> Code &amp; <code>Date of Assessment</code>):</strong> In the Maturity Assessment header (User Data Plate), getting the exact <strong>Org Code</strong> (<code>Org</code>) and <strong>Date of Assessment</strong> right before scoring or exporting is critical—they automatically generate the exported filename (<code>&lt;OrgCode&gt;_&lt;YYYY-MM-DD&gt;_Lean_Assessment.json</code> / <code>.csv</code> / <code>.pdf</code>), index the submission for the <strong>GS Dashboard</strong> and <code>'600 Maturity Submissions'</code> folder, and populate every downstream Analysis Report and Charter header.</li>
               <li><strong style="color:#1B1534;">Prominent Authoring &amp; File Management UI (Never Hide in Footer):</strong> The <code>Playbook &amp; SOP Authoring Studio</code> and <code>Upload / Download Guide</code> controls are core platform features and must NEVER be styled as muted grey footer links. Display a prominent <code>✦ Open Authoring Studio</code> button and <code>⬆ Upload / ⬇ Export Guide</code> controls in the Top Header Bar AND as a high-contrast <code>✦ BUILD OR SHARE A GUIDE</code> card in the left sidebar.</li>
               <li><strong style="color:#1B1534;">3-Tier Static-Host Storage &amp; Sharing Architecture:</strong> Tier 1 (Browser Draft): Automatic <code>localStorage</code> persistence with a visible <code>Local Draft Active</code> badge. Tier 2 (Single-Playbook Share — <code>.leanguide.json</code>): Export just the active Playbook (plus linked SOPs, Tools, Roles, and screenshots) as <code>&lt;Playbook-Slug&gt;.leanguide.json</code>, and Upload &amp; Merge a colleague's <code>.leanguide.json</code> without wiping out existing playbooks. Tier 3 (Master Release — <code>guides.json</code>): Download or upload the complete multi-playbook master <code>guides.json</code> for server deployment to <code>megblcntpvc72</code>.</li>
+              <li><strong style="color:#1B1534;">Full-Viewport Authoring Studio (<code>96vw x 94vh</code>):</strong> The Authoring Studio opens at <code>width: 96vw; max-width: 1840px; height: 94vh;</code> with independently scrolling left/right split panes and a <code>⛶ Fullscreen (100vw x 100vh)</code> toggle button in the top-right header.</li>
+              <li><strong style="color:#1B1534;">Mandatory AI Script-to-JSON Generator &amp; Live Importer (Tab 3):</strong> Tab 3 (<code>✨ AI Playbook Generator &amp; JSON Importer</code>) provides a 3-step self-service workflow: (1) Enter topic + target roles/tool + paste rough notes and click <code>📋 Copy Ready-to-Use AI Prompt</code>; (2) Paste the AI's JSON output into the right-hand importer (auto-stripping <code>```json</code> fences); (3) Click <code>✓ Validate &amp; Import Playbook into Studio</code> to run live Poka-Yoke checks, merge the new Playbook into the active library, and open it directly in Tab 1/Tab 2 for WYSIWYG editing.</li>
             </ul>
           </div>
         </div>

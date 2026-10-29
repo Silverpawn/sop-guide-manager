@@ -37,7 +37,7 @@ let state = {
   matrixMode: "full" // "full" | "compact"
 };
 
-const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V20";
+const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V21";
 let DEFAULT_DB_SNAPSHOT = null;
 
 async function initApp() {
@@ -2891,6 +2891,65 @@ function setActiveTopTab(tabName) {
   });
 }
 
+function toggleStudioFullscreen() {
+  const dlg = document.querySelector("#jsonModal .studio-modal-dialog");
+  const btn = document.getElementById("toggleStudioFullscreenBtn");
+  if (!dlg) return;
+  const isFull = dlg.classList.toggle("studio-fullscreen");
+  if (btn) {
+    btn.textContent = isFull ? "❐ Exit Fullscreen" : "⛶ Fullscreen";
+  }
+}
+
+function buildCurrentPlaybookBundleObject(optPlaybookId) {
+  const targetId = optPlaybookId || state.playbookId;
+  const plb = getPlaybooks().find((p) => p.id === targetId) || getActivePlaybook();
+  if (!plb) return null;
+
+  const processes = {};
+  const sops = {};
+  const tools = {};
+  const roles = {};
+
+  for (const pId of plb.processIds || []) {
+    if (DB.processes?.[pId]) {
+      processes[pId] = DB.processes[pId];
+      for (const st of DB.processes[pId].stages || []) {
+        for (const tId of st.toolIds || []) {
+          if (DB.tools?.[tId]) tools[tId] = DB.tools[tId];
+        }
+      }
+    }
+  }
+  for (const sId of plb.sopIds || []) {
+    if (DB.sops?.[sId]) {
+      sops[sId] = DB.sops[sId];
+      if (DB.sops[sId].roleId && DB.roles?.[DB.sops[sId].roleId]) {
+        roles[DB.sops[sId].roleId] = DB.roles[DB.sops[sId].roleId];
+      }
+      for (const tId of DB.sops[sId].toolIds || []) {
+        if (DB.tools?.[tId]) tools[tId] = DB.tools[tId];
+      }
+    }
+  }
+  for (const tId of plb.toolIds || []) {
+    if (DB.tools?.[tId]) tools[tId] = DB.tools[tId];
+  }
+  for (const rId of plb.roleIds || []) {
+    if (DB.roles?.[rId]) roles[rId] = DB.roles[rId];
+  }
+
+  return {
+    _bundleType: "Lean@GS_Single_Playbook_Bundle",
+    _exportedAt: new Date().toISOString(),
+    playbook: plb,
+    processes,
+    sops,
+    tools,
+    roles
+  };
+}
+
 function openAdminModal() {
   state.builderPlaybookId = state.playbookId || "PLB-001";
   state.builderStageIndex = 0;
@@ -2903,9 +2962,12 @@ function openAdminModal() {
   }
   state.studioStepIndex = 0;
 
-  const raw = JSON.stringify(DB, null, 2);
-  document.getElementById("jsonEditor").value = raw;
+  const bundleObj = buildCurrentPlaybookBundleObject(state.playbookId) || DB;
+  const raw = JSON.stringify(bundleObj, null, 2);
+  const editorEl = document.getElementById("jsonEditor");
+  if (editorEl) editorEl.value = raw;
   runLiveJsonAudit(raw);
+  onAiGeneratorInputChange();
 
   populateBuilderTab();
   populateStudioSelectors();
@@ -2917,9 +2979,12 @@ function openAdminModal() {
 function openPlaybookBuilderModal(plbId, stageIdx) {
   state.builderPlaybookId = plbId || state.playbookId || "PLB-001";
   state.builderStageIndex = typeof stageIdx === "number" ? stageIdx : 0;
-  const raw = JSON.stringify(DB, null, 2);
-  document.getElementById("jsonEditor").value = raw;
+  const bundleObj = buildCurrentPlaybookBundleObject(state.builderPlaybookId) || DB;
+  const raw = JSON.stringify(bundleObj, null, 2);
+  const editorEl = document.getElementById("jsonEditor");
+  if (editorEl) editorEl.value = raw;
   runLiveJsonAudit(raw);
+  onAiGeneratorInputChange();
 
   populateBuilderTab();
   populateStudioSelectors();
@@ -2937,9 +3002,12 @@ function openStudioForSop(sopId, stepIdx) {
   state.studioSopId = sopId;
   state.studioStepIndex = typeof stepIdx === "number" ? stepIdx : 0;
 
-  const raw = JSON.stringify(DB, null, 2);
-  document.getElementById("jsonEditor").value = raw;
+  const bundleObj = buildCurrentPlaybookBundleObject(state.studioPlaybookId) || DB;
+  const raw = JSON.stringify(bundleObj, null, 2);
+  const editorEl = document.getElementById("jsonEditor");
+  if (editorEl) editorEl.value = raw;
   runLiveJsonAudit(raw);
+  onAiGeneratorInputChange();
 
   populateBuilderTab();
   populateStudioSelectors();
@@ -2963,9 +3031,13 @@ function switchStudioTab(tab) {
   if (tab === "playbook") {
     populateBuilderTab();
   } else if (tab === "raw") {
-    const raw = JSON.stringify(DB, null, 2);
-    document.getElementById("jsonEditor").value = raw;
-    runLiveJsonAudit(raw);
+    onAiGeneratorInputChange();
+    const editorEl = document.getElementById("jsonEditor");
+    if (editorEl && !editorEl.value.trim()) {
+      const bundleObj = buildCurrentPlaybookBundleObject(state.playbookId) || DB;
+      editorEl.value = JSON.stringify(bundleObj, null, 2);
+    }
+    if (editorEl) runLiveJsonAudit(editorEl.value);
   }
 }
 
@@ -3480,25 +3552,586 @@ function createNewSopInStudio() {
   loadStudioStepIntoForm();
 }
 
+function buildDynamicAiPrompt() {
+  const topicVal = (document.getElementById("aiTopicInput")?.value || "").trim() || "Standard Operational Process (e.g., 8D Problem Solving / Daily Tiered Huddle)";
+  const rolesToolVal = (document.getElementById("aiRolesToolInput")?.value || "").trim() || "Local Programme Manager (LPM) + Team Leads • Shopfloor Board / Lean@GS Suite";
+  const roughNotesVal = (document.getElementById("aiRoughNotesInput")?.value || "").trim() || "[Paste your rough process notes, Word SOP text, or meeting transcript here]";
+
+  return `You are a Lean@GS Documentation Architect for Siemens Energy. Convert the rough notes / existing SOP below into a valid Single-Playbook Bundle JSON object for our Lean@GS SOP Guide Manager.
+
+=== USER INPUT CONTEXT ===
+- Playbook Topic / Process Name: ${topicVal}
+- Target Roles & Tool Used: ${rolesToolVal}
+- Rough Notes / Existing SOP Text:
+"""
+${roughNotesVal}
+"""
+
+=== MANDATORY DESIGN_GUIDE.md RULES ===
+1. 10-Second Naive Colleague Rule: Write in clear, plain human English for a colleague on their first day.
+2. Zero Version Numbers or Overview Jargon: Never output version numbers (v1.0, v3.2) anywhere. Never put compliance stamps ("MANDATORY"/"OPTIONAL") or technical file extensions (".csv"/".json") on Tab 1 Journey Map cards.
+3. Golden Principle Callout: Include a "goldenPrinciple" ({ "quote": "...", "explanation": "..." }) explaining the real operational business purpose of the process.
+4. Flexible N-Stage Journey Map: Create as many stages in "journeyMap.stages" as the process naturally needs. Each stage card has 4 clean elements: stageNumber + title, summary (1-2 sentences), whoIsInvolved + toolLabel, and outputArtifact + targetView.
+5. 20-Word Imperative SOP Steps: Every SOP step.action MUST be <= 20 words, start with an active imperative verb (Click, Open, Review, Write, Agree, Verify, Select, Save), contain zero raw banned acronyms (spell out KPI, PR, CV, SSO, PPE, LOTO, SLA), and include a practical "coachingTip". Set "visual": { "type": "none" } so the author can paste screenshots via Ctrl+V in Tab 2.
+6. Include a "buttonsReference" array and a "troubleshooting" array on each SOP.
+
+=== REQUIRED JSON OUTPUT SCHEMA (OUTPUT RAW JSON ONLY — NO MARKDOWN EXPLANATION) ===
+{
+  "_bundleType": "Lean@GS_Single_Playbook_Bundle",
+  "playbook": {
+    "id": "PLB-AI-001",
+    "code": "PLB-AI-001",
+    "title": "${topicVal}",
+    "eyebrow": "Siemens Energy • Lean@GS Operational Playbook",
+    "subtitle": "Plain-English summary of what this playbook helps the team achieve.",
+    "goldenPrinciple": {
+      "quote": "Short memorable principle quote.",
+      "explanation": "1-2 sentences explaining why this matters for business performance."
+    },
+    "filingRule": "Where agreed outputs should be saved.",
+    "processIds": ["PRC-AI-001"],
+    "sopIds": ["SOP-AI-001", "SOP-AI-002"],
+    "toolIds": ["TOL-AI-001"],
+    "journeyMap": {
+      "formulaBanner": "Stage 1 → Stage 2 → Stage 3",
+      "mapHeading": "Connected End-to-End Process Map",
+      "stages": [
+        {
+          "stageNumber": 1,
+          "title": "Stage 1 Title",
+          "summary": "Plain-English 1-2 sentence explanation of this stage.",
+          "whoIsInvolved": "${rolesToolVal}",
+          "toolId": "TOL-AI-001",
+          "toolLabel": "Primary Tool Name",
+          "outputArtifact": "What you finish this stage with",
+          "targetView": { "type": "sop", "id": "SOP-AI-001", "cta": "Open Stage 1 Guide →" }
+        }
+      ]
+    },
+    "decisionTools": [],
+    "templates": [],
+    "referenceTables": []
+  },
+  "processes": {
+    "PRC-AI-001": {
+      "id": "PRC-AI-001",
+      "title": "${topicVal}",
+      "category": "Operational Standard",
+      "appName": "Lean@GS Suite",
+      "durationBadge": "30 mins",
+      "userGoal": "What the team achieves by following this process.",
+      "stages": [
+        { "stageNumber": 1, "name": "Stage 1 Title", "sopId": "SOP-AI-001", "summary": "Summary of stage 1." }
+      ]
+    }
+  },
+  "sops": {
+    "SOP-AI-001": {
+      "id": "SOP-AI-001",
+      "title": "Stage 1: Action-Oriented SOP Title",
+      "processId": "PRC-AI-001",
+      "roleId": "ROL-001",
+      "toolIds": ["TOL-AI-001"],
+      "estimatedTime": "20 mins",
+      "stationLocation": "Team Workspace",
+      "userGoal": "Clear goal for this SOP.",
+      "gettingStarted": ["Pre-flight check item 1", "Pre-flight check item 2"],
+      "steps": [
+        {
+          "stepNumber": 1,
+          "action": "Open the workspace board and review current operational metrics with the team.",
+          "detail": "Focus on concrete facts and bottlenecks observed during the shift.",
+          "toolId": "TOL-AI-001",
+          "coachingTip": "Starting with real evidence keeps the team aligned on what matters most.",
+          "visual": { "type": "none" }
+        }
+      ],
+      "buttonsReference": [
+        {
+          "control": "Primary Action Control",
+          "colorBadge": { "label": "Petrol Teal", "bg": "#009999", "text": "#FFFFFF" },
+          "location": "Top Header Bar",
+          "whatItDoes": "Saves the current action log and updates the team board."
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "Common issue encountered during this stage.",
+          "cause": "Root cause of the issue.",
+          "fix": "Direct practical fix."
+        }
+      ]
+    }
+  },
+  "tools": {
+    "TOL-AI-001": {
+      "id": "TOL-AI-001",
+      "name": "Primary Operational Tool",
+      "category": "Workspace Tool",
+      "purpose": "Used by the team to execute and track this workflow.",
+      "accessPath": "Site Workspace / Intranet",
+      "keyControls": ["Create Action", "Export Summary"]
+    }
+  }
+}`;
+}
+
+function onAiGeneratorInputChange() {
+  const previewEl = document.getElementById("aiPromptPreviewTextarea");
+  if (!previewEl) return;
+  previewEl.value = buildDynamicAiPrompt();
+}
+
 function copyAiPlaybookPrompt() {
-  const promptText = `You are a Lean@GS Documentation Architect for Siemens Energy. Convert the attached notes/document into a valid Playbook JSON object for our SOP Guide Manager.
+  const promptText = buildDynamicAiPrompt();
+  const previewEl = document.getElementById("aiPromptPreviewTextarea");
+  if (previewEl) previewEl.value = promptText;
 
-Follow these strict DESIGN_GUIDE.md rules:
-1. Plain Human English: Write for a colleague on their first day. Never use compliance stamps ("MANDATORY"/"OPTIONAL") or file extensions (".csv"/".json") on Journey Map cards.
-2. Flexible N-Stage Journey Map: Create as many stages in journeyMap.stages as the real process requires (each with stageNumber, title, summary, whoIsInvolved, toolLabel, outputArtifact, and targetView).
-3. Include a goldenPrinciple ({ quote, explanation }) that captures the real-world purpose of the process.
-4. SOP Steps: Every step.action MUST be <= 20 words, start with an active imperative verb (Click, Open, Review, Write, Agree), contain zero raw acronyms, and include a practical coachingTip. Set visual to { "type": "none" } so authors can paste screenshots via Ctrl+V later.
-
-Return ONLY valid JSON matching the playbooks[], processes{}, and sops{} schema in data/guides.json.`;
-
-  navigator.clipboard.writeText(promptText);
+  if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+    navigator.clipboard.writeText(promptText).catch(() => {});
+  }
   const statusEl = document.getElementById("aiPromptCopyStatus");
   if (statusEl) {
-    statusEl.style.display = "block";
-    statusEl.textContent = "✓ Copied AI Playbook Generator Prompt to clipboard! Paste it into M365 Copilot or Gemini along with your rough notes.";
+    statusEl.style.display = "inline-block";
+    statusEl.textContent = "✓ Copied Ready-to-Use AI Prompt! Paste into M365 Copilot or Gemini.";
     setTimeout(() => {
       statusEl.style.display = "none";
-    }, 4500);
+    }, 5000);
+  }
+}
+
+function stripMarkdownJsonFences(rawText) {
+  let cleaned = String(rawText || "").trim();
+  if (cleaned.startsWith("```")) {
+    cleaned = cleaned.replace(/^```(?:json|javascript|js)?\s*/i, "");
+    cleaned = cleaned.replace(/\s*```\s*$/i, "");
+  }
+  return cleaned.trim();
+}
+
+function normalizeAndRepairAiPayload(rawText, applyAutoWordTrim) {
+  const cleaned = stripMarkdownJsonFences(rawText);
+  const parsed = JSON.parse(cleaned);
+
+  // If full Master Library (guides.json)
+  if (Array.isArray(parsed.playbooks) && parsed.sops && !parsed.playbook) {
+    return { kind: "master", data: parsed };
+  }
+
+  // Otherwise normalize as Single-Playbook Bundle
+  const plb = parsed.playbook || parsed;
+  if (!plb.id) {
+    const slug = String(plb.code || plb.title || "AI-PLAYBOOK")
+      .toUpperCase()
+      .replace(/[^A-Z0-9]+/g, "-")
+      .replace(/^-|-$/g, "")
+      .slice(0, 14);
+    plb.id = slug.startsWith("PLB-") ? slug : `PLB-${slug || "AI"}`;
+  }
+  if (!plb.code) plb.code = plb.id;
+  if (!plb.title) plb.title = `Generated Lean@GS Playbook (${plb.id})`;
+  if (!plb.eyebrow) plb.eyebrow = "Siemens Energy • Lean@GS Playbook";
+  if (!plb.subtitle) plb.subtitle = "Practical step-by-step operational guide.";
+  if (!plb.goldenPrinciple) {
+    plb.goldenPrinciple = {
+      quote: "Focus on improving the work, not just completing the checklist.",
+      explanation: "Keep every step simple, visible, and tied to a measurable operational improvement."
+    };
+  }
+
+  const toMap = (coll, prefix) => {
+    const map = {};
+    if (Array.isArray(coll)) {
+      coll.forEach((item, idx) => {
+        if (item && typeof item === "object") {
+          const id = item.id || `${prefix}-${idx + 1}`;
+          item.id = id;
+          map[id] = item;
+        }
+      });
+    } else if (coll && typeof coll === "object") {
+      for (const [k, v] of Object.entries(coll)) {
+        if (v && typeof v === "object") {
+          if (!v.id) v.id = k;
+          map[v.id] = v;
+        }
+      }
+    }
+    return map;
+  };
+
+  const processes = toMap(parsed.processes || plb.processes, "PRC-AI");
+  const sops = toMap(parsed.sops || plb.sops, "SOP-AI");
+  const tools = toMap(parsed.tools || plb.tools, "TOL-AI");
+  const roles = toMap(parsed.roles || plb.roles, "ROL");
+
+  if (Object.keys(tools).length === 0) {
+    tools["TOL-001"] = DB?.tools?.["TOL-001"] || {
+      id: "TOL-001",
+      name: "Lean@GS Operational Workspace",
+      category: "Core Workspace",
+      purpose: "Standard operational workspace used to run this guide.",
+      accessPath: "Lean@GS Intranet",
+      keyControls: ["Save", "Export"]
+    };
+  }
+
+  const firstToolId = Object.keys(tools)[0] || "TOL-001";
+
+  if (Object.keys(sops).length === 0) {
+    const defSopId = `SOP-${plb.id.replace(/^PLB-/, "")}-1`;
+    sops[defSopId] = {
+      id: defSopId,
+      title: `${plb.title} — Core Execution Guide`,
+      processId: `PRC-${plb.id.replace(/^PLB-/, "")}`,
+      roleId: "ROL-001",
+      toolIds: [firstToolId],
+      estimatedTime: "25 mins",
+      stationLocation: "Site Workspace",
+      userGoal: plb.subtitle,
+      gettingStarted: ["Confirm the team and current baseline metrics are ready."],
+      steps: [
+        {
+          stepNumber: 1,
+          action: "Open the workspace and review current performance metrics with the team.",
+          detail: "Focus on factual operational bottlenecks.",
+          toolId: firstToolId,
+          coachingTip: "Starting with clear evidence aligns the team in seconds.",
+          visual: { type: "none" }
+        }
+      ],
+      troubleshooting: []
+    };
+  }
+
+  for (const [sId, sop] of Object.entries(sops)) {
+    if (!Array.isArray(sop.toolIds) || sop.toolIds.length === 0) sop.toolIds = [firstToolId];
+    if (!Array.isArray(sop.gettingStarted)) sop.gettingStarted = ["Confirm key participants and baseline data are ready."];
+    if (!Array.isArray(sop.steps)) sop.steps = [];
+    sop.steps.forEach((st, idx) => {
+      st.stepNumber = idx + 1;
+      if (!st.action) st.action = "Review the current step output with the team and record the owner.";
+      if (applyAutoWordTrim) {
+        // Replace any banned raw acronyms
+        st.action = st.action
+          .replace(/\bKPIs\b/g, "performance metrics")
+          .replace(/\bKPI\b/g, "performance metric")
+          .replace(/\bSLA\b/g, "service target")
+          .replace(/\bPPE\b/g, "protective equipment");
+        const words = st.action.trim().split(/\s+/);
+        if (words.length > 20) {
+          st.action = words.slice(0, 19).join(" ") + ".";
+        }
+        const firstW = (st.action.split(/\s+/)[0] || "").replace(/[^a-zA-Z]/g, "").toLowerCase();
+        if (!COMMON_IMPERATIVE_VERBS.includes(firstW)) {
+          const trimmedWords = st.action.trim().split(/\s+/).slice(0, 18).join(" ");
+          st.action = `Review ${trimmedWords.charAt(0).toLowerCase()}${trimmedWords.slice(1)}`;
+        }
+      }
+      if (!st.coachingTip) {
+        st.coachingTip = "Keep this step focused on concrete workplace evidence and a single named owner.";
+      }
+      if (!st.visual || !st.visual.type) {
+        st.visual = { type: "none" };
+      }
+      if (!st.toolId) st.toolId = sop.toolIds[0] || firstToolId;
+    });
+  }
+
+  const sopIds = Object.keys(sops);
+  if (Object.keys(processes).length === 0) {
+    const defProcId = `PRC-${plb.id.replace(/^PLB-/, "")}`;
+    processes[defProcId] = {
+      id: defProcId,
+      title: plb.title,
+      category: "Operational Standard",
+      appName: "Lean@GS Suite",
+      durationBadge: "30 mins",
+      userGoal: plb.subtitle,
+      stages: sopIds.map((sId, idx) => ({
+        stageNumber: idx + 1,
+        name: sops[sId].title,
+        sopId: sId,
+        summary: sops[sId].userGoal || "Execute stage steps with the team."
+      }))
+    };
+  }
+
+  plb.processIds = Object.keys(processes);
+  plb.sopIds = sopIds;
+  plb.toolIds = Object.keys(tools);
+
+  if (!plb.journeyMap || !Array.isArray(plb.journeyMap.stages) || plb.journeyMap.stages.length === 0) {
+    plb.journeyMap = {
+      formulaBanner: sopIds.map((id) => sops[id].title).join(" → "),
+      mapHeading: "Connected End-to-End Process Map",
+      stages: sopIds.map((sId, idx) => ({
+        stageNumber: idx + 1,
+        title: sops[sId].title,
+        summary: sops[sId].userGoal || "Complete this stage with your team.",
+        whoIsInvolved: "Local Programme Manager + Team",
+        toolId: firstToolId,
+        toolLabel: tools[firstToolId]?.name || "Lean@GS Workspace",
+        outputArtifact: "Agreed stage output and action owners",
+        targetView: { type: "sop", id: sId, cta: `Open Stage ${idx + 1} Guide →` }
+      }))
+    };
+  } else {
+    plb.journeyMap.stages.forEach((st, idx) => {
+      st.stageNumber = idx + 1;
+      if (applyAutoWordTrim) {
+        if (st.summary) st.summary = st.summary.replace(/\.(csv|json)\b/gi, " file").replace(/\b(MANDATORY|OPTIONAL)\b/gi, "");
+        if (st.outputArtifact) st.outputArtifact = st.outputArtifact.replace(/\.(csv|json)\b/gi, " file");
+      }
+      if (!st.targetView || !st.targetView.id) {
+        const targetSopId = sopIds[idx] || sopIds[0];
+        st.targetView = { type: "sop", id: targetSopId, cta: `Open Stage ${idx + 1} Guide →` };
+      }
+    });
+  }
+
+  const normalizedBundle = {
+    _bundleType: "Lean@GS_Single_Playbook_Bundle",
+    _exportedAt: new Date().toISOString(),
+    playbook: plb,
+    processes,
+    sops,
+    tools,
+    roles
+  };
+
+  return { kind: "bundle", data: normalizedBundle };
+}
+
+function autoFixAiJsonInImporter() {
+  const editorEl = document.getElementById("jsonEditor");
+  if (!editorEl) return;
+  try {
+    const result = normalizeAndRepairAiPayload(editorEl.value, true);
+    const formatted = JSON.stringify(result.data, null, 2);
+    editorEl.value = formatted;
+    runLiveJsonAudit(formatted);
+    showGuideToast("🔧 Auto-fixed schema, normalized IDs, and trimmed steps to ≤20 words!");
+  } catch (err) {
+    alert("Could not parse JSON to auto-fix. Please check for missing brackets or quotes: " + err.message);
+  }
+}
+
+function loadSampleAiPlaybookIntoImporter() {
+  const topicInput = document.getElementById("aiTopicInput");
+  const rolesInput = document.getElementById("aiRolesToolInput");
+  const notesInput = document.getElementById("aiRoughNotesInput");
+  if (topicInput) topicInput.value = "8D Structured Problem Solving & Root Cause Guide";
+  if (rolesInput) rolesInput.value = "Local Programme Manager (LPM) + Quality & Operations Leads • 8D A3 Board";
+  if (notesInput) {
+    notesInput.value =
+      "Stage 1: Contain the immediate customer symptom within 24 hours and verify batch stock.\nStage 2: Run a 5-Why and Fishbone session at the Gemba with operators to find the true root cause.\nStage 3: Lock permanent poka-yoke corrective actions and update standard work.";
+  }
+  onAiGeneratorInputChange();
+
+  const sampleBundle = {
+    _bundleType: "Lean@GS_Single_Playbook_Bundle",
+    _exportedAt: new Date().toISOString(),
+    playbook: {
+      id: "PLB-8D-SAMPLE",
+      code: "PLB-8D-SAMPLE",
+      title: "8D Structured Problem Solving & Root Cause Guide",
+      eyebrow: "Siemens Energy • AI-Generated Operational Playbook",
+      subtitle: "How to contain urgent operational defects, find the real root cause at the Gemba, and lock permanent corrective actions.",
+      goldenPrinciple: {
+        quote: "Never close a problem with 'operator error'—fix the process so the mistake becomes impossible.",
+        explanation: "Effective problem solving protects the customer first, investigates the physical process with the frontline team, and updates standard work."
+      },
+      filingRule: "Save completed 8D A3 sheets in your site's Quality & Continuous Improvement folder.",
+      processIds: ["PRC-8D-001"],
+      sopIds: ["SOP-8D-001", "SOP-8D-002", "SOP-8D-003"],
+      toolIds: ["TOL-8D-001"],
+      journeyMap: {
+        formulaBanner: "1. Contain the Symptom (24h) → 2. Find True Root Cause at Gemba → 3. Lock Permanent Standard Work",
+        mapHeading: "3-Stage 8D Problem Solving Journey",
+        stages: [
+          {
+            stageNumber: 1,
+            title: "Contain the Immediate Symptom",
+            summary: "Protect the downstream process or customer within 24 hours and define the exact problem statement with facts.",
+            whoIsInvolved: "Area Lead + Quality Partner",
+            toolId: "TOL-8D-001",
+            toolLabel: "8D A3 Problem Solving Board",
+            outputArtifact: "Verified containment & clear problem statement",
+            targetView: { type: "sop", id: "SOP-8D-001", cta: "Open Stage 1 Guide →" }
+          },
+          {
+            stageNumber: 2,
+            title: "Investigate Root Cause at the Gemba",
+            summary: "Walk the physical process with operators and run a structured 5-Why analysis to isolate why the defect occurred and escaped.",
+            whoIsInvolved: "Local Programme Manager + Frontline Operators",
+            toolId: "TOL-8D-001",
+            toolLabel: "5-Why & Fishbone Workspace",
+            outputArtifact: "Verified occurrence and escape root causes",
+            targetView: { type: "sop", id: "SOP-8D-002", cta: "Open Stage 2 Guide →" }
+          },
+          {
+            stageNumber: 3,
+            title: "Lock Corrective Actions & Standard Work",
+            summary: "Implement practical error-proofing, update visual standard work, and verify zero repeat defects over 30 days.",
+            whoIsInvolved: "Process Owner + Shift Team",
+            toolId: "TOL-8D-001",
+            toolLabel: "Standard Work & Audit Tracker",
+            outputArtifact: "Updated standard work & 30-day verification sign-off",
+            targetView: { type: "sop", id: "SOP-8D-003", cta: "Open Stage 3 Guide →" }
+          }
+        ]
+      },
+      decisionTools: [],
+      templates: [],
+      referenceTables: []
+    },
+    processes: {
+      "PRC-8D-001": {
+        id: "PRC-8D-001",
+        title: "8D Structured Problem Solving Workflow",
+        category: "Quality & Flow Improvement",
+        appName: "Lean@GS Suite",
+        durationBadge: "45 mins",
+        userGoal: "Eliminate recurring defects by moving systematically from containment to verified root-cause elimination.",
+        stages: [
+          { stageNumber: 1, name: "Contain the Immediate Symptom", sopId: "SOP-8D-001", summary: "Protect the customer and define the gap." },
+          { stageNumber: 2, name: "Investigate Root Cause at the Gemba", sopId: "SOP-8D-002", summary: "Run 5-Why analysis on the shopfloor." },
+          { stageNumber: 3, name: "Lock Corrective Actions & Standard Work", sopId: "SOP-8D-003", summary: "Update standards and verify results." }
+        ]
+      }
+    },
+    sops: {
+      "SOP-8D-001": {
+        id: "SOP-8D-001",
+        title: "Stage 1: Contain the Symptom & Define the Problem",
+        processId: "PRC-8D-001",
+        roleId: "ROL-001",
+        toolIds: ["TOL-8D-001"],
+        estimatedTime: "20 mins",
+        stationLocation: "Shopfloor Gemba / Quality Station",
+        userGoal: "Quarantine affected work-in-progress immediately and write a factual What-Where-When-How Much problem statement.",
+        gettingStarted: [
+          "Bring the physical defective part or defect photo to the team board.",
+          "Check current work-in-progress and finished goods inventory."
+        ],
+        steps: [
+          {
+            stepNumber: 1,
+            action: "Quarantine all suspect parts in work-in-progress and record the containment owner on the board.",
+            detail: "Ensure zero defective parts can pass to the next station while root-cause investigation runs.",
+            toolId: "TOL-8D-001",
+            coachingTip: "Containment buys your team safe thinking time—never skip physical stock verification.",
+            visual: { type: "none" }
+          },
+          {
+            stepNumber: 2,
+            action: "Write a clear problem statement describing What, Where, When, and How Many defects occurred.",
+            detail: "Avoid guessing the cause or proposing solutions inside the problem description.",
+            toolId: "TOL-8D-001",
+            coachingTip: "A problem well stated is half solved; stick strictly to observable facts.",
+            visual: { type: "none" }
+          }
+        ],
+        buttonsReference: [
+          {
+            control: "Log Containment Status",
+            colorBadge: { label: "Petrol Teal", bg: "#009999", text: "#FFFFFF" },
+            location: "8D Board Section D3",
+            whatItDoes: "Records the quarantine batch numbers, owner, and timestamp."
+          }
+        ],
+        troubleshooting: [
+          {
+            symptom: "The team jumps straight to proposing solutions before defining the defect.",
+            cause: "Urgency pressure leads people to guess rather than observe.",
+            fix: "Park solution ideas on a sticky note and finish the factual What/Where/When statement first."
+          }
+        ]
+      },
+      "SOP-8D-002": {
+        id: "SOP-8D-002",
+        title: "Stage 2: Investigate Root Cause at the Gemba",
+        processId: "PRC-8D-001",
+        roleId: "ROL-001",
+        toolIds: ["TOL-8D-001"],
+        estimatedTime: "30 mins",
+        stationLocation: "Active Work Area (Gemba)",
+        userGoal: "Walk the process with the operators and trace the chain of cause-and-effect until the systemic root cause is proven.",
+        gettingStarted: [
+          "Gather the operator, team lead, and maintenance or engineering partner at the station."
+        ],
+        steps: [
+          {
+            stepNumber: 1,
+            action: "Walk the physical workstation with the operator and observe the actual process step by step.",
+            detail: "Compare what actually happens on shift against the current written standard work.",
+            toolId: "TOL-8D-001",
+            coachingTip: "You cannot find a shopfloor root cause from a conference room—always go and see.",
+            visual: { type: "none" }
+          },
+          {
+            stepNumber: 2,
+            action: "Ask 'Why' five times until you identify the process gap that allowed the defect.",
+            detail: "Test the logic backwards ('Therefore...') to confirm each cause link is factual.",
+            toolId: "TOL-8D-001",
+            coachingTip: "Never stop at 'human error'; ask why the workplace setup made that error easy to make.",
+            visual: { type: "none" }
+          }
+        ],
+        troubleshooting: []
+      },
+      "SOP-8D-003": {
+        id: "SOP-8D-003",
+        title: "Stage 3: Lock Corrective Actions & Update Standard Work",
+        processId: "PRC-8D-001",
+        roleId: "ROL-001",
+        toolIds: ["TOL-8D-001"],
+        estimatedTime: "20 mins",
+        stationLocation: "Team Huddle Board",
+        userGoal: "Put permanent error-proofing in place and update visual standard work so the defect cannot return.",
+        gettingStarted: [
+          "Confirm the root cause has been reproduced and verified at the workstation."
+        ],
+        steps: [
+          {
+            stepNumber: 1,
+            action: "Agree two or three permanent corrective actions with a single named owner and target date.",
+            detail: "Prioritise physical or visual error-proofing over 're-training the operator'.",
+            toolId: "TOL-8D-001",
+            coachingTip: "Physical error-proofing works on every shift; verbal reminders fade within a week.",
+            visual: { type: "none" }
+          },
+          {
+            stepNumber: 2,
+            action: "Update the visual standard work sheet at the station and review results for thirty days.",
+            detail: "Remove temporary containment only after the permanent fix is verified in production.",
+            toolId: "TOL-8D-001",
+            coachingTip: "Closing the loop with the frontline crew builds lasting pride and ownership.",
+            visual: { type: "none" }
+          }
+        ],
+        troubleshooting: []
+      }
+    },
+    tools: {
+      "TOL-8D-001": {
+        id: "TOL-8D-001",
+        name: "8D A3 Problem Solving Board",
+        category: "Quality & Root Cause Tool",
+        purpose: "Visual A3 template guiding teams from 24-hour containment through 5-Why root cause to standard work updates.",
+        accessPath: "Lean@GS Suite / Shopfloor Huddle Board",
+        keyControls: ["D3 Containment Log", "D4 5-Why Chain", "D5/D7 Standard Work Lock"]
+      }
+    }
+  };
+
+  const editorEl = document.getElementById("jsonEditor");
+  if (editorEl) {
+    const raw = JSON.stringify(sampleBundle, null, 2);
+    editorEl.value = raw;
+    runLiveJsonAudit(raw);
+    showGuideToast("🧪 Loaded sample '8D Problem Solving' Playbook into the Importer! Click '✓ Validate & Import Playbook into Studio' to test.");
   }
 }
 
@@ -4227,8 +4860,29 @@ function bindEvents() {
   });
 
   document.getElementById("applyJsonBtn").addEventListener("click", () => {
-    try {
-      DB = JSON.parse(document.getElementById("jsonEditor").value);
+    importAiJsonIntoStudio();
+  });
+
+  document.getElementById("jsonFileInput").addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const cleaned = stripMarkdownJsonFences(ev.target.result);
+      document.getElementById("jsonEditor").value = cleaned;
+      runLiveJsonAudit(cleaned);
+    };
+    reader.readAsText(file);
+  });
+}
+
+function importAiJsonIntoStudio() {
+  const editorEl = document.getElementById("jsonEditor");
+  if (!editorEl) return;
+  try {
+    const result = normalizeAndRepairAiPayload(editorEl.value, false);
+    if (result.kind === "master") {
+      DB = result.data;
       try {
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(DB));
       } catch (storageErr) {
@@ -4239,45 +4893,132 @@ function bindEvents() {
       renderTopTabs();
       renderSidebar();
       renderMain();
-      document.getElementById("jsonModal").classList.add("hidden");
-    } catch (err) {
-      alert("Invalid JSON: " + err.message);
+      populateBuilderTab();
+      populateStudioSelectors();
+      loadStudioStepIntoForm();
+      switchStudioTab("playbook");
+      showGuideToast(`✓ Validated & Imported Master Library (${(DB.playbooks || []).length} Playbooks) into Studio!`);
+      return;
     }
-  });
 
-  document.getElementById("jsonFileInput").addEventListener("change", (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      document.getElementById("jsonEditor").value = ev.target.result;
-      runLiveJsonAudit(ev.target.result);
-    };
-    reader.readAsText(file);
-  });
+    // Single-Playbook Bundle or AI-Generated Playbook
+    const bundle = result.data;
+    const incomingPlb = bundle.playbook;
+
+    if (bundle.processes && typeof bundle.processes === "object") {
+      Object.assign(DB.processes, bundle.processes);
+    }
+    if (bundle.sops && typeof bundle.sops === "object") {
+      Object.assign(DB.sops, bundle.sops);
+    }
+    if (bundle.tools && typeof bundle.tools === "object") {
+      Object.assign(DB.tools, bundle.tools);
+    }
+    if (bundle.roles && typeof bundle.roles === "object") {
+      Object.assign(DB.roles, bundle.roles);
+    }
+
+    const existingIdx = (DB.playbooks || []).findIndex((p) => p.id === incomingPlb.id);
+    if (existingIdx >= 0) {
+      DB.playbooks[existingIdx] = incomingPlb;
+    } else {
+      DB.playbooks.push(incomingPlb);
+    }
+
+    try {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(DB));
+    } catch (storageErr) {
+      console.warn("Could not persist to localStorage:", storageErr);
+    }
+
+    state.playbookId = incomingPlb.id;
+    state.builderPlaybookId = incomingPlb.id;
+    state.builderStageIndex = 0;
+    state.studioPlaybookId = incomingPlb.id;
+    state.studioSopId = incomingPlb.sopIds?.[0] || Object.keys(DB.sops || {})[0];
+    state.studioStepIndex = 0;
+    state.view = "journey";
+    state.selectedId = null;
+
+    initializePlaybookDefaults();
+    renderPlaybookSwitcher();
+    renderTopTabs();
+    renderSidebar();
+    renderMain();
+    populateBuilderTab();
+    populateStudioSelectors();
+    loadStudioStepIntoForm();
+    switchStudioTab("playbook");
+    showGuideToast(`✓ Validated & Imported '${incomingPlb.title}' into Tab 1 WYSIWYG Builder!`);
+  } catch (err) {
+    alert("Invalid JSON: " + err.message);
+  }
 }
 
 function runLiveJsonAudit(rawText) {
   const reportEl = document.getElementById("liveAuditReport");
+  if (!reportEl) return;
   try {
-    const candidate = JSON.parse(rawText);
-    const maxW = candidate.meta?.strictWordLimit || 20;
-    let issues = [];
+    const result = normalizeAndRepairAiPayload(rawText, false);
+    const maxW = 20;
+    let stepIssues = [];
+    let jargonIssues = [];
     let steps = 0;
-    for (const [sopId, sop] of Object.entries(candidate.sops || {})) {
+
+    const sopsMap = result.kind === "master" ? result.data.sops || {} : result.data.sops || {};
+    const playbooksArr = result.kind === "master" ? result.data.playbooks || [] : [result.data.playbook];
+
+    for (const [sopId, sop] of Object.entries(sopsMap)) {
       for (const st of sop.steps || []) {
         steps++;
-        const w = countWords(st.action);
-        if (w > maxW) issues.push(`${sopId} Step ${st.stepNumber}: ${w}/${maxW} words`);
+        const actionStr = String(st.action || "").trim();
+        const w = countWords(actionStr);
+        if (w > maxW || w === 0) {
+          stepIssues.push(`${sopId} Step ${st.stepNumber}: ${w}/${maxW} words`);
+        }
+        for (const acr of BANNED_ACRONYMS_LIST) {
+          if (new RegExp(`\\b${acr}\\b`).test(actionStr)) {
+            jargonIssues.push(`${sopId} Step ${st.stepNumber} contains banned acronym '${acr}'`);
+          }
+        }
       }
     }
-    const plbCount = Array.isArray(candidate.playbooks) ? candidate.playbooks.length : 0;
-    reportEl.innerHTML =
-      issues.length === 0
-        ? `<div style="color:#007A7A;font-weight:700;">✓ Valid Multi-Playbook Payload (${plbCount} Playbooks, ${steps} steps checked, all ≤ ${maxW} words, zero raw acronyms, 3-mode visuals ready).</div>`
-        : `<div style="color:#DA1E28;">${issues.join("<br/>")}</div>`;
+
+    for (const plb of playbooksArr) {
+      for (const stg of plb?.journeyMap?.stages || []) {
+        const txt = `${stg.title || ""} ${stg.summary || ""} ${stg.outputArtifact || ""}`;
+        if (/\bv\d+\.\d+\b/i.test(txt)) {
+          jargonIssues.push(`${plb.id} Stage ${stg.stageNumber} contains version number`);
+        }
+      }
+    }
+
+    const modeLabel =
+      result.kind === "master"
+        ? `Master Library (${playbooksArr.length} Playbooks, ${steps} steps)`
+        : `Single Playbook Bundle (${result.data.playbook.id} • ${Object.keys(sopsMap).length} SOPs, ${steps} steps)`;
+
+    const schemaBadge = `<span style="color:#007A7A;font-weight:700;">✓ Valid JSON Syntax &amp; Playbook Schema (${escapeHtml(modeLabel)})</span>`;
+    const stepBadge =
+      stepIssues.length === 0
+        ? `<span style="color:#007A7A;font-weight:700;">✓ All Steps ≤ ${maxW} Words &amp; Start with Action Verbs</span>`
+        : `<span style="color:#DA1E28;font-weight:700;">⚠️ ${stepIssues.length} step(s) exceed ${maxW} words (Click '🔧 Auto-Fix' above)</span>`;
+    const jargonBadge =
+      jargonIssues.length === 0
+        ? `<span style="color:#007A7A;font-weight:700;">✓ Zero Version Numbers (vX.X) or Banned Overview Jargon</span>`
+        : `<span style="color:#DA1E28;font-weight:700;">⚠️ ${escapeHtml(jargonIssues[0])}</span>`;
+
+    reportEl.innerHTML = `
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <div>${schemaBadge}</div>
+        <div>${stepBadge}</div>
+        <div>${jargonBadge}</div>
+      </div>
+    `;
   } catch (e) {
-    reportEl.innerHTML = `<div style="color:#DA1E28;">Syntax Error: ${escapeHtml(e.message)}</div>`;
+    reportEl.innerHTML = `<div style="color:#DA1E28;font-weight:700;">✗ Syntax Error: ${escapeHtml(
+      e.message
+    )} (Check for missing closing brackets or click '🧪 Load Sample AI Playbook Template' above)</div>`;
   }
 }
 
@@ -4302,6 +5043,7 @@ window.openAdminModal = openAdminModal;
 window.openPlaybookBuilderModal = openPlaybookBuilderModal;
 window.openStudioForSop = openStudioForSop;
 window.switchStudioTab = switchStudioTab;
+window.toggleStudioFullscreen = toggleStudioFullscreen;
 window.onBuilderPlaybookChange = onBuilderPlaybookChange;
 window.onBuilderStageSelectChange = onBuilderStageSelectChange;
 window.onBuilderPlaybookFieldInput = onBuilderPlaybookFieldInput;
@@ -4312,7 +5054,11 @@ window.deleteJourneyStageInStudio = deleteJourneyStageInStudio;
 window.createNewPlaybookInStudio = createNewPlaybookInStudio;
 window.savePlaybookBuilderChanges = savePlaybookBuilderChanges;
 window.createNewSopInStudio = createNewSopInStudio;
+window.onAiGeneratorInputChange = onAiGeneratorInputChange;
 window.copyAiPlaybookPrompt = copyAiPlaybookPrompt;
+window.loadSampleAiPlaybookIntoImporter = loadSampleAiPlaybookIntoImporter;
+window.autoFixAiJsonInImporter = autoFixAiJsonInImporter;
+window.importAiJsonIntoStudio = importAiJsonIntoStudio;
 window.onStudioPlaybookChange = onStudioPlaybookChange;
 window.onStudioSopChange = onStudioSopChange;
 window.onStudioStepChange = onStudioStepChange;
@@ -4324,6 +5070,11 @@ window.onStudioHotspotLabelInput = onStudioHotspotLabelInput;
 window.clearStudioHotspot = clearStudioHotspot;
 window.addNewSopStepInStudio = addNewSopStepInStudio;
 window.saveStudioStepChanges = saveStudioStepChanges;
+window.toggleExportGuideMenu = toggleExportGuideMenu;
+window.closeExportGuideMenu = closeExportGuideMenu;
+window.triggerGlobalGuideUpload = triggerGlobalGuideUpload;
+window.handleGlobalGuideFileUpload = handleGlobalGuideFileUpload;
+window.downloadCurrentPlaybookBundle = downloadCurrentPlaybookBundle;
 window.downloadUpdatedGuidesJson = downloadUpdatedGuidesJson;
 window.resetSavedLocalStorageGuides = resetSavedLocalStorageGuides;
 window.setJourneyRoleFilter = setJourneyRoleFilter;

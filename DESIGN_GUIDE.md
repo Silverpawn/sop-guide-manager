@@ -154,6 +154,13 @@ Overview stage cards must **NEVER** look like database records, audit checklists
     - **Tier 1 (Browser Draft):** Automatic `localStorage` persistence with a visible header/sidebar status badge (`"Local Draft Active"` / `"Unsaved Browser Edits"`) when local edits exist.
     - **Tier 2 (Single-Playbook Share — `.leanguide.json`):** Ability to export just the currently active Playbook (plus its linked Processes, SOPs, Tools, Roles, and embedded Base64 screenshots) as a standalone `<Playbook-Slug>.leanguide.json` file, and **Upload & Merge** a colleague's `.leanguide.json` file into the active library without wiping out existing playbooks.
     - **Tier 3 (Master Release — `guides.json`):** Ability to download or upload the complete multi-playbook master `guides.json` file for repository deployment to `megblcntpvc72`.
+16. **Full-Viewport Authoring Studio (`96vw x 94vh`):**
+    - The `Playbook & SOP Authoring Studio` modal must **NEVER** render in a cramped dialog box. It must open at **`width: 96vw; max-width: 1840px; height: 94vh;`** with a clean `50% / 50%` (or `45% / 55%`) split pane where left and right columns scroll independently, plus a **`⛶ Fullscreen (100vw x 100vh)`** toggle button in the top-right modal header.
+17. **Mandatory AI Script-to-JSON Generator & Live Importer (Tab 3):**
+    - Tab 3 of the Authoring Studio (`Tab 3: ✨ AI Playbook Generator & JSON Importer`) must always provide a 3-step self-service workflow:
+      - **Step 1:** Enter topic + target roles/tool + paste rough notes/SOP text -> Click **`📋 Copy Ready-to-Use AI Prompt (For M365 Copilot / Gemini)`** (with live prompt preview).
+      - **Step 2:** Paste the AI's generated JSON output into the importer text area (automatically stripping ` ```json ` markdown fences) or upload a `.json` file.
+      - **Step 3:** Click **`✓ Validate & Import Playbook into Studio`** (with live Pre-Import Poka-Yoke checks and `🔧 Auto-Fix Minor Schema / ID Gaps`) to merge the new Playbook into the active library, switch to it immediately, and open it in Tab 1/Tab 2 for WYSIWYG visual fine-tuning.
 
 ---
 
