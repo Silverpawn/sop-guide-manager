@@ -3161,7 +3161,6 @@ window.switchTopTab = switchTopTab;
 window.switchPlaybook = switchPlaybook;
 window.toggleAccordion = toggleAccordion;
 window.setReferenceFilter = setReferenceFilter;
-window.copyCharterText = copyCharterText;
 window.openAdminModal = openAdminModal;
 window.openPlaybookBuilderModal = openPlaybookBuilderModal;
 window.openStudioForSop = openStudioForSop;
