@@ -137,6 +137,11 @@ Overview stage cards must **NEVER** look like database records, audit checklists
    - Do **NOT** merge the 3 operational playbooks. Keep each focused on its own web application and provide **3-Way 1-Click Cross-Reference Cards** on Tab 1 and in the left sidebar so users can jump between `Standalone Maturity`, `Navigator Toolkit`, and `PM Maturity Hub` in one click.
 10. **Shared 1-Page 28-Question & 1–5 Scoring Criteria Rubric Across All 3 Operational Playbooks:**
     - Tab 4 (`4. Templates & Reference`) and Tab 3 (`3. Decision & Scoring Tools`) in `PLB-001`, `PLB-MATURITY`, and `PLB-PMHUB` **MUST** include the complete, verbatim **16:9 1-Page Scoring & Criteria Guide** (`dataNewStandard` and `dataOldStandard` for all 28 questions, Q1–Q3 binary gates, 17 ★ gateways, `New/Old Standard` toggle, `Full/Concise` toggle, and working `.pptx`, `.png`, and `.pdf` exports).
+11. **Business-Priority-First Decision Rule (Supported by Maturity Development):**
+    - Never frame the "Vital Few" (Tab 3) or the Charter (Tab 4) primarily around raising maturity scores or `"+0.4 Level Unlocks"`.
+    - Always lead with concrete **Business & Operational Priorities** (**Lead Time, Quality, Throughput, Cost, Overheads, Inventory, Complexity**) and position **Maturity Development** (including Foundation Gateways ★) as the *enabling capability* required to achieve and sustain those business results.
+12. **Post-Upload UI State Rule:**
+    - When documenting tools that require a data file to reveal their workspace (such as `Navigator Toolkit → Analysis Report`), always load a valid sample `.json` assessment file into the app before capturing screenshots and writing steps so the post-upload action selection controls are visible.
 
 ---
 

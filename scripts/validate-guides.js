@@ -337,6 +337,42 @@ for (const [sopId, sop] of Object.entries(db.sops || {})) {
   }
 }
 
+// 3. Stage 11 Audit: Business-Priority-First Decision Rule & Post-Upload Analysis Report Workspace Rule
+const sop002 = db.sops?.["SOP-002"];
+if (!sop002 || !Array.isArray(sop002.steps) || sop002.steps.length !== 4) {
+  errors.push(`[SOP-002] Must have exactly 4 post-upload Analysis Report steps (found ${sop002?.steps?.length || 0}).`);
+} else {
+  const expectedImgs = [
+    "assets/screenshots/nav-analysis-uploaded.png",
+    "assets/screenshots/nav-analysis-gaps.png",
+    "assets/screenshots/nav-analysis-actions.png",
+    "assets/screenshots/nav-analysis-export-session.png"
+  ];
+  sop002.steps.forEach((st, idx) => {
+    if (st.visual?.imageSrc !== expectedImgs[idx]) {
+      errors.push(`[SOP-002 Step ${idx + 1}] Expected post-upload screenshot "${expectedImgs[idx]}", found "${st.visual?.imageSrc}"`);
+    }
+  });
+}
+
+for (const plb of db.playbooks || []) {
+  for (const dec of plb.decisionTools || []) {
+    if (dec.id === "DEC-001" || dec.id === "DEC-003") {
+      if (!Array.isArray(dec.priorityMatrix) || dec.priorityMatrix.length !== 7) {
+        errors.push(`[${plb.id} -> ${dec.id}] Must include the 7-row Business Priority <-> Supporting Maturity Capability Reference Matrix.`);
+      }
+    }
+  }
+  for (const tpl of plb.templates || []) {
+    if (tpl.id === "TPL-001" || tpl.id === "TPL-002") {
+      const serialized = JSON.stringify(tpl);
+      if (/Level\s*\d*\s*Unlock/i.test(serialized)) {
+        errors.push(`[${plb.id} -> ${tpl.id}] Contains banned maturity-score-chasing 'Level Unlock' string; must pair Business Priority with Supporting Capability.`);
+      }
+    }
+  }
+}
+
 console.log("==============================================================");
 console.log("❄️  SNOWFLAKE DOCUMENTATION & DESIGN_GUIDE.MD USABILITY AUDIT");
 console.log("==============================================================");

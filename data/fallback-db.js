@@ -272,7 +272,7 @@ window.FALLBACK_GUIDES_DB = {
       "suite": "Lean@GS Navigator Toolkit",
       "versionBadge": "",
       "category": "Stage 2: Analysis",
-      "purpose": "Upload your completed assessment into Navigator Toolkit → Analysis Report to review the 10-stage diagnostic, identify 2–3 priority Gateway gaps, and export executive gap slides.",
+      "purpose": "Post-upload diagnostic engine inside Navigator Toolkit that ingests your Stage 1 .json assessment file, evaluates all 10 Roadmap Stages (Pass, Opportunity for Growth, Foundation Focus), lets you accept or customize 2–3 capability actions ('Accept Proposed Action', 'OE Comment', 'OE Action') supporting your business priorities, and exports PowerPoint/PDF reports or a full .leansession file.",
       "accessUrl": "Navigator Toolkit → Analysis Report",
       "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
       "ownerRoleId": "ROL-001",
@@ -293,53 +293,83 @@ window.FALLBACK_GUIDES_DB = {
       "buttonsReference": [
         {
           "button": "Upload Assessment (.json / .csv)",
-          "where": "Card 1: Assessment Diagnostic Data",
-          "whatItDoes": "Loads your exported .json or .csv assessment file into the 10-stage diagnostic engine to evaluate all 28 questions."
-        },
-        {
-          "button": "Launch Co-pilot AI Agent",
-          "where": "Top AI Co-pilot Banner",
-          "whatItDoes": "Opens the AI coaching assistant to help interpret capability gaps and suggest focused countermeasures."
+          "where": "Section 1 card ('1. Assessment Diagnostic Data')",
+          "whatItDoes": "Opens a file picker to load your saved <Org>_<Date>_Lean_Assessment.json (or .csv / .leansession) file and unlock the populated 10-stage diagnostic workspace below."
         },
         {
           "button": "Analysed By & Analysis Date",
-          "where": "Card 2: Add Analysis Details",
-          "whatItDoes": "Records the Local Programme Manager's name and analysis date on exported diagnostic reports and slides."
-        },
-        {
-          "button": "Expand All / Collapse All",
-          "where": "Above the 10 Roadmap Stages Accordion",
-          "whatItDoes": "Expands or collapses all 10 roadmap stages (Stages 0–9) to inspect High-Risk (red) and Medium-Risk (amber) capability gaps."
-        },
-        {
-          "button": "View Evaluation Logic",
-          "where": "Inside Each Expanded Roadmap Stage Card",
-          "whatItDoes": "Opens a modal showing the exact question score thresholds that triggered that stage's diagnostic status."
+          "where": "Right-hand card ('2. Add Analysis Details')",
+          "whatItDoes": "Records the facilitator/analyst names (one per line) and date of the gap analysis; automatically saved into your .leansession and exported reports."
         },
         {
           "button": "View Action Report",
-          "where": "Top Results Action Bar",
-          "whatItDoes": "Opens the consolidated Action Report modal grouping recommended actions by Lean dimension (includes 'Export Action Report (PDF)')."
+          "where": "Master Action Bar (first button on left)",
+          "whatItDoes": "Opens the Consolidated Action Report modal summarizing all stages where you ticked 'Accept Proposed Action (Y/N)' or wrote a custom 'OE Action'."
+        },
+        {
+          "button": "Expand All / Collapse All",
+          "where": "Master Action Bar (buttons 2 and 3)",
+          "whatItDoes": "Expands or collapses all 10 Roadmap Stage diagnostic cards at once so you can inspect every question score and recommendation."
+        },
+        {
+          "button": "Export Full Report (PDF)",
+          "where": "Master Action Bar (petrol button)",
+          "whatItDoes": "Generates and downloads a complete PDF document of all 10 diagnostic stages, scores, verdicts, and your custom OE comments/actions."
+        },
+        {
+          "button": "Export Results (CSV)",
+          "where": "Master Action Bar (petrol button)",
+          "whatItDoes": "Downloads a spreadsheet-ready CSV table of your stage verdicts, accepted recommendations, and custom OE Action notes."
         },
         {
           "button": "Export to PowerPoint",
-          "where": "Top Results Action Bar (Petrol Button)",
-          "whatItDoes": "Generates an executive PowerPoint (.pptx) presentation of your site's capability analysis and priority gaps."
+          "where": "Master Action Bar (petrol button)",
+          "whatItDoes": "Generates an editable PowerPoint (.pptx) executive briefing deck summarizing your maturity profile, key gaps, and selected actions."
         },
         {
-          "button": "Export Full Report (PDF) / Export Results (CSV)",
-          "where": "Top Results Action Bar",
-          "whatItDoes": "Downloads a formatted PDF diagnostic report or exports the gap analysis table to a CSV spreadsheet."
+          "button": "Reset All Data",
+          "where": "Master Action Bar (red danger button)",
+          "whatItDoes": "Clears the loaded assessment, analyst details, and custom OE Action notes from the Analysis Report screen."
         },
         {
-          "button": "Reset All Data / ? Help & Guide",
-          "where": "Top Results Action Bar",
-          "whatItDoes": "Clears the loaded assessment data from Analysis Report or opens the built-in diagnostic help modal."
+          "button": "? Help & Guide",
+          "where": "Master Action Bar (centre petrol button)",
+          "whatItDoes": "Opens the built-in Analysis Report coaching modal explaining how stage verdicts and gateway rules are evaluated."
+        },
+        {
+          "button": "Stage 0–9 Accordion Headers",
+          "where": "Main Diagnostic Accordion list (post-upload)",
+          "whatItDoes": "Colour-coded stage bars (Green = Pass ✅, Yellow = Opportunity for Growth 💡, Red = Foundation Focus 🎯). Click any stage bar to reveal its questions, verdict, and action builder."
+        },
+        {
+          "button": "View Evaluation Logic",
+          "where": "Top-right inside any expanded Stage 0–9 card",
+          "whatItDoes": "Opens a modal showing the exact question thresholds and Foundation Gateway (★) rules used to calculate that stage's verdict."
+        },
+        {
+          "button": "Accept Proposed Action (Y/N)",
+          "where": "Inside the 'Assessment & Recommendation' box of any expanded stage card",
+          "whatItDoes": "Checkbox that selects the built-in recommended capability action for inclusion in your Consolidated Action Report, Workshop, and Charter."
+        },
+        {
+          "button": "OE Comment (Textarea)",
+          "where": "Below 'Assessment & Recommendation' inside any expanded stage card",
+          "whatItDoes": "Free-text field to record your operational context, root-cause observations, and the Business Priority (Lead Time, Quality, Throughput, Cost, Overheads, Inventory, Complexity) impacted by this gap."
+        },
+        {
+          "button": "OE Action (Modifies or replaces proposed action)",
+          "where": "Bottom field inside any expanded stage card",
+          "whatItDoes": "Custom action builder where you write or tailor a specific, business-led action statement (combining your Business Priority target + supporting Lean capability) that overrides the generic proposed action."
+        },
+        {
+          "button": "Save Session (.leansession)",
+          "where": "Bottom-left dark Navigator sidebar ('FULL TOOLKIT SESSION')",
+          "whatItDoes": "Saves your entire Navigator Toolkit state—including uploaded assessment scores, accepted actions, and custom OE Action text—into one portable .leansession file for Stage 3 (VOC), Stage 4 (Workshop), and Stage 5 (Charter)."
         },
         {
           "button": "Next Step: Voice of Customer (VOC) →",
-          "where": "Bottom-Right Navigation Bar",
-          "whatItDoes": "Advances directly to Stage 3 (VOC Input) inside Navigator Toolkit."
+          "where": "Bottom of the Analysis Report page",
+          "whatItDoes": "Advances directly to Stage 3 (VOC Input) while keeping your loaded assessment and selected capability actions active in session memory."
         }
       ],
       "troubleshooting": [
@@ -982,22 +1012,31 @@ window.FALLBACK_GUIDES_DB = {
       "raci": {
         "responsible": "ROL-001",
         "accountable": "ROL-003",
-        "consulted": ["ROL-002"],
-        "informed": ["ROL-003"]
+        "consulted": [
+          "ROL-002"
+        ],
+        "informed": [
+          "ROL-003"
+        ]
       },
       "stages": [
         {
           "stageNumber": 1,
           "name": "Stage 1: Complete the Site Maturity Assessment",
           "sopId": "SOP-001",
-          "toolIds": ["TOL-000", "TOL-001"],
+          "toolIds": [
+            "TOL-000",
+            "TOL-001"
+          ],
           "summary": "Review Orientation & Process Overview, then score all 28 questions using the 70% site rule (1st time with Core Team partner; ongoing with Site Leadership Team)."
         },
         {
           "stageNumber": 2,
           "name": "Stage 2: Analysis — Strengths, Gaps & Gateway Caps",
           "sopId": "SOP-002",
-          "toolIds": ["TOL-002"],
+          "toolIds": [
+            "TOL-002"
+          ],
           "summary": "Upload your assessment into Navigator Toolkit → Analysis Report to inspect the 10-stage diagnostic and focus on 2–3 priority Gateway gaps."
         }
       ]
@@ -1019,25 +1058,36 @@ window.FALLBACK_GUIDES_DB = {
       "raci": {
         "responsible": "ROL-001",
         "accountable": "ROL-003",
-        "consulted": ["ROL-002"],
-        "informed": ["ROL-002"]
+        "consulted": [
+          "ROL-002"
+        ],
+        "informed": [
+          "ROL-002"
+        ]
       },
       "stages": [
         {
           "stageNumber": 1,
           "name": "Stage 3: Voice of the Customer (VOC)",
           "sopId": "SOP-003",
-          "toolIds": ["TOL-004"],
+          "toolIds": [
+            "TOL-004"
+          ],
           "summary": "Capture leadership business priorities and pain points inside Navigator Toolkit → VOC Input."
         },
         {
           "stageNumber": 2,
           "name": "Stages 4–6: Navigator Workshop, 1-Page Charter & Action Plan",
           "sopId": "SOP-004",
-          "toolIds": ["TOL-005", "TOL-009", "TOL-010"],
+          "toolIds": [
+            "TOL-005",
+            "TOL-009",
+            "TOL-010"
+          ],
           "summary": "Facilitate the 3-module Workshop Guide, draft 2–3 focus initiatives in Charter Input & Charter & Roadmaps, and assign owners in Action Log."
         }
-      ]
+      ],
+      "summary": "Upload your saved .json assessment file into Analysis Report to unlock the 10-stage diagnostic workspace, inspect strengths and locked Foundation Gateways (★), select 2–3 capability actions supporting your business priorities, and save your .leansession file."
     },
     "PRC-003": {
       "id": "PRC-003",
@@ -1057,22 +1107,32 @@ window.FALLBACK_GUIDES_DB = {
       "raci": {
         "responsible": "ROL-001",
         "accountable": "ROL-001",
-        "consulted": ["ROL-002"],
-        "informed": ["ROL-003"]
+        "consulted": [
+          "ROL-002"
+        ],
+        "informed": [
+          "ROL-003"
+        ]
       },
       "stages": [
         {
           "stageNumber": 1,
           "name": "Phases 1 & 2: Assess (Score Explainer) & Visualize (Metro Journey & 4 Pillars)",
           "sopId": "SOP-005",
-          "toolIds": ["TOL-007", "TOL-003"],
+          "toolIds": [
+            "TOL-007",
+            "TOL-003"
+          ],
           "summary": "Load your assessment into PM Maturity Hub to inspect Score Explainer and view Metro Journey and The 4 Pillars."
         },
         {
           "stageNumber": 2,
           "name": "Phase 3 & Utilities: Plan (Strategy Builder & Simulator) & CSV to JSON Fixer",
           "sopId": "SOP-006",
-          "toolIds": ["TOL-006", "TOL-011"],
+          "toolIds": [
+            "TOL-006",
+            "TOL-011"
+          ],
           "summary": "Select Light, Standard, or Intense templates in Strategy Builder, test sliders in Simulator, and fix legacy CSV files."
         }
       ]
@@ -1095,22 +1155,30 @@ window.FALLBACK_GUIDES_DB = {
       "raci": {
         "responsible": "ROL-001",
         "accountable": "ROL-003",
-        "consulted": ["ROL-002"],
-        "informed": ["ROL-004"]
+        "consulted": [
+          "ROL-002"
+        ],
+        "informed": [
+          "ROL-004"
+        ]
       },
       "stages": [
         {
           "stageNumber": 1,
           "name": "Stages 1–3: Check Kitchen Baseline, Spot Gaps & Take Orders",
           "sopId": "SOP-007",
-          "toolIds": ["TOL-008"],
+          "toolIds": [
+            "TOL-008"
+          ],
           "summary": "Check water, milk, and clean mugs first, then capture what colleagues actually want to drink."
         },
         {
           "stageNumber": 2,
           "name": "Stages 4–6: Match Orders, Lock Tray Charter & Deliver Drinks",
           "sopId": "SOP-008",
-          "toolIds": ["TOL-008"],
+          "toolIds": [
+            "TOL-008"
+          ],
           "summary": "Combine orders with real fridge supplies, lock a 2–3 mug batch on the tray, and brew for 3 full minutes."
         }
       ]
@@ -1133,22 +1201,30 @@ window.FALLBACK_GUIDES_DB = {
       "raci": {
         "responsible": "ROL-001",
         "accountable": "ROL-003",
-        "consulted": ["ROL-002"],
-        "informed": ["ROL-003"]
+        "consulted": [
+          "ROL-002"
+        ],
+        "informed": [
+          "ROL-003"
+        ]
       },
       "stages": [
         {
           "stageNumber": 1,
           "name": "Stages 1 & 2: Explore Storybook, Set Up Header & Score the 28 Questions",
           "sopId": "SOP-009",
-          "toolIds": ["TOL-012"],
+          "toolIds": [
+            "TOL-012"
+          ],
           "summary": "Walk through the Maturity Model Storybook and Maturity Explainer flashcards, fill in the header details, and score all 28 cards using the 70% site rule."
         },
         {
           "stageNumber": 2,
           "name": "Stages 3 & 4: Review the Radar Dashboard & Export Assessment Files",
           "sopId": "SOP-010",
-          "toolIds": ["TOL-012"],
+          "toolIds": [
+            "TOL-012"
+          ],
           "summary": "Click 'View Dashboard' to inspect the 10-theme radar chart and Gateway caps, then export your assessment files and choose your next path."
         }
       ]
@@ -1160,7 +1236,10 @@ window.FALLBACK_GUIDES_DB = {
       "title": "Stage 1: Complete the Site Maturity Assessment",
       "processId": "PRC-001",
       "roleId": "ROL-001",
-      "toolIds": ["TOL-000", "TOL-001"],
+      "toolIds": [
+        "TOL-000",
+        "TOL-001"
+      ],
       "estimatedTime": "90 mins",
       "stationLocation": "Navigator Toolkit → Maturity Assessment (↳ Maturity Explainer & Interactive Roadmap)",
       "kitBag": {
@@ -1267,68 +1346,99 @@ window.FALLBACK_GUIDES_DB = {
       "title": "Stage 2: Analysis — Understand Strengths, Gaps & Gateway Caps",
       "processId": "PRC-001",
       "roleId": "ROL-001",
-      "toolIds": ["TOL-002"],
+      "toolIds": [
+        "TOL-002"
+      ],
       "estimatedTime": "45 mins",
       "stationLocation": "Navigator Toolkit → Analysis Report",
       "kitBag": {
-        "leadRole": "Lead: Local Programme Manager (LPM)",
-        "supportRole": "Optional Support: Lean Core Team partner",
-        "mandatoryStatus": "Stage 2 • Capability Analysis",
-        "inputNeeded": "Completed Site Maturity Assessment (.json or .csv)",
-        "outputProduced": "Focused View of 2–3 Priority Capability Gaps & Foundation Gateway Caps"
+        "mandatoryStatus": "Mandatory Core Stage",
+        "leadRole": "Local Programme Manager (LPM)",
+        "supportRole": "Supported by Lean Core Team Partner",
+        "inputNeeded": "Exported <Org>_<Date>_Lean_Assessment.json file from Stage 1",
+        "outputProduced": "Saved <Org>_<Date>_Session.leansession file (with 2–3 selected capability actions & custom OE Action notes) + Optional PowerPoint / PDF Report"
       },
-      "userGoal": "Upload your completed assessment into Navigator Toolkit (Analysis Report) to review the 10-stage diagnostic, inspect foundation Gateway caps, and focus on 2–3 priority capability gaps.",
+      "userGoal": "Upload your saved .json assessment file into Navigator Toolkit (Analysis Report) to unlock the hidden 10-stage diagnostic workspace, review your site's strengths and locked Foundation Gateways (★), select 2 to 3 capability actions supporting your business needs, and save your .leansession file.",
       "gettingStarted": [
-        "Open Navigator Toolkit and select 'Analysis Report' in the left navigation sidebar.",
-        "Have your exported assessment file (.json or .csv) ready, or score directly in Maturity Assessment inside Navigator Toolkit so your session data syncs automatically."
+        "Locate the <Org>_<Date>_Lean_Assessment.json file you exported at the end of Stage 1.",
+        "Open Navigator Toolkit and click 'Analysis Report' in the left-hand navigation sidebar.",
+        "Remember: Until you upload your .json assessment file, the 10-stage diagnostic accordion and action selection controls remain hidden behind a placeholder card."
       ],
       "steps": [
         {
           "stepNumber": 1,
-          "action": "Click 'Upload Assessment (.json / .csv)' in Analysis Report to generate your 10-stage gap diagnostic.",
-          "detail": "Analysis Report evaluates all 28 ratings across the 10 roadmap stages and flags high-risk foundation Gateway gaps.",
-          "toolId": "TOL-002",
-          "coachingTip": "If Gateway #10 (Pilot Experiments) scores 2/5, your site is capped at Level 1 even if higher-level questions scored 4.",
+          "action": "Upload your saved .json assessment file into Analysis Report.",
+          "detail": "Click the 'Upload Assessment (.json / .csv)' button in Navigator Toolkit → Analysis Report and select your <Org>_<Date>_Lean_Assessment.json file to unlock the hidden analysis workspace, populate Assessment Details, and enter your analyst names.",
+          "coachingTip": "Uploading your .json file reveals the full post-upload Analysis Report workspace—including populated Assessment Details, the Master Action Bar, and all 10 Roadmap Stage cards below.",
           "visual": {
             "type": "image",
-            "imageSrc": "assets/screenshots/nav-analysis.png",
-            "caption": "Lean@GS Navigator Toolkit — Analysis Report: Upload Assessment (.json / .csv)",
+            "imageSrc": "assets/screenshots/nav-analysis-uploaded.png",
+            "src": "assets/screenshots/nav-analysis-uploaded.png",
+            "caption": "Navigator Toolkit — Post-Upload Analysis Report Workspace Unlocked (.json Loaded)",
             "hotspot": {
-              "xPercent": 39,
-              "yPercent": 58,
-              "widthPercent": 22,
-              "heightPercent": 7,
-              "label": "1. Click 'Upload Assessment (.json / .csv)'"
+              "x": 50,
+              "y": 31,
+              "w": 24,
+              "h": 9,
+              "label": "1. Upload Assessment (.json / .csv)"
             }
           }
         },
         {
           "stepNumber": 2,
-          "action": "Enter 'Analysed By' and 'Analysis Date' and click 'Expand All' to inspect foundation Gateway gaps.",
-          "detail": "Review the red High-Risk and amber Medium-Risk roadmap stages to see which starred Gateways need attention first.",
-          "toolId": "TOL-002",
-          "coachingTip": "Do not build a 28-item wishlist—look for the 2 or 3 foundational Gateway gaps that hold back your site's next level.",
+          "action": "Review your site's strengths, low-scoring themes, and locked Foundation Gateways (★).",
+          "detail": "Check the populated 10-Stage Diagnostic Accordion to see where your organisation is strong (green 'Pass' stages) and expand red 'Foundation Focus' or yellow 'Opportunity for Growth' stages to see which Starred Gateway questions (★) scored below 3.",
+          "coachingTip": "Treat red 'Foundation Focus' stages as capability enablers: identify which missing Foundation Gateways (★ < 3) are holding back your teams from solving their top operational business priorities.",
           "visual": {
             "type": "image",
-            "imageSrc": "assets/screenshots/nav-analysis.png",
-            "caption": "Lean@GS Navigator Toolkit — Analysis Report: Add Analysis Details",
+            "imageSrc": "assets/screenshots/nav-analysis-gaps.png",
+            "src": "assets/screenshots/nav-analysis-gaps.png",
+            "caption": "Navigator Toolkit — Populated 10-Stage Gap Summary & Expanded Gateway Breakdown",
             "hotspot": {
-              "xPercent": 51,
-              "yPercent": 74,
-              "widthPercent": 37,
-              "heightPercent": 25,
-              "label": "2. Enter Analysed By & Analysis Date"
+              "x": 50,
+              "y": 74,
+              "w": 78,
+              "h": 10,
+              "label": "2. Review Strengths & Expand Foundation Focus (★)"
             }
           }
         },
         {
           "stepNumber": 3,
-          "action": "Click 'View Action Report' and 'Export to PowerPoint' to prepare your 2–3 priority capability gaps.",
-          "detail": "Export your diagnostic slides or PDF report, then click 'Next Step: Voice of Customer (VOC)' to continue.",
-          "toolId": "TOL-002",
-          "coachingTip": "Click 'Save Session (.leansession)' in the left sidebar so your Analysis Report carries directly into VOC Input and Charter Input.",
+          "action": "Choose two to three recommended capability actions or create custom actions supporting business needs.",
+          "detail": "In the recommendations and action builder section that appears inside each expanded gap stage, tick 'Accept Proposed Action (Y/N)' to select the built-in recommendation that fits your site—or type a custom action ('OE Action') and notes ('OE Comment') tailored to the business problems (Lead Time, Quality, Throughput, Cost, Overheads, Inventory, Complexity) you need to solve.",
+          "coachingTip": "Never select 10+ generic maturity actions. Pick 2 to 3 focused capability actions and tailor the 'OE Action' box so it pairs a concrete business priority (such as Lead Time or Quality) with the enabling Lean capability.",
           "visual": {
-            "type": "none"
+            "type": "image",
+            "imageSrc": "assets/screenshots/nav-analysis-actions.png",
+            "src": "assets/screenshots/nav-analysis-actions.png",
+            "caption": "Navigator Toolkit — Post-Upload Action Selection ('Accept Proposed Action', 'OE Comment' & 'OE Action')",
+            "hotspot": {
+              "x": 50,
+              "y": 78,
+              "w": 78,
+              "h": 32,
+              "label": "3. Accept Proposed Action & Write Custom OE Action"
+            }
+          }
+        },
+        {
+          "stepNumber": 4,
+          "action": "Save your .leansession file or export your draft analysis slides.",
+          "detail": "Click 'Save Session (.leansession)' in the bottom-left sidebar to carry your selected capability actions and custom OE Action notes into VOC Input and the Navigator Workshop, or click 'Export to PowerPoint' in the Master Action Bar for a leadership briefing deck.",
+          "coachingTip": "Saving a .leansession file bundles your uploaded assessment scores, analyst details, accepted actions, and custom OE Action notes into one portable file for Stages 3, 4, and 5.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/nav-analysis-export-session.png",
+            "src": "assets/screenshots/nav-analysis-export-session.png",
+            "caption": "Navigator Toolkit — Left Sidebar 'Save Session (.leansession)' & Master Action Bar 'Export to PowerPoint'",
+            "hotspot": {
+              "x": 9,
+              "y": 75,
+              "w": 17,
+              "h": 6,
+              "label": "4. Save Session (.leansession) & Export Slides"
+            }
           }
         }
       ],
@@ -1345,7 +1455,9 @@ window.FALLBACK_GUIDES_DB = {
       "title": "Stage 3: Voice of the Customer (VOC) — Understand Business Priorities",
       "processId": "PRC-002",
       "roleId": "ROL-001",
-      "toolIds": ["TOL-004"],
+      "toolIds": [
+        "TOL-004"
+      ],
       "estimatedTime": "2 hours (Pre-Work)",
       "stationLocation": "Navigator Toolkit → VOC Input",
       "kitBag": {
@@ -1413,7 +1525,11 @@ window.FALLBACK_GUIDES_DB = {
       "title": "Stages 4–6: Navigator Workshop, 1-Page Charter & Action Plan",
       "processId": "PRC-002",
       "roleId": "ROL-001",
-      "toolIds": ["TOL-005", "TOL-009", "TOL-010"],
+      "toolIds": [
+        "TOL-005",
+        "TOL-009",
+        "TOL-010"
+      ],
       "estimatedTime": "Half Day Workshop + Monthly Review",
       "stationLocation": "Navigator Toolkit → Workshop Guide, Charter Input, Charter & Roadmaps, Action Log",
       "kitBag": {
@@ -1500,7 +1616,10 @@ window.FALLBACK_GUIDES_DB = {
       "title": "Phases 1 & 2: Score Assessment, Inspect Score Explainer & View Metro Journey / 4 Pillars",
       "processId": "PRC-003",
       "roleId": "ROL-001",
-      "toolIds": ["TOL-007", "TOL-003"],
+      "toolIds": [
+        "TOL-007",
+        "TOL-003"
+      ],
       "estimatedTime": "45 mins",
       "stationLocation": "PM Maturity Hub → Phase 1: Assess & Phase 2: Visualize",
       "kitBag": {
@@ -1587,7 +1706,10 @@ window.FALLBACK_GUIDES_DB = {
       "title": "Phase 3 & Utilities: Build Local Plans in Strategy Builder, Test Simulator & Fix CSVs",
       "processId": "PRC-003",
       "roleId": "ROL-001",
-      "toolIds": ["TOL-006", "TOL-011"],
+      "toolIds": [
+        "TOL-006",
+        "TOL-011"
+      ],
       "estimatedTime": "30 mins",
       "stationLocation": "PM Maturity Hub → Phase 3: Plan & Utilities: CSV to JSON Fixer",
       "kitBag": {
@@ -1655,7 +1777,9 @@ window.FALLBACK_GUIDES_DB = {
       "title": "Stages 1–3: Check Kitchen Baseline, Spot Gaps & Take Team Orders",
       "processId": "PRC-004",
       "roleId": "ROL-001",
-      "toolIds": ["TOL-008"],
+      "toolIds": [
+        "TOL-008"
+      ],
       "estimatedTime": "5 mins",
       "stationLocation": "Office Kitchen Counter & Team Desks",
       "kitBag": {
@@ -1715,7 +1839,9 @@ window.FALLBACK_GUIDES_DB = {
       "title": "Stages 4–6: Match Orders, Lock the 1-Page Tray Charter & Deliver Drinks",
       "processId": "PRC-004",
       "roleId": "ROL-001",
-      "toolIds": ["TOL-008"],
+      "toolIds": [
+        "TOL-008"
+      ],
       "estimatedTime": "5 mins",
       "stationLocation": "Office Kitchen Counter → Team Desks",
       "kitBag": {
@@ -1775,7 +1901,9 @@ window.FALLBACK_GUIDES_DB = {
       "title": "Stages 1 & 2: Explore Storybook, Set Up Header & Score the 28 Questions",
       "processId": "PRC-005",
       "roleId": "ROL-001",
-      "toolIds": ["TOL-012"],
+      "toolIds": [
+        "TOL-012"
+      ],
       "estimatedTime": "60 mins",
       "stationLocation": "Standalone GS Lean Maturity App & Storybook",
       "kitBag": {
@@ -1863,7 +1991,9 @@ window.FALLBACK_GUIDES_DB = {
       "title": "Stages 3 & 4: Review the Radar Dashboard, Inspect Gateway Caps & Export Files",
       "processId": "PRC-005",
       "roleId": "ROL-001",
-      "toolIds": ["TOL-012"],
+      "toolIds": [
+        "TOL-012"
+      ],
       "estimatedTime": "30 mins",
       "stationLocation": "Standalone GS Lean Maturity App → View Dashboard & Export Assessment",
       "kitBag": {
@@ -1928,34 +2058,202 @@ window.FALLBACK_GUIDES_DB = {
     }
   },
   "questions28": [
-    { "id": 1, "text": "Is there a clear business reason driving this Lean Programme?", "theme": "Foundation", "level": 0, "gateway": true },
-    { "id": 2, "text": "Is leadership committed and actively invested in being involved?", "theme": "Foundation", "level": 0, "gateway": true },
-    { "id": 3, "text": "Has the team or organisation started acquiring foundational Lean knowledge?", "theme": "Foundation", "level": 0, "gateway": true },
-    { "id": 4, "text": "How clearly can your team describe what Lean means and how it supports your business goals?", "theme": "Awareness and Training", "level": 0, "gateway": true },
-    { "id": 5, "text": "How deeply do team members understand core Lean concepts?", "theme": "Awareness and Training", "level": 0, "gateway": true },
-    { "id": 6, "text": "Is there a consistent and active plan to close competency gaps?", "theme": "Awareness and Training", "level": 1, "gateway": false },
-    { "id": 7, "text": "Is there a clear Lean structure and defined role ownership within the team?", "theme": "Lean Structure and Strategy", "level": 1, "gateway": true },
-    { "id": 8, "text": "How effectively is strategy managed and reviewed at your level?", "theme": "Lean Structure and Strategy", "level": 1, "gateway": true },
-    { "id": 9, "text": "How well are strategic objectives cascaded to teams?", "theme": "Lean Structure and Strategy", "level": 2, "gateway": false },
-    { "id": 10, "text": "Does the team actively execute structured, pilot experiments?", "theme": "Lean Tools and KPI Alignment", "level": 1, "gateway": true },
-    { "id": 11, "text": "Are Lean tools routinely applied and embedded in daily operations?", "theme": "Lean Tools and KPI Alignment", "level": 2, "gateway": false },
-    { "id": 12, "text": "Are performance metrics and Lean-relevant KPIs displayed and actively discussed in the work area?", "theme": "Lean Tools and KPI Alignment", "level": 2, "gateway": true },
-    { "id": 13, "text": "Is the review of KPIs driven by Lean principles to prevent local optimization?", "theme": "Lean Tools and KPI Alignment", "level": 3, "gateway": false },
-    { "id": 14, "text": "Are daily huddles used consistently to raise and resolve issues?", "theme": "Daily Management and CI", "level": 2, "gateway": true },
-    { "id": 15, "text": "How effectively are employee suggestions captured and implemented?", "theme": "Daily Management and CI", "level": 2, "gateway": true },
-    { "id": 16, "text": "Does the team practice structured reflection?", "theme": "Learning and Value Chain Integration", "level": 2, "gateway": true },
-    { "id": 17, "text": "How consistently are lessons learned documented and applied?", "theme": "Learning and Value Chain Integration", "level": 3, "gateway": false },
-    { "id": 18, "text": "Does your Lean philosophy extend across your entire value chain?", "theme": "Learning and Value Chain Integration", "level": 3, "gateway": true },
-    { "id": 19, "text": "Are internal departmental handoffs integrated to ensure seamless process flow?", "theme": "Learning and Value Chain Integration", "level": 3, "gateway": false },
-    { "id": 20, "text": "Do leaders practice the 'Gemba Walk' habit consistently?", "theme": "Leadership & Culture", "level": 2, "gateway": false },
-    { "id": 21, "text": "Do leaders use a consistent questioning cycle to identify target conditions and obstacles?", "theme": "Leadership & Culture", "level": 2, "gateway": false },
-    { "id": 22, "text": "Is there a culture of psychological safety that encourages safe experimentation?", "theme": "Leadership & Culture", "level": 2, "gateway": true },
-    { "id": 23, "text": "Are learnings from reflection used to update standard work?", "theme": "Learning & Scaling", "level": 3, "gateway": false },
-    { "id": 24, "text": "Is physical verification used to validate pilot project outcomes?", "theme": "Learning & Scaling", "level": 3, "gateway": false },
-    { "id": 25, "text": "Are successful standards systematically scaled across the site?", "theme": "Learning & Scaling", "level": 3, "gateway": true },
-    { "id": 26, "text": "Do teams from different functions collaborate to improve shared processes?", "theme": "Collaboration & Feedback", "level": 2, "gateway": true },
-    { "id": 27, "text": "Are joint improvement projects executed with external partners?", "theme": "Collaboration & Feedback", "level": 4, "gateway": true },
-    { "id": 28, "text": "How consistently are success stories shared and replicated?", "theme": "Communication", "level": 1, "gateway": false }
+    {
+      "id": 1,
+      "text": "Is there a clear business reason driving this Lean Programme?",
+      "theme": "Foundation",
+      "level": 0,
+      "gateway": true
+    },
+    {
+      "id": 2,
+      "text": "Is leadership committed and actively invested in being involved?",
+      "theme": "Foundation",
+      "level": 0,
+      "gateway": true
+    },
+    {
+      "id": 3,
+      "text": "Has the team or organisation started acquiring foundational Lean knowledge?",
+      "theme": "Foundation",
+      "level": 0,
+      "gateway": true
+    },
+    {
+      "id": 4,
+      "text": "How clearly can your team describe what Lean means and how it supports your business goals?",
+      "theme": "Awareness and Training",
+      "level": 0,
+      "gateway": true
+    },
+    {
+      "id": 5,
+      "text": "How deeply do team members understand core Lean concepts?",
+      "theme": "Awareness and Training",
+      "level": 0,
+      "gateway": true
+    },
+    {
+      "id": 6,
+      "text": "Is there a consistent and active plan to close competency gaps?",
+      "theme": "Awareness and Training",
+      "level": 1,
+      "gateway": false
+    },
+    {
+      "id": 7,
+      "text": "Is there a clear Lean structure and defined role ownership within the team?",
+      "theme": "Lean Structure and Strategy",
+      "level": 1,
+      "gateway": true
+    },
+    {
+      "id": 8,
+      "text": "How effectively is strategy managed and reviewed at your level?",
+      "theme": "Lean Structure and Strategy",
+      "level": 1,
+      "gateway": true
+    },
+    {
+      "id": 9,
+      "text": "How well are strategic objectives cascaded to teams?",
+      "theme": "Lean Structure and Strategy",
+      "level": 2,
+      "gateway": false
+    },
+    {
+      "id": 10,
+      "text": "Does the team actively execute structured, pilot experiments?",
+      "theme": "Lean Tools and KPI Alignment",
+      "level": 1,
+      "gateway": true
+    },
+    {
+      "id": 11,
+      "text": "Are Lean tools routinely applied and embedded in daily operations?",
+      "theme": "Lean Tools and KPI Alignment",
+      "level": 2,
+      "gateway": false
+    },
+    {
+      "id": 12,
+      "text": "Are performance metrics and Lean-relevant KPIs displayed and actively discussed in the work area?",
+      "theme": "Lean Tools and KPI Alignment",
+      "level": 2,
+      "gateway": true
+    },
+    {
+      "id": 13,
+      "text": "Is the review of KPIs driven by Lean principles to prevent local optimization?",
+      "theme": "Lean Tools and KPI Alignment",
+      "level": 3,
+      "gateway": false
+    },
+    {
+      "id": 14,
+      "text": "Are daily huddles used consistently to raise and resolve issues?",
+      "theme": "Daily Management and CI",
+      "level": 2,
+      "gateway": true
+    },
+    {
+      "id": 15,
+      "text": "How effectively are employee suggestions captured and implemented?",
+      "theme": "Daily Management and CI",
+      "level": 2,
+      "gateway": true
+    },
+    {
+      "id": 16,
+      "text": "Does the team practice structured reflection?",
+      "theme": "Learning and Value Chain Integration",
+      "level": 2,
+      "gateway": true
+    },
+    {
+      "id": 17,
+      "text": "How consistently are lessons learned documented and applied?",
+      "theme": "Learning and Value Chain Integration",
+      "level": 3,
+      "gateway": false
+    },
+    {
+      "id": 18,
+      "text": "Does your Lean philosophy extend across your entire value chain?",
+      "theme": "Learning and Value Chain Integration",
+      "level": 3,
+      "gateway": true
+    },
+    {
+      "id": 19,
+      "text": "Are internal departmental handoffs integrated to ensure seamless process flow?",
+      "theme": "Learning and Value Chain Integration",
+      "level": 3,
+      "gateway": false
+    },
+    {
+      "id": 20,
+      "text": "Do leaders practice the 'Gemba Walk' habit consistently?",
+      "theme": "Leadership & Culture",
+      "level": 2,
+      "gateway": false
+    },
+    {
+      "id": 21,
+      "text": "Do leaders use a consistent questioning cycle to identify target conditions and obstacles?",
+      "theme": "Leadership & Culture",
+      "level": 2,
+      "gateway": false
+    },
+    {
+      "id": 22,
+      "text": "Is there a culture of psychological safety that encourages safe experimentation?",
+      "theme": "Leadership & Culture",
+      "level": 2,
+      "gateway": true
+    },
+    {
+      "id": 23,
+      "text": "Are learnings from reflection used to update standard work?",
+      "theme": "Learning & Scaling",
+      "level": 3,
+      "gateway": false
+    },
+    {
+      "id": 24,
+      "text": "Is physical verification used to validate pilot project outcomes?",
+      "theme": "Learning & Scaling",
+      "level": 3,
+      "gateway": false
+    },
+    {
+      "id": 25,
+      "text": "Are successful standards systematically scaled across the site?",
+      "theme": "Learning & Scaling",
+      "level": 3,
+      "gateway": true
+    },
+    {
+      "id": 26,
+      "text": "Do teams from different functions collaborate to improve shared processes?",
+      "theme": "Collaboration & Feedback",
+      "level": 2,
+      "gateway": true
+    },
+    {
+      "id": 27,
+      "text": "Are joint improvement projects executed with external partners?",
+      "theme": "Collaboration & Feedback",
+      "level": 4,
+      "gateway": true
+    },
+    {
+      "id": 28,
+      "text": "How consistently are success stories shared and replicated?",
+      "theme": "Communication",
+      "level": 1,
+      "gateway": false
+    }
   ],
   "playbooks": [
     {
@@ -1977,10 +2275,31 @@ window.FALLBACK_GUIDES_DB = {
         "combinedDesc": "Turning Lean capability [1–2] + business need [3] into an agreed Charter (Stage 5) & Action Plan (Stage 6)."
       },
       "filingRule": "Save finished .csv and .json files in '600 Maturity Submissions'. Never move or delete files in that folder.",
-      "processIds": ["PRC-001", "PRC-002"],
-      "sopIds": ["SOP-001", "SOP-002", "SOP-003", "SOP-004"],
-      "toolIds": ["TOL-000", "TOL-001", "TOL-002", "TOL-004", "TOL-005", "TOL-009", "TOL-010"],
-      "liveToolIds": ["LIVE-NAVIGATOR", "LIVE-PORTAL", "LIVE-HUB", "LIVE-STORYBOOK"],
+      "processIds": [
+        "PRC-001",
+        "PRC-002"
+      ],
+      "sopIds": [
+        "SOP-001",
+        "SOP-002",
+        "SOP-003",
+        "SOP-004"
+      ],
+      "toolIds": [
+        "TOL-000",
+        "TOL-001",
+        "TOL-002",
+        "TOL-004",
+        "TOL-005",
+        "TOL-009",
+        "TOL-010"
+      ],
+      "liveToolIds": [
+        "LIVE-NAVIGATOR",
+        "LIVE-PORTAL",
+        "LIVE-HUB",
+        "LIVE-STORYBOOK"
+      ],
       "crossRef": {
         "kicker": "Related Playbook • Standalone PM Maturity Hub Suite",
         "title": "Related Playbook: Need Standalone Scoring Maths, Metro Visualisations, Simulator, or CSV Fixer?",
@@ -1988,10 +2307,30 @@ window.FALLBACK_GUIDES_DB = {
         "targetPlaybookId": "PLB-PMHUB",
         "primaryButtonLabel": "Switch to PM Maturity Hub Playbook →",
         "deepLinks": [
-          { "label": "Score Explainer Guide →", "playbookId": "PLB-PMHUB", "view": "sop", "id": "SOP-005" },
-          { "label": "Metro Journey & 4 Pillars →", "playbookId": "PLB-PMHUB", "view": "tool", "id": "TOL-003" },
-          { "label": "Strategy Builder & Simulator →", "playbookId": "PLB-PMHUB", "view": "sop", "id": "SOP-006" },
-          { "label": "CSV to JSON Fixer →", "playbookId": "PLB-PMHUB", "view": "tool", "id": "TOL-011" }
+          {
+            "label": "Score Explainer Guide →",
+            "playbookId": "PLB-PMHUB",
+            "view": "sop",
+            "id": "SOP-005"
+          },
+          {
+            "label": "Metro Journey & 4 Pillars →",
+            "playbookId": "PLB-PMHUB",
+            "view": "tool",
+            "id": "TOL-003"
+          },
+          {
+            "label": "Strategy Builder & Simulator →",
+            "playbookId": "PLB-PMHUB",
+            "view": "sop",
+            "id": "SOP-006"
+          },
+          {
+            "label": "CSV to JSON Fixer →",
+            "playbookId": "PLB-PMHUB",
+            "view": "tool",
+            "id": "TOL-011"
+          }
         ]
       },
       "chooserLabel": "Which part of the journey are you working on today?",
@@ -2017,10 +2356,22 @@ window.FALLBACK_GUIDES_DB = {
         "formulaBanner": "1. Maturity Assessment → 2. Analysis → 3. Voice of the Customer (VOC) → 4. Navigator Workshop → 5. Charter → 6. Action Plan",
         "mapHeading": "The 6-Stage Lean@GS Navigator & Maturity Process",
         "roleFilters": [
-          { "id": "all", "label": "All Roles" },
-          { "id": "ROL-001", "label": "Local Programme Manager (LPM)" },
-          { "id": "ROL-003", "label": "Site Leadership Team" },
-          { "id": "ROL-002", "label": "Lean Core Team (Optional Support)" }
+          {
+            "id": "all",
+            "label": "All Roles"
+          },
+          {
+            "id": "ROL-001",
+            "label": "Local Programme Manager (LPM)"
+          },
+          {
+            "id": "ROL-003",
+            "label": "Site Leadership Team"
+          },
+          {
+            "id": "ROL-002",
+            "label": "Lean Core Team (Optional Support)"
+          }
         ],
         "briefingButtonLabel": "⏱ Explain Navigator to Leadership (60-Sec Pitch)",
         "briefingTitle": "60-Second Leadership Briefing: How Maturity & Navigator Fit Together",
@@ -2038,7 +2389,11 @@ window.FALLBACK_GUIDES_DB = {
             "whoIsInvolved": "Lead: Local Programme Manager (LPM) with Site Leadership Team (1st time: with Lean Core Team partner; Ongoing: Core Team optional)",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-003",
-            "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
+            "involvedRoleIds": [
+              "ROL-001",
+              "ROL-003",
+              "ROL-002"
+            ],
             "toolId": "TOL-001",
             "toolLabel": "Navigator Toolkit → Maturity Assessment (↳ Maturity Explainer & Interactive Roadmap)",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
@@ -2054,7 +2409,11 @@ window.FALLBACK_GUIDES_DB = {
               "targetId": "SOP-005"
             },
             "outputArtifact": "Baseline picture of current Lean capability & gaps",
-            "targetView": { "type": "sop", "id": "SOP-001", "cta": "Open Stage 1 Assessment Guide →" }
+            "targetView": {
+              "type": "sop",
+              "id": "SOP-001",
+              "cta": "Open Stage 1 Assessment Guide →"
+            }
           },
           {
             "stageNumber": 2,
@@ -2063,7 +2422,10 @@ window.FALLBACK_GUIDES_DB = {
             "whoIsInvolved": "Lead: Local Programme Manager (LPM) • Optional Support: Lean Core Team partner",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-002",
-            "involvedRoleIds": ["ROL-001", "ROL-002"],
+            "involvedRoleIds": [
+              "ROL-001",
+              "ROL-002"
+            ],
             "toolId": "TOL-002",
             "toolLabel": "Navigator Toolkit → Analysis Report",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
@@ -2075,7 +2437,11 @@ window.FALLBACK_GUIDES_DB = {
               "targetId": "SOP-005"
             },
             "outputArtifact": "Focused view of 2–3 priority capability gaps & foundation gateway caps",
-            "targetView": { "type": "sop", "id": "SOP-002", "cta": "Open Stage 2 Analysis Guide →" }
+            "targetView": {
+              "type": "sop",
+              "id": "SOP-002",
+              "cta": "Open Stage 2 Analysis Guide →"
+            }
           },
           {
             "stageNumber": 3,
@@ -2084,12 +2450,20 @@ window.FALLBACK_GUIDES_DB = {
             "whoIsInvolved": "Lead: Local Programme Manager (LPM) with Site Leaders • Optional Support: Lean Core Team",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-003",
-            "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
+            "involvedRoleIds": [
+              "ROL-001",
+              "ROL-003",
+              "ROL-002"
+            ],
             "toolId": "TOL-004",
             "toolLabel": "Navigator Toolkit → VOC Input",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
             "outputArtifact": "Clear business priorities & leadership pain points (VOC)",
-            "targetView": { "type": "sop", "id": "SOP-003", "cta": "Open Stage 3 VOC Guide →" }
+            "targetView": {
+              "type": "sop",
+              "id": "SOP-003",
+              "cta": "Open Stage 3 VOC Guide →"
+            }
           },
           {
             "stageNumber": 4,
@@ -2098,12 +2472,20 @@ window.FALLBACK_GUIDES_DB = {
             "whoIsInvolved": "Owner & Lead: Local Programme Manager (LPM) with Site Leadership Team • Optional Support: Lean Core Team",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-003",
-            "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
+            "involvedRoleIds": [
+              "ROL-001",
+              "ROL-003",
+              "ROL-002"
+            ],
             "toolId": "TOL-005",
             "toolLabel": "Navigator Toolkit → Workshop Guide",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
             "outputArtifact": "Aligned strategic direction connecting Lean capability to business problems",
-            "targetView": { "type": "sop", "id": "SOP-004", "cta": "Open Stage 4 Workshop Guide →" }
+            "targetView": {
+              "type": "sop",
+              "id": "SOP-004",
+              "cta": "Open Stage 4 Workshop Guide →"
+            }
           },
           {
             "stageNumber": 5,
@@ -2112,12 +2494,20 @@ window.FALLBACK_GUIDES_DB = {
             "whoIsInvolved": "Owner: Local Programme Manager (LPM) & Site Sponsor • Optional Support: Lean Core Team",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-003",
-            "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
+            "involvedRoleIds": [
+              "ROL-001",
+              "ROL-003",
+              "ROL-002"
+            ],
             "toolId": "TOL-009",
             "toolLabel": "Navigator Toolkit → Charter Input & Charter & Roadmaps",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
             "outputArtifact": "Agreed 1-Page Navigator Charter with 2–3 focus initiatives",
-            "targetView": { "type": "template", "id": "TPL-001", "cta": "Open Stage 5 Charter →" }
+            "targetView": {
+              "type": "template",
+              "id": "TPL-001",
+              "cta": "Open Stage 5 Charter →"
+            }
           },
           {
             "stageNumber": 6,
@@ -2126,12 +2516,19 @@ window.FALLBACK_GUIDES_DB = {
             "whoIsInvolved": "Owner: Local Programme Manager (LPM) & Action Owners • Optional Support: Lean Core Team",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-002",
-            "involvedRoleIds": ["ROL-001", "ROL-002"],
+            "involvedRoleIds": [
+              "ROL-001",
+              "ROL-002"
+            ],
             "toolId": "TOL-010",
             "toolLabel": "Navigator Toolkit → Action Log & Charter & Roadmaps",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
             "outputArtifact": "Active improvement plan with owners, target dates & local visual roadmap",
-            "targetView": { "type": "sop", "id": "SOP-004", "cta": "Open Stage 6 Action Plan Guide →" }
+            "targetView": {
+              "type": "sop",
+              "id": "SOP-004",
+              "cta": "Open Stage 6 Action Plan Guide →"
+            }
           }
         ]
       },
@@ -2139,50 +2536,97 @@ window.FALLBACK_GUIDES_DB = {
         {
           "id": "DEC-001",
           "kind": "vital-few-guide",
-          "navTitle": "How to Narrow Gaps to the 'Vital Few' (2–3 Key Actions)",
-          "eyebrow": "Preparing for Stage 4 (Navigator Workshop) • Combining Stages 1–2 + Stage 3",
-          "badge": "Coaching Guide • 2 to 3 Key Actions",
+          "navTitle": "Focus on the Vital Few: Aligning Business Priorities with Lean Capability",
+          "eyebrow": "STAGE 2 TO STAGE 4 BRIDGE • BUSINESS PRIORITY FIRST",
+          "badge": "Target: 2 to 3 Business-Led Actions",
           "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
           "liveLabel": "Launch Navigator Toolkit (Analysis Report) ↗",
-          "title": "How to Narrow Your Gaps to the 'Vital Few' (2 to 3 Key Actions)",
-          "subtitle": "Instead of selecting actions in this user guide, use the live Navigator Toolkit (Analysis Report) to filter your site's real assessment gaps down to 2 or 3 high-impact initiatives for your Stage 4 Navigator Workshop.",
+          "title": "Focusing on the 'Vital Few' (2 to 3 Key Actions)",
+          "subtitle": "Start with the operational business problems your leaders need to solve—then select the 2 or 3 Lean maturity capabilities your teams need to develop to deliver those business results.",
           "rules": [
             {
-              "badge": "Rule 1 • From Stages 1 & 2 (Analysis Report)",
-              "title": "Rule 1 — Spot Foundation Gateways (★) Holding Back Capability",
-              "desc": "Open Navigator Toolkit → Analysis Report and look at Section 1 (Critical Foundation Gaps). Any starred Gateway question (★) scoring below Level 3 caps your overall maturity level—start your shortlist here rather than chasing Level 3–4 topics.",
-              "whereInApp": "Navigator Toolkit → Analysis Report → 1. Critical Foundation Gaps (Gateways < 3)"
+              "badge": "STEP 1 • BUSINESS PRIORITY FIRST",
+              "title": "Step 1: Define the Business Priority (From Stage 3 — Voice of the Customer)",
+              "desc": "Pinpoint the specific operational challenge hurting business performance right now across Lead Time, Quality, Throughput, Cost, Overheads, Inventory, or Complexity.",
+              "whereInApp": "Navigator Toolkit → VOC Input: Capture top stakeholder pain points across Lead Time, Quality, Throughput, Cost, Overheads, Inventory, and Complexity."
             },
             {
-              "badge": "Rule 2 • From Stage 3 (VOC Input)",
-              "title": "Rule 2 — Match Against Leadership Business Needs (VOC)",
-              "desc": "Keep only the capability gaps that directly solve a pressing business problem raised by your Site Leadership Team in Stage 3 (Safety, On-Time Delivery, Quality / First-Time-Right, or Cost / Productivity). Remember: we build Lean capability to solve business problems, not just to raise a score.",
-              "whereInApp": "Navigator Toolkit → VOC Input & Workshop Guide (Step 3: Connect & Prioritise)"
+              "badge": "STEP 2 • SUPPORTING CAPABILITY",
+              "title": "Step 2: Identify the Supporting Maturity Capability (From Stages 1 & 2 — Assessment & Analysis)",
+              "desc": "Check your Analysis Report to see which foundational Lean capabilities (especially Starred Gateways ★ below Level 3) are currently missing and must be developed so your team can actually solve that business problem.",
+              "whereInApp": "Navigator Toolkit → Analysis Report: Upload your saved .json assessment file and expand the red Foundation Focus (🎯) and yellow Opportunity for Growth (💡) stages."
             },
             {
-              "badge": "Rule 3 • For Stages 4 & 5 (Workshop & Charter)",
-              "title": "Rule 3 — Pick 2 to 3 Realistic Actions (Effort vs. Impact)",
-              "desc": "Use the click-to-promote cards in Analysis Report (Section 2: Standard Progression Gaps) to promote only 2 or 3 achievable, high-impact actions into your Stage 4 Workshop shortlist. Committing to 10+ actions at once dilutes leadership focus and stalls execution.",
-              "whereInApp": "Navigator Toolkit → Analysis Report → Click any card in Section 2 to promote/demote"
+              "badge": "STEP 3 • FOCUSED CHARTER ACTIONS",
+              "title": "Step 3: Select 2 to 3 Focused Actions for Your Workshop & Charter (Stages 4 & 5)",
+              "desc": "Combine the Business Priority + Enabling Capability into 2 or 3 high-impact initiatives. Never walk out with a 15-item maturity wishlist.",
+              "whereInApp": "Navigator Toolkit → Analysis Report & Charter Input: Tick 'Accept Proposed Action (Y/N)', write a custom 'OE Action' tied to your business target, and save your .leansession file."
             }
           ],
           "comparisonExample": {
-            "heading": "What Good Looks Like: 1 Focused Action vs. 1 Vague Wishlist Item",
+            "heading": "What Good Looks Like: 1 Business-Led Action vs. 1 Score-Chasing Wishlist Item",
             "good": {
-              "badge": "✓ GOOD FOCUSED ACTION (PUT THIS IN CHARTER INPUT)",
-              "gatewayRef": "Q10 (Level 1 ★ Gateway) • Quality & First-Time-Right",
-              "title": "Standardise structured pilot experiments across 70% of site teams",
-              "statement": "Raise Gateway #10 (Structured Pilot Experiments) from 2/5 to 3/5 across 70% of operational teams by Q2 to cut repeat line defects.",
-              "whyItWorks": "Names the exact starred Gateway (#10), states the measurable baseline-to-target shift (2/5 to 3/5 across 70% of teams), sets a clear quarter (Q2), and links directly to a leadership VOC priority."
+              "badge": "✅ Good Business-Led Action (Vital Few)",
+              "gatewayRef": "Business Priority: Lead Time + Q14 ★ & Q19",
+              "title": "Business Target Supported by Enabling Lean Capability",
+              "statement": "Cut end-to-end switchgear order lead time by 20% by mapping cross-department handoffs (Q19) and resolving bay blockers in a fixed 15-minute daily huddle (Q14 ★) by 30 Nov.",
+              "whyItWorks": "Leads with a concrete operational business priority (20% Lead Time reduction) and develops the exact enabling Lean capabilities (Q19 handoff standards and Q14 ★ daily huddles) needed to achieve and sustain it."
             },
             "bad": {
-              "badge": "✕ VAGUE WISHLIST ITEM (AVOID IN WORKSHOP)",
-              "warningRef": "Unfocused • No Gateway or Business Measure",
-              "title": "Improve Lean culture and train everyone on all 28 questions",
-              "statement": "Roll out general Lean awareness training across the whole site and improve all maturity scores this year.",
-              "whyItFails": "Tries to boil the ocean across all 28 questions at once, has no measurable 70% adoption target, does not unlock a specific starred Gateway, and gives the Site Leadership Team nothing concrete to review monthly."
+              "badge": "❌ Score-Chasing Wishlist Item (Avoid)",
+              "warningRef": "Chasing Maturity Points Without a Business Problem",
+              "title": "Unfocused Maturity-Score Chasing",
+              "statement": "Raise our overall maturity score by +0.8 points and unlock Level 3 by improving 12 assessment questions across the department this quarter.",
+              "whyItFails": "Treats maturity points as the goal rather than the enabler, spreads leadership capacity too thin across 12 disconnected items, and fails to solve a concrete Lead Time, Quality, Throughput, or Cost problem."
             }
-          }
+          },
+          "rulesHeading": "The 3-Step Alignment Logic: Business Priority First → Supported by Capability → Focused Action",
+          "matrixHeading": "Practical 'Business Priority ↔ Supporting Maturity Capability' Reference Matrix",
+          "matrixSubtitle": "Start in the left column with the operational problem your leadership team needs to solve—then pair it with the enabling Lean maturity capabilities (Questions & ★ Gateways) needed to deliver and sustain that result:",
+          "priorityMatrix": [
+            {
+              "priority": "1. Lead Time",
+              "painPoint": "Long end-to-end customer lead times & waiting between departments",
+              "supportingCapabilities": "Q12 ★ (Flow Metrics), Q14 ★ (Daily Huddles), Q19 (Departmental Handoffs), Q26 ★ (Cross-Functional Flow)",
+              "exampleAction": "Cut end-to-end order lead time by 20% by mapping cross-department handoffs (Q19) and resolving blockers in daily huddles (Q14 ★)."
+            },
+            {
+              "priority": "2. Quality",
+              "painPoint": "Repeat defects, rework loops, or escapes to the customer",
+              "supportingCapabilities": "Q14 ★ (Issue Escalation), Q16 ★ (Structured Reflection), Q17 (Lessons Learned), Q22 ★ (Blameless Reporting)",
+              "exampleAction": "Reduce repeat assembly rework by 35% by embedding structured root-cause reflection after every major defect (Q16 ★)."
+            },
+            {
+              "priority": "3. Throughput",
+              "painPoint": "Bottlenecks, uneven output, or missed delivery milestones",
+              "supportingCapabilities": "Q10 ★ (Structured Pilot Experiments), Q11 (Standard Work), Q12 ★ (Throughput & Yield Tracking)",
+              "exampleAction": "Increase bottleneck cell throughput by 15% by running structured pilot experiments (Q10 ★) and stabilising standard work (Q11)."
+            },
+            {
+              "priority": "4. Cost",
+              "painPoint": "High direct job costs, scrap, or uncoordinated firefighting",
+              "supportingCapabilities": "Q4 ★ & Q5 ★ (Waste Elimination & Flow), Q13 (Preventing Local Optimisation), Q15 ★ (Frontline Waste Ideas)",
+              "exampleAction": "Reduce unit production cost by 8% by capturing and implementing weekly frontline waste-elimination ideas tied to team metrics (Q15 ★)."
+            },
+            {
+              "priority": "5. Overheads",
+              "painPoint": "Excessive indirect admin, manual chasing, and status meetings",
+              "supportingCapabilities": "Q7 ★ (Clear Role Ownership), Q8 ★ (Strategy & Capacity Alignment), Q14 ★ (Short Fixed Tiered Huddles)",
+              "exampleAction": "Cut indirect progress-chasing overhead by replacing ad-hoc status meetings with a 15-minute visual daily huddle and clear role ownership (Q7 ★, Q14 ★)."
+            },
+            {
+              "priority": "6. Inventory",
+              "painPoint": "Excess work-in-progress buffers, parts shortages, or batch-and-queue habits",
+              "supportingCapabilities": "Q5 ★ (Flow vs. Batching), Q12 ★ (Work-in-Progress & Lead-Time Metrics), Q18 ★ & Q27 ★ (Supplier Value Chain Alignment)",
+              "exampleAction": "Lower work-in-progress (WIP) inventory by 25% by replacing batch handoffs with pull flow and shared supplier standards (Q5 ★, Q18 ★)."
+            },
+            {
+              "priority": "7. Complexity",
+              "painPoint": "Over-complicated processes, custom workarounds, and variant chaos",
+              "supportingCapabilities": "Q11 (Visual Standard Work), Q19 (SIPOC Interface Agreements), Q23 & Q25 ★ (Scaling Proven Standards)",
+              "exampleAction": "Simplify process handoffs across 3 shifts by locking in one visual standard work routine and scaling the pilot standard site-wide (Q11, Q25 ★)."
+            }
+          ]
         },
         {
           "id": "DEC-002",
@@ -2226,30 +2670,47 @@ window.FALLBACK_GUIDES_DB = {
           "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
           "liveLabel": "Launch Navigator Toolkit (Charter Input) ↗",
           "title": "One-Page Navigator Charter — Annotated Example & Field Guide",
-          "subtitle": "Use this annotated reference to see what a completed Stage 5 Charter looks like before typing your site's real commitments into Navigator Toolkit → Charter Input and viewing the executive poster in Charter & Roadmaps.",
+          "subtitle": "Annotated reference guide showing how a completed One-Page Transformation Charter pairs concrete Business Priorities (Lead Time, Quality, Throughput) with enabling Lean maturity capabilities (★) inside Navigator Toolkit → Charter Input.",
           "appLocation": "Navigator Toolkit → Charter Input (data entry) & Charter & Roadmaps (executive poster)",
           "fieldGuide": [
             {
-              "section": "1. Top 3 Leadership Priorities",
-              "appField": "Charter Input → Customer Value & Business Priorities",
-              "guidance": "Summarise the top 2–3 business pain points agreed with your Site Leadership Team in Stage 3 (VOC Input) so every stakeholder sees why the Lean programme exists."
+              "field": "1. Business Priority & Problem Statement (Top Left)",
+              "whatToEnter": "State the concrete operational business problem (Lead Time, Quality, Throughput, Cost, Overheads, Inventory, or Complexity) from your Stage 3 Voice of the Customer synthesis alongside the supporting maturity capability gap from Stage 2.",
+              "example": "\"High-voltage bay handoff delays and repeat test rework are adding 4.5 days to customer lead time; missing visual flow metrics (Q12 ★) and daily escalation huddles (Q14 ★) prevent teams from resolving bottlenecks early.\""
             },
             {
-              "section": "2. Starting Score & Gateways to Fix",
-              "appField": "Charter Input → Maturity Insight & Key Development Gap",
-              "guidance": "State your current baseline maturity score (e.g., 1.6 / 4.0) and name the 2–3 starred Gateway gaps (★) that are holding back the next level."
+              "field": "2. Focused Charter Actions ('Vital Few' — Centre Table)",
+              "whatToEnter": "Enter 2 to 3 focused actions imported from your .leansession file or selected during your Stage 4 Navigator Workshop. Each action must pair a measurable Business Priority target with the enabling Lean capability (Question / ★ Gateway).",
+              "example": "\"Cut end-to-end order lead time by 20% by mapping cross-department handoffs (Q19) and resolving blockers in daily huddles (Q14 ★).\""
             },
             {
-              "section": "3. Agreed Focus Initiatives (2–3 Key Results)",
-              "appField": "Charter Input → Programme Objectives & Key Results (+ Add Objective)",
-              "guidance": "Write 2 to 3 measurable Key Results using the formula '[Measure] from [Start] to [Target] by [Date]' with a named owner and target quarter (Q1–Q4)."
+              "field": "3. Single Named Owner & 30/60/90-Day Milestones",
+              "whatToEnter": "Assign one accountable person per action (never a department name or 'All') and set a concrete 30-, 60-, or 90-day validation date.",
+              "example": "\"M. Weber (Assembly Team Lead) — Day 30 (15 Nov)\""
+            },
+            {
+              "field": "4. Measurable Business Outcome Target & Sponsor Sign-Off",
+              "whatToEnter": "Define the operational metric (Lead Time, Quality, Throughput, Cost, Overheads, Inventory, or Complexity) that proves the business problem is solved, supported by the developed Lean capability.",
+              "example": "\"Cut end-to-end order lead time by 20% (from 18 days to 14.4 days) + Sponsor Sign-Off: E. Rostova\""
             }
           ],
           "metaFields": [
-            { "label": "Site / Area", "value": "Example: Blade Manufacturing Cell A" },
-            { "label": "Date", "value": "2026-Q1 Baseline" },
-            { "label": "Local Programme Manager", "value": "Local Programme Manager (LPM)" },
-            { "label": "Site Leader Sponsor", "value": "Head of Operations (Site Sponsor)" }
+            {
+              "label": "Site / Area",
+              "value": "Example: Blade Manufacturing Cell A"
+            },
+            {
+              "label": "Date",
+              "value": "2026-Q1 Baseline"
+            },
+            {
+              "label": "Local Programme Manager",
+              "value": "Local Programme Manager (LPM)"
+            },
+            {
+              "label": "Site Leader Sponsor",
+              "value": "Head of Operations (Site Sponsor)"
+            }
           ],
           "leftBoxTitle": "1. Top 3 Leader Priorities (Business Problems to Solve)",
           "leftBoxBullets": [
@@ -2262,42 +2723,39 @@ window.FALLBACK_GUIDES_DB = {
           "rightBoxSecondaryPrefix": "Focused Actions",
           "rightBoxSecondaryValue": "3 Key Initiatives (Focused on Level 1–2 ★ Gateways)",
           "tableHeaders": {
-            "code": "#",
-            "action": "Example Programme Objective / Key Result ([Measure] from [Start] to [Target] by [Date])",
-            "lift": "Gateway Unlock",
-            "tag": "VOC Priority",
-            "due": "Due",
-            "owner": "Owner"
+            "focus": "Focused Charter Action ('Vital Few' — Max 3)",
+            "owner": "Single Named Owner",
+            "targetDate": "90-Day Milestone",
+            "kpi": "Measurable Business Outcome Target",
+            "lift": "Supporting Capability (★)",
+            "tag": "Business Priority"
           },
           "objectiveRowCode": "OBJ 1",
           "objectiveRowText": "Annotated Example: 3 Focused Initiatives Entered in Navigator Toolkit → Charter Input",
           "exampleRows": [
             {
-              "code": "KR 1.1",
-              "action": "Raise Gateway #10 (Structured Pilot Experiments) from 2/5 to 3/5 across 70% of teams by Q2",
-              "note": "Unlocks Level 1 cap • Directly addresses repeat assembly defects",
-              "lift": "+1.0 Level Unlock (1.6 → 2.6)",
-              "tag": "Quality / First-Time-Right",
-              "due": "Q2",
-              "owner": "Local Programme Manager"
+              "focus": "1. Cut end-to-end assembly lead time by mapping cross-department handoffs and resolving daily blockers at a fixed 07:45 visual huddle.",
+              "owner": "M. Weber (Assembly Team Lead)",
+              "targetDate": "Day 30 (15 Nov)",
+              "kpi": "Cut end-to-end order lead time by 20% & escalate 100% of bay blockers within 15 mins",
+              "lift": "Q14 ★ Daily Huddles & Q19 Handoffs",
+              "tag": "Lead Time"
             },
             {
-              "code": "KR 1.2",
-              "action": "Increase work areas updating visual SQDC boards daily (Gateway #12) from 35% to 75% by Q2",
-              "note": "Level 2 ★ Gateway • Makes safety, quality, and delivery bottlenecks visible at shift change",
-              "lift": "+0.35 Level 2 Unlock",
-              "tag": "Safety & On-Time Delivery",
-              "due": "Q2",
-              "owner": "Area Operations Lead"
+              "focus": "2. Reduce repeat dielectric test rework by embedding structured root-cause reflection after every major test defect.",
+              "owner": "S. Lindqvist (Quality & Test Lead)",
+              "targetDate": "Day 60 (15 Dec)",
+              "kpi": "Reduce repeat assembly rework by 35% across Bays 1–5",
+              "lift": "Q16 ★ Structured Reflection & Q17",
+              "tag": "Quality"
             },
             {
-              "code": "KR 1.3",
-              "action": "Increase 15-minute daily shift huddles resolving blockers within 48h (Gateway #14) from 25% to 75% by Q3",
-              "note": "Level 2 ★ Gateway • Connects shop-floor escalation to leadership gemba support",
-              "lift": "+0.45 Level 2 Unlock",
-              "tag": "On-Time Delivery",
-              "due": "Q3",
-              "owner": "Shift Team Leaders"
+              "focus": "3. Increase bottleneck test-bay throughput by running structured pilot experiments and locking in visual standard work.",
+              "owner": "K. Patel (Test Bay Supervisor)",
+              "targetDate": "Day 90 (15 Jan)",
+              "kpi": "Increase bottleneck cell throughput by 15% & cut test changeover wait by 25%",
+              "lift": "Q10 ★ Pilot Experiments & Q11",
+              "tag": "Throughput"
             }
           ]
         }
@@ -2313,36 +2771,238 @@ window.FALLBACK_GUIDES_DB = {
           "subtitle": "Interactive 1-Page 28-Question & 1–5 Scoring Rubric Matrix with New Standard (2026) / Old Standard toggle, Full Verbatim / Executive Concise toggle, and native PowerPoint (.pptx), 4K Image (.png), and 1-Page PDF exports.",
           "filterAllLabel": "All Questions (28)",
           "filterFlaggedLabel": "★ Starred Gateways Only (17)",
-          "columns": ["#", "Assessment Question", "Topic", "Level", "Gateway?"],
+          "columns": [
+            "#",
+            "Assessment Question",
+            "Topic",
+            "Level",
+            "Gateway?"
+          ],
           "rows": [
-            { "code": "Q1", "col1": "Is there a clear business reason driving this Lean Programme?", "col2": "Foundation", "col3": "Level 0", "flagged": true, "flagLabel": "★ Yes" },
-            { "code": "Q2", "col1": "Is leadership committed and actively invested in being involved?", "col2": "Foundation", "col3": "Level 0", "flagged": true, "flagLabel": "★ Yes" },
-            { "code": "Q3", "col1": "Has the team or organisation started acquiring foundational Lean knowledge?", "col2": "Foundation", "col3": "Level 0", "flagged": true, "flagLabel": "★ Yes" },
-            { "code": "Q4", "col1": "How clearly can your team describe what Lean means and how it supports your business goals?", "col2": "Awareness and Training", "col3": "Level 0", "flagged": true, "flagLabel": "★ Yes" },
-            { "code": "Q5", "col1": "How deeply do team members understand core Lean concepts?", "col2": "Awareness and Training", "col3": "Level 0", "flagged": true, "flagLabel": "★ Yes" },
-            { "code": "Q6", "col1": "Is there a consistent and active plan to close competency gaps?", "col2": "Awareness and Training", "col3": "Level 1", "flagged": false, "flagLabel": "No" },
-            { "code": "Q7", "col1": "Is there a clear Lean structure and defined role ownership within the team?", "col2": "Lean Structure and Strategy", "col3": "Level 1", "flagged": true, "flagLabel": "★ Yes" },
-            { "code": "Q8", "col1": "How effectively is strategy managed and reviewed at your level?", "col2": "Lean Structure and Strategy", "col3": "Level 1", "flagged": true, "flagLabel": "★ Yes" },
-            { "code": "Q9", "col1": "How well are strategic objectives cascaded to teams?", "col2": "Lean Structure and Strategy", "col3": "Level 2", "flagged": false, "flagLabel": "No" },
-            { "code": "Q10", "col1": "Does the team actively execute structured, pilot experiments?", "col2": "Lean Tools and KPI Alignment", "col3": "Level 1", "flagged": true, "flagLabel": "★ Yes" },
-            { "code": "Q11", "col1": "Are Lean tools routinely applied and embedded in daily operations?", "col2": "Lean Tools and KPI Alignment", "col3": "Level 2", "flagged": false, "flagLabel": "No" },
-            { "code": "Q12", "col1": "Are performance metrics and Lean-relevant KPIs displayed and actively discussed in the work area?", "col2": "Lean Tools and KPI Alignment", "col3": "Level 2", "flagged": true, "flagLabel": "★ Yes" },
-            { "code": "Q13", "col1": "Is the review of KPIs driven by Lean principles to prevent local optimization?", "col2": "Lean Tools and KPI Alignment", "col3": "Level 3", "flagged": false, "flagLabel": "No" },
-            { "code": "Q14", "col1": "Are daily huddles used consistently to raise and resolve issues?", "col2": "Daily Management and CI", "col3": "Level 2", "flagged": true, "flagLabel": "★ Yes" },
-            { "code": "Q15", "col1": "How effectively are employee suggestions captured and implemented?", "col2": "Daily Management and CI", "col3": "Level 2", "flagged": true, "flagLabel": "★ Yes" },
-            { "code": "Q16", "col1": "Does the team practice structured reflection?", "col2": "Learning and Value Chain Integration", "col3": "Level 2", "flagged": true, "flagLabel": "★ Yes" },
-            { "code": "Q17", "col1": "How consistently are lessons learned documented and applied?", "col2": "Learning and Value Chain Integration", "col3": "Level 3", "flagged": false, "flagLabel": "No" },
-            { "code": "Q18", "col1": "Does your Lean philosophy extend across your entire value chain?", "col2": "Learning and Value Chain Integration", "col3": "Level 3", "flagged": true, "flagLabel": "★ Yes" },
-            { "code": "Q19", "col1": "Are internal departmental handoffs integrated to ensure seamless process flow?", "col2": "Learning and Value Chain Integration", "col3": "Level 3", "flagged": false, "flagLabel": "No" },
-            { "code": "Q20", "col1": "Do leaders practice the 'Gemba Walk' habit consistently?", "col2": "Leadership & Culture", "col3": "Level 2", "flagged": false, "flagLabel": "No" },
-            { "code": "Q21", "col1": "Do leaders use a consistent questioning cycle to identify target conditions and obstacles?", "col2": "Leadership & Culture", "col3": "Level 2", "flagged": false, "flagLabel": "No" },
-            { "code": "Q22", "col1": "Is there a culture of psychological safety that encourages safe experimentation?", "col2": "Leadership & Culture", "col3": "Level 2", "flagged": true, "flagLabel": "★ Yes" },
-            { "code": "Q23", "col1": "Are learnings from reflection used to update standard work?", "col2": "Learning & Scaling", "col3": "Level 3", "flagged": false, "flagLabel": "No" },
-            { "code": "Q24", "col1": "Is physical verification used to validate pilot project outcomes?", "col2": "Learning & Scaling", "col3": "Level 3", "flagged": false, "flagLabel": "No" },
-            { "code": "Q25", "col1": "Are successful standards systematically scaled across the site?", "col2": "Learning & Scaling", "col3": "Level 3", "flagged": true, "flagLabel": "★ Yes" },
-            { "code": "Q26", "col1": "Do teams from different functions collaborate to improve shared processes?", "col2": "Collaboration & Feedback", "col3": "Level 2", "flagged": true, "flagLabel": "★ Yes" },
-            { "code": "Q27", "col1": "Are joint improvement projects executed with external partners?", "col2": "Collaboration & Feedback", "col3": "Level 4", "flagged": true, "flagLabel": "★ Yes" },
-            { "code": "Q28", "col1": "How consistently are success stories shared and replicated?", "col2": "Communication", "col3": "Level 1", "flagged": false, "flagLabel": "No" }
+            {
+              "code": "Q1",
+              "col1": "Is there a clear business reason driving this Lean Programme?",
+              "col2": "Foundation",
+              "col3": "Level 0",
+              "flagged": true,
+              "flagLabel": "★ Yes"
+            },
+            {
+              "code": "Q2",
+              "col1": "Is leadership committed and actively invested in being involved?",
+              "col2": "Foundation",
+              "col3": "Level 0",
+              "flagged": true,
+              "flagLabel": "★ Yes"
+            },
+            {
+              "code": "Q3",
+              "col1": "Has the team or organisation started acquiring foundational Lean knowledge?",
+              "col2": "Foundation",
+              "col3": "Level 0",
+              "flagged": true,
+              "flagLabel": "★ Yes"
+            },
+            {
+              "code": "Q4",
+              "col1": "How clearly can your team describe what Lean means and how it supports your business goals?",
+              "col2": "Awareness and Training",
+              "col3": "Level 0",
+              "flagged": true,
+              "flagLabel": "★ Yes"
+            },
+            {
+              "code": "Q5",
+              "col1": "How deeply do team members understand core Lean concepts?",
+              "col2": "Awareness and Training",
+              "col3": "Level 0",
+              "flagged": true,
+              "flagLabel": "★ Yes"
+            },
+            {
+              "code": "Q6",
+              "col1": "Is there a consistent and active plan to close competency gaps?",
+              "col2": "Awareness and Training",
+              "col3": "Level 1",
+              "flagged": false,
+              "flagLabel": "No"
+            },
+            {
+              "code": "Q7",
+              "col1": "Is there a clear Lean structure and defined role ownership within the team?",
+              "col2": "Lean Structure and Strategy",
+              "col3": "Level 1",
+              "flagged": true,
+              "flagLabel": "★ Yes"
+            },
+            {
+              "code": "Q8",
+              "col1": "How effectively is strategy managed and reviewed at your level?",
+              "col2": "Lean Structure and Strategy",
+              "col3": "Level 1",
+              "flagged": true,
+              "flagLabel": "★ Yes"
+            },
+            {
+              "code": "Q9",
+              "col1": "How well are strategic objectives cascaded to teams?",
+              "col2": "Lean Structure and Strategy",
+              "col3": "Level 2",
+              "flagged": false,
+              "flagLabel": "No"
+            },
+            {
+              "code": "Q10",
+              "col1": "Does the team actively execute structured, pilot experiments?",
+              "col2": "Lean Tools and KPI Alignment",
+              "col3": "Level 1",
+              "flagged": true,
+              "flagLabel": "★ Yes"
+            },
+            {
+              "code": "Q11",
+              "col1": "Are Lean tools routinely applied and embedded in daily operations?",
+              "col2": "Lean Tools and KPI Alignment",
+              "col3": "Level 2",
+              "flagged": false,
+              "flagLabel": "No"
+            },
+            {
+              "code": "Q12",
+              "col1": "Are performance metrics and Lean-relevant KPIs displayed and actively discussed in the work area?",
+              "col2": "Lean Tools and KPI Alignment",
+              "col3": "Level 2",
+              "flagged": true,
+              "flagLabel": "★ Yes"
+            },
+            {
+              "code": "Q13",
+              "col1": "Is the review of KPIs driven by Lean principles to prevent local optimization?",
+              "col2": "Lean Tools and KPI Alignment",
+              "col3": "Level 3",
+              "flagged": false,
+              "flagLabel": "No"
+            },
+            {
+              "code": "Q14",
+              "col1": "Are daily huddles used consistently to raise and resolve issues?",
+              "col2": "Daily Management and CI",
+              "col3": "Level 2",
+              "flagged": true,
+              "flagLabel": "★ Yes"
+            },
+            {
+              "code": "Q15",
+              "col1": "How effectively are employee suggestions captured and implemented?",
+              "col2": "Daily Management and CI",
+              "col3": "Level 2",
+              "flagged": true,
+              "flagLabel": "★ Yes"
+            },
+            {
+              "code": "Q16",
+              "col1": "Does the team practice structured reflection?",
+              "col2": "Learning and Value Chain Integration",
+              "col3": "Level 2",
+              "flagged": true,
+              "flagLabel": "★ Yes"
+            },
+            {
+              "code": "Q17",
+              "col1": "How consistently are lessons learned documented and applied?",
+              "col2": "Learning and Value Chain Integration",
+              "col3": "Level 3",
+              "flagged": false,
+              "flagLabel": "No"
+            },
+            {
+              "code": "Q18",
+              "col1": "Does your Lean philosophy extend across your entire value chain?",
+              "col2": "Learning and Value Chain Integration",
+              "col3": "Level 3",
+              "flagged": true,
+              "flagLabel": "★ Yes"
+            },
+            {
+              "code": "Q19",
+              "col1": "Are internal departmental handoffs integrated to ensure seamless process flow?",
+              "col2": "Learning and Value Chain Integration",
+              "col3": "Level 3",
+              "flagged": false,
+              "flagLabel": "No"
+            },
+            {
+              "code": "Q20",
+              "col1": "Do leaders practice the 'Gemba Walk' habit consistently?",
+              "col2": "Leadership & Culture",
+              "col3": "Level 2",
+              "flagged": false,
+              "flagLabel": "No"
+            },
+            {
+              "code": "Q21",
+              "col1": "Do leaders use a consistent questioning cycle to identify target conditions and obstacles?",
+              "col2": "Leadership & Culture",
+              "col3": "Level 2",
+              "flagged": false,
+              "flagLabel": "No"
+            },
+            {
+              "code": "Q22",
+              "col1": "Is there a culture of psychological safety that encourages safe experimentation?",
+              "col2": "Leadership & Culture",
+              "col3": "Level 2",
+              "flagged": true,
+              "flagLabel": "★ Yes"
+            },
+            {
+              "code": "Q23",
+              "col1": "Are learnings from reflection used to update standard work?",
+              "col2": "Learning & Scaling",
+              "col3": "Level 3",
+              "flagged": false,
+              "flagLabel": "No"
+            },
+            {
+              "code": "Q24",
+              "col1": "Is physical verification used to validate pilot project outcomes?",
+              "col2": "Learning & Scaling",
+              "col3": "Level 3",
+              "flagged": false,
+              "flagLabel": "No"
+            },
+            {
+              "code": "Q25",
+              "col1": "Are successful standards systematically scaled across the site?",
+              "col2": "Learning & Scaling",
+              "col3": "Level 3",
+              "flagged": true,
+              "flagLabel": "★ Yes"
+            },
+            {
+              "code": "Q26",
+              "col1": "Do teams from different functions collaborate to improve shared processes?",
+              "col2": "Collaboration & Feedback",
+              "col3": "Level 2",
+              "flagged": true,
+              "flagLabel": "★ Yes"
+            },
+            {
+              "code": "Q27",
+              "col1": "Are joint improvement projects executed with external partners?",
+              "col2": "Collaboration & Feedback",
+              "col3": "Level 4",
+              "flagged": true,
+              "flagLabel": "★ Yes"
+            },
+            {
+              "code": "Q28",
+              "col1": "How consistently are success stories shared and replicated?",
+              "col2": "Communication",
+              "col3": "Level 1",
+              "flagged": false,
+              "flagLabel": "No"
+            }
           ]
         }
       ]
@@ -2367,10 +3027,22 @@ window.FALLBACK_GUIDES_DB = {
         "combinedDesc": "Archive official baselines via your Lean Core Team partner, or load your file into Navigator Toolkit or PM Maturity Hub."
       },
       "filingRule": "Only Lean Core Team members upload official submissions into '600 Maturity Submissions'. Local Programme Managers save exported files locally and send a copy to their Core Team partner.",
-      "processIds": ["PRC-005"],
-      "sopIds": ["SOP-009", "SOP-010"],
-      "toolIds": ["TOL-012"],
-      "liveToolIds": ["LIVE-PORTAL", "LIVE-STORYBOOK", "LIVE-NAVIGATOR", "LIVE-HUB"],
+      "processIds": [
+        "PRC-005"
+      ],
+      "sopIds": [
+        "SOP-009",
+        "SOP-010"
+      ],
+      "toolIds": [
+        "TOL-012"
+      ],
+      "liveToolIds": [
+        "LIVE-PORTAL",
+        "LIVE-STORYBOOK",
+        "LIVE-NAVIGATOR",
+        "LIVE-HUB"
+      ],
       "crossRef": {
         "kicker": "Related Playbooks • Choose Your Next Path",
         "title": "Finished your standalone 28-question assessment? Jump to Navigator Toolkit or PM Maturity Hub in one click:",
@@ -2378,10 +3050,30 @@ window.FALLBACK_GUIDES_DB = {
         "targetPlaybookId": "PLB-001",
         "primaryButtonLabel": "Open Lean@GS Navigator Toolkit Guide →",
         "deepLinks": [
-          { "label": "Navigator Stage 2 Analysis Report →", "playbookId": "PLB-001", "view": "sop", "id": "SOP-002" },
-          { "label": "Navigator Stage 3–6 VOC, Workshop & Charter →", "playbookId": "PLB-001", "view": "sop", "id": "SOP-003" },
-          { "label": "PM Maturity Hub: Score Explainer & Metro Journey →", "playbookId": "PLB-PMHUB", "view": "sop", "id": "SOP-005" },
-          { "label": "PM Maturity Hub: Strategy Builder & Simulator →", "playbookId": "PLB-PMHUB", "view": "sop", "id": "SOP-006" }
+          {
+            "label": "Navigator Stage 2 Analysis Report →",
+            "playbookId": "PLB-001",
+            "view": "sop",
+            "id": "SOP-002"
+          },
+          {
+            "label": "Navigator Stage 3–6 VOC, Workshop & Charter →",
+            "playbookId": "PLB-001",
+            "view": "sop",
+            "id": "SOP-003"
+          },
+          {
+            "label": "PM Maturity Hub: Score Explainer & Metro Journey →",
+            "playbookId": "PLB-PMHUB",
+            "view": "sop",
+            "id": "SOP-005"
+          },
+          {
+            "label": "PM Maturity Hub: Strategy Builder & Simulator →",
+            "playbookId": "PLB-PMHUB",
+            "view": "sop",
+            "id": "SOP-006"
+          }
         ]
       },
       "chooserLabel": "Which part of the standalone maturity assessment are you doing today?",
@@ -2407,10 +3099,22 @@ window.FALLBACK_GUIDES_DB = {
         "formulaBanner": "1. Explore 5 Levels & 10 Themes (Storybook) → 2. Score 28 Questions → 3. Review Radar Dashboard & Gateway Caps → 4. Export & Choose Next Path",
         "mapHeading": "The 4-Stage Standalone GS Lean Maturity & Storybook Journey",
         "roleFilters": [
-          { "id": "all", "label": "All Roles" },
-          { "id": "ROL-001", "label": "Local Programme Manager (LPM)" },
-          { "id": "ROL-003", "label": "Site Leadership Team" },
-          { "id": "ROL-002", "label": "Lean Core Team Partner" }
+          {
+            "id": "all",
+            "label": "All Roles"
+          },
+          {
+            "id": "ROL-001",
+            "label": "Local Programme Manager (LPM)"
+          },
+          {
+            "id": "ROL-003",
+            "label": "Site Leadership Team"
+          },
+          {
+            "id": "ROL-002",
+            "label": "Lean Core Team Partner"
+          }
         ],
         "briefingButtonLabel": "⏱ Overview of Standalone Maturity & Storybook (60-Sec Pitch)",
         "briefingTitle": "60-Second Overview: Standalone GS Lean Maturity & Maturity Model Storybook",
@@ -2428,14 +3132,22 @@ window.FALLBACK_GUIDES_DB = {
             "whoIsInvolved": "Lead: Local Programme Manager (LPM) with Site Leadership Team & Lean Core Team partner",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-002",
-            "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
+            "involvedRoleIds": [
+              "ROL-001",
+              "ROL-003",
+              "ROL-002"
+            ],
             "toolId": "TOL-012",
             "toolLabel": "Maturity Model Storybook & Maturity Explainer",
             "liveUrl": "https://share.gemini.google/UjLQiIQXFbgc",
             "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
             "secondaryLiveLabel": "Standalone GS Lean Maturity App ↗",
             "outputArtifact": "Shared understanding of the 5 maturity levels, 10 themes & 70% site rule",
-            "targetView": { "type": "sop", "id": "SOP-009", "cta": "Open Stage 1 Storybook & Explainer Guide →" }
+            "targetView": {
+              "type": "sop",
+              "id": "SOP-009",
+              "cta": "Open Stage 1 Storybook & Explainer Guide →"
+            }
           },
           {
             "stageNumber": 2,
@@ -2444,14 +3156,22 @@ window.FALLBACK_GUIDES_DB = {
             "whoIsInvolved": "Lead: Local Programme Manager (LPM) with Site Leadership Team (1st time: with Lean Core Team partner)",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-003",
-            "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
+            "involvedRoleIds": [
+              "ROL-001",
+              "ROL-003",
+              "ROL-002"
+            ],
             "toolId": "TOL-012",
             "toolLabel": "Standalone GS Lean Maturity → 28-Question Assessment Grid",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
             "secondaryLiveUrl": "https://share.gemini.google/UjLQiIQXFbgc",
             "secondaryLiveLabel": "Maturity Model Storybook ↗",
             "outputArtifact": "All 28 question cards evaluated with workplace evidence notes",
-            "targetView": { "type": "sop", "id": "SOP-009", "cta": "Open Stage 2 Scoring Guide →" }
+            "targetView": {
+              "type": "sop",
+              "id": "SOP-009",
+              "cta": "Open Stage 2 Scoring Guide →"
+            }
           },
           {
             "stageNumber": 3,
@@ -2460,12 +3180,20 @@ window.FALLBACK_GUIDES_DB = {
             "whoIsInvolved": "Lead: Local Programme Manager (LPM) with Site Leadership Team",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-003",
-            "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
+            "involvedRoleIds": [
+              "ROL-001",
+              "ROL-003",
+              "ROL-002"
+            ],
             "toolId": "TOL-012",
             "toolLabel": "Standalone GS Lean Maturity → View Dashboard Modal",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
             "outputArtifact": "10-theme Radar Dashboard review & Starred Gateway cap diagnosis",
-            "targetView": { "type": "sop", "id": "SOP-010", "cta": "Open Stage 3 Radar Dashboard Guide →" }
+            "targetView": {
+              "type": "sop",
+              "id": "SOP-010",
+              "cta": "Open Stage 3 Radar Dashboard Guide →"
+            }
           },
           {
             "stageNumber": 4,
@@ -2474,7 +3202,10 @@ window.FALLBACK_GUIDES_DB = {
             "whoIsInvolved": "Lead: Local Programme Manager (LPM) • Official Archiving: Lean Core Team Partner",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-002",
-            "involvedRoleIds": ["ROL-001", "ROL-002"],
+            "involvedRoleIds": [
+              "ROL-001",
+              "ROL-002"
+            ],
             "toolId": "TOL-012",
             "toolLabel": "Standalone GS Lean Maturity → Export Assessment",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
@@ -2486,7 +3217,11 @@ window.FALLBACK_GUIDES_DB = {
               "targetId": "SOP-002"
             },
             "outputArtifact": "Exported local assessment files & official Core Team submission copy",
-            "targetView": { "type": "sop", "id": "SOP-010", "cta": "Open Stage 4 Export & Handover Guide →" }
+            "targetView": {
+              "type": "sop",
+              "id": "SOP-010",
+              "cta": "Open Stage 4 Export & Handover Guide →"
+            }
           }
         ]
       },
@@ -2553,10 +3288,22 @@ window.FALLBACK_GUIDES_DB = {
             }
           ],
           "metaFields": [
-            { "label": "Project / Department", "value": "Example: Gas Services Turbine Assembly" },
-            { "label": "Assessment Date", "value": "2026-Q1 Baseline (New Standard)" },
-            { "label": "Assessed By", "value": "Local Programme Manager + Site Leadership Team" },
-            { "label": "Core Team Partner", "value": "Lean Core Team Partner (Official Filing)" }
+            {
+              "label": "Project / Department",
+              "value": "Example: Gas Services Turbine Assembly"
+            },
+            {
+              "label": "Assessment Date",
+              "value": "2026-Q1 Baseline (New Standard)"
+            },
+            {
+              "label": "Assessed By",
+              "value": "Local Programme Manager + Site Leadership Team"
+            },
+            {
+              "label": "Core Team Partner",
+              "value": "Lean Core Team Partner (Official Filing)"
+            }
           ],
           "leftBoxTitle": "1. What Strong Workplace Evidence Notes Look Like (Comments & Actions)",
           "leftBoxBullets": [
@@ -2620,7 +3367,13 @@ window.FALLBACK_GUIDES_DB = {
           "subtitle": "Interactive 1-Page 28-Question & 1–5 Scoring Rubric Matrix with New Standard (2026) / Old Standard toggle, Full Verbatim / Executive Concise toggle, and native PowerPoint (.pptx), 4K Image (.png), and 1-Page PDF exports.",
           "filterAllLabel": "All Questions (28)",
           "filterFlaggedLabel": "★ Starred Gateways Only (17)",
-          "columns": ["#", "Assessment Question", "Topic", "Level", "Gateway?"],
+          "columns": [
+            "#",
+            "Assessment Question",
+            "Topic",
+            "Level",
+            "Gateway?"
+          ],
           "rows": []
         }
       ]
@@ -2645,10 +3398,25 @@ window.FALLBACK_GUIDES_DB = {
         "combinedDesc": "Interactive Programme Manager suite hosted at the PM Maturity Hub corporate intranet address."
       },
       "filingRule": "Export converted JSON files or Strategy Builder slides to your local Programme Manager folder.",
-      "processIds": ["PRC-003"],
-      "sopIds": ["SOP-005", "SOP-006"],
-      "toolIds": ["TOL-007", "TOL-003", "TOL-006", "TOL-011"],
-      "liveToolIds": ["LIVE-HUB", "LIVE-PORTAL", "LIVE-NAVIGATOR", "LIVE-STORYBOOK"],
+      "processIds": [
+        "PRC-003"
+      ],
+      "sopIds": [
+        "SOP-005",
+        "SOP-006"
+      ],
+      "toolIds": [
+        "TOL-007",
+        "TOL-003",
+        "TOL-006",
+        "TOL-011"
+      ],
+      "liveToolIds": [
+        "LIVE-HUB",
+        "LIVE-PORTAL",
+        "LIVE-NAVIGATOR",
+        "LIVE-STORYBOOK"
+      ],
       "crossRef": {
         "kicker": "Related Playbook • 6-Stage Navigator Process",
         "title": "Ready to run a leadership workshop with Voice of the Customer and a 1-Page Charter?",
@@ -2656,10 +3424,30 @@ window.FALLBACK_GUIDES_DB = {
         "targetPlaybookId": "PLB-001",
         "primaryButtonLabel": "Switch to Lean@GS Navigator Toolkit Playbook →",
         "deepLinks": [
-          { "label": "Stage 1–2 Assessment & Analysis →", "playbookId": "PLB-001", "view": "sop", "id": "SOP-001" },
-          { "label": "Stage 3 Voice of the Customer (VOC) →", "playbookId": "PLB-001", "view": "sop", "id": "SOP-003" },
-          { "label": "Stage 4–6 Workshop, Charter & Action Log →", "playbookId": "PLB-001", "view": "sop", "id": "SOP-004" },
-          { "label": "1-Page Charter Example →", "playbookId": "PLB-001", "view": "template", "id": "TPL-001" }
+          {
+            "label": "Stage 1–2 Assessment & Analysis →",
+            "playbookId": "PLB-001",
+            "view": "sop",
+            "id": "SOP-001"
+          },
+          {
+            "label": "Stage 3 Voice of the Customer (VOC) →",
+            "playbookId": "PLB-001",
+            "view": "sop",
+            "id": "SOP-003"
+          },
+          {
+            "label": "Stage 4–6 Workshop, Charter & Action Log →",
+            "playbookId": "PLB-001",
+            "view": "sop",
+            "id": "SOP-004"
+          },
+          {
+            "label": "1-Page Charter Example →",
+            "playbookId": "PLB-001",
+            "view": "template",
+            "id": "TPL-001"
+          }
         ]
       },
       "chooserLabel": "Which PM Maturity Hub phase or utility are you using today?",
@@ -2685,10 +3473,22 @@ window.FALLBACK_GUIDES_DB = {
         "formulaBanner": "1. Phase 1: Assess → 2. Phase 2: Visualize → 3. Phase 3: Plan → 4. Utilities (CSV to JSON Fixer)",
         "mapHeading": "The 4 Sections Inside Lean@GS PM Maturity Hub",
         "roleFilters": [
-          { "id": "all", "label": "All Roles" },
-          { "id": "ROL-001", "label": "Local Programme Manager (LPM)" },
-          { "id": "ROL-003", "label": "Site Leadership Team" },
-          { "id": "ROL-002", "label": "Lean Core Team (Optional Support)" }
+          {
+            "id": "all",
+            "label": "All Roles"
+          },
+          {
+            "id": "ROL-001",
+            "label": "Local Programme Manager (LPM)"
+          },
+          {
+            "id": "ROL-003",
+            "label": "Site Leadership Team"
+          },
+          {
+            "id": "ROL-002",
+            "label": "Lean Core Team (Optional Support)"
+          }
         ],
         "briefingButtonLabel": "⏱ Overview of PM Maturity Hub (60-Sec Pitch)",
         "briefingTitle": "60-Second Overview: The 3 Phases + Utilities of Lean@GS PM Maturity Hub",
@@ -2706,14 +3506,21 @@ window.FALLBACK_GUIDES_DB = {
             "whoIsInvolved": "Lead: Local Programme Manager (LPM) • Optional Support: Lean Core Team",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-002",
-            "involvedRoleIds": ["ROL-001", "ROL-002"],
+            "involvedRoleIds": [
+              "ROL-001",
+              "ROL-002"
+            ],
             "toolId": "TOL-007",
             "toolLabel": "PM Maturity Hub → Phase 1: Assess",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
             "secondaryLiveUrl": "https://share.gemini.google/UjLQiIQXFbgc",
             "secondaryLiveLabel": "Maturity Model Storybook ↗",
             "outputArtifact": "Completed 28-question assessment & Score Explainer gateway cap diagnosis",
-            "targetView": { "type": "sop", "id": "SOP-005", "cta": "Open Phase 1 Assess Guide →" }
+            "targetView": {
+              "type": "sop",
+              "id": "SOP-005",
+              "cta": "Open Phase 1 Assess Guide →"
+            }
           },
           {
             "stageNumber": 2,
@@ -2722,12 +3529,20 @@ window.FALLBACK_GUIDES_DB = {
             "whoIsInvolved": "Lead: Local Programme Manager (LPM) with Site Leadership Team • Optional Support: Lean Core Team",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-003",
-            "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
+            "involvedRoleIds": [
+              "ROL-001",
+              "ROL-003",
+              "ROL-002"
+            ],
             "toolId": "TOL-003",
             "toolLabel": "PM Maturity Hub → Phase 2: Visualize",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
             "outputArtifact": "Visual Metro Journey map & 4-Pillar capability snapshot",
-            "targetView": { "type": "sop", "id": "SOP-005", "cta": "Open Phase 2 Visualize Guide →" }
+            "targetView": {
+              "type": "sop",
+              "id": "SOP-005",
+              "cta": "Open Phase 2 Visualize Guide →"
+            }
           },
           {
             "stageNumber": 3,
@@ -2736,12 +3551,19 @@ window.FALLBACK_GUIDES_DB = {
             "whoIsInvolved": "Lead: Local Programme Manager (LPM) • Optional Support: Lean Core Team",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-002",
-            "involvedRoleIds": ["ROL-001", "ROL-002"],
+            "involvedRoleIds": [
+              "ROL-001",
+              "ROL-002"
+            ],
             "toolId": "TOL-006",
             "toolLabel": "PM Maturity Hub → Phase 3: Plan",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
             "outputArtifact": "Local Strategy Builder improvement plan & simulated score unlock",
-            "targetView": { "type": "sop", "id": "SOP-006", "cta": "Open Phase 3 Plan Guide →" }
+            "targetView": {
+              "type": "sop",
+              "id": "SOP-006",
+              "cta": "Open Phase 3 Plan Guide →"
+            }
           },
           {
             "stageNumber": 4,
@@ -2750,12 +3572,19 @@ window.FALLBACK_GUIDES_DB = {
             "whoIsInvolved": "Lead: Local Programme Manager (LPM) • Optional Support: Lean Core Team",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-002",
-            "involvedRoleIds": ["ROL-001", "ROL-002"],
+            "involvedRoleIds": [
+              "ROL-001",
+              "ROL-002"
+            ],
             "toolId": "TOL-011",
             "toolLabel": "PM Maturity Hub → Utilities: CSV to JSON Fixer",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
             "outputArtifact": "Repaired assessment file ready to load into any Hub module",
-            "targetView": { "type": "sop", "id": "SOP-006", "cta": "Open CSV to JSON Fixer Guide →" }
+            "targetView": {
+              "type": "sop",
+              "id": "SOP-006",
+              "cta": "Open CSV to JSON Fixer Guide →"
+            }
           }
         ]
       },
@@ -2763,50 +3592,97 @@ window.FALLBACK_GUIDES_DB = {
         {
           "id": "DEC-003",
           "kind": "vital-few-guide",
-          "navTitle": "How to Narrow Simulation Gateways to the 'Vital Few' (2–3 Gateways)",
-          "eyebrow": "Phase 3 Simulator & Strategy Builder Coaching • Standalone PM Maturity Hub",
-          "badge": "Coaching Guide • 2 to 3 Gateways",
+          "navTitle": "Focus on the Vital Few: Aligning Business Priorities with Lean Capability",
+          "eyebrow": "STRATEGY BUILDER COACHING • BUSINESS PRIORITY FIRST",
+          "badge": "Target: 2 to 3 Business-Led Actions",
           "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
           "liveLabel": "Launch PM Maturity Hub (Simulator) ↗",
-          "title": "How to Narrow Your Simulation to the 'Vital Few' (2 to 3 Gateways)",
-          "subtitle": "Before dragging sliders in the live PM Maturity Hub Simulator or selecting initiatives in Strategy Builder, use these 3 rules to focus on 2 to 3 starred Gateway capabilities.",
+          "title": "Focusing on the 'Vital Few' (2 to 3 Key Actions)",
+          "subtitle": "Start with the operational business problems your leaders need to solve—then select the 2 or 3 Lean maturity capabilities in Strategy Builder & Simulator to support those business results.",
           "rules": [
             {
-              "badge": "Rule 1 • From Phase 1 (Score Explainer)",
-              "title": "Rule 1 — Spot Starred Gateways (★) Capping Your Score",
-              "desc": "Open PM Maturity Hub → Phase 1: Assess → Score Explainer and check the Gateway Status Grid. Any starred Gateway (★) scoring below 3 locks your overall level—start your simulation there.",
-              "whereInApp": "PM Maturity Hub → Score Explainer → Gateway Status Grid"
+              "badge": "STEP 1 • BUSINESS PRIORITY FIRST",
+              "title": "Step 1: Define the Business Priority (Lead Time, Quality, Throughput, Cost, Overheads, Inventory, Complexity)",
+              "desc": "Identify the specific operational challenge hurting project or plant performance right now—before looking at maturity scores.",
+              "whereInApp": "Leadership Alignment & VOC: Agree on the top 1–2 operational pain points across Lead Time, Quality, Throughput, Cost, Overheads, Inventory, or Complexity."
             },
             {
-              "badge": "Rule 2 • From Phase 2 (Metro Journey & The 4 Pillars)",
-              "title": "Rule 2 — Check Which Pillar Needs Foundation Support",
-              "desc": "Switch to Phase 2: Visualize → The 4 Pillars (Live) to see which of the 4 Lean Pillars has the weakest foundation stations.",
-              "whereInApp": "PM Maturity Hub → The 4 Pillars (Live) & Metro Journey"
+              "badge": "STEP 2 • SUPPORTING CAPABILITY",
+              "title": "Step 2: Identify the Supporting Maturity Capability in PM Maturity Hub",
+              "desc": "Use Score Explainer and Strategy Builder to see which foundational Lean capabilities (especially Starred Gateways ★ below Level 3) must be developed to solve that business problem.",
+              "whereInApp": "PM Maturity Hub → Strategy Builder & Simulator: Load your assessment file and inspect red/amber Starred Gateway (★) capabilities."
             },
             {
-              "badge": "Rule 3 • For Phase 3 (Strategy Builder & Simulator)",
-              "title": "Rule 3 — Test 2 to 3 Realistic Gateway Unlocks at a Time",
-              "desc": "Open Phase 3: Plan → Simulator and drag only 2 or 3 red Gateway sliders from 2 to 3 to see the exact Projected Score lift before adding them to Strategy Builder.",
-              "whereInApp": "PM Maturity Hub → Strategy Builder & ↳ Simulator"
+              "badge": "STEP 3 • FOCUSED CHARTER ACTIONS",
+              "title": "Step 3: Promote 2 to 3 Focused Actions into Your 1-Page Strategy Charter",
+              "desc": "Combine the Business Priority + Enabling Capability into 2 or 3 focused initiatives in the Strategy Charter table, assign one named owner, and export your 1-Page PDF.",
+              "whereInApp": "PM Maturity Hub → Strategy Builder: Select 2–3 supporting capabilities, customize the action text around your business target, and click 'Export 1-Page PDF'."
             }
           ],
           "comparisonExample": {
-            "heading": "What Good Looks Like: Focused Gateway Simulation vs. Unrealistic Slider Maxing",
+            "heading": "What Good Looks Like: 1 Business-Led Strategy Action vs. 1 Score-Chasing Wishlist Item",
             "good": {
-              "badge": "✓ GOOD SIMULATION TEST (REALISTIC WAVE)",
-              "gatewayRef": "Q10 (Level 1 ★ Gateway) + Q12 & Q14 (Level 2 ★ Gateways)",
-              "title": "Test unlocking Q10 to 3/5 first, then simulate Q12 & Q14 at 3/5",
-              "statement": "Drag Q10 (Pilot Experiments) from 2 to 3 in Simulator to verify the +1.0 Level 1 unlock, then select 2 supporting Daily Management habits in Strategy Builder.",
-              "whyItWorks": "Tests a realistic 2–3 action wave in the live Simulator and shows leadership the exact score unlock (+1.0 lift) achieved by closing the blocking Gateway."
+              "badge": "✅ Good Business-Led Action (Vital Few)",
+              "gatewayRef": "Business Priority: Quality + Q16 ★ & Q22 ★",
+              "title": "Business Outcome Supported by Enabling Lean Capability",
+              "statement": "Reduce repeat commissioning rework by 35% by embedding structured root-cause reflection after every major defect (Q16 ★) and blameless issue escalation (Q22 ★) by 30 Nov.",
+              "whyItWorks": "Starts with a high-priority business problem (35% reduction in repeat rework) and builds the exact Lean capability (Q16 ★ & Q22 ★) required to sustain the improvement."
             },
             "bad": {
-              "badge": "✕ UNREALISTIC SIMULATION (AVOID)",
-              "warningRef": "Dragging 15+ Sliders to 5/5 Simultaneously",
-              "title": "Drag every question slider to Level 5 in Simulator at once",
-              "statement": "Set all 28 sliders to 4 or 5 in the Simulator without checking which Level 1–2 Gateways are currently blocking progression.",
-              "whyItFails": "Produces an unrealistic roadmap that ignores the sequential Gateway cap mechanics and cannot be executed by site teams."
+              "badge": "❌ Score-Chasing Wishlist Item (Avoid)",
+              "warningRef": "Chasing Maturity Points Without a Business Target",
+              "title": "Unfocused Maturity-Score Wishlist",
+              "statement": "Select 10 questions in the Simulator to push our simulated maturity score from 1.9 to 3.2 by next quarter.",
+              "whyItFails": "Focuses on gaming the maturity number rather than solving an operational Lead Time, Quality, Throughput, or Cost problem, overwhelming the team with 10 simultaneous actions."
             }
-          }
+          },
+          "rulesHeading": "The 3-Step Alignment Logic: Business Priority First → Supported by Capability → Focused Action",
+          "matrixHeading": "Practical 'Business Priority ↔ Supporting Maturity Capability' Reference Matrix",
+          "matrixSubtitle": "Use this 7-priority reference table to connect concrete operational business needs with the enabling Lean maturity capabilities (Questions & ★ Gateways) required to deliver and sustain those results:",
+          "priorityMatrix": [
+            {
+              "priority": "1. Lead Time",
+              "painPoint": "Long end-to-end customer lead times & waiting between departments",
+              "supportingCapabilities": "Q12 ★ (Flow Metrics), Q14 ★ (Daily Huddles), Q19 (Departmental Handoffs), Q26 ★ (Cross-Functional Flow)",
+              "exampleAction": "Cut end-to-end order lead time by 20% by mapping cross-department handoffs (Q19) and resolving blockers in daily huddles (Q14 ★)."
+            },
+            {
+              "priority": "2. Quality",
+              "painPoint": "Repeat defects, rework loops, or escapes to the customer",
+              "supportingCapabilities": "Q14 ★ (Issue Escalation), Q16 ★ (Structured Reflection), Q17 (Lessons Learned), Q22 ★ (Blameless Reporting)",
+              "exampleAction": "Reduce repeat assembly rework by 35% by embedding structured root-cause reflection after every major defect (Q16 ★)."
+            },
+            {
+              "priority": "3. Throughput",
+              "painPoint": "Bottlenecks, uneven output, or missed delivery milestones",
+              "supportingCapabilities": "Q10 ★ (Structured Pilot Experiments), Q11 (Standard Work), Q12 ★ (Throughput & Yield Tracking)",
+              "exampleAction": "Increase bottleneck cell throughput by 15% by running structured pilot experiments (Q10 ★) and stabilising standard work (Q11)."
+            },
+            {
+              "priority": "4. Cost",
+              "painPoint": "High direct job costs, scrap, or uncoordinated firefighting",
+              "supportingCapabilities": "Q4 ★ & Q5 ★ (Waste Elimination & Flow), Q13 (Preventing Local Optimisation), Q15 ★ (Frontline Waste Ideas)",
+              "exampleAction": "Reduce unit production cost by 8% by capturing and implementing weekly frontline waste-elimination ideas tied to team metrics (Q15 ★)."
+            },
+            {
+              "priority": "5. Overheads",
+              "painPoint": "Excessive indirect admin, manual chasing, and status meetings",
+              "supportingCapabilities": "Q7 ★ (Clear Role Ownership), Q8 ★ (Strategy & Capacity Alignment), Q14 ★ (Short Fixed Tiered Huddles)",
+              "exampleAction": "Cut indirect progress-chasing overhead by replacing ad-hoc status meetings with a 15-minute visual daily huddle and clear role ownership (Q7 ★, Q14 ★)."
+            },
+            {
+              "priority": "6. Inventory",
+              "painPoint": "Excess work-in-progress buffers, parts shortages, or batch-and-queue habits",
+              "supportingCapabilities": "Q5 ★ (Flow vs. Batching), Q12 ★ (Work-in-Progress & Lead-Time Metrics), Q18 ★ & Q27 ★ (Supplier Value Chain Alignment)",
+              "exampleAction": "Lower work-in-progress (WIP) inventory by 25% by replacing batch handoffs with pull flow and shared supplier standards (Q5 ★, Q18 ★)."
+            },
+            {
+              "priority": "7. Complexity",
+              "painPoint": "Over-complicated processes, custom workarounds, and variant chaos",
+              "supportingCapabilities": "Q11 (Visual Standard Work), Q19 (SIPOC Interface Agreements), Q23 & Q25 ★ (Scaling Proven Standards)",
+              "exampleAction": "Simplify process handoffs across 3 shifts by locking in one visual standard work routine and scaling the pilot standard site-wide (Q11, Q25 ★)."
+            }
+          ]
         },
         {
           "id": "DEC-MAT-001",
@@ -2828,7 +3704,7 @@ window.FALLBACK_GUIDES_DB = {
           "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
           "liveLabel": "Launch PM Maturity Hub (Strategy Builder) ↗",
           "title": "PM Maturity Hub Strategy Builder — Annotated Example & Field Guide",
-          "subtitle": "Use this annotated reference to see how a focused 3-Gateway improvement wave looks before building and exporting your plan inside PM Maturity Hub → Phase 3: Plan → Strategy Builder.",
+          "subtitle": "Annotated reference showing a completed 1-Page Strategy Charter exported from PM Maturity Hub (Strategy Builder & Simulator), pairing Business Priorities with supporting Lean maturity capabilities (★).",
           "appLocation": "PM Maturity Hub → Phase 3: Plan → Strategy Builder (and ↳ Simulator)",
           "fieldGuide": [
             {
@@ -2848,10 +3724,22 @@ window.FALLBACK_GUIDES_DB = {
             }
           ],
           "metaFields": [
-            { "label": "Site / Area", "value": "Example: Grid Transformers Assembly" },
-            { "label": "Date", "value": "2026-Q1 Simulation" },
-            { "label": "Local Programme Manager", "value": "Local Programme Manager (LPM)" },
-            { "label": "Simulated Score Lift", "value": "1.6 → 2.6 (Unlocks Level 2)" }
+            {
+              "label": "Site / Area",
+              "value": "Example: Grid Transformers Assembly"
+            },
+            {
+              "label": "Date",
+              "value": "2026-Q1 Simulation"
+            },
+            {
+              "label": "Local Programme Manager",
+              "value": "Local Programme Manager (LPM)"
+            },
+            {
+              "label": "Simulated Score Lift",
+              "value": "1.6 → 2.6 (Unlocks Level 2)"
+            }
           ],
           "leftBoxTitle": "1. 4-Pillar Capability Highlights (Metro Journey & 4 Pillars)",
           "leftBoxBullets": [
@@ -2864,42 +3752,39 @@ window.FALLBACK_GUIDES_DB = {
           "rightBoxSecondaryPrefix": "Simulated Gateway Actions",
           "rightBoxSecondaryValue": "3 Starred Gateways Tested at Level 3",
           "tableHeaders": {
-            "code": "#",
-            "action": "Example Simulated Capability Action ([Gateway] from [Current] to [Target] by [Date])",
-            "lift": "Simulated Lift",
-            "tag": "4-Pillar Area",
-            "due": "Target",
-            "owner": "Owner"
+            "focus": "Focused Strategy Action ('Vital Few' — Max 3)",
+            "owner": "Single Named Owner",
+            "targetDate": "Target Milestone",
+            "kpi": "Measurable Business Outcome Target",
+            "lift": "Supporting Capability (★)",
+            "tag": "Business Priority"
           },
           "objectiveRowCode": "SIM 1",
           "objectiveRowText": "Annotated Example: 3 Gateway Unlocks Tested in PM Maturity Hub Simulator & Strategy Builder",
           "exampleRows": [
             {
-              "code": "SIM 1.1",
-              "action": "Raise Q10 (Structured Pilot Experiments) from 2/5 to 3/5 across 70% of teams by Q2",
-              "note": "Primary Level 1 ★ Gateway unlock in Score Explainer",
-              "lift": "+1.0 Level 1 Unlock",
-              "tag": "Tools & KPIs",
-              "due": "Q2",
-              "owner": "Local Programme Manager"
+              "focus": "1. Cut indirect progress-chasing overhead by replacing ad-hoc status calls with a fixed 15-minute visual daily huddle and clear role ownership.",
+              "owner": "A. Lindqvist (Project Director)",
+              "targetDate": "Day 30 (15 Nov)",
+              "kpi": "Cut weekly status-meeting overhead hours by 30% & resolve blockers within 24h",
+              "lift": "Q7 ★ Role Ownership & Q14 ★ Daily Huddles",
+              "tag": "Overheads"
             },
             {
-              "code": "SIM 1.2",
-              "action": "Raise Q12 (Work-Area Visual KPIs) from 2/5 to 3/5 across 75% of cells by Q2",
-              "note": "Level 2 ★ Gateway station on Metro Journey map",
-              "lift": "+0.35 Level 2 Lift",
-              "tag": "Daily Management",
-              "due": "Q2",
-              "owner": "Area Operations Lead"
+              "focus": "2. Cut engineering-to-procurement handoff lead time by locking in standard interface agreements and visual flow metrics.",
+              "owner": "R. Kovács (Lead Systems Engineer)",
+              "targetDate": "Day 60 (15 Dec)",
+              "kpi": "Cut engineering release lead time by 20% across all work packages",
+              "lift": "Q12 ★ Flow Metrics & Q19 Handoffs",
+              "tag": "Lead Time"
             },
             {
-              "code": "SIM 1.3",
-              "action": "Raise Q14 (Consistent Daily Huddles) from 2/5 to 3/5 across 75% of shift teams by Q3",
-              "note": "Level 2 ★ Gateway station supporting rapid issue escalation",
-              "lift": "+0.45 Level 2 Lift",
-              "tag": "Daily Management",
-              "due": "Q3",
-              "owner": "Shift Team Leaders"
+              "focus": "3. Reduce repeat site commissioning defects by running structured root-cause reflection after every major punch-list escape.",
+              "owner": "T. Nguyen (Quality Manager)",
+              "targetDate": "Day 90 (15 Jan)",
+              "kpi": "Reduce repeat commissioning rework defects by 35%",
+              "lift": "Q16 ★ Structured Reflection & Q17",
+              "tag": "Quality"
             }
           ]
         }
@@ -2915,7 +3800,13 @@ window.FALLBACK_GUIDES_DB = {
           "subtitle": "Interactive 1-Page 28-Question & 1–5 Scoring Rubric Matrix with New Standard (2026) / Old Standard toggle, Full Verbatim / Executive Concise toggle, and native PowerPoint (.pptx), 4K Image (.png), and 1-Page PDF exports.",
           "filterAllLabel": "All Questions (28)",
           "filterFlaggedLabel": "★ Starred Gateways Only (17)",
-          "columns": ["#", "Assessment Question", "Topic", "Level", "Gateway?"],
+          "columns": [
+            "#",
+            "Assessment Question",
+            "Topic",
+            "Level",
+            "Gateway?"
+          ],
           "rows": []
         },
         {
@@ -2927,17 +3818,86 @@ window.FALLBACK_GUIDES_DB = {
           "subtitle": "Quick reference for all 4 sidebar groups inside the standalone PM Maturity Hub application.",
           "filterAllLabel": "All Modules (9)",
           "filterFlaggedLabel": "★ Core Interactive Views (5)",
-          "columns": ["Phase", "Sidebar Tab Name", "Primary Purpose", "Input Needed", "Core View?"],
+          "columns": [
+            "Phase",
+            "Sidebar Tab Name",
+            "Primary Purpose",
+            "Input Needed",
+            "Core View?"
+          ],
           "rows": [
-            { "code": "P1-A", "col1": "Maturity Assessment", "col2": "Score the 28 maturity questions inside PM Maturity Hub", "col3": "Site evidence", "flagged": true, "flagLabel": "★ Core View" },
-            { "code": "P1-B", "col1": "Maturity Explainer", "col2": "Read plain-English descriptions of Maturity Levels 0 to 4", "col3": "None", "flagged": false, "flagLabel": "Reference" },
-            { "code": "P1-C", "col1": "Score Explainer", "col2": "See how the 17 starred Gateways cap the overall score", "col3": "Assessment file", "flagged": true, "flagLabel": "★ Core View" },
-            { "code": "P2-A", "col1": "Metro Journey", "col2": "Visualise the 28 questions as stations on a Metro Journey map", "col3": "Assessment file", "flagged": true, "flagLabel": "★ Core View" },
-            { "code": "P2-B", "col1": "The 4 Pillars (Live)", "col2": "Interactive live breakdown across the 4 Lean pillars", "col3": "Assessment file", "flagged": true, "flagLabel": "★ Core View" },
-            { "code": "P2-C", "col1": "Pillars (Static)", "col2": "Static reference poster of the 4 Lean pillars", "col3": "None", "flagged": false, "flagLabel": "Reference" },
-            { "code": "P3-A", "col1": "Strategy Builder", "col2": "Combine capability gaps with priorities and export a summary", "col3": "Assessment file", "flagged": true, "flagLabel": "★ Core View" },
-            { "code": "P3-B", "col1": "Simulator", "col2": "Drag score sliders to test what-if Gateway unlocks", "col3": "Assessment file", "flagged": false, "flagLabel": "Utility" },
-            { "code": "UTIL", "col1": "CSV to JSON Fixer", "col2": "Convert legacy CSV exports into clean JSON assessment files", "col3": "Legacy .csv file", "flagged": false, "flagLabel": "Utility" }
+            {
+              "code": "P1-A",
+              "col1": "Maturity Assessment",
+              "col2": "Score the 28 maturity questions inside PM Maturity Hub",
+              "col3": "Site evidence",
+              "flagged": true,
+              "flagLabel": "★ Core View"
+            },
+            {
+              "code": "P1-B",
+              "col1": "Maturity Explainer",
+              "col2": "Read plain-English descriptions of Maturity Levels 0 to 4",
+              "col3": "None",
+              "flagged": false,
+              "flagLabel": "Reference"
+            },
+            {
+              "code": "P1-C",
+              "col1": "Score Explainer",
+              "col2": "See how the 17 starred Gateways cap the overall score",
+              "col3": "Assessment file",
+              "flagged": true,
+              "flagLabel": "★ Core View"
+            },
+            {
+              "code": "P2-A",
+              "col1": "Metro Journey",
+              "col2": "Visualise the 28 questions as stations on a Metro Journey map",
+              "col3": "Assessment file",
+              "flagged": true,
+              "flagLabel": "★ Core View"
+            },
+            {
+              "code": "P2-B",
+              "col1": "The 4 Pillars (Live)",
+              "col2": "Interactive live breakdown across the 4 Lean pillars",
+              "col3": "Assessment file",
+              "flagged": true,
+              "flagLabel": "★ Core View"
+            },
+            {
+              "code": "P2-C",
+              "col1": "Pillars (Static)",
+              "col2": "Static reference poster of the 4 Lean pillars",
+              "col3": "None",
+              "flagged": false,
+              "flagLabel": "Reference"
+            },
+            {
+              "code": "P3-A",
+              "col1": "Strategy Builder",
+              "col2": "Combine capability gaps with priorities and export a summary",
+              "col3": "Assessment file",
+              "flagged": true,
+              "flagLabel": "★ Core View"
+            },
+            {
+              "code": "P3-B",
+              "col1": "Simulator",
+              "col2": "Drag score sliders to test what-if Gateway unlocks",
+              "col3": "Assessment file",
+              "flagged": false,
+              "flagLabel": "Utility"
+            },
+            {
+              "code": "UTIL",
+              "col1": "CSV to JSON Fixer",
+              "col2": "Convert legacy CSV exports into clean JSON assessment files",
+              "col3": "Legacy .csv file",
+              "flagged": false,
+              "flagLabel": "Utility"
+            }
           ]
         }
       ]
@@ -2962,9 +3922,16 @@ window.FALLBACK_GUIDES_DB = {
         "combinedDesc": "Matching kitchen supplies [1–2] + drink orders [3] into a 1-Page Tray Charter (Stage 5) & safe delivery (Stage 6)."
       },
       "filingRule": "Pin the 1-Page Tea & Coffee Order Sheet next to the kettle and wipe the counter before leaving.",
-      "processIds": ["PRC-004"],
-      "sopIds": ["SOP-007", "SOP-008"],
-      "toolIds": ["TOL-008"],
+      "processIds": [
+        "PRC-004"
+      ],
+      "sopIds": [
+        "SOP-007",
+        "SOP-008"
+      ],
+      "toolIds": [
+        "TOL-008"
+      ],
       "liveToolIds": [],
       "chooserLabel": "Which part of the morning brew round are you doing right now?",
       "rulesKey": {
@@ -2989,10 +3956,22 @@ window.FALLBACK_GUIDES_DB = {
         "formulaBanner": "1. Kitchen Check → 2. Supply Gap Analysis → 3. Voice of the Customer (VOC) → 4. Brew Workshop → 5. 1-Page Tray Charter → 6. Delivery Plan",
         "mapHeading": "The 6-Stage End-to-End Office Brew Journey (Neutral Demo Sandbox)",
         "roleFilters": [
-          { "id": "all", "label": "All Roles" },
-          { "id": "ROL-D01", "label": "Designated Brew Maker" },
-          { "id": "ROL-D02", "label": "Kitchen Buddy" },
-          { "id": "ROL-D03", "label": "Thirsty Desk Team" }
+          {
+            "id": "all",
+            "label": "All Roles"
+          },
+          {
+            "id": "ROL-D01",
+            "label": "Designated Brew Maker"
+          },
+          {
+            "id": "ROL-D02",
+            "label": "Kitchen Buddy"
+          },
+          {
+            "id": "ROL-D03",
+            "label": "Thirsty Desk Team"
+          }
         ],
         "briefingButtonLabel": "⏱ Why Include an 'Office Brew' Demo? (30-Sec Pitch)",
         "briefingTitle": "Why We Include a Neutral 'Office Brew Run' Demo Playbook",
@@ -3013,7 +3992,11 @@ window.FALLBACK_GUIDES_DB = {
             "toolId": "TOL-008",
             "toolLabel": "Office Kitchen Kettle & Fridge",
             "outputArtifact": "Clear picture of clean mugs, water level & fresh milk",
-            "targetView": { "type": "sop", "id": "SOP-007", "cta": "Open Stage 1 Kitchen Check Guide →" }
+            "targetView": {
+              "type": "sop",
+              "id": "SOP-007",
+              "cta": "Open Stage 1 Kitchen Check Guide →"
+            }
           },
           {
             "stageNumber": 2,
@@ -3025,7 +4008,11 @@ window.FALLBACK_GUIDES_DB = {
             "toolId": "TOL-008",
             "toolLabel": "Kitchen Supply Check",
             "outputArtifact": "Shortlist of 2–3 kitchen supply fixes needed first",
-            "targetView": { "type": "sop", "id": "SOP-007", "cta": "Open Stage 2 Gap Analysis Guide →" }
+            "targetView": {
+              "type": "sop",
+              "id": "SOP-007",
+              "cta": "Open Stage 2 Gap Analysis Guide →"
+            }
           },
           {
             "stageNumber": 3,
@@ -3037,7 +4024,11 @@ window.FALLBACK_GUIDES_DB = {
             "toolId": "TOL-008",
             "toolLabel": "Sticky Note Order Pad",
             "outputArtifact": "Captured team drink requests & urgent meeting priorities",
-            "targetView": { "type": "sop", "id": "SOP-007", "cta": "Open Stage 3 Team Orders Guide →" }
+            "targetView": {
+              "type": "sop",
+              "id": "SOP-007",
+              "cta": "Open Stage 3 Team Orders Guide →"
+            }
           },
           {
             "stageNumber": 4,
@@ -3049,7 +4040,11 @@ window.FALLBACK_GUIDES_DB = {
             "toolId": "TOL-008",
             "toolLabel": "4-Mug Non-Slip Tray",
             "outputArtifact": "Agreed tray selection matching supply limits to team orders",
-            "targetView": { "type": "sop", "id": "SOP-008", "cta": "Open Stage 4 Brew Workshop Guide →" }
+            "targetView": {
+              "type": "sop",
+              "id": "SOP-008",
+              "cta": "Open Stage 4 Brew Workshop Guide →"
+            }
           },
           {
             "stageNumber": 5,
@@ -3061,7 +4056,11 @@ window.FALLBACK_GUIDES_DB = {
             "toolId": "TOL-008",
             "toolLabel": "1-Page Order Sheet",
             "outputArtifact": "Locked 1-Page Tea & Coffee Round Order Sheet",
-            "targetView": { "type": "template", "id": "TPL-003", "cta": "Open Stage 5 Tray Charter →" }
+            "targetView": {
+              "type": "template",
+              "id": "TPL-003",
+              "cta": "Open Stage 5 Tray Charter →"
+            }
           },
           {
             "stageNumber": 6,
@@ -3073,7 +4072,11 @@ window.FALLBACK_GUIDES_DB = {
             "toolId": "TOL-008",
             "toolLabel": "4-Mug Tray & Colour Chart",
             "outputArtifact": "Delivered hot drinks & wiped kitchen counter",
-            "targetView": { "type": "sop", "id": "SOP-008", "cta": "Open Stage 6 Delivery Guide →" }
+            "targetView": {
+              "type": "sop",
+              "id": "SOP-008",
+              "cta": "Open Stage 6 Delivery Guide →"
+            }
           }
         ]
       },
@@ -3153,10 +4156,22 @@ window.FALLBACK_GUIDES_DB = {
             }
           ],
           "metaFields": [
-            { "label": "Desk Bank / Floor Zone", "value": "Floor 2 — North Engineering Bay" },
-            { "label": "Brew Run Time", "value": "08:50 AM (Before 09:00 AM Standup)" },
-            { "label": "Designated Brew Maker", "value": "@BrewMaker" },
-            { "label": "Round Sponsor (Biscuits)", "value": "@SarahJenkins" }
+            {
+              "label": "Desk Bank / Floor Zone",
+              "value": "Floor 2 — North Engineering Bay"
+            },
+            {
+              "label": "Brew Run Time",
+              "value": "08:50 AM (Before 09:00 AM Standup)"
+            },
+            {
+              "label": "Designated Brew Maker",
+              "value": "@BrewMaker"
+            },
+            {
+              "label": "Round Sponsor (Biscuits)",
+              "value": "@SarahJenkins"
+            }
           ],
           "leftBoxTitle": "1. Stage 3 Team Drink Needs (Problems to Solve)",
           "leftBoxBullets": [
@@ -3219,14 +4234,62 @@ window.FALLBACK_GUIDES_DB = {
           "subtitle": "Keep this reference table by the kettle so nobody ever serves dishwater tea or scalded instant coffee.",
           "filterAllLabel": "All Drink Standards (6)",
           "filterFlaggedLabel": "★ Golden Brew Rules Only (3)",
-          "columns": ["Code", "Drink Name & Preparation Rule", "Category", "Steep / Pour Time", "Golden Rule"],
+          "columns": [
+            "Code",
+            "Drink Name & Preparation Rule",
+            "Category",
+            "Steep / Pour Time",
+            "Golden Rule"
+          ],
           "rows": [
-            { "code": "BRW-01", "col1": "Builders Breakfast Tea — Steep teabag in boiling water for 3 full minutes before adding milk", "col2": "Black Tea", "col3": "3 Mins Steep", "flagged": true, "flagLabel": "★ Never Milk First" },
-            { "code": "BRW-02", "col1": "Light Milky Tea — Steep 2 minutes, squeeze teabag gently against mug wall, add 25ml fresh milk", "col2": "Black Tea", "col3": "2 Mins Steep", "flagged": false, "flagLabel": "Standard" },
-            { "code": "BRW-03", "col1": "Filter / Cafetiere Coffee — Wait 30 seconds after kettle boils so 94°C water does not burn grounds", "col2": "Coffee", "col3": "4 Mins Plunge", "flagged": true, "flagLabel": "★ Wait 30s Post-Boil" },
-            { "code": "BRW-04", "col1": "Instant Coffee — Dissolve granules with 15ml cold milk or warm water before pouring boiling water", "col2": "Coffee", "col3": "30 Secs Stir", "flagged": false, "flagLabel": "Standard" },
-            { "code": "BRW-05", "col1": "Herbal / Peppermint Infusion — Boiling water only; keep a 15mm safety rim below the mug top", "col2": "Herbal", "col3": "3 Mins Steep", "flagged": false, "flagLabel": "Standard" },
-            { "code": "BRW-06", "col1": "4-Mug Tray Safety Rule — Never stack mugs or carry more than 4 hot drinks in a single trip", "col2": "Tray Safety", "col3": "15mm Safety Rim", "flagged": true, "flagLabel": "★ 4-Mug Max Cap" }
+            {
+              "code": "BRW-01",
+              "col1": "Builders Breakfast Tea — Steep teabag in boiling water for 3 full minutes before adding milk",
+              "col2": "Black Tea",
+              "col3": "3 Mins Steep",
+              "flagged": true,
+              "flagLabel": "★ Never Milk First"
+            },
+            {
+              "code": "BRW-02",
+              "col1": "Light Milky Tea — Steep 2 minutes, squeeze teabag gently against mug wall, add 25ml fresh milk",
+              "col2": "Black Tea",
+              "col3": "2 Mins Steep",
+              "flagged": false,
+              "flagLabel": "Standard"
+            },
+            {
+              "code": "BRW-03",
+              "col1": "Filter / Cafetiere Coffee — Wait 30 seconds after kettle boils so 94°C water does not burn grounds",
+              "col2": "Coffee",
+              "col3": "4 Mins Plunge",
+              "flagged": true,
+              "flagLabel": "★ Wait 30s Post-Boil"
+            },
+            {
+              "code": "BRW-04",
+              "col1": "Instant Coffee — Dissolve granules with 15ml cold milk or warm water before pouring boiling water",
+              "col2": "Coffee",
+              "col3": "30 Secs Stir",
+              "flagged": false,
+              "flagLabel": "Standard"
+            },
+            {
+              "code": "BRW-05",
+              "col1": "Herbal / Peppermint Infusion — Boiling water only; keep a 15mm safety rim below the mug top",
+              "col2": "Herbal",
+              "col3": "3 Mins Steep",
+              "flagged": false,
+              "flagLabel": "Standard"
+            },
+            {
+              "code": "BRW-06",
+              "col1": "4-Mug Tray Safety Rule — Never stack mugs or carry more than 4 hot drinks in a single trip",
+              "col2": "Tray Safety",
+              "col3": "15mm Safety Rim",
+              "flagged": true,
+              "flagLabel": "★ 4-Mug Max Cap"
+            }
           ]
         }
       ]

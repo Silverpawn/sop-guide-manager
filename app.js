@@ -37,7 +37,7 @@ let state = {
   matrixMode: "full" // "full" | "compact"
 };
 
-const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V17";
+const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V18";
 let DEFAULT_DB_SNAPSHOT = null;
 
 async function initApp() {
@@ -1288,37 +1288,18 @@ function getButtonBadgeStyle(buttonName) {
   if (name.includes("storybook")) {
     return "background:#1B1534;color:#2DD4BF;border:1.5px solid #0D9488;";
   }
-  // 2. Danger Red (#dc2626 bg, white text): Reset Progress, Clear Session, Delete, Clear
+  // 2. Danger Red (#dc2626 bg, white text): Reset Progress, Reset All Data, Clear Session, Delete, Clear
   if (name.includes("reset") || name.includes("clear") || name.includes("delete") || name.includes("remove")) {
     return "background:#DC2626;color:#FFFFFF;border:1px solid #B91C1C;";
   }
-  // 3. Petrol (#009999 bg, white text): Export Assessment (.json & .csv), New Standard active toggle, Download / Export / Save / Auto-Select / + Add
+  // 3. Bright Purple (#8A00E5 bg, white text): Primary action buttons (Upload Assessment, View Action Report, Save Session, Maturity Explainer, Orientation, Mark as Evaluated, Next Step, Accept Proposed Action)
   if (
-    name.includes("export") ||
-    name.includes("download") ||
-    name.includes("new standard") ||
-    name.includes("save") ||
-    name.includes("auto-select") ||
-    name.includes("+ add")
-  ) {
-    return "background:#009999;color:#FFFFFF;border:1px solid #007A7A;";
-  }
-  // 4. Deep Plum / Indigo (#2e1065 bg, white text): View Dashboard, Import Assessment (.json / .csv), ? User Guide, View Key, Load JSON / CSV, Select, Upload
-  if (
-    name.includes("view dashboard") ||
-    name.includes("import") ||
-    name.includes("user guide") ||
-    name.includes("view key") ||
-    name.includes("load ") ||
-    name.includes("upload") ||
-    name.includes("select ") ||
-    name.includes("old standard") ||
-    name.includes("print")
-  ) {
-    return "background:#2E1065;color:#FFFFFF;border:1px solid #4C1D95;";
-  }
-  // 5. Bright Purple (#8A00E5 bg, white text): Maturity Explainer, Orientation, Question Card Modal: Mark as Evaluated, Open Simulator, primary action buttons
-  if (
+    name.includes("upload assessment") ||
+    name.includes("view action report") ||
+    name.includes("export action report") ||
+    name.includes("save session") ||
+    name.includes("next step") ||
+    name.includes("accept proposed action") ||
     name.includes("maturity explainer") ||
     name.includes("orientation") ||
     name.includes("mark as evaluated") ||
@@ -1330,6 +1311,39 @@ function getButtonBadgeStyle(buttonName) {
     name.includes("slider")
   ) {
     return "background:#8A00E5;color:#FFFFFF;border:1px solid #6D28D9;";
+  }
+  // 4. Petrol (#009999 bg, white text): Export Assessment (.json & .csv), Export Full Report (PDF), Export Results (CSV), Export to PowerPoint, ? Help & Guide, Co-pilot, New Standard, Download, Save, Auto-Select, + Add
+  if (
+    name.includes("export") ||
+    name.includes("download") ||
+    name.includes("help & guide") ||
+    name.includes("co-pilot") ||
+    name.includes("output all data") ||
+    name.includes("new standard") ||
+    name.includes("save") ||
+    name.includes("auto-select") ||
+    name.includes("+ add")
+  ) {
+    return "background:#009999;color:#FFFFFF;border:1px solid #007A7A;";
+  }
+  // 5. Deep Plum / Indigo (#2e1065 bg, white text): View Dashboard, Import Assessment (.json / .csv), ? User Guide, View Key, Expand All, Collapse All, View Evaluation Logic, OE Comment, OE Action, Load JSON / CSV
+  if (
+    name.includes("view dashboard") ||
+    name.includes("import") ||
+    name.includes("user guide") ||
+    name.includes("view key") ||
+    name.includes("expand all") ||
+    name.includes("collapse all") ||
+    name.includes("evaluation logic") ||
+    name.includes("oe comment") ||
+    name.includes("oe action") ||
+    name.includes("load ") ||
+    name.includes("upload") ||
+    name.includes("select ") ||
+    name.includes("old standard") ||
+    name.includes("print")
+  ) {
+    return "background:#2E1065;color:#FFFFFF;border:1px solid #4C1D95;";
   }
   // 6. Dark Sidebar Slate (#1e1b4b bg, #e2e8f0 text): Sidebar navigation items & session buttons
   return "background:#1E1B4B;color:#E2E8F0;border:1px solid #312E81;";
@@ -1495,8 +1509,9 @@ function renderDecisionToolPage(dec, plb, canvas) {
     return;
   }
 
-  // Clean "How to Narrow Your Gaps to the 'Vital Few' (2 to 3 Key Actions)" Coaching Guide
+  // Clean Business-Priority-Led "Focus on the Vital Few (2 to 3 Key Actions)" Coaching Guide
   const rules = dec.rules || [];
+  const priorityMatrix = dec.priorityMatrix || [];
   const cmp = dec.comparisonExample || {};
   const goodEx = cmp.good || {};
   const badEx = cmp.bad || {};
@@ -1526,9 +1541,11 @@ function renderDecisionToolPage(dec, plb, canvas) {
         }
       </div>
 
-      <!-- 3-Rule Visual Decision Guide Cards -->
+      <!-- 3-Step Alignment Logic Cards (Business Priority First → Supported by Capability → Focused Action) -->
       <section class="editorial-section" style="margin-top:18px;">
-        <h3 class="editorial-h3">3 Rules for Selecting Your 2 to 3 Focus Actions</h3>
+        <h3 class="editorial-h3">${escapeHtml(
+          dec.rulesHeading || "The 3-Step Alignment Logic: Business Priority First → Supported by Capability → Focused Action"
+        )}</h3>
         <div class="funnel-controls-grid">
           ${rules
             .map(
@@ -1553,7 +1570,70 @@ function renderDecisionToolPage(dec, plb, canvas) {
         </div>
       </section>
 
-      <!-- Static "What Good Looks Like" Comparison Card (1 Good Focused Action vs. 1 Vague Wishlist Item) -->
+      <!-- Practical "Business Priority ↔ Supporting Maturity Capability" Reference Matrix (7 Core Business Priorities) -->
+      ${
+        priorityMatrix.length > 0
+          ? `
+      <section class="editorial-section">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+          <h3 class="editorial-h3" style="margin-bottom:0;">
+            ${escapeHtml(
+              dec.matrixHeading ||
+                "Practical 'Business Priority ↔ Supporting Maturity Capability' Reference Matrix"
+            )}
+          </h3>
+          <span class="muted-code-pill">7 Operational Business Priorities × Enabling Lean Capabilities</span>
+        </div>
+        <p style="font-size:13.5px;color:#54646E;margin-bottom:14px;">
+          ${escapeHtml(
+            dec.matrixSubtitle ||
+              "Start in the left column with the operational problem your leadership team needs to solve—then pair it with the enabling Lean maturity capabilities (Questions & ★ Gateways) needed to deliver and sustain that result:"
+          )}
+        </p>
+        <div style="overflow-x:auto;">
+          <table class="clean-table">
+            <thead>
+              <tr>
+                <th style="width:18%;">Business Priority (What the Business Needs)</th>
+                <th style="width:24%;">Typical Operational Pain Point</th>
+                <th style="width:26%;">Supporting Maturity Capabilities to Develop (Questions &amp; ★ Gateways)</th>
+                <th style="width:32%;">Example 'Vital Few' Charter Action (Business Target + Capability)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${priorityMatrix
+                .map(
+                  (row) => `
+                <tr>
+                  <td>
+                    <span style="display:inline-block;background:#1B1534;color:#FFFFFF;font-size:12px;font-weight:800;padding:5px 11px;border-radius:6px;letter-spacing:0.01em;">
+                      ${escapeHtml(row.priority || "")}
+                    </span>
+                  </td>
+                  <td style="color:#1B1534;font-weight:600;font-size:13px;">
+                    ${escapeHtml(row.painPoint || "")}
+                  </td>
+                  <td>
+                    <div style="background:#F3E8FF;border:1px solid #D8B4FE;color:#4C1D95;font-size:12.5px;font-weight:700;padding:7px 10px;border-radius:8px;line-height:1.45;">
+                      ${escapeHtml(row.supportingCapabilities || "")}
+                    </div>
+                  </td>
+                  <td>
+                    <div style="background:#F0FDF9;border-left:3.5px solid #009999;padding:8px 11px;border-radius:6px;color:#1B1534;font-size:13px;font-style:italic;font-weight:600;line-height:1.45;">
+                      "${escapeHtml(row.exampleAction || "")}"
+                    </div>
+                  </td>
+                </tr>`
+                )
+                .join("")}
+            </tbody>
+          </table>
+        </div>
+      </section>`
+          : ""
+      }
+
+      <!-- Static "What Good Looks Like" Comparison Card (1 Good Business-Led Action vs. 1 Vague Maturity Wishlist Item) -->
       <section class="editorial-section">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
           <h3 class="editorial-h3" style="margin-bottom:0;">
