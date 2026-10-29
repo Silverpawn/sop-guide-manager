@@ -5446,7 +5446,8 @@ window.FALLBACK_GUIDES_DB = {
           ]
         }
       ],
-      "referenceTables": []
+      "referenceTables": [],
+      "liveToolIds": []
     }
   ]
 };

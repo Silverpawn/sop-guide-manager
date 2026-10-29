@@ -37,7 +37,7 @@ let state = {
   matrixMode: "full" // "full" | "compact"
 };
 
-const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V24";
+const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V25";
 let DEFAULT_DB_SNAPSHOT = null;
 
 async function initApp() {
@@ -113,13 +113,13 @@ function getActiveTools() {
 function getActiveLiveTools(plb) {
   const allLive = DB?.meta?.liveTools || [];
   const activePlb = plb || getActivePlaybook();
-  if (!activePlb) return allLive;
+  if (!activePlb) return [];
   if (Array.isArray(activePlb.liveToolIds)) {
     return activePlb.liveToolIds
       .map((id) => allLive.find((lt) => lt.id === id))
       .filter(Boolean);
   }
-  return allLive;
+  return [];
 }
 
 function escapeHtml(str) {
@@ -667,7 +667,7 @@ const OPERATIONAL_PLAYBOOK_CARDS = [
 ];
 
 function renderSidebarThreeWayCrossRef(plb) {
-  if (!plb || plb.id === "PLB-DEMO") return "";
+  if (!plb || !OPERATIONAL_PLAYBOOK_CARDS.some((c) => c.id === plb.id)) return "";
   const others = OPERATIONAL_PLAYBOOK_CARDS.filter((c) => c.id !== plb.id);
   return `
     <div class="sidebar-launcher-card" style="background:linear-gradient(135deg,#1B1534 0%,#2E1065 100%);border-color:#A855F7;margin-bottom:10px;">
@@ -690,7 +690,7 @@ function renderSidebarThreeWayCrossRef(plb) {
 }
 
 function renderThreeWayCrossRefCards(plb) {
-  if (!plb || plb.id === "PLB-DEMO") return "";
+  if (!plb || !OPERATIONAL_PLAYBOOK_CARDS.some((c) => c.id === plb.id)) return "";
   return `
     <section class="cross-ref-callout-card" role="region" aria-label="Related Lean@GS Playbooks (1-Click Cross-Reference)" style="margin-bottom:22px;">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
@@ -780,8 +780,8 @@ function renderJourneyPage(plb, canvas) {
   const roleFilters = jMap.roleFilters || [{ id: "all", label: "All Roles" }];
   const processes = getActiveProcesses();
   const rulesKey = plb.rulesKey;
-  const gp = plb.goldenPrinciple;
-  const conv = plb.convergenceBanner;
+  const gp = plb.goldenPrinciple || jMap.goldenPrinciple;
+  const conv = plb.convergenceBanner || jMap.convergenceBanner;
 
   canvas.innerHTML = `
     <div class="content-container">
@@ -804,9 +804,9 @@ function renderJourneyPage(plb, canvas) {
         gp && gp.quote
           ? `
         <div class="golden-principle-box">
-          <div class="golden-principle-kicker">Core Navigator Principle</div>
+          <div class="golden-principle-kicker">${escapeHtml(gp.eyebrow || "Core Principle")}</div>
           <div class="golden-principle-quote">“${escapeHtml(gp.quote)}”</div>
-          <div class="golden-principle-desc">${escapeHtml(gp.explanation || "")}</div>
+          <div class="golden-principle-desc">${escapeHtml(gp.explanation || gp.description || "")}</div>
         </div>`
           : ""
       }
@@ -926,8 +926,13 @@ function renderJourneyPage(plb, canvas) {
                 st.supportRoleId !== state.journeyRoleFilter &&
                 !(st.involvedRoleIds || []).includes(state.journeyRoleFilter);
               const leadRoleObj = DB.roles[st.leadRoleId];
-              const toolObj = DB.tools[st.toolId];
-              const whoText = st.whoIsInvolved || st.whoAndDuration || st.leadRoleLabel || leadRoleObj?.title || "";
+              const toolObj = DB.tools[st.toolId || "TOL-AUTH-1"];
+              const whoText = st.whoIsInvolved || st.whoInvolved || st.whoAndDuration || st.leadRoleLabel || leadRoleObj?.title || "";
+              const toolLabelText = st.toolLabel || st.toolUsed || toolObj?.name || st.toolId || "";
+              const outputText = st.outputArtifact || st.output || "";
+              const targetType = st.targetView?.type || "sop";
+              const targetId = st.targetView?.id || st.sopId || "";
+              const targetCta = st.targetView?.cta || st.ctaLabel || "Open Stage Guide →";
               const liveUrl = st.liveUrl || toolObj?.liveUrl || "";
               const secondaryLiveUrl = st.secondaryLiveUrl || toolObj?.secondaryLiveUrl || "";
               const tertiaryLiveUrl = st.tertiaryLiveUrl || "";
@@ -950,8 +955,8 @@ function renderJourneyPage(plb, canvas) {
                       <div>
                         <strong>Tool used:</strong>
                         <button type="button" class="breadcrumb-link" style="font-size:12px;"
-                                onclick="selectTool('${escapeHtml(st.toolId)}')">
-                          ${escapeHtml(st.toolLabel || toolObj?.name || st.toolId)}
+                                onclick="selectTool('${escapeHtml(st.toolId || "TOL-AUTH-1")}')">
+                          ${escapeHtml(toolLabelText)}
                         </button>
                       </div>
                       <div style="display:flex;gap:4px;flex-wrap:wrap;">
@@ -996,13 +1001,13 @@ function renderJourneyPage(plb, canvas) {
                 <div>
                   <div class="stage-io-box">
                     <strong>What you finish with:</strong><br/>
-                    <span>${escapeHtml(st.outputArtifact || "")}</span>
+                    <span>${escapeHtml(outputText)}</span>
                   </div>
                   <button type="button" class="stage-card-btn"
-                          onclick="openJourneyStage('${escapeHtml(st.targetView?.type || "sop")}', '${escapeHtml(
-                st.targetView?.id || ""
+                          onclick="openJourneyStage('${escapeHtml(targetType)}', '${escapeHtml(
+                targetId
               )}')">
-                    ${escapeHtml(st.targetView?.cta || "Open Stage Guide →")}
+                    ${escapeHtml(targetCta)}
                   </button>
                 </div>
               </div>`;
