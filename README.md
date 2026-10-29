@@ -33,14 +33,17 @@ The platform hosts **5 distinct Playbooks** selectable from the top Playbook Swi
    - Covers the end-to-end leadership alignment journey inside `Navigator Toolkit`:
      `1. Maturity Assessment → 2. Analysis (Analysis Report) → 3. Voice of the Customer (VOC Input) → 4. Navigator Workshop (Workshop Guide) → 5. Charter (Charter Input & Roadmaps) → 6. Action Plan (Action Log)`
    - **Role Ownership:** Owned and led end-to-end by the **Local Programme Manager (LPM)** with their Site Leadership Team. After the first-time assessment calibration, the **Lean Core Team** serves as optional coaching/facilitation support (and files official archive copies into the `'600 Maturity Submissions'` folder).
-   - **Included SOP Runbooks:**
-     - `SOP-001`: Calibrate and Score All 28 Site Questions in Pairs (5-step ground rules, mandatory `Org` Code & `Date of Assessment` header check, 70% site rule, `'600 Maturity Submissions'` archive rule)
-     - `SOP-003`: Prepare the Navigator Workshop Inputs (`Analysis Report` post-upload workspace & `VOC Input` leader interviews)
-     - `SOP-004`: Facilitate the Half-Day Workshop, Write OKRs, and Track Monthly (`Workshop Guide`, `Charter Input`, `Action Log`)
+   - **Included SOP Runbooks (1-to-1 Stage-to-SOP Mapping — 6 Individual Pages):**
+     - `SOP-001`: `Stage 1: Complete the Site Maturity Assessment` (mandatory `Org` Code & `Date of Assessment` header check, 70% site rule, `'600 Maturity Submissions'` archive rule)
+     - `SOP-002`: `Stage 2: Analysis — Understand Strengths, Gaps & Gateway Caps` (`Analysis Report` post-upload 10-stage diagnostic workspace & capability action selection)
+     - `SOP-003`: `Stage 3: Voice of the Customer (VOC) — Understand Business Priorities` (`VOC Input` leader interviews & business pain points)
+     - `SOP-004`: `Stage 4: Run the Navigator Workshop` (`Workshop Guide` 3-module facilitated alignment connecting capability gaps with VOC business needs)
+     - `SOP-005`: `Stage 5: Agree the 1-Page Navigator Charter` (`Charter Input` & `Charter & Roadmaps` Top 3 Leadership Priorities, 2–3 measurable Objectives & Key Results, and 1-Page Charter exports)
+     - `SOP-006`: `Stage 6: Build & Track the Action Plan` (`Action Log` single-point ownership matrix, target dates, CSV export & `.leansession` governance)
 2. **`PLB-MATURITY` — Standalone GS Lean Maturity & Storybook Guide:**
    - Dedicated 4-stage guide for teams exploring the `Maturity Model Storybook`, running a standalone 28-question capability self-assessment (`New Standard`), reviewing the 10-theme radar dashboard, and exporting `.json` / `.csv` files (`SOP-009` & `SOP-010`).
 3. **`PLB-PMHUB` — Lean@GS PM Maturity Hub Guide:**
-   - Dedicated 4-stage guide aligned 1-to-1 with the `PM Maturity Hub` sidebar (`SOP-005` through `SOP-008`):
+   - Dedicated 4-stage guide aligned 1-to-1 with the `PM Maturity Hub` sidebar (`SOP-011` & `SOP-012`):
      - **Phase 1: Assess** (`Maturity Assessment`, `Maturity Explainer`, `Score Explainer`)
      - **Phase 2: Visualize** (`Metro Journey`, `The 4 Pillars [Live]`, `Pillars [Static]`)
      - **Phase 3: Plan** (`Strategy Builder` & `↳ Simulator`)
@@ -48,7 +51,7 @@ The platform hosts **5 distinct Playbooks** selectable from the top Playbook Swi
 4. **`PLB-AUTHOR` — How to Build & Share a Lean@GS Guide (Authoring Masterclass):**
    - Self-referential meta-playbook (`SOP-AUTH-1` through `SOP-AUTH-3`) teaching colleagues how to plan, draft, illustrate, validate, and share new playbooks using the built-in WYSIWYG Authoring Studio and AI Generator.
 5. **`PLB-DEMO` — Demo Example: The Office Brew Run:**
-   - A lighthearted, zero-jargon everyday playbook (`SOP-DEMO-1` & `SOP-DEMO-2`) used for stakeholder demonstrations so teams can evaluate the platform UX without getting sidetracked by internal Lean process debates.
+   - A lighthearted, zero-jargon everyday playbook (`SOP-007` & `SOP-008`) used for stakeholder demonstrations so teams can evaluate the platform UX without getting sidetracked by internal Lean process debates.
 
 ---
 
@@ -75,7 +78,7 @@ Accessible directly from the **`✦ Authoring Studio`**, **`⬆ Upload Guide`**,
 - **Tab 4 (`Design & Style Guide`):** In-app view of [`DESIGN_GUIDE.md`](DESIGN_GUIDE.md) and the Plain-English Red Pen Lexicon.
 
 ### 3-Tier Static-Host Storage & Sharing Workflow (M365 Ready)
-1. **Tier 1 — Instant Browser Draft (`localStorage`):** All edits and pasted screenshots auto-save locally in the browser (`SE_LEAN_GS_GUIDES_DB_V22`) with a live header indicator (`Local Draft Active`).
+1. **Tier 1 — Instant Browser Draft (`localStorage`):** All edits and pasted screenshots auto-save locally in the browser (`SE_LEAN_GS_GUIDES_DB_V23`) with a live header indicator (`Local Draft Active`).
 2. **Tier 2 — Single-Playbook Sharing (`.leanguide.json`):** Authors click **`⬇ Download Current Playbook Only (.leanguide.json)`** to share a single self-contained playbook file via Teams, Email, or SharePoint. Colleagues click **`⬆ Upload Guide (.json)`** to merge it into their browser library without overwriting other playbooks.
 3. **Tier 3 — Master Server Release ([`data/guides.json`](data/guides.json)):** Publishers click **`⬇ Download Master Library (guides.json)`**, replace `/data/guides.json` in the repository, run `node scripts/validate-guides.js`, and deploy to the corporate server (`megblcntpvc72`).
    - 📩 **Official Master Library Inclusion:** **New guides can be passed to Brian Johns for inclusion** in the official Lean@GS corporate library.
@@ -89,6 +92,7 @@ All content and UI changes are governed by [`DESIGN_GUIDE.md`](DESIGN_GUIDE.md) 
 - **Zero Software Version Numbers:** Version strings (`v6.0.0`, `v2.4.4`) are banned in user-facing text since live links always serve the latest web release.
 - **Zero Leaked Database IDs:** Relational Snowflake IDs (`PLB-xxx`, `PRC-xxx`, `SOP-xxx`, `TOL-xxx`, `ROL-xxx`) are used strictly internally inside [`data/guides.json`](data/guides.json) and never displayed on user-facing cards or breadcrumbs.
 - **Mandatory Assessment Header Rule:** Every Maturity Assessment guide explicitly instructs assessors to verify the **Organisation Code (`Org`)** and **Date of Assessment** in the top header before scoring so longitudinal comparisons and `'600 Maturity Submissions'` archive files remain accurate.
+- **1-to-1 Stage-to-SOP Mapping Rule:** Every stage on a Playbook's Journey Map has its own dedicated Step-by-Step Guide page in `2. Step-by-Step Guides` (`SOP-001` through `SOP-006` for Stages 1–6 of `PLB-001`).
 - **Visual Authenticity:** Software steps use authentic application screenshots (`navigator-toolkit`, `pm-maturity-hub`, `gs-lean-maturity`) and true-to-app button badge colours (`#009999` Petrol, `#8A00E5` Bright Purple, `#2E1065` Deep Plum, `#DC2626` Danger Red).
 
 ---
@@ -114,7 +118,7 @@ npm run new-guide
 - [`index.html`](index.html) — Main application shell, Top Header Bar (`👋 First Time Here?`, `✦ Authoring Studio`, `⬆ Upload Guide`, `⬇ Export Guide ▾`), Universal 4-Tab Navigation, and Full-Viewport (`96vw × 94vh`) Authoring Studio modal.
 - [`styles.css`](styles.css) — Siemens Energy Web UI Design System styles, WCAG AA/AAA accessible contrast tokens, 16:9 1-Page Scoring Matrix layout, and floating tooltip rules.
 - [`app.js`](app.js) — Relational rendering engine, 16:9 1-Page 28-Question Scoring Matrix (`PPTX` / `PNG` / `PDF` export engine), WYSIWYG Authoring Studio, AI Playbook Generator & JSON Importer, and 3-Tier `.leanguide.json` / `guides.json` storage manager.
-- [`data/guides.json`](data/guides.json) — Master relational JSON database containing all 5 Playbooks, 6 Processes, 14 Tools, 7 Roles, and 13 SOPs.
+- [`data/guides.json`](data/guides.json) — Master relational JSON database containing all 5 Playbooks, 6 Processes, 14 Tools, 7 Roles, and 15 SOPs.
 - [`data/fallback-db.js`](data/fallback-db.js) — Auto-synchronized JavaScript fallback wrapper of `guides.json` enabling zero-server execution over `file://` and M365 SharePoint/OneDrive.
 - [`DESIGN_GUIDE.md`](DESIGN_GUIDE.md) — Authoritative Living Style Guide, 10-Second Naive Colleague Test, Red Pen Plain-English Lexicon, and UI/content governance rules.
 - [`scripts/validate-guides.js`](scripts/validate-guides.js) — AutomatedPokayoke linter enforcing the ≤20-word STE rule, active-verb check, acronym guardrails, relational integrity, and [`DESIGN_GUIDE.md`](DESIGN_GUIDE.md) compliance.

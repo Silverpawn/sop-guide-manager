@@ -121,7 +121,19 @@ for (const plb of db.playbooks || []) {
             `[PLB-001 Stage ${idx + 1}] Sequence mismatch: expected "${expectedKey}" in title, found "${actualTitle}".`
           );
         }
+        const expectedSopId = `SOP-00${idx + 1}`;
+        if (stages[idx]?.targetView?.type !== "sop" || stages[idx]?.targetView?.id !== expectedSopId) {
+          errors.push(
+            `[PLB-001 Stage ${idx + 1}] Violates 1-to-1 Stage-to-SOP Mapping Rule: expected targetView to route to '${expectedSopId}', found '${stages[idx]?.targetView?.type}:${stages[idx]?.targetView?.id}'.`
+          );
+        }
       });
+    }
+    const expectedPlb001Sops = ["SOP-001", "SOP-002", "SOP-003", "SOP-004", "SOP-005", "SOP-006"];
+    if (JSON.stringify(plb.sopIds || []) !== JSON.stringify(expectedPlb001Sops)) {
+      errors.push(
+        `[PLB-001] Violates 1-to-1 Stage-to-SOP Mapping Rule: sopIds must be ${JSON.stringify(expectedPlb001Sops)}, found ${JSON.stringify(plb.sopIds || [])}.`
+      );
     }
 
     // Strict Tool Boundary Rule: PLB-001 tools & SOPs must never mix in PM Maturity Hub modules,

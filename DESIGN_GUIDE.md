@@ -166,6 +166,9 @@ Overview stage cards must **NEVER** look like database records, audit checklists
     - Include a **`👋 First Time Here?`** button in the Top Header that toggles an onboarding Quick-Start strip explaining how to switch playbooks, navigate the 4 tabs, and create or share a guide.
 19. **Official Master Library Inclusion Rule (Pass New Guides to Brian Johns):**
     - When an author finishes creating or updating a Playbook and exports their `.leanguide.json` (Tier 2) or `guides.json` (Tier 3) file, **new guides can be passed to Brian Johns for inclusion** in the official corporate Lean@GS Guide Library on the intranet server (`megblcntpvc72`).
+20. **1-to-1 Stage-to-SOP Mapping Rule (Never Bundle Multiple Journey Stages Into One Combined SOP Page):**
+    - Every stage on a Playbook's Journey Map must have its own dedicated, standalone Step-by-Step Guide page in `2. Step-by-Step Guides`.
+    - For `PLB-001` (`Lean@GS Navigator Toolkit Guide`), there must be **6 individual Step-by-Step Guide pages** (`SOP-001` through `SOP-006`) matching Stages 1 to 6 one-for-one (`Stage 1: Complete the Site Maturity Assessment`, `Stage 2: Analysis — Understand Strengths, Gaps & Gateway Caps`, `Stage 3: Voice of the Customer (VOC) — Understand Business Priorities`, `Stage 4: Run the Navigator Workshop`, `Stage 5: Agree the 1-Page Navigator Charter`, and `Stage 6: Build & Track the Action Plan`).
 
 ---
 

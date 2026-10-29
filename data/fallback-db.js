@@ -1,3 +1,4 @@
+// Auto-generated fallback snapshot of data/guides.json for offline/file:// protocol support
 window.FALLBACK_GUIDES_DB = {
   "meta": {
     "organization": "Siemens Energy • Lean@GS",
@@ -494,24 +495,24 @@ window.FALLBACK_GUIDES_DB = {
       ],
       "buttonsReference": [
         {
-          "button": "? Facilitator Help & Guide",
-          "where": "Top Header of Workshop Guide",
-          "whatItDoes": "Opens the facilitator agenda, room setup checklist, and timing guide for the 3 workshop modules."
+          "button": "? Workshop Guide",
+          "where": "Top-Right of Page Header",
+          "whatItDoes": "Opens the built-in Facilitator Help & Guide modal explaining how to prepare and run the 3 workshop modules."
         },
         {
-          "button": "Download: Navigator Workshop Plan (PPTX)",
-          "where": "Module 1 Card in Workshop Guide",
-          "whatItDoes": "Downloads the editable PowerPoint slide deck template for facilitating the leadership workshop."
+          "button": "Download Navigator Workshop Template (PPTX)",
+          "where": "Pre-Work Checklist Card",
+          "whatItDoes": "Downloads the ready-to-present PowerPoint slide deck template for the 3-module alignment workshop."
         },
         {
-          "button": "Open VOC Input Tool",
-          "where": "Module 1 Card in Workshop Guide",
-          "whatItDoes": "Jumps directly to VOC Input to review captured leadership business priorities on screen."
+          "button": "Open VOC Input",
+          "where": "Pre-Work Checklist Card",
+          "whatItDoes": "Jumps back to the VOC Input screen if you need to check or add a leader's business priority before starting."
         },
         {
           "button": "Next Step: Capture Charter Inputs →",
-          "where": "Bottom Navigation Bar of Workshop Guide",
-          "whatItDoes": "Advances directly to Stage 5 (Charter Input) to lock in Top 3 Leadership Priorities and 2–3 focus initiatives."
+          "where": "Bottom of Workshop Guide",
+          "whatItDoes": "Advances directly to the Charter Input screen once the leadership team agrees on the 2 to 3 priority focus areas."
         }
       ],
       "troubleshooting": [
@@ -524,12 +525,12 @@ window.FALLBACK_GUIDES_DB = {
     },
     "TOL-009": {
       "id": "TOL-009",
-      "name": "Charter Input & Roadmaps",
+      "name": "Charter Input & Charter & Roadmaps",
       "suite": "Lean@GS Navigator Toolkit",
       "versionBadge": "",
       "category": "Stage 5: Charter",
       "purpose": "Draft Top 3 Leadership Priorities, measurable Objectives & Key Results, and 2–3 focus initiatives in Charter Input, then view and export the executive 1-Page Charter in Charter & Roadmaps.",
-      "accessUrl": "Navigator Toolkit → Charter Input & Charter & Roadmaps",
+      "accessUrl": "Navigator Toolkit → Charter Input / Charter & Roadmaps",
       "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
@@ -548,44 +549,44 @@ window.FALLBACK_GUIDES_DB = {
       ],
       "buttonsReference": [
         {
-          "button": "? Charter Help & Guide / ? Infographic Guide & Help",
-          "where": "Top Header of Charter Input & Charter & Roadmaps",
-          "whatItDoes": "Opens coaching guidance on writing measurable Objectives & Key Results and presenting the 1-Page Charter."
+          "button": "? Charter Input Guide",
+          "where": "Top-Right of Charter Input",
+          "whatItDoes": "Opens the step-by-step instructions modal for completing your 1-Page Navigator Charter."
         },
         {
-          "button": "Recommended Actions (Collapsible Left Reference Panel)",
-          "where": "Left Drawer inside Charter Input",
-          "whatItDoes": "Displays diagnostic action recommendations from Analysis Report side-by-side while you type your Charter Objectives."
+          "button": "Recommended Actions From Assessment (Left Drawer)",
+          "where": "Left Reference Column in Charter Input",
+          "whatItDoes": "Displays the priority capability actions and custom OE Action notes you accepted in Analysis Report so you can copy them into your Charter."
         },
         {
-          "button": "Leadership Priorities (Priority 1, 2, 3 Cards)",
-          "where": "Top Section of Charter Input",
-          "whatItDoes": "Auto-populates from VOC Input interviews and lets you refine the Top 3 business problems the Charter will solve."
+          "button": "Top 3 Leadership Priorities",
+          "where": "Section 1 in Charter Input",
+          "whatItDoes": "Three synthesis text boxes where you lock in the top 3 business challenges from your Voice of the Customer interviews."
         },
         {
-          "button": "Maturity Insight & Key Development Gap",
-          "where": "Middle Section of Charter Input",
-          "whatItDoes": "Records your baseline capability summary and the primary starred Gateway gap being addressed."
+          "button": "Starting Score & Key Development Gap",
+          "where": "Section 2 in Charter Input",
+          "whatItDoes": "Records your current maturity level and the primary foundational capability gap the team has agreed to strengthen."
         },
         {
           "button": "+ Add Objective / + Add Key Result",
-          "where": "Programme Objectives Section in Charter Input",
-          "whatItDoes": "Adds 2–3 focused Programme Objectives and measurable Key Results ([Measure] from [Start] to [Target] by [Date])."
+          "where": "Section 3 in Charter Input",
+          "whatItDoes": "Adds a new strategic objective card or a measurable Key Result row ([Measure] from [Start] to [Target] by [Date])."
         },
         {
-          "button": "Export Report to PowerPoint",
-          "where": "Top Action Bar of Charter & Roadmaps",
-          "whatItDoes": "Exports the executive 1-Page Navigator Charter and visual roadmap to an editable PowerPoint (.pptx) deck."
+          "button": "Export 1-Page Charter (PPTX)",
+          "where": "Bottom Action Bar in Charter & Roadmaps",
+          "whatItDoes": "Downloads the formatted 1-Page Executive Navigator Charter as a ready-to-present PowerPoint slide."
         },
         {
-          "button": "Export Charter as PDF / Export Charter (CSV)",
-          "where": "Top Action Bar of Charter & Roadmaps",
-          "whatItDoes": "Downloads a printable 1-Page Charter PDF poster or exports Charter fields to CSV."
+          "button": "Export Charter PDF / Export Charter Fields (CSV)",
+          "where": "Bottom Action Bar in Charter & Roadmaps",
+          "whatItDoes": "Exports a clean PDF poster for the workplace wall or a CSV table of all Charter fields."
         },
         {
           "button": "Next Step: Assign Action Owners →",
-          "where": "Bottom Navigation Bar of Charter & Roadmaps",
-          "whatItDoes": "Advances directly to Stage 6 (Action Log) to assign single-point owners and target dates."
+          "where": "Bottom-Right of Charter & Roadmaps",
+          "whatItDoes": "Advances directly to the Stage 6 Action Log to assign single-point owners and target dates."
         }
       ],
       "troubleshooting": [
@@ -598,7 +599,7 @@ window.FALLBACK_GUIDES_DB = {
     },
     "TOL-010": {
       "id": "TOL-010",
-      "name": "Action Log",
+      "name": "Action Log & Visual Roadmaps",
       "suite": "Lean@GS Navigator Toolkit",
       "versionBadge": "",
       "category": "Stage 6: Action Plan",
@@ -622,29 +623,34 @@ window.FALLBACK_GUIDES_DB = {
       ],
       "buttonsReference": [
         {
-          "button": "? Governance Help & Guide",
-          "where": "Top Header of Action Log",
-          "whatItDoes": "Opens guidance on single-point accountability and running monthly Action Log governance reviews."
+          "button": "? Action Log Guide",
+          "where": "Top-Right of Action Log",
+          "whatItDoes": "Opens the governance help modal explaining how to assign owners and run monthly progress reviews."
         },
         {
-          "button": "Owner, Target Date & Status Dropdowns",
-          "where": "Each Row in Action Log & Ownership Matrix",
-          "whatItDoes": "Assigns a single named owner, target completion date, and live status (Not Started, In Progress, Completed, Delayed) to each Key Result."
+          "button": "Owner / Target Date / Status Controls",
+          "where": "Action Log Table Rows",
+          "whatItDoes": "Assigns a single accountable person, target completion date, and live status to each Key Result."
         },
         {
           "button": "Export Action Matrix (CSV)",
-          "where": "Top-Right of Action Log Matrix (Petrol Button)",
-          "whatItDoes": "Downloads the complete owned Action Log table as a CSV spreadsheet for local tracking."
+          "where": "Top-Right of Action Log Table",
+          "whatItDoes": "Downloads the complete ownership matrix as a CSV file for local tracking and leadership reviews."
         },
         {
-          "button": "← Back to Charter & Roadmap / Open Charter Input →",
-          "where": "Action Log Navigation Controls",
-          "whatItDoes": "Returns to Charter & Roadmaps or Charter Input if you need to add or edit a Key Result."
+          "button": "← Review Charter & Roadmaps / Edit Charter Input",
+          "where": "Bottom-Left of Action Log",
+          "whatItDoes": "Returns to the Charter view if the team needs to refine an Objective or Key Result."
         },
         {
-          "button": "Complete Workshop & Return to Hub →",
+          "button": "Save Session (.leansession)",
+          "where": "Bottom-Left Sidebar",
+          "whatItDoes": "Saves your entire 6-stage Navigator journey (Assessment, Analysis, VOC, Charter, and Action Log) into one portable file."
+        },
+        {
+          "button": "Complete Navigator Workflow →",
           "where": "Bottom-Right of Action Log",
-          "whatItDoes": "Completes the 6-stage Navigator workflow and returns to the Process Overview."
+          "whatItDoes": "Saves changes and returns to the Navigator Toolkit hub."
         }
       ],
       "troubleshooting": [
@@ -1204,7 +1210,7 @@ window.FALLBACK_GUIDES_DB = {
       "stages": [
         {
           "stageNumber": 1,
-          "name": "Stage 3: Voice of the Customer (VOC)",
+          "name": "Stage 3: Voice of the Customer (VOC) — Understand Business Priorities",
           "sopId": "SOP-003",
           "toolIds": [
             "TOL-004"
@@ -1213,14 +1219,30 @@ window.FALLBACK_GUIDES_DB = {
         },
         {
           "stageNumber": 2,
-          "name": "Stages 4–6: Navigator Workshop, 1-Page Charter & Action Plan",
+          "name": "Stage 4: Run the Navigator Workshop",
           "sopId": "SOP-004",
           "toolIds": [
-            "TOL-005",
-            "TOL-009",
+            "TOL-005"
+          ],
+          "summary": "Bring Lean capability analysis (Stages 1–2) and business needs (Stage 3) together in a facilitated 3-module alignment workshop."
+        },
+        {
+          "stageNumber": 3,
+          "name": "Stage 5: Agree the 1-Page Navigator Charter",
+          "sopId": "SOP-005",
+          "toolIds": [
+            "TOL-009"
+          ],
+          "summary": "Lock in your Top 3 Leadership Priorities and 2–3 measurable Objectives and Key Results inside a single 1-Page Navigator Charter."
+        },
+        {
+          "stageNumber": 4,
+          "name": "Stage 6: Build & Track the Action Plan",
+          "sopId": "SOP-006",
+          "toolIds": [
             "TOL-010"
           ],
-          "summary": "Facilitate the 3-module Workshop Guide, draft 2–3 focus initiatives in Charter Input & Charter & Roadmaps, and assign owners in Action Log."
+          "summary": "Assign single-point owners, target completion dates, and status tracking in the Action Log."
         }
       ],
       "summary": "Upload your saved .json assessment file into Analysis Report to unlock the 10-stage diagnostic workspace, inspect strengths and locked Foundation Gateways (★), select 2–3 capability actions supporting your business priorities, and save your .leansession file."
@@ -1254,7 +1276,7 @@ window.FALLBACK_GUIDES_DB = {
         {
           "stageNumber": 1,
           "name": "Phases 1 & 2: Assess (Score Explainer) & Visualize (Metro Journey & 4 Pillars)",
-          "sopId": "SOP-005",
+          "sopId": "SOP-011",
           "toolIds": [
             "TOL-007",
             "TOL-003"
@@ -1264,7 +1286,7 @@ window.FALLBACK_GUIDES_DB = {
         {
           "stageNumber": 2,
           "name": "Phase 3 & Utilities: Plan (Strategy Builder & Simulator) & CSV to JSON Fixer",
-          "sopId": "SOP-006",
+          "sopId": "SOP-012",
           "toolIds": [
             "TOL-006",
             "TOL-011"
@@ -1719,253 +1741,373 @@ window.FALLBACK_GUIDES_DB = {
     },
     "SOP-004": {
       "id": "SOP-004",
-      "title": "Stages 4–6: Navigator Workshop, 1-Page Charter & Action Plan",
+      "title": "Stage 4: Run the Navigator Workshop",
       "processId": "PRC-002",
       "roleId": "ROL-001",
       "toolIds": [
-        "TOL-005",
-        "TOL-009",
-        "TOL-010"
+        "TOL-005"
       ],
-      "estimatedTime": "Half Day Workshop + Monthly Review",
-      "stationLocation": "Navigator Toolkit → Workshop Guide, Charter Input, Charter & Roadmaps, Action Log",
+      "estimatedTime": "Half-Day Alignment Workshop",
+      "stationLocation": "Navigator Toolkit → Workshop Guide",
       "kitBag": {
         "leadRole": "Owner & Lead: Local Programme Manager (LPM) with Site Leadership Team",
-        "supportRole": "Optional Support: Lean Core Team (if facilitation or coaching is requested)",
-        "mandatoryStatus": "Stages 4–6 • Workshop, Charter & Action Plan",
-        "inputNeeded": "Capability Gaps (Stages 1–2) + Business Needs / VOC (Stage 3)",
-        "outputProduced": "Aligned Direction (Stage 4), 1-Page Charter (Stage 5) & Action Plan (Stage 6)"
+        "supportRole": "Optional Support: Lean Core Team (if facilitation is requested)",
+        "mandatoryStatus": "Stage 4 • Navigator Workshop",
+        "inputNeeded": "Saved .leansession File (Stages 1–2 Capability Analysis + Stage 3 VOC Priorities)",
+        "outputProduced": "Aligned Strategic Direction & Agreed Focus Areas for Stage 5 Charter"
       },
-      "userGoal": "Facilitate the 3-module alignment workshop, formalise Top 3 Leadership Priorities and 2–3 focus initiatives in Charter Input, and assign single-point owners and due dates in Action Log.",
+      "userGoal": "Bring your Lean capability analysis (Stages 1–2) and leadership business needs (Stage 3) together in a facilitated workshop to align on why we are using Lean, our current situation, and our strategic direction.",
       "gettingStarted": [
-        "Click 'Load Session (.leansession)' in the Navigator Toolkit sidebar so your Analysis Report and VOC Input entries are active.",
-        "Open Workshop Guide on the main projector screen and keep Charter Input, Charter & Roadmaps, and Action Log ready in the sidebar."
+        "Click 'Load Session (.leansession)' in the bottom-left sidebar of Navigator Toolkit so your Stage 2 capability analysis and Stage 3 VOC priorities are loaded.",
+        "Open 'Workshop Guide' in the left sidebar and click 'Download: Navigator Workshop Plan (PPTX)' if you want the companion slide deck on the projector."
       ],
       "steps": [
         {
           "stepNumber": 1,
-          "action": "Open Workshop Guide and run Modules 1 and 2 to connect business needs to Gateways.",
-          "detail": "Module 1 aligns on the Top 3 business problems from VOC; Module 2 connects those problems to foundational Gateway gaps.",
+          "action": "Load your saved .leansession file and open Workshop Guide to review the agenda.",
+          "detail": "Click 'Load Session (.leansession)' in the bottom-left sidebar so your Stage 2 capability gaps and Stage 3 VOC insights are active, then select 'Workshop Guide' in the left menu.",
           "toolId": "TOL-005",
-          "coachingTip": "Show how strengthening Gateway #10 (Pilot Experiments) or #14 (Daily Huddles) directly unlocks the business performance leaders asked for.",
+          "coachingTip": "Open the '? Workshop Guide' help modal at the top right and download the companion PowerPoint deck before the leadership team arrives.",
           "visual": {
             "type": "image",
-            "imageSrc": "assets/screenshots/nav-workshop.png",
-            "caption": "Lean@GS Navigator Toolkit — Navigator Workshop Guide",
+            "imageSrc": "assets/screenshots/nav-workshop-step1.png",
+            "src": "assets/screenshots/nav-workshop-step1.png",
+            "caption": "Lean@GS Navigator Toolkit — Workshop Guide Header, '? Facilitator Help & Guide' & 3-Module Structure",
             "hotspot": {
               "xPercent": 42,
-              "yPercent": 32,
+              "yPercent": 25,
               "widthPercent": 16,
               "heightPercent": 6,
-              "label": "1. Open Facilitator Help & Guide"
+              "label": "1. Open Workshop Guide & Facilitator Help"
             }
           }
         },
         {
           "stepNumber": 2,
-          "action": "Enter Top 3 Leadership Priorities and 2–3 measurable Key Results inside Charter Input.",
-          "detail": "Use the left 'Recommended Actions' reference panel in Charter Input and follow: [Measure] from [Start] to [Target] by [Date].",
-          "toolId": "TOL-009",
-          "coachingTip": "All fields in Charter Input auto-save to your session and immediately populate the executive Charter & Roadmaps infographic.",
+          "action": "Facilitate Module 1 (Why Lean & Business Need) using your captured Voice of the Customer priorities.",
+          "detail": "Walk the leadership team through the top operational challenges captured in Stage 3 (Lead Time, Quality, Throughput, Cost, Overheads, Inventory, Complexity) so everyone agrees on the business problems Lean must solve.",
+          "toolId": "TOL-005",
+          "coachingTip": "Start the workshop with business pain points—never with maturity scores. Leaders engage immediately when they see their own Voice of the Customer priorities on the screen.",
           "visual": {
             "type": "image",
-            "imageSrc": "assets/screenshots/nav-charter-input.png",
-            "caption": "Lean@GS Navigator Toolkit — Navigator Charter Input (Top 3 Leadership Priorities & Gap)",
+            "imageSrc": "assets/screenshots/nav-workshop-step2.png",
+            "src": "assets/screenshots/nav-workshop-step2.png",
+            "caption": "Lean@GS Navigator Toolkit — Workshop Guide Pre-Work Checklist & Module 1 (Foundation & Alignment)",
             "hotspot": {
               "xPercent": 5,
-              "yPercent": 43,
+              "yPercent": 58,
               "widthPercent": 90,
-              "heightPercent": 32,
-              "label": "2. Enter Top 3 Leadership Priorities"
+              "heightPercent": 38,
+              "label": "2. Facilitate Module 1: Align on VOC Business Need"
             }
           }
         },
         {
           "stepNumber": 3,
-          "action": "Open Charter & Roadmaps to export slides, then assign owners and dates in Action Log.",
-          "detail": "Export the 1-Page Charter PowerPoint, assign single-point Owners and Target Due Dates in Action Log, and click 'Export Action Matrix (CSV)'.",
-          "toolId": "TOL-010",
-          "coachingTip": "Click 'Save Session (.leansession)' in the sidebar before leaving the room so the entire workshop state is backed up in one file.",
+          "action": "Facilitate Module 2 (Current Capability & Gateways) to agree which 2–3 gaps block business performance.",
+          "detail": "Present the 2 to 3 priority capability gaps and Foundation Gateways (★) from Stage 2 that must be strengthened to deliver those business outcomes, then click 'Next Step: Capture Charter Inputs →'.",
+          "toolId": "TOL-005",
+          "coachingTip": "If someone tries to debate an individual question score from Stage 1, park it immediately and refocus the room on which 2 to 3 capabilities unlock the business target.",
           "visual": {
             "type": "image",
-            "imageSrc": "assets/screenshots/nav-action-log.png",
-            "caption": "Lean@GS Navigator Toolkit — Action Log & Ownership Matrix",
+            "imageSrc": "assets/screenshots/nav-workshop-step3.png",
+            "src": "assets/screenshots/nav-workshop-step3.png",
+            "caption": "Lean@GS Navigator Toolkit — Modules 2 & 3 Agenda & 'Next Step: Capture Charter Inputs →'",
             "hotspot": {
-              "xPercent": 75,
-              "yPercent": 41,
-              "widthPercent": 18,
-              "heightPercent": 6,
-              "label": "3. Assign Owners & Export Action Matrix (CSV)"
+              "xPercent": 34,
+              "yPercent": 86,
+              "widthPercent": 32,
+              "heightPercent": 9,
+              "label": "3. Agree 2–3 Focus Areas & Click 'Next Step: Capture Charter Inputs →'"
             }
           }
         }
       ],
+      "buttonsReference": [
+        {
+          "button": "? Workshop Guide",
+          "where": "Top-Right of Page Header",
+          "whatItDoes": "Opens the built-in Facilitator Help & Guide modal explaining how to prepare and run the 3 workshop modules."
+        },
+        {
+          "button": "Download Navigator Workshop Template (PPTX)",
+          "where": "Pre-Work Checklist Card",
+          "whatItDoes": "Downloads the ready-to-present PowerPoint slide deck template for the 3-module alignment workshop."
+        },
+        {
+          "button": "Open VOC Input",
+          "where": "Pre-Work Checklist Card",
+          "whatItDoes": "Jumps back to the VOC Input screen if you need to check or add a leader's business priority before starting."
+        },
+        {
+          "button": "Next Step: Capture Charter Inputs →",
+          "where": "Bottom of Workshop Guide",
+          "whatItDoes": "Advances directly to the Charter Input screen once the leadership team agrees on the 2 to 3 priority focus areas."
+        }
+      ],
       "troubleshooting": [
         {
-          "symptom": "Workshop discussion gets stuck debating a single question score from the site check.",
-          "cause": "Re-litigating individual scores instead of focusing on strategic bottlenecks.",
-          "fix": "Remind the room that the assessment is one input; pivot immediately to which foundational Gateway unlocks the leader's top 3 business priorities."
+          "symptom": "Workshop discussion gets stuck debating a single question score from Stage 1.",
+          "cause": "Re-litigating individual scores instead of focusing on business bottlenecks.",
+          "fix": "Remind the room that the assessment is one input; pivot immediately to which 2–3 foundational capabilities unlock the leader's top 3 business priorities."
         }
       ]
     },
     "SOP-005": {
       "id": "SOP-005",
-      "title": "Phases 1 & 2: Score Assessment, Inspect Score Explainer & View Metro Journey / 4 Pillars",
-      "processId": "PRC-003",
+      "title": "Stage 5: Agree the 1-Page Navigator Charter",
+      "processId": "PRC-002",
       "roleId": "ROL-001",
       "toolIds": [
-        "TOL-007",
-        "TOL-003"
+        "TOL-009"
       ],
       "estimatedTime": "45 mins",
-      "stationLocation": "PM Maturity Hub → Phase 1: Assess & Phase 2: Visualize",
+      "stationLocation": "Navigator Toolkit → Charter Input / Charter & Roadmaps",
       "kitBag": {
-        "leadRole": "Lead: Local Programme Manager (LPM)",
-        "supportRole": "Optional Support: Lean Core Team partner",
-        "mandatoryStatus": "PM Maturity Hub • Phases 1 & 2",
-        "inputNeeded": "Completed Site Maturity Assessment (.json or .csv)",
-        "outputProduced": "Score Explainer Breakdown, Metro Journey & The 4 Pillars Visualisations"
+        "leadRole": "Owner: Local Programme Manager (LPM) & Site Sponsor",
+        "supportRole": "Optional Support: Lean Core Team",
+        "mandatoryStatus": "Stage 5 • 1-Page Navigator Charter",
+        "inputNeeded": "Agreed Workshop Focus Areas & Recommended Capability Actions",
+        "outputProduced": "Approved 1-Page Navigator Charter (.pptx / .pdf / .leansession)"
       },
-      "userGoal": "Complete or load your 28-question assessment in Phase 1: Assess (Maturity Assessment, Maturity Explainer, Score Explainer) and visualise progression in Phase 2: Visualize (Metro Journey, The 4 Pillars [Live], and Pillars [Static]).",
+      "userGoal": "Lock in your top 3 business priorities, measurable key results, and 2 to 3 focus initiatives—along with your Site Sponsor and coaching roles—inside a single 1-Page Navigator Charter.",
       "gettingStarted": [
-        "Open PM Maturity Hub and click 'Load JSON / CSV' in the bottom-left Session Data box (or score directly in Phase 1: Maturity Assessment).",
-        "Review Maturity Explainer and Score Explainer under Phase 1: Assess, then open Metro Journey, The 4 Pillars (Live), and Pillars (Static) under Phase 2: Visualize."
+        "Open 'Charter Input' in the left sidebar of Navigator Toolkit (or click 'Next Step: Capture Charter Inputs →' at the bottom of Workshop Guide).",
+        "Confirm your Stage 2 accepted capability actions appear in the left 'Recommended Actions' reference drawer."
       ],
       "steps": [
         {
           "stepNumber": 1,
-          "action": "Open Phase 1 Maturity Assessment and Maturity Explainer to score or review all 28 questions.",
-          "detail": "Click any question card in Maturity Assessment to open the 1–5 scoring modal, or open Maturity Explainer to review the 5 maturity stages and 10 themes.",
-          "toolId": "TOL-007",
-          "coachingTip": "Use 'Load JSON / CSV' in the bottom-left Session Data box to load an existing assessment into all PM Maturity Hub screens at once.",
+          "action": "Open Charter Input and confirm your Top 3 Leadership Business Priorities.",
+          "detail": "Review the '1. Leadership Priorities' boxes (pre-populated from your VOC synthesis) and refine the wording so the top 3 business challenges and your primary capability gap are crystal clear.",
+          "toolId": "TOL-009",
+          "coachingTip": "Write each priority in plain operational language (for example, 'Cut assembly lead time by 20%') rather than generic Lean jargon.",
           "visual": {
             "type": "image",
-            "imageSrc": "assets/screenshots/nav-maturity.png",
-            "caption": "Lean@GS PM Maturity Hub — Phase 1: Assess (Maturity Assessment & Maturity Explainer)",
+            "imageSrc": "assets/screenshots/nav-charter-step1.png",
+            "src": "assets/screenshots/nav-charter-step1.png",
+            "caption": "Lean@GS Navigator Toolkit — Charter Input: Top 3 Leadership Priorities & Key Development Gap",
             "hotspot": {
-              "xPercent": 15,
-              "yPercent": 36,
-              "widthPercent": 24,
-              "heightPercent": 16,
-              "label": "1. Score 28 Questions or Load Session File"
+              "xPercent": 25,
+              "yPercent": 32,
+              "widthPercent": 72,
+              "heightPercent": 48,
+              "label": "1. Confirm Top 3 Leadership Business Priorities & Gap"
             }
           }
         },
         {
           "stepNumber": 2,
-          "action": "Click 'Score Explainer' under Phase 1 to inspect the four-step Gateway ceiling calculation.",
-          "detail": "Score Explainer walks through Step 1 (Gateway Ceiling), Step 2 (Blinkers Filter), Step 3 (Raw Valid Average), and Step 4 (Final Compressed Score).",
-          "toolId": "TOL-007",
-          "coachingTip": "If Gateway #10 (Pilot Experiments) scores 2/5, your Operating Level is locked at Level 1 (e.g., 1.6/4.0) even if Level 2 questions score 4.",
+          "action": "Use the 'Recommended Actions' drawer to write 2–3 measurable Objectives and Key Results.",
+          "detail": "Reference your selected Stage 2 capability actions in the left-hand drawer and enter 2 to 3 focused Objectives and Key Results using the formula: [Measure] from [Start] to [Target] by [Date].",
+          "toolId": "TOL-009",
+          "coachingTip": "Keep a hard ceiling of 2 to 3 focus initiatives on the Charter—teams that commit to 3 clear targets finish them, whereas 12-item wishlists stall.",
           "visual": {
             "type": "image",
-            "imageSrc": "assets/screenshots/hub-score-explainer.png",
-            "caption": "Lean@GS PM Maturity Hub — Phase 1: Score Explainer",
+            "imageSrc": "assets/screenshots/nav-charter-step2.png",
+            "src": "assets/screenshots/nav-charter-step2.png",
+            "caption": "Lean@GS Navigator Toolkit — Charter Input: Left 'Recommended Actions' Drawer & Objectives / Key Results Builder",
             "hotspot": {
-              "xPercent": 45,
-              "yPercent": 65,
-              "widthPercent": 10,
-              "heightPercent": 6,
-              "label": "2. Inspect 4-Step Gateway Cap Calculation"
+              "xPercent": 2,
+              "yPercent": 18,
+              "widthPercent": 95,
+              "heightPercent": 74,
+              "label": "2. Use Left Drawer & Enter 2–3 Measurable Objectives & Key Results"
             }
           }
         },
         {
           "stepNumber": 3,
-          "action": "Open 'Metro Journey' and 'The 4 Pillars (Live)' under Phase 2: Visualize.",
-          "detail": "Metro Journey displays your Digital Twin train stopping at the exact failed Gateway station alongside The 4 Pillars (Live) and Pillars (Static) views.",
-          "toolId": "TOL-003",
-          "coachingTip": "Colleagues grasp the subway map in ten seconds—point directly to the red station blocking the train from advancing.",
+          "action": "Open 'Charter & Roadmaps' to review and export your 1-Page Executive Charter.",
+          "detail": "Switch to 'Charter & Roadmaps' in the left sidebar to inspect the formatted 1-Page Charter infographic, click 'Export 1-Page Charter (PPTX)' or 'Export Charter PDF', and click 'Next Step: Assign Action Owners →'.",
+          "toolId": "TOL-009",
+          "coachingTip": "Have your Site Sponsor review and sign off the 1-Page Charter view on screen before moving to the Action Log.",
           "visual": {
             "type": "image",
-            "imageSrc": "assets/screenshots/hub-metro-journey.png",
-            "caption": "Lean@GS PM Maturity Hub — Phase 2: Visualize (Metro Journey & The 4 Pillars)",
+            "imageSrc": "assets/screenshots/nav-charter-step3.png",
+            "src": "assets/screenshots/nav-charter-step3.png",
+            "caption": "Lean@GS Navigator Toolkit — Charter & Roadmaps: 1-Page Executive Charter & Export Controls",
             "hotspot": {
-              "xPercent": 67,
-              "yPercent": 5,
-              "widthPercent": 30,
-              "heightPercent": 6,
-              "label": "3. View Metro Journey & 4 Pillars Progression"
+              "xPercent": 14,
+              "yPercent": 91,
+              "widthPercent": 72,
+              "heightPercent": 8,
+              "label": "3. Export 1-Page Charter (PDF / PPTX / CSV) & Assign Action Owners →"
             }
           }
         }
       ],
+      "buttonsReference": [
+        {
+          "button": "? Charter Input Guide",
+          "where": "Top-Right of Charter Input",
+          "whatItDoes": "Opens the step-by-step instructions modal for completing your 1-Page Navigator Charter."
+        },
+        {
+          "button": "Recommended Actions From Assessment (Left Drawer)",
+          "where": "Left Reference Column in Charter Input",
+          "whatItDoes": "Displays the priority capability actions and custom OE Action notes you accepted in Analysis Report so you can copy them into your Charter."
+        },
+        {
+          "button": "Top 3 Leadership Priorities",
+          "where": "Section 1 in Charter Input",
+          "whatItDoes": "Three synthesis text boxes where you lock in the top 3 business challenges from your Voice of the Customer interviews."
+        },
+        {
+          "button": "Starting Score & Key Development Gap",
+          "where": "Section 2 in Charter Input",
+          "whatItDoes": "Records your current maturity level and the primary foundational capability gap the team has agreed to strengthen."
+        },
+        {
+          "button": "+ Add Objective / + Add Key Result",
+          "where": "Section 3 in Charter Input",
+          "whatItDoes": "Adds a new strategic objective card or a measurable Key Result row ([Measure] from [Start] to [Target] by [Date])."
+        },
+        {
+          "button": "Export 1-Page Charter (PPTX)",
+          "where": "Bottom Action Bar in Charter & Roadmaps",
+          "whatItDoes": "Downloads the formatted 1-Page Executive Navigator Charter as a ready-to-present PowerPoint slide."
+        },
+        {
+          "button": "Export Charter PDF / Export Charter Fields (CSV)",
+          "where": "Bottom Action Bar in Charter & Roadmaps",
+          "whatItDoes": "Exports a clean PDF poster for the workplace wall or a CSV table of all Charter fields."
+        },
+        {
+          "button": "Next Step: Assign Action Owners →",
+          "where": "Bottom-Right of Charter & Roadmaps",
+          "whatItDoes": "Advances directly to the Stage 6 Action Log to assign single-point owners and target dates."
+        }
+      ],
       "troubleshooting": [
         {
-          "symptom": "High scores on Level 2 and Level 3 questions did not raise our 1.6 total score.",
-          "cause": "A Level 1 Gateway question (such as Q10) scored below 3, locking your Operating Level ceiling at Level 1.",
-          "fix": "Open Score Explainer to inspect the Gateway Ceiling and Blinkers Filter, then raise the failed Gateway to 3 across 70% of teams."
+          "symptom": "The left 'Recommended Actions' drawer in Charter Input is empty.",
+          "cause": "No capability actions were ticked as 'Accept Proposed Action (Y/N)' in Stage 2 Analysis Report.",
+          "fix": "Return to 'Analysis Report', expand your 2–3 priority gap stages, tick 'Accept Proposed Action (Y/N)', and return to 'Charter Input'."
         }
       ]
     },
     "SOP-006": {
       "id": "SOP-006",
-      "title": "Phase 3 & Utilities: Build Local Plans in Strategy Builder, Test Simulator & Fix CSVs",
-      "processId": "PRC-003",
+      "title": "Stage 6: Build & Track the Action Plan",
+      "processId": "PRC-002",
       "roleId": "ROL-001",
       "toolIds": [
-        "TOL-006",
-        "TOL-011"
+        "TOL-010"
       ],
-      "estimatedTime": "30 mins",
-      "stationLocation": "PM Maturity Hub → Phase 3: Plan & Utilities: CSV to JSON Fixer",
+      "estimatedTime": "30 mins + Monthly Review",
+      "stationLocation": "Navigator Toolkit → Action Log & Charter & Roadmaps",
       "kitBag": {
-        "leadRole": "Lead: Local Programme Manager (LPM)",
-        "supportRole": "Optional Support: Lean Core Team partner",
-        "mandatoryStatus": "PM Maturity Hub • Phase 3 & Utilities",
-        "inputNeeded": "Loaded Site Assessment Session",
-        "outputProduced": "Simulated Score Lift, Local Strategy Builder Plan & Repaired JSON"
+        "leadRole": "Owner: Local Programme Manager (LPM) & Action Owners",
+        "supportRole": "Optional Support: Lean Core Team Coach",
+        "mandatoryStatus": "Stage 6 • Action Plan & Governance",
+        "inputNeeded": "Agreed 1-Page Navigator Charter (2–3 Focus Initiatives & Key Results)",
+        "outputProduced": "Live Owned Action Plan (.csv / .leansession) & Local Visual Roadmap"
       },
-      "userGoal": "Select Light, Standard, Intense, or Custom initiative templates in Strategy Builder, drag 1–5 sliders in the Simulator Sandbox to test score unlocks, and repair legacy Excel CSV files in CSV to JSON Fixer.",
+      "userGoal": "Assign single-point owners, target completion dates, and status tracking in the Action Log—and manage your improvement plan in the visual roadmap format that works best for your local organisation.",
       "gettingStarted": [
-        "Ensure 'Data Active' is shown in the PM Maturity Hub sidebar.",
-        "Select 'Strategy Builder' or '↳ Simulator' under Phase 3: Plan, or 'CSV to JSON Fixer' under Utilities."
+        "Open 'Action Log' in the left sidebar of Navigator Toolkit (or click 'Next Step: Assign Action Owners →' at the bottom of Charter & Roadmaps).",
+        "Confirm your agreed Objectives and Key Results from Stage 5 are listed in the Action Log table."
       ],
       "steps": [
         {
           "stepNumber": 1,
-          "action": "Select initiative templates in Strategy Builder and drag sliders in Simulator to test unlocks.",
-          "detail": "Use Auto-Select (Gateways < 3) in Strategy Builder or click '↳ Simulator' in the sidebar to drag 1–5 score sliders and preview your Projected Score lift.",
-          "toolId": "TOL-006",
-          "coachingTip": "Keep your simulation focused on 2 to 3 key capability actions at a time—raising Q10 from 2 to 3 immediately unlocks all Level-2 questions.",
+          "action": "Open Action Log to review your Charter Key Results in the Ownership Matrix.",
+          "detail": "Select 'Action Log' in the left sidebar—every Objective and Key Result entered in Stage 5 automatically populates into the Action Log & Ownership Matrix.",
+          "toolId": "TOL-010",
+          "coachingTip": "If an action wording needs adjustment, click 'Edit Charter Input' so your 1-Page Charter and Action Log stay 100% synchronised.",
           "visual": {
             "type": "image",
-            "imageSrc": "assets/screenshots/hub-strategy-builder.png",
-            "caption": "Lean@GS PM Maturity Hub — Phase 3: Plan (Strategy Builder & ↳ Simulator)",
+            "imageSrc": "assets/screenshots/nav-action-log-populated.png",
+            "src": "assets/screenshots/nav-action-log-populated.png",
+            "caption": "Lean@GS Navigator Toolkit — Action Log & Ownership Matrix Populated from Charter",
             "hotspot": {
-              "xPercent": 55,
-              "yPercent": 35,
-              "widthPercent": 16,
-              "heightPercent": 7,
-              "label": "1. Build Strategy Plan & Open Simulator"
+              "xPercent": 4,
+              "yPercent": 34,
+              "widthPercent": 92,
+              "heightPercent": 44,
+              "label": "1. Review Populated Charter Initiatives & Key Results"
             }
           }
         },
         {
           "stepNumber": 2,
-          "action": "Open 'CSV to JSON Fixer' under Utilities if a legacy Excel file fails to load.",
-          "detail": "Upload any semicolon-delimited Excel CSV into CSV to JSON Fixer and click 'Download Fixed JSON' to save a clean assessment file.",
-          "toolId": "TOL-011",
-          "coachingTip": "Regional European Excel settings often export semicolons instead of commas—CSV to JSON Fixer repairs the file in one click.",
+          "action": "Assign a single named Owner, Target Date, and Status to every action item.",
+          "detail": "Type one accountable person's name in the 'Owner' field (never a department or two names), select a 30/60/90-day 'Target Due Date', and update the status.",
+          "toolId": "TOL-010",
+          "coachingTip": "When two people own an action, nobody owns it—always write a single named owner and a concrete target date before closing the workshop.",
           "visual": {
             "type": "image",
-            "imageSrc": "assets/screenshots/hub-csv-fixer.png",
-            "caption": "Lean@GS PM Maturity Hub — Utilities: CSV to JSON Fixer",
+            "imageSrc": "assets/screenshots/nav-action-log-populated.png",
+            "src": "assets/screenshots/nav-action-log-populated.png",
+            "caption": "Lean@GS Navigator Toolkit — Assign Single Named Owner & Target Due Date on Every Row",
             "hotspot": {
-              "xPercent": 43,
-              "yPercent": 21,
-              "widthPercent": 14,
-              "heightPercent": 7,
-              "label": "2. Click 'Select CSV File' & Download Fixed JSON"
+              "xPercent": 60,
+              "yPercent": 41,
+              "widthPercent": 35,
+              "heightPercent": 36,
+              "label": "2. Enter Single Named Owner & Target Due Date"
+            }
+          }
+        },
+        {
+          "stepNumber": 3,
+          "action": "Click 'Export Action Matrix (CSV)' and 'Save Session (.leansession)' to govern monthly reviews.",
+          "detail": "Export the CSV action tracker, save your master '.leansession' file in the left sidebar, and review progress monthly using the visual roadmap format that best fits your site.",
+          "toolId": "TOL-010",
+          "coachingTip": "Present and track your action plan in the visual roadmap format that works best for your local leadership team, and reload your '.leansession' file at each monthly check-in.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/nav-action-log-export-session.png",
+            "src": "assets/screenshots/nav-action-log-export-session.png",
+            "caption": "Lean@GS Navigator Toolkit — 'Export Action Matrix (CSV)' & Left Sidebar 'Save Session (.leansession)'",
+            "hotspot": {
+              "xPercent": 1,
+              "yPercent": 60,
+              "widthPercent": 17,
+              "heightPercent": 8,
+              "label": "3. Save Session (.leansession) & Export Action Matrix (CSV)"
             }
           }
         }
       ],
+      "buttonsReference": [
+        {
+          "button": "? Action Log Guide",
+          "where": "Top-Right of Action Log",
+          "whatItDoes": "Opens the governance help modal explaining how to assign owners and run monthly progress reviews."
+        },
+        {
+          "button": "Owner / Target Date / Status Controls",
+          "where": "Action Log Table Rows",
+          "whatItDoes": "Assigns a single accountable person, target completion date, and live status to each Key Result."
+        },
+        {
+          "button": "Export Action Matrix (CSV)",
+          "where": "Top-Right of Action Log Table",
+          "whatItDoes": "Downloads the complete ownership matrix as a CSV file for local tracking and leadership reviews."
+        },
+        {
+          "button": "← Review Charter & Roadmaps / Edit Charter Input",
+          "where": "Bottom-Left of Action Log",
+          "whatItDoes": "Returns to the Charter view if the team needs to refine an Objective or Key Result."
+        },
+        {
+          "button": "Save Session (.leansession)",
+          "where": "Bottom-Left Sidebar",
+          "whatItDoes": "Saves your entire 6-stage Navigator journey (Assessment, Analysis, VOC, Charter, and Action Log) into one portable file."
+        },
+        {
+          "button": "Complete Navigator Workflow →",
+          "where": "Bottom-Right of Action Log",
+          "whatItDoes": "Saves changes and returns to the Navigator Toolkit hub."
+        }
+      ],
       "troubleshooting": [
         {
-          "symptom": "Uploading the Excel .csv file into Score Explainer or Strategy Builder gives a format error.",
-          "cause": "Excel saved semicolons (;) instead of commas (,).",
-          "fix": "Click 'CSV to JSON Fixer' under Utilities in the PM Maturity Hub to convert the file to a clean .json."
+          "symptom": "Action Log shows 'No initiatives defined yet' when opened.",
+          "cause": "Objectives and Key Results have not been entered in Charter Input yet, or the saved .leansession file was not loaded.",
+          "fix": "Click 'Load Session (.leansession)' in the left sidebar or open 'Charter Input' to enter your 2–3 Objectives and Key Results first."
         }
       ]
     },
@@ -2256,6 +2398,167 @@ window.FALLBACK_GUIDES_DB = {
           "symptom": "We finished the standalone assessment and want to run a leadership workshop or simulate score unlocks.",
           "cause": "The standalone GS Lean Maturity app focuses purely on the 28-question assessment and Radar Dashboard.",
           "fix": "Load your exported .json file into Lean@GS Navigator Toolkit (for Analysis Report, VOC, Workshop & 1-Page Charter) or into Lean@GS PM Maturity Hub (for Score Explainer, Metro Journey & Simulator)."
+        }
+      ]
+    },
+    "SOP-011": {
+      "id": "SOP-011",
+      "title": "Phases 1 & 2: Score Assessment, Inspect Score Explainer & View Metro Journey / 4 Pillars",
+      "processId": "PRC-003",
+      "roleId": "ROL-001",
+      "toolIds": [
+        "TOL-007",
+        "TOL-003"
+      ],
+      "estimatedTime": "45 mins",
+      "stationLocation": "PM Maturity Hub → Phase 1: Assess & Phase 2: Visualize",
+      "kitBag": {
+        "leadRole": "Lead: Local Programme Manager (LPM)",
+        "supportRole": "Optional Support: Lean Core Team partner",
+        "mandatoryStatus": "PM Maturity Hub • Phases 1 & 2",
+        "inputNeeded": "Completed Site Maturity Assessment (.json or .csv)",
+        "outputProduced": "Score Explainer Breakdown, Metro Journey & The 4 Pillars Visualisations"
+      },
+      "userGoal": "Complete or load your 28-question assessment in Phase 1: Assess (Maturity Assessment, Maturity Explainer, Score Explainer) and visualise progression in Phase 2: Visualize (Metro Journey, The 4 Pillars [Live], and Pillars [Static]).",
+      "gettingStarted": [
+        "Open PM Maturity Hub and click 'Load JSON / CSV' in the bottom-left Session Data box (or score directly in Phase 1: Maturity Assessment).",
+        "Review Maturity Explainer and Score Explainer under Phase 1: Assess, then open Metro Journey, The 4 Pillars (Live), and Pillars (Static) under Phase 2: Visualize."
+      ],
+      "steps": [
+        {
+          "stepNumber": 1,
+          "action": "Open Phase 1 Maturity Assessment and Maturity Explainer to score or review all 28 questions.",
+          "detail": "Click any question card in Maturity Assessment to open the 1–5 scoring modal, or open Maturity Explainer to review the 5 maturity stages and 10 themes.",
+          "toolId": "TOL-007",
+          "coachingTip": "Use 'Load JSON / CSV' in the bottom-left Session Data box to load an existing assessment into all PM Maturity Hub screens at once.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/nav-maturity.png",
+            "caption": "Lean@GS PM Maturity Hub — Phase 1: Assess (Maturity Assessment & Maturity Explainer)",
+            "hotspot": {
+              "xPercent": 15,
+              "yPercent": 36,
+              "widthPercent": 24,
+              "heightPercent": 16,
+              "label": "1. Score 28 Questions or Load Session File"
+            }
+          }
+        },
+        {
+          "stepNumber": 2,
+          "action": "Click 'Score Explainer' under Phase 1 to inspect the four-step Gateway ceiling calculation.",
+          "detail": "Score Explainer walks through Step 1 (Gateway Ceiling), Step 2 (Blinkers Filter), Step 3 (Raw Valid Average), and Step 4 (Final Compressed Score).",
+          "toolId": "TOL-007",
+          "coachingTip": "If Gateway #10 (Pilot Experiments) scores 2/5, your Operating Level is locked at Level 1 (e.g., 1.6/4.0) even if Level 2 questions score 4.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/hub-score-explainer.png",
+            "caption": "Lean@GS PM Maturity Hub — Phase 1: Score Explainer",
+            "hotspot": {
+              "xPercent": 45,
+              "yPercent": 65,
+              "widthPercent": 10,
+              "heightPercent": 6,
+              "label": "2. Inspect 4-Step Gateway Cap Calculation"
+            }
+          }
+        },
+        {
+          "stepNumber": 3,
+          "action": "Open 'Metro Journey' and 'The 4 Pillars (Live)' under Phase 2: Visualize.",
+          "detail": "Metro Journey displays your Digital Twin train stopping at the exact failed Gateway station alongside The 4 Pillars (Live) and Pillars (Static) views.",
+          "toolId": "TOL-003",
+          "coachingTip": "Colleagues grasp the subway map in ten seconds—point directly to the red station blocking the train from advancing.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/hub-metro-journey.png",
+            "caption": "Lean@GS PM Maturity Hub — Phase 2: Visualize (Metro Journey & The 4 Pillars)",
+            "hotspot": {
+              "xPercent": 67,
+              "yPercent": 5,
+              "widthPercent": 30,
+              "heightPercent": 6,
+              "label": "3. View Metro Journey & 4 Pillars Progression"
+            }
+          }
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "High scores on Level 2 and Level 3 questions did not raise our 1.6 total score.",
+          "cause": "A Level 1 Gateway question (such as Q10) scored below 3, locking your Operating Level ceiling at Level 1.",
+          "fix": "Open Score Explainer to inspect the Gateway Ceiling and Blinkers Filter, then raise the failed Gateway to 3 across 70% of teams."
+        }
+      ]
+    },
+    "SOP-012": {
+      "id": "SOP-012",
+      "title": "Phase 3 & Utilities: Build Local Plans in Strategy Builder, Test Simulator & Fix CSVs",
+      "processId": "PRC-003",
+      "roleId": "ROL-001",
+      "toolIds": [
+        "TOL-006",
+        "TOL-011"
+      ],
+      "estimatedTime": "30 mins",
+      "stationLocation": "PM Maturity Hub → Phase 3: Plan & Utilities: CSV to JSON Fixer",
+      "kitBag": {
+        "leadRole": "Lead: Local Programme Manager (LPM)",
+        "supportRole": "Optional Support: Lean Core Team partner",
+        "mandatoryStatus": "PM Maturity Hub • Phase 3 & Utilities",
+        "inputNeeded": "Loaded Site Assessment Session",
+        "outputProduced": "Simulated Score Lift, Local Strategy Builder Plan & Repaired JSON"
+      },
+      "userGoal": "Select Light, Standard, Intense, or Custom initiative templates in Strategy Builder, drag 1–5 sliders in the Simulator Sandbox to test score unlocks, and repair legacy Excel CSV files in CSV to JSON Fixer.",
+      "gettingStarted": [
+        "Ensure 'Data Active' is shown in the PM Maturity Hub sidebar.",
+        "Select 'Strategy Builder' or '↳ Simulator' under Phase 3: Plan, or 'CSV to JSON Fixer' under Utilities."
+      ],
+      "steps": [
+        {
+          "stepNumber": 1,
+          "action": "Select initiative templates in Strategy Builder and drag sliders in Simulator to test unlocks.",
+          "detail": "Use Auto-Select (Gateways < 3) in Strategy Builder or click '↳ Simulator' in the sidebar to drag 1–5 score sliders and preview your Projected Score lift.",
+          "toolId": "TOL-006",
+          "coachingTip": "Keep your simulation focused on 2 to 3 key capability actions at a time—raising Q10 from 2 to 3 immediately unlocks all Level-2 questions.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/hub-strategy-builder.png",
+            "caption": "Lean@GS PM Maturity Hub — Phase 3: Plan (Strategy Builder & ↳ Simulator)",
+            "hotspot": {
+              "xPercent": 55,
+              "yPercent": 35,
+              "widthPercent": 16,
+              "heightPercent": 7,
+              "label": "1. Build Strategy Plan & Open Simulator"
+            }
+          }
+        },
+        {
+          "stepNumber": 2,
+          "action": "Open 'CSV to JSON Fixer' under Utilities if a legacy Excel file fails to load.",
+          "detail": "Upload any semicolon-delimited Excel CSV into CSV to JSON Fixer and click 'Download Fixed JSON' to save a clean assessment file.",
+          "toolId": "TOL-011",
+          "coachingTip": "Regional European Excel settings often export semicolons instead of commas—CSV to JSON Fixer repairs the file in one click.",
+          "visual": {
+            "type": "image",
+            "imageSrc": "assets/screenshots/hub-csv-fixer.png",
+            "caption": "Lean@GS PM Maturity Hub — Utilities: CSV to JSON Fixer",
+            "hotspot": {
+              "xPercent": 43,
+              "yPercent": 21,
+              "widthPercent": 14,
+              "heightPercent": 7,
+              "label": "2. Click 'Select CSV File' & Download Fixed JSON"
+            }
+          }
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "Uploading the Excel .csv file into Score Explainer or Strategy Builder gives a format error.",
+          "cause": "Excel saved semicolons (;) instead of commas (,).",
+          "fix": "Click 'CSV to JSON Fixer' under Utilities in the PM Maturity Hub to convert the file to a clean .json."
         }
       ]
     },
@@ -2762,7 +3065,9 @@ window.FALLBACK_GUIDES_DB = {
         "SOP-001",
         "SOP-002",
         "SOP-003",
-        "SOP-004"
+        "SOP-004",
+        "SOP-005",
+        "SOP-006"
       ],
       "toolIds": [
         "TOL-000",
@@ -2790,7 +3095,7 @@ window.FALLBACK_GUIDES_DB = {
             "label": "Score Explainer Guide →",
             "playbookId": "PLB-PMHUB",
             "view": "sop",
-            "id": "SOP-005"
+            "id": "SOP-011"
           },
           {
             "label": "Metro Journey & 4 Pillars →",
@@ -2802,7 +3107,7 @@ window.FALLBACK_GUIDES_DB = {
             "label": "Strategy Builder & Simulator →",
             "playbookId": "PLB-PMHUB",
             "view": "sop",
-            "id": "SOP-006"
+            "id": "SOP-012"
           },
           {
             "label": "CSV to JSON Fixer →",
@@ -2885,7 +3190,7 @@ window.FALLBACK_GUIDES_DB = {
               "cta": "Click here to open the PM Maturity Hub Guide →",
               "targetPlaybookId": "PLB-PMHUB",
               "targetView": "sop",
-              "targetId": "SOP-005"
+              "targetId": "SOP-011"
             },
             "outputArtifact": "Baseline picture of current Lean capability & gaps",
             "targetView": {
@@ -2913,7 +3218,7 @@ window.FALLBACK_GUIDES_DB = {
               "cta": "Click here to open the PM Maturity Hub Guide →",
               "targetPlaybookId": "PLB-PMHUB",
               "targetView": "sop",
-              "targetId": "SOP-005"
+              "targetId": "SOP-011"
             },
             "outputArtifact": "Focused view of 2–3 priority capability gaps & foundation gateway caps",
             "targetView": {
@@ -2983,9 +3288,9 @@ window.FALLBACK_GUIDES_DB = {
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
             "outputArtifact": "Agreed 1-Page Navigator Charter with 2–3 focus initiatives",
             "targetView": {
-              "type": "template",
-              "id": "TPL-001",
-              "cta": "Open Stage 5 Charter →"
+              "type": "sop",
+              "id": "SOP-005",
+              "cta": "Open Stage 5 Charter Guide →"
             }
           },
           {
@@ -3005,7 +3310,7 @@ window.FALLBACK_GUIDES_DB = {
             "outputArtifact": "Active improvement plan with owners, target dates & local visual roadmap",
             "targetView": {
               "type": "sop",
-              "id": "SOP-004",
+              "id": "SOP-006",
               "cta": "Open Stage 6 Action Plan Guide →"
             }
           }
@@ -3545,13 +3850,13 @@ window.FALLBACK_GUIDES_DB = {
             "label": "PM Maturity Hub: Score Explainer & Metro Journey →",
             "playbookId": "PLB-PMHUB",
             "view": "sop",
-            "id": "SOP-005"
+            "id": "SOP-011"
           },
           {
             "label": "PM Maturity Hub: Strategy Builder & Simulator →",
             "playbookId": "PLB-PMHUB",
             "view": "sop",
-            "id": "SOP-006"
+            "id": "SOP-012"
           }
         ]
       },
@@ -3881,8 +4186,8 @@ window.FALLBACK_GUIDES_DB = {
         "PRC-003"
       ],
       "sopIds": [
-        "SOP-005",
-        "SOP-006"
+        "SOP-011",
+        "SOP-012"
       ],
       "toolIds": [
         "TOL-007",
@@ -3997,7 +4302,7 @@ window.FALLBACK_GUIDES_DB = {
             "outputArtifact": "Completed 28-question assessment & Score Explainer gateway cap diagnosis",
             "targetView": {
               "type": "sop",
-              "id": "SOP-005",
+              "id": "SOP-011",
               "cta": "Open Phase 1 Assess Guide →"
             }
           },
@@ -4019,7 +4324,7 @@ window.FALLBACK_GUIDES_DB = {
             "outputArtifact": "Visual Metro Journey map & 4-Pillar capability snapshot",
             "targetView": {
               "type": "sop",
-              "id": "SOP-005",
+              "id": "SOP-011",
               "cta": "Open Phase 2 Visualize Guide →"
             }
           },
@@ -4040,7 +4345,7 @@ window.FALLBACK_GUIDES_DB = {
             "outputArtifact": "Local Strategy Builder improvement plan & simulated score unlock",
             "targetView": {
               "type": "sop",
-              "id": "SOP-006",
+              "id": "SOP-012",
               "cta": "Open Phase 3 Plan Guide →"
             }
           },
@@ -4061,7 +4366,7 @@ window.FALLBACK_GUIDES_DB = {
             "outputArtifact": "Repaired assessment file ready to load into any Hub module",
             "targetView": {
               "type": "sop",
-              "id": "SOP-006",
+              "id": "SOP-012",
               "cta": "Open CSV to JSON Fixer Guide →"
             }
           }
@@ -5144,5 +5449,4 @@ window.FALLBACK_GUIDES_DB = {
       "referenceTables": []
     }
   ]
-}
-;
+};

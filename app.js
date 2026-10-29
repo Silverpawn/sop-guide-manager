@@ -37,7 +37,7 @@ let state = {
   matrixMode: "full" // "full" | "compact"
 };
 
-const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V22";
+const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V23";
 let DEFAULT_DB_SNAPSHOT = null;
 
 async function initApp() {
@@ -1371,6 +1371,7 @@ function getButtonBadgeStyle(buttonName) {
     name.includes("export action report") ||
     name.includes("save session") ||
     name.includes("next step") ||
+    name.includes("complete navigator workflow") ||
     name.includes("accept proposed action") ||
     name.includes("maturity explainer") ||
     name.includes("orientation") ||
@@ -1378,7 +1379,7 @@ function getButtonBadgeStyle(buttonName) {
     name.includes("question card") ||
     name.includes("simulator") ||
     name.includes("promote") ||
-    name.includes("start") ||
+    name.includes("start ") ||
     name.includes("filter") ||
     name.includes("slider") ||
     name.includes("add journey stage") ||
@@ -1398,6 +1399,9 @@ function getButtonBadgeStyle(buttonName) {
     name.includes("export") ||
     name.includes("download") ||
     name.includes("help & guide") ||
+    name.includes("workshop guide") ||
+    name.includes("charter input guide") ||
+    name.includes("action log guide") ||
     name.includes("co-pilot") ||
     name.includes("output all data") ||
     name.includes("new standard") ||
@@ -1419,6 +1423,12 @@ function getButtonBadgeStyle(buttonName) {
     name.includes("evaluation logic") ||
     name.includes("oe comment") ||
     name.includes("oe action") ||
+    name.includes("open voc input") ||
+    name.includes("recommended actions") ||
+    name.includes("leadership priorities") ||
+    name.includes("starting score") ||
+    name.includes("owner / target date") ||
+    name.includes("review charter") ||
     name.includes("load ") ||
     name.includes("upload") ||
     name.includes("select ") ||
