@@ -33,7 +33,7 @@ let state = {
   studioSavedSvgVisual: null
 };
 
-const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V12";
+const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V13";
 let DEFAULT_DB_SNAPSHOT = null;
 
 async function initApp() {

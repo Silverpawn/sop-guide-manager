@@ -671,22 +671,15 @@
           "toolId": "TOL-001",
           "coachingTip": "Treat scoring as an open self-assessment of capability, never an audit—the goal is to see where teams need support, not to chase a higher score.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "Navigator Toolkit / GS Lean Maturity (maturity.html) — New Standard Toggle & User Data Plate",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Interactive Lean Maturity Assessment • [New Standard ✓]", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "b1", "kind": "card", "label": "1st Time: LPM + Core Team (Learn Tool)", "x": 35, "y": 58, "w": 210, "h": 50, "state": "active" },
-              { "id": "b2", "kind": "button", "label": "Ongoing: LPM + Leadership Team", "x": 255, "y": 58, "w": 205, "h": 50, "state": "success" },
-              { "id": "b3", "kind": "badge", "label": "User Data Plate: Project/Dept Name • Org • Assessed By • For OE Local PM", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 255,
-              "targetY": 58,
-              "targetW": 205,
-              "targetH": 50,
-              "arrowFromX": 300,
-              "arrowFromY": 26,
-              "label": "1. Self-Assess Under 'New Standard'"
+            "type": "image",
+            "imageSrc": "assets/screenshots/nav-maturity.png",
+            "caption": "Lean@GS Navigator Toolkit — Maturity Assessment (New Standard Toggle, Maturity Explainer & User Data Plate)",
+            "hotspot": {
+              "xPercent": 33,
+              "yPercent": 21,
+              "widthPercent": 34,
+              "heightPercent": 7,
+              "label": "1. Select 'New Standard' & Fill Data Plate"
             }
           }
         },
@@ -697,23 +690,7 @@
           "toolId": "TOL-001",
           "coachingTip": "One enthusiastic pilot area or a written slide deck that nobody uses scores a 2 (Just Starting), never a 3.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "28-Card Grid — Gold Gateway Border (★) & Petrol Evaluated Border",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "1–5 Flashcard Rubric • Passing Gold Gateway Cards (★)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Score 2: 1 Pilot Only (Fails ★)", "x": 38, "y": 60, "w": 185, "h": 48, "state": "danger" },
-              { "id": "c2", "kind": "button", "label": "Score 3: ~70% of Site (Passes ★)", "x": 240, "y": 60, "w": 220, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Score 4: Daily Habit (3–6m trends) | Score 5: Self-Running", "x": 38, "y": 124, "w": 422, "h": 34, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 240,
-              "targetY": 60,
-              "targetW": 220,
-              "targetH": 48,
-              "arrowFromX": 290,
-              "arrowFromY": 26,
-              "label": "2. Verify ~70% Site Coverage for 3+"
-            }
+            "type": "none"
           }
         },
         {
@@ -723,22 +700,15 @@
           "toolId": "TOL-001",
           "coachingTip": "If a habit scored 4 last year but stopped working, lower the score openly so the site gets support to rebuild it.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "Header Action Bar — 'View Dashboard' & 'View Key' Calibration",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Assessment Dashboard • Radar Chart & Evidence Check", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Click: [View Dashboard] Radar", "x": 40, "y": 60, "w": 200, "h": 48, "state": "default" },
-              { "id": "c2", "kind": "button", "label": "Update Card Only With Proof", "x": 255, "y": 60, "w": 205, "h": 48, "state": "active" },
-              { "id": "c3", "kind": "badge", "label": "Required Proof: Working boards, meeting logs, 3-6 month action history", "x": 40, "y": 124, "w": 420, "h": 34, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 255,
-              "targetY": 60,
-              "targetW": 205,
-              "targetH": 48,
-              "arrowFromX": 300,
-              "arrowFromY": 26,
-              "label": "3. Change Score Only With Proof"
+            "type": "image",
+            "imageSrc": "assets/screenshots/nav-maturity.png",
+            "caption": "Lean@GS Navigator Toolkit — Click 'View Dashboard' to Review Radar Chart with Leaders",
+            "hotspot": {
+              "xPercent": 7.5,
+              "yPercent": 15.5,
+              "widthPercent": 12,
+              "heightPercent": 6,
+              "label": "3. Click 'View Dashboard'"
             }
           }
         },
@@ -749,22 +719,15 @@
           "toolId": "TOL-001",
           "coachingTip": "The exported <Org>_<Date>_Lean_Assessment.json file automatically strips image bloat and loads cleanly into Navigator Toolkit (Analysis Report).",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "Header Button — 'Export Assessment (.json & .csv)'",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Export & Archive Official Submission (Compact JSON + CSV)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "button", "label": "Export Assessment (.json & .csv)", "x": 35, "y": 60, "w": 220, "h": 48, "state": "success" },
-              { "id": "c2", "kind": "card", "label": "Folder: 600 Maturity Submissions", "x": 268, "y": 60, "w": 192, "h": 48, "state": "active" },
-              { "id": "c3", "kind": "badge", "label": "ARCHIVE RULE: Never move or delete files in 600 Maturity Submissions", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 35,
-              "targetY": 60,
-              "targetW": 220,
-              "targetH": 48,
-              "arrowFromX": 145,
-              "arrowFromY": 26,
-              "label": "4. Click 'Export Assessment (.json & .csv)'"
+            "type": "image",
+            "imageSrc": "assets/screenshots/nav-maturity.png",
+            "caption": "Lean@GS Navigator Toolkit — Click 'Export Assessment (.json & .csv)'",
+            "hotspot": {
+              "xPercent": 19.5,
+              "yPercent": 15.5,
+              "widthPercent": 21,
+              "heightPercent": 6,
+              "label": "4. Export Assessment (.json & .csv)"
             }
           }
         }
@@ -805,22 +768,15 @@
           "toolId": "TOL-002",
           "coachingTip": "If Gateway #10 (Pilot Experiments) scores 2/5, your site is capped at Level 1 even if higher-level questions scored 4.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "Navigator Toolkit (analysis.html) — Upload Assessment & 10-Stage Diagnostic",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Lean Maturity Analysis (analysis.html) • 10-Stage Diagnostic Engine", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "button", "label": "Upload Assessment (.json / .csv)", "x": 35, "y": 58, "w": 215, "h": 48, "state": "active" },
-              { "id": "c2", "kind": "card", "label": "Optional: Launch Co-pilot AI Agent", "x": 265, "y": 58, "w": 195, "h": 48, "state": "default" },
-              { "id": "c3", "kind": "badge", "label": "Evaluates Stages 0–9 & Highlights Foundation Gateway Caps (★)", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 35,
-              "targetY": 58,
-              "targetW": 215,
-              "targetH": 48,
-              "arrowFromX": 140,
-              "arrowFromY": 26,
-              "label": "1. Upload Assessment in Analysis Report"
+            "type": "image",
+            "imageSrc": "assets/screenshots/nav-analysis.png",
+            "caption": "Lean@GS Navigator Toolkit — Analysis Report: Upload Assessment (.json / .csv)",
+            "hotspot": {
+              "xPercent": 39,
+              "yPercent": 58,
+              "widthPercent": 22,
+              "heightPercent": 7,
+              "label": "1. Click 'Upload Assessment (.json / .csv)'"
             }
           }
         },
@@ -831,22 +787,15 @@
           "toolId": "TOL-002",
           "coachingTip": "Do not build a 28-item wishlist—look for the 2 or 3 foundational Gateway gaps that hold back your site's next level.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "Navigator Toolkit (analysis.html) — Analysis Details & 10-Stage Accordion",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "2. Add Analysis Details • Expand All 10 Roadmap Stages", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Analysed By + Analysis Date", "x": 35, "y": 60, "w": 210, "h": 48, "state": "default" },
-              { "id": "c2", "kind": "button", "label": "Click: [Expand All] Stages 0–9", "x": 260, "y": 60, "w": 200, "h": 48, "state": "active" },
-              { "id": "c3", "kind": "badge", "label": "Focus on 2–3 Priority Capability Gaps & Foundation Gateway Caps (★)", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 260,
-              "targetY": 60,
-              "targetW": 200,
-              "targetH": 48,
-              "arrowFromX": 310,
-              "arrowFromY": 26,
-              "label": "2. Inspect 10 Roadmap Stage Gaps"
+            "type": "image",
+            "imageSrc": "assets/screenshots/nav-analysis.png",
+            "caption": "Lean@GS Navigator Toolkit — Analysis Report: Add Analysis Details",
+            "hotspot": {
+              "xPercent": 51,
+              "yPercent": 74,
+              "widthPercent": 37,
+              "heightPercent": 25,
+              "label": "2. Enter Analysed By & Analysis Date"
             }
           }
         },
@@ -857,23 +806,7 @@
           "toolId": "TOL-002",
           "coachingTip": "Click 'Save Session (.leansession)' in the left sidebar so your Analysis Report carries directly into VOC Input and Charter Input.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "Navigator Toolkit (analysis.html) — View Action Report & Export to PowerPoint",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Consolidated Action Report & Executive Slide Export", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Click: [View Action Report]", "x": 35, "y": 60, "w": 210, "h": 48, "state": "active" },
-              { "id": "c2", "kind": "button", "label": "Click: [Export to PowerPoint]", "x": 260, "y": 60, "w": 200, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Also Available: Export Full Report (PDF) • Export Results (CSV) • Next: VOC →", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 260,
-              "targetY": 60,
-              "targetW": 200,
-              "targetH": 48,
-              "arrowFromX": 310,
-              "arrowFromY": 26,
-              "label": "3. Export Gap Report & Continue to VOC"
-            }
+            "type": "none"
           }
         }
       ],
@@ -913,22 +846,15 @@
           "toolId": "TOL-004",
           "coachingTip": "Focus on business pain points (delivery lead time, repeat defects, handoff delays) rather than asking leaders which Lean tool they want.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "Navigator Toolkit (voc.html) — Guiding Questions & Interview Details",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Voice of Customer (VOC) • Pre-Workshop Diagnostic (voc.html)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "1. Guiding & Probing Questions", "x": 35, "y": 60, "w": 210, "h": 48, "state": "default" },
-              { "id": "c2", "kind": "button", "label": "2. Enter Interview Details & Role", "x": 260, "y": 60, "w": 200, "h": 48, "state": "active" },
-              { "id": "c3", "kind": "badge", "label": "Captures: Key Challenge • Measure of Success • Process Bottlenecks", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 260,
-              "targetY": 60,
-              "targetW": 200,
-              "targetH": 48,
-              "arrowFromX": 310,
-              "arrowFromY": 26,
-              "label": "1. Capture Leader Business Needs"
+            "type": "image",
+            "imageSrc": "assets/screenshots/nav-voc.png",
+            "caption": "Lean@GS Navigator Toolkit — VOC Input: Pre-Work Checklist & Guiding Question",
+            "hotspot": {
+              "xPercent": 15,
+              "yPercent": 33,
+              "widthPercent": 70,
+              "heightPercent": 36,
+              "label": "1. Ask Guiding Business-Need Question"
             }
           }
         },
@@ -939,22 +865,15 @@
           "toolId": "TOL-004",
           "coachingTip": "Entries saved in VOC Input automatically synthesise into the Top 3 Leadership Priorities inside Charter Input.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "Navigator Toolkit (voc.html) — Voice of Customer & Save Session (.leansession)",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Voice of Customer (VOC) • Pre-Workshop Diagnostic", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Add Interview Entry (VOC Input)", "x": 35, "y": 60, "w": 215, "h": 48, "state": "active" },
-              { "id": "c2", "kind": "button", "label": "Save Session (.leansession)", "x": 265, "y": 60, "w": 195, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Auto-Syncs VOC Entries into Charter Input & Exports VOC CSV", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 265,
-              "targetY": 60,
-              "targetW": 195,
-              "targetH": 48,
-              "arrowFromX": 305,
-              "arrowFromY": 26,
-              "label": "2. Save Session (.leansession)"
+            "type": "image",
+            "imageSrc": "assets/screenshots/nav-voc.png",
+            "caption": "Lean@GS Navigator Toolkit — VOC Input: 1. Interview Details & Record Insights",
+            "hotspot": {
+              "xPercent": 15,
+              "yPercent": 73,
+              "widthPercent": 70,
+              "heightPercent": 26,
+              "label": "2. Record Leader Interview Details"
             }
           }
         }
@@ -995,22 +914,15 @@
           "toolId": "TOL-005",
           "coachingTip": "Show how strengthening Gateway #10 (Pilot Experiments) or #14 (Daily Huddles) directly unlocks the business performance leaders asked for.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "Stage 4 (Workshop Guide) — Connecting Business Need + Lean Capability",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Workshop Guide (workshop.html) • 3-Module Facilitator Agenda", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Mod 1: Top 3 VOC Business Needs", "x": 35, "y": 60, "w": 200, "h": 48, "state": "default" },
-              { "id": "c2", "kind": "button", "label": "Mod 2: Connect to Red Gateways", "x": 250, "y": 60, "w": 210, "h": 48, "state": "active" },
-              { "id": "c3", "kind": "badge", "label": "Mod 3: Draft 2–3 Focus Objectives & Key Results in Charter Input", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 250,
-              "targetY": 60,
-              "targetW": 210,
-              "targetH": 48,
-              "arrowFromX": 295,
-              "arrowFromY": 26,
-              "label": "1. Link Business Problems to Gateways"
+            "type": "image",
+            "imageSrc": "assets/screenshots/nav-workshop.png",
+            "caption": "Lean@GS Navigator Toolkit — Navigator Workshop Guide",
+            "hotspot": {
+              "xPercent": 42,
+              "yPercent": 32,
+              "widthPercent": 16,
+              "heightPercent": 6,
+              "label": "1. Open Facilitator Help & Guide"
             }
           }
         },
@@ -1021,22 +933,15 @@
           "toolId": "TOL-009",
           "coachingTip": "All fields in Charter Input auto-save to your session and immediately populate the executive Charter & Roadmaps infographic.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "Stage 5 (charter_input.html) — Leadership Priorities & Measurable OKRs",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Navigator Charter Input • Priorities, Gap & OKRs (Auto-Save)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Left Panel: Recommended Actions", "x": 35, "y": 60, "w": 185, "h": 48, "state": "default" },
-              { "id": "c2", "kind": "button", "label": "OKR: 'Huddles 25% → 75% by Q3' ✓", "x": 235, "y": 60, "w": 225, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Focus on 2–3 Key Initiatives • Auto-populates Charter & Roadmaps", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 235,
-              "targetY": 60,
-              "targetW": 225,
-              "targetH": 48,
-              "arrowFromX": 285,
-              "arrowFromY": 26,
-              "label": "2. Draft 2–3 Measurable OKRs"
+            "type": "image",
+            "imageSrc": "assets/screenshots/nav-charter-input.png",
+            "caption": "Lean@GS Navigator Toolkit — Navigator Charter Input (Top 3 Leadership Priorities & Gap)",
+            "hotspot": {
+              "xPercent": 5,
+              "yPercent": 43,
+              "widthPercent": 90,
+              "heightPercent": 32,
+              "label": "2. Enter Top 3 Leadership Priorities"
             }
           }
         },
@@ -1047,22 +952,15 @@
           "toolId": "TOL-010",
           "coachingTip": "Click 'Save Session (.leansession)' in the sidebar before leaving the room so the entire workshop state is backed up in one file.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "Stage 6 (charter.html & action_log.html) — Charter & Ownership Matrix",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Charter & Roadmaps + Action Log & Ownership Matrix", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Charter & Roadmaps (Export PPTX)", "x": 35, "y": 60, "w": 205, "h": 48, "state": "active" },
-              { "id": "c2", "kind": "button", "label": "Export Action Matrix (CSV)", "x": 255, "y": 60, "w": 205, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Backup Full Workshop: Click 'Save Session (.leansession)' in Sidebar", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 255,
-              "targetY": 60,
-              "targetW": 205,
-              "targetH": 48,
-              "arrowFromX": 295,
-              "arrowFromY": 26,
-              "label": "3. Assign Owners & Export Matrix"
+            "type": "image",
+            "imageSrc": "assets/screenshots/nav-action-log.png",
+            "caption": "Lean@GS Navigator Toolkit — Action Log & Ownership Matrix",
+            "hotspot": {
+              "xPercent": 75,
+              "yPercent": 41,
+              "widthPercent": 18,
+              "heightPercent": 6,
+              "label": "3. Assign Owners & Export Action Matrix (CSV)"
             }
           }
         }
@@ -1103,22 +1001,15 @@
           "toolId": "TOL-003",
           "coachingTip": "If Gateway #10 (Pilot Experiments) scores 2/5, your Operating Level is locked at Level 1 (e.g., 1.6/4.0) even if Level 2 questions score 4.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "PM Maturity Hub — Score Explainer (lean_score_explainer.html)",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Score Explainer • Compressed = OperatingLevel + [(RawValidAvg - 1) / 4]", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Level 0 Gateways (Q1–Q5 >= 3) ✓", "x": 35, "y": 58, "w": 195, "h": 48, "state": "success" },
-              { "id": "c2", "kind": "button", "label": "Gateway Q10 = 2/5 ✗ (Ceiling L1)", "x": 245, "y": 58, "w": 215, "h": 48, "state": "danger" },
-              { "id": "c3", "kind": "badge", "label": "Blinkers Filter Active: Levels 2–4 Ignored Until Q10 >= 3 • Final: 1.6", "x": 35, "y": 122, "w": 425, "h": 36, "state": "active" }
-            ],
-            "annotation": {
-              "targetX": 245,
-              "targetY": 58,
-              "targetW": 215,
-              "targetH": 48,
-              "arrowFromX": 295,
-              "arrowFromY": 26,
-              "label": "1. Inspect Gateway Ceiling & Cap"
+            "type": "image",
+            "imageSrc": "assets/screenshots/hub-score-explainer.png",
+            "caption": "Lean@GS PM Maturity Hub — Phase 1: Score Explainer",
+            "hotspot": {
+              "xPercent": 45,
+              "yPercent": 65,
+              "widthPercent": 10,
+              "heightPercent": 6,
+              "label": "1. Select Assessment File (.json / .csv)"
             }
           }
         },
@@ -1129,22 +1020,15 @@
           "toolId": "TOL-003",
           "coachingTip": "Colleagues grasp the subway map in ten seconds—point directly to the red station blocking the train from advancing.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "PM Maturity Hub — Phase 2: Visualize (Metro Journey & The 4 Pillars)",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Phase 2: Visualize • Metro Journey & The 4 Pillars (Live)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Metro Line: L0 PASS ──● Q10 STOP", "x": 35, "y": 60, "w": 235, "h": 48, "state": "active" },
-              { "id": "c2", "kind": "button", "label": "The 4 Pillars (Live) View", "x": 285, "y": 60, "w": 175, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "4 Pillars: Strategy & Alignment • Leadership • Daily Execution • Scaling", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 285,
-              "targetY": 60,
-              "targetW": 175,
-              "targetH": 48,
-              "arrowFromX": 315,
-              "arrowFromY": 26,
-              "label": "2. View Metro Journey & 4 Pillars"
+            "type": "image",
+            "imageSrc": "assets/screenshots/hub-metro-journey.png",
+            "caption": "Lean@GS PM Maturity Hub — Phase 2: Visualize (Metro Journey & 4 Pillars)",
+            "hotspot": {
+              "xPercent": 67,
+              "yPercent": 5,
+              "widthPercent": 30,
+              "heightPercent": 6,
+              "label": "2. Upload File & Start Metro Journey"
             }
           }
         }
@@ -1185,22 +1069,15 @@
           "toolId": "TOL-006",
           "coachingTip": "Keep your simulation focused on 2 to 3 key capability actions at a time—raising Q10 from 2 to 3 immediately unlocks all Level-2 questions.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "PM Maturity Hub — Phase 3: Strategy Builder & ↳ Simulator",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Strategy Builder & ↳ Simulator (lean_strategy_builder.html)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Gap Q10 → [Standard Template ✓]", "x": 35, "y": 60, "w": 230, "h": 48, "state": "active" },
-              { "id": "c2", "kind": "button", "label": "Test in ↳ Simulator Sandbox", "x": 280, "y": 60, "w": 180, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Simulator Sliders: Fixing Q10 Unlocks Level 2 Ceiling (1.6 → 2.6)", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 280,
-              "targetY": 60,
-              "targetW": 180,
-              "targetH": 48,
-              "arrowFromX": 315,
-              "arrowFromY": 26,
-              "label": "1. Pick Template & Test Simulator"
+            "type": "image",
+            "imageSrc": "assets/screenshots/hub-strategy-builder.png",
+            "caption": "Lean@GS PM Maturity Hub — Phase 3: Plan (Strategy Builder & Open Simulator)",
+            "hotspot": {
+              "xPercent": 55,
+              "yPercent": 35,
+              "widthPercent": 16,
+              "heightPercent": 7,
+              "label": "1. Upload File & Click 'Open Simulator'"
             }
           }
         },
@@ -1211,22 +1088,15 @@
           "toolId": "TOL-011",
           "coachingTip": "Regional European Excel settings often export semicolons instead of commas—CSV to JSON Fixer repairs the file in one click.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "PM Maturity Hub — Utilities: CSV to JSON Fixer (CSV_2_JSON.html)",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Utilities • CSV to JSON Fixer (CSV_2_JSON.html)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Upload Legacy ';' Excel CSV", "x": 35, "y": 60, "w": 210, "h": 48, "state": "default" },
-              { "id": "c2", "kind": "button", "label": "Download Clean Assessment JSON ✓", "x": 260, "y": 60, "w": 200, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Fixes regional delimiter errors so files load cleanly into all tools", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 260,
-              "targetY": 60,
-              "targetW": 200,
-              "targetH": 48,
-              "arrowFromX": 310,
-              "arrowFromY": 26,
-              "label": "2. Convert Legacy CSV to Clean JSON"
+            "type": "image",
+            "imageSrc": "assets/screenshots/hub-csv-fixer.png",
+            "caption": "Lean@GS PM Maturity Hub — Utilities: CSV to JSON Fixer",
+            "hotspot": {
+              "xPercent": 43,
+              "yPercent": 21,
+              "widthPercent": 14,
+              "heightPercent": 7,
+              "label": "2. Click 'Select CSV File' & Download Fixed JSON"
             }
           }
         }
@@ -1267,23 +1137,7 @@
           "toolId": "TOL-008",
           "coachingTip": "Checking kitchen capability first prevents promising six oat-milk flat whites when the fridge only holds half a pint of semi-skimmed.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "Stage 1: Check the Kitchen Baseline (Assess)",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Office Kitchen Baseline Check • 3 Foundational Gateways (★)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Kettle Water >= 4 Cups ✓ (Passes ★)", "x": 35, "y": 58, "w": 205, "h": 48, "state": "success" },
-              { "id": "c2", "kind": "button", "label": "4 Clean Mugs Ready ✓ (Passes ★)", "x": 255, "y": 58, "w": 205, "h": 48, "state": "active" },
-              { "id": "c3", "kind": "badge", "label": "Rule: Never promise artisanal barista drinks before checking basic kitchen stock", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 255,
-              "targetY": 58,
-              "targetW": 205,
-              "targetH": 48,
-              "arrowFromX": 295,
-              "arrowFromY": 26,
-              "label": "1. Verify Clean Mugs & Kettle First"
-            }
+            "type": "none"
           }
         },
         {
@@ -1293,23 +1147,7 @@
           "toolId": "TOL-008",
           "coachingTip": "Spotting a missing ingredient in Stage 2 saves an awkward second trip back to the desks to renegotiate orders.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "Stage 2: Spot Supply Gaps (Analyse)",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Kitchen Gap Analysis • What Can We Actually Brew Today?", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Yorkshire Tea + Dairy Milk: IN STOCK ✓", "x": 35, "y": 58, "w": 215, "h": 48, "state": "success" },
-              { "id": "c2", "kind": "button", "label": "Oat Milk Carton: EMPTY ✗ (Gap)", "x": 265, "y": 58, "w": 195, "h": 48, "state": "danger" },
-              { "id": "c3", "kind": "badge", "label": "Gateway Cap: Oat-milk lattes paused until someone restocks the fridge", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 265,
-              "targetY": 58,
-              "targetW": 195,
-              "targetH": 48,
-              "arrowFromX": 305,
-              "arrowFromY": 26,
-              "label": "2. Spot Empty Fridge Items Early"
-            }
+            "type": "none"
           }
         },
         {
@@ -1319,23 +1157,7 @@
           "toolId": "TOL-008",
           "coachingTip": "Keep the round manageable—aim for 2 to 3 mugs per tray (with a hard ceiling of 4) so you never drop a scalding mug in the corridor.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "Stage 3: Take Team Orders (Voice of the Customer)",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Team Drink Orders (VOC) • What Does the Team Need?", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Sarah: Strong Builder's Tea (Milk)", "x": 35, "y": 58, "w": 205, "h": 48, "state": "active" },
-              { "id": "c2", "kind": "button", "label": "Dave: Black Americano (No Sugar)", "x": 255, "y": 58, "w": 205, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Target Batch: 2–3 Mugs per Round (Max 4 Tray Capacity Ceiling)", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 255,
-              "targetY": 58,
-              "targetW": 205,
-              "targetH": 48,
-              "arrowFromX": 295,
-              "arrowFromY": 26,
-              "label": "3. Capture 2–3 Colleague Orders"
-            }
+            "type": "none"
           }
         }
       ],
@@ -1375,23 +1197,7 @@
           "toolId": "TOL-008",
           "coachingTip": "If someone ordered an oat-milk latte and the fridge only has dairy milk, offer them a black Americano or herbal tea before pouring.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "Stage 4: Match Orders to Supplies (Kitchen Huddle)",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Kitchen Huddle • Combining Kitchen Stock [1–2] + Team Orders [3]", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Input 1: Kettle + Tea + Dairy Milk", "x": 35, "y": 58, "w": 205, "h": 48, "state": "default" },
-              { "id": "c2", "kind": "button", "label": "Lock 3 Matched Mugs for Tray #1 ✓", "x": 255, "y": 58, "w": 205, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Result: 2 Builder's Teas + 1 Black Coffee Locked on 1-Page Tray Charter", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 255,
-              "targetY": 58,
-              "targetW": 205,
-              "targetH": 48,
-              "arrowFromX": 295,
-              "arrowFromY": 26,
-              "label": "1. Lock 2–3 Matched Drinks"
-            }
+            "type": "none"
           }
         },
         {
@@ -1401,23 +1207,7 @@
           "toolId": "TOL-008",
           "coachingTip": "Adding milk too early drops the water temperature and locks the tea into a pale, lifeless beige score.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "Stage 5: Agree & Brew the Round (3-Minute Steep Rule)",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Brew Quality Standard • Avoid 'Dishwater Tea' Failure", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "4-Sec Dip: Pale Dishwater ✗", "x": 35, "y": 58, "w": 185, "h": 48, "state": "danger" },
-              { "id": "c2", "kind": "button", "label": "3-Min Steep + Splash Milk: Gold ★", "x": 235, "y": 58, "w": 225, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Sequence Rule: 100°C Water → 3-Min Steep → Remove Bag → Add Milk Last", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 235,
-              "targetY": 58,
-              "targetW": 225,
-              "targetH": 48,
-              "arrowFromX": 285,
-              "arrowFromY": 26,
-              "label": "2. Steep 3 Full Minutes First"
-            }
+            "type": "none"
           }
         },
         {
@@ -1427,23 +1217,7 @@
           "toolId": "TOL-008",
           "coachingTip": "Ask a colleague to hold the hallway fire door—teamwork prevents 90% of corridor tea spills.",
           "visual": {
-            "type": "ui-mockup",
-            "caption": "Stage 6: Deliver Hot Drinks (Action Plan)",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Stage 6 Action Plan • Safe Desk Delivery (<10 Mins)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Tray Balanced (3 Mugs Centered)", "x": 35, "y": 58, "w": 205, "h": 48, "state": "active" },
-              { "id": "c2", "kind": "button", "label": "Delivered to Desks (<10m) ✓", "x": 255, "y": 58, "w": 205, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Close Loop: Rinse teapot and return dirty spoons to the dishwasher", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 255,
-              "targetY": 58,
-              "targetW": 205,
-              "targetH": 48,
-              "arrowFromX": 295,
-              "arrowFromY": 26,
-              "label": "3. Deliver Hot Mugs Within 10 Mins"
-            }
+            "type": "none"
           }
         }
       ],

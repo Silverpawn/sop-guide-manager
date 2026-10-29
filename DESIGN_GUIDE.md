@@ -107,10 +107,10 @@ Overview stage cards must **NEVER** look like database records, audit checklists
 2. **Imperative Verb Start:** Every step must begin with a direct action verb (*Click, Open, Review, Write, Ask, Filter, Assign*).
 3. **Zero Raw Acronyms:** Enforced via `glossary` in [`data/guides.json`](./data/guides.json) and [`scripts/validate-guides.js`](./scripts/validate-guides.js).
 4. **Value-Add Coaching Tip:** Every step includes a `coachingTip` explaining how to get the best real-world result.
-5. **Flexible 3-Mode Visuals (M365 Ready):**
-   - `type: "image"`: Custom screenshot (Base64 data URI from `Ctrl+V` Snipping Tool paste or URL) with optional percentage-based highlight box (`hotspot`).
-   - `type: "svg"`: Declarative SVG diagram with callout arrow reflecting real production UI labels.
-   - `type: "none"` (or omitted): Cleanly renders without an empty placeholder box, elevating the `coachingTip` card to balance the 2-column rhythm.
+5. **Visual Authenticity Rule (No Fake UI Wireframes) & Flexible 3-Mode Visuals:**
+   - **Never Draw Fake UI Buttons for Process Rules:** Declarative SVG boxes must **NEVER** invent fake buttons that do not exist in the software (such as `"1st Time: LPM + Core Team"` or `"Score 2: 1 Pilot Only"`), and SVG text layers must never overlap.
+   - **Real Screenshots for Software Steps (`type: "image"`):** If a step instructs the user to interact with `Navigator Toolkit`, `PM Maturity Hub`, or `GS Lean Maturity`, the right-hand card must display a **real screenshot** (`visual.type = "image"`, stored in `/assets/screenshots/...` or Base64 data URI) captured from the actual application UI, with an optional percentage hotspot highlight over the real button/input.
+   - **Clean Text/Coaching Mode for Human Rules (`type: "none"`):** If a step describes a human behaviour or discussion rule rather than a software click, set `visual: { type: "none" }` so the right-hand column cleanly renders the Good Practice Coaching Card instead of a fake diagram.
 
 ---
 

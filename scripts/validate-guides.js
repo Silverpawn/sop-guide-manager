@@ -251,7 +251,7 @@ for (const [sopId, sop] of Object.entries(db.sops || {})) {
       );
     }
 
-    // Rule: 3-Mode Visual Support (Optional / Custom Image / Declarative SVG)
+    // Rule: Visual Authenticity Rule (Real App Screenshots or Clean Text/Coaching Mode Only — No Fake SVG Wireframes)
     const vis = step.visual;
     if (!vis || vis.type === "none") {
       stats.visualModes.none++;
@@ -259,14 +259,17 @@ for (const [sopId, sop] of Object.entries(db.sops || {})) {
       stats.visualModes.image++;
       if (!vis.imageSrc || !String(vis.imageSrc).trim()) {
         errors.push(`[${sopId} Step ${step.stepNumber}] Visual mode 'image' requires a non-empty 'imageSrc'.`);
+      } else if (String(vis.imageSrc).startsWith("assets/")) {
+        const assetFullPath = path.join(__dirname, "..", vis.imageSrc);
+        if (!fs.existsSync(assetFullPath)) {
+          errors.push(`[${sopId} Step ${step.stepNumber}] Missing screenshot file on disk: "${vis.imageSrc}"`);
+        }
       }
-    } else if (Array.isArray(vis.elements)) {
+    } else if (Array.isArray(vis.elements) || vis.type === "ui-mockup") {
       stats.visualModes.svg++;
-      if (!vis.annotation || !vis.annotation.label) {
-        errors.push(
-          `[${sopId} Step ${step.stepNumber}] Declarative SVG visual requires 'visual.annotation.label' (arrow + highlight box).`
-        );
-      }
+      errors.push(
+        `[${sopId} Step ${step.stepNumber}] Violates Visual Authenticity Rule: fake declarative SVG wireframe ('visual.elements') is banned. Use a real app screenshot (visual.type = "image") or Clean Coaching Mode (visual.type = "none").`
+      );
     } else {
       stats.visualModes.none++;
     }
