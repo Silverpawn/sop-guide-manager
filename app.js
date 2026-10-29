@@ -37,7 +37,7 @@ let state = {
   matrixMode: "full" // "full" | "compact"
 };
 
-const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V21";
+const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V22";
 let DEFAULT_DB_SNAPSHOT = null;
 
 async function initApp() {
@@ -446,7 +446,7 @@ function renderSidebar() {
 
       <!-- Universal Section 1 -->
       <div class="sidebar-section-label" style="margin-top:4px;">1. End-to-End Journey</div>
-      <button type="button" class="tree-item ${state.view === "journey" ? "active" : ""}" onclick="showOverview()">
+      <button type="button" class="tree-item ${state.view === "journey" ? "active" : ""}" onclick="showOverview()" data-tooltip="First Time Tip: View the visual stage-by-stage overview map for this Playbook.">
         <span>Connected (${(plb.journeyMap?.stages || []).length}-Stage) Process Map</span>
       </button>
 
@@ -459,7 +459,8 @@ function renderSidebar() {
           const isActive = state.view === "sop" && state.selectedId === s.id;
           return `
             <button type="button" class="tree-item ${isActive ? "active" : ""}"
-                    onclick="selectSOP('${escapeHtml(s.id)}')">
+                    onclick="selectSOP('${escapeHtml(s.id)}')"
+                    data-tooltip="Open step-by-step guide: ${escapeHtml(s.userGoal || s.title)}">
               <span>${escapeHtml(s.title)}</span>
               <span class="tree-chevron">›</span>
             </button>
@@ -476,7 +477,8 @@ function renderSidebar() {
           const isActive = state.view === "decision" && state.selectedId === dec.id;
           return `
             <button type="button" class="tree-item ${isActive ? "active" : ""}"
-                    onclick="selectDecisionTool('${dec.id}')">
+                    onclick="selectDecisionTool('${dec.id}')"
+                    data-tooltip="Open decision &amp; scoring guide: ${escapeHtml(dec.navTitle)}">
               <span>${escapeHtml(dec.navTitle)}</span>
               <span class="tree-chevron">›</span>
             </button>
@@ -493,7 +495,8 @@ function renderSidebar() {
           const isActive = state.view === "template" && state.selectedId === tpl.id;
           return `
             <button type="button" class="tree-item ${isActive ? "active" : ""}"
-                    onclick="selectTemplate('${tpl.id}')">
+                    onclick="selectTemplate('${tpl.id}')"
+                    data-tooltip="Open annotated template &amp; field guide: ${escapeHtml(tpl.navTitle)}">
               <span>${escapeHtml(tpl.navTitle)}</span>
               <span class="tree-chevron">›</span>
             </button>
@@ -505,7 +508,8 @@ function renderSidebar() {
           const isActive = state.view === "reference" && state.selectedId === ref.id;
           return `
             <button type="button" class="tree-item ${isActive ? "active" : ""}"
-                    onclick="selectReferenceTable('${ref.id}')">
+                    onclick="selectReferenceTable('${ref.id}')"
+                    data-tooltip="Open interactive 1-Page 28-Question Scoring Matrix (with PowerPoint, PNG &amp; PDF exports).">
               <span>${escapeHtml(ref.navTitle)}</span>
               <span class="tree-chevron">›</span>
             </button>
@@ -517,7 +521,8 @@ function renderSidebar() {
 
       <!-- Collapsible Software Tool Reference Section -->
       <button type="button" class="tree-item ${state.sidebarToolsOpen || state.view === "tool" || q.length > 0 ? "expanded" : ""}"
-              onclick="toggleSidebarTools()">
+              onclick="toggleSidebarTools()"
+              data-tooltip="Expand to inspect individual screens and button glossaries for the software tools in this Playbook.">
         <span style="font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#54646E;">
           Kit Bag Tool Reference (${tools.length})
         </span>
@@ -530,7 +535,7 @@ function renderSidebar() {
                 .map((tool) => {
                   const isActive = state.view === "tool" && state.selectedId === tool.id;
                   return `
-                    <button type="button" class="tree-child ${isActive ? "active" : ""}" onclick="selectTool('${tool.id}')">
+                    <button type="button" class="tree-child ${isActive ? "active" : ""}" onclick="selectTool('${tool.id}')" data-tooltip="View purpose, access link &amp; button glossary for ${escapeHtml(tool.name)}">
                       ${escapeHtml(tool.name)}
                     </button>
                   `;
@@ -550,7 +555,7 @@ function renderSidebar() {
               ${getActiveLiveTools(plb)
                 .map(
                   (lt) => `
-                <a href="${escapeHtml(lt.url)}" target="_blank" rel="noopener noreferrer" class="sidebar-launcher-link" title="${escapeHtml(lt.description || lt.name)}">
+                <a href="${escapeHtml(lt.url)}" target="_blank" rel="noopener noreferrer" class="sidebar-launcher-link" data-tooltip="Open live intranet app in a new tab: ${escapeHtml(lt.description || lt.name)}">
                   <span>${escapeHtml(lt.name)}</span>
                   <span>↗</span>
                 </a>`
@@ -606,20 +611,23 @@ function renderSidebarAuthoringCard(plb) {
       <div class="sidebar-authoring-status">
         <span style="color:${statusDotColor};font-weight:700;">${escapeHtml(statusText)}</span>
       </div>
-      <button type="button" class="sidebar-authoring-primary-btn" onclick="openAdminModal()">
+      <button type="button" class="sidebar-authoring-primary-btn" onclick="openAdminModal()" data-tooltip="Open the full-viewport WYSIWYG Authoring Studio to edit Playbooks, paste screenshots (Ctrl+V), or generate a new guide with AI.">
         ✦ Open WYSIWYG Authoring Studio
       </button>
       <div class="sidebar-authoring-btn-row">
-        <button type="button" class="sidebar-authoring-sec-btn" onclick="triggerGlobalGuideUpload()" title="Upload and merge a .leanguide.json or master guides.json file">
+        <button type="button" class="sidebar-authoring-sec-btn" onclick="triggerGlobalGuideUpload()" data-tooltip="Upload and merge a colleague's .leanguide.json or master guides.json file into your workspace.">
           ⬆ Upload / Merge .json
         </button>
-        <button type="button" class="sidebar-authoring-sec-btn" onclick="downloadCurrentPlaybookBundle()" title="Export active Playbook (.leanguide.json) to share with colleagues">
+        <button type="button" class="sidebar-authoring-sec-btn" onclick="downloadCurrentPlaybookBundle()" data-tooltip="Download the active Playbook (.leanguide.json) to share with colleagues or pass to Brian Johns for official inclusion.">
           ⬇ Export .json
         </button>
       </div>
+      <div class="sidebar-authoring-contact-note">
+        📩 <strong style="color:#5EEAD4;">Official Inclusion:</strong> New guides can be passed to <strong>Brian Johns</strong> for inclusion.
+      </div>
       ${
         plb && plb.id !== "PLB-AUTHOR"
-          ? `<button type="button" class="sidebar-authoring-sec-btn" style="width:100%;margin-top:6px;background:rgba(0,153,153,0.22);border-color:#2DD4BF;color:#CCFBF1;" onclick="switchPlaybook('PLB-AUTHOR')">
+          ? `<button type="button" class="sidebar-authoring-sec-btn" style="width:100%;margin-top:6px;background:rgba(0,153,153,0.22);border-color:#2DD4BF;color:#CCFBF1;" onclick="switchPlaybook('PLB-AUTHOR')" data-tooltip="Open the 15-minute masterclass Playbook explaining how to create, validate, and share a Lean@GS guide.">
                📘 How to Create a Guide (Masterclass) →
              </button>`
           : ""
@@ -1861,7 +1869,7 @@ function renderTemplatePage(tpl, plb, canvas) {
               )
               .join("")}
           </div>
-          <div style="display:flex;flex-wrap:wrap;gap:10px;background:#F0FDF9;border:1.5px solid #009999;border-radius:10px;padding:14px 18px;align-items:center;justify-content:space-between;">
+          <div style="display:flex;flex-wrap:wrap;gap:10px;background:#F0FDF9;border:1.5px solid #009999;border-radius:10px;padding:14px 18px;align-items:center;justify-content:space-between;margin-bottom:10px;">
             <div style="font-size:13px;color:#1B1534;font-weight:700;">
               🚀 Try the 3-Tier Controls Right Now:
             </div>
@@ -1871,6 +1879,9 @@ function renderTemplatePage(tpl, plb, canvas) {
               <button type="button" class="header-btn" style="background:#2E1065;" onclick="triggerGlobalGuideUpload()">⬆ Upload / Merge Guide (.json)</button>
               <button type="button" class="header-btn" style="background:#8A00E5;" onclick="downloadUpdatedGuidesJson()">⬇ Download Master Library (guides.json)</button>
             </div>
+          </div>
+          <div style="background:#FAF5FF;border:1.5px solid #8A00E5;border-left:5px solid #8A00E5;border-radius:10px;padding:12px 16px;font-size:13px;color:#1B1534;">
+            📩 <strong style="color:#641E8C;">Official Library Inclusion:</strong> Once you export your finished Playbook (<code>.leanguide.json</code> or <code>guides.json</code>), <strong>new guides can be passed to Brian Johns for inclusion</strong> in the official corporate Lean@GS library.
           </div>
         </section>
 
@@ -4874,6 +4885,75 @@ function bindEvents() {
     };
     reader.readAsText(file);
   });
+
+  initFloatingTooltips();
+}
+
+function toggleFirstTimeTour() {
+  const banner = document.getElementById("firstTimeBanner");
+  const btn = document.getElementById("firstTimeTourBtn");
+  if (!banner) return;
+  const isHidden = banner.classList.toggle("hidden");
+  if (btn) btn.classList.toggle("active", !isHidden);
+}
+
+function closeFirstTimeTour() {
+  const banner = document.getElementById("firstTimeBanner");
+  const btn = document.getElementById("firstTimeTourBtn");
+  if (banner) banner.classList.add("hidden");
+  if (btn) btn.classList.remove("active");
+}
+
+function initFloatingTooltips() {
+  if (!document || !document.body) return;
+  let tipEl = document.getElementById("seFloatingTooltip");
+  if (!tipEl && typeof document.createElement === "function") {
+    tipEl = document.createElement("div");
+    tipEl.id = "seFloatingTooltip";
+    tipEl.className = "se-floating-tooltip";
+    tipEl.setAttribute && tipEl.setAttribute("role", "tooltip");
+    if (typeof document.body.appendChild === "function") {
+      document.body.appendChild(tipEl);
+    }
+  }
+
+  const showTipFor = (target) => {
+    if (!tipEl || !target) return;
+    const text = target.getAttribute ? target.getAttribute("data-tooltip") : target.dataset?.tooltip;
+    if (!text) return;
+    tipEl.textContent = text;
+    if (tipEl.classList) tipEl.classList.add("visible");
+
+    if (typeof target.getBoundingClientRect === "function") {
+      const rect = target.getBoundingClientRect();
+      const tipW = 300;
+      let left = Math.max(12, Math.min((window.innerWidth || 1280) - tipW - 16, rect.left));
+      let top = rect.bottom + 8;
+      if (top + 70 > (window.innerHeight || 800)) {
+        top = Math.max(10, rect.top - 58);
+      }
+      tipEl.style.left = `${Math.round(left)}px`;
+      tipEl.style.top = `${Math.round(top)}px`;
+    }
+  };
+
+  const hideTip = () => {
+    if (tipEl && tipEl.classList) tipEl.classList.remove("visible");
+  };
+
+  window.addEventListener("mouseover", (e) => {
+    const el = e.target && typeof e.target.closest === "function" ? e.target.closest("[data-tooltip]") : null;
+    if (el) showTipFor(el);
+    else hideTip();
+  });
+
+  window.addEventListener("focusin", (e) => {
+    const el = e.target && typeof e.target.closest === "function" ? e.target.closest("[data-tooltip]") : null;
+    if (el) showTipFor(el);
+  });
+
+  window.addEventListener("focusout", hideTip);
+  window.addEventListener("scroll", hideTip, true);
 }
 
 function importAiJsonIntoStudio() {
@@ -5072,6 +5152,8 @@ window.addNewSopStepInStudio = addNewSopStepInStudio;
 window.saveStudioStepChanges = saveStudioStepChanges;
 window.toggleExportGuideMenu = toggleExportGuideMenu;
 window.closeExportGuideMenu = closeExportGuideMenu;
+window.toggleFirstTimeTour = toggleFirstTimeTour;
+window.closeFirstTimeTour = closeFirstTimeTour;
 window.triggerGlobalGuideUpload = triggerGlobalGuideUpload;
 window.handleGlobalGuideFileUpload = handleGlobalGuideFileUpload;
 window.downloadCurrentPlaybookBundle = downloadCurrentPlaybookBundle;

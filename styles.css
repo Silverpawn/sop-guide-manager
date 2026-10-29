@@ -45,16 +45,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 28px;
+  padding: 0 20px;
+  gap: 12px;
   flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .brand-lockup {
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 9px;
   color: var(--se-white);
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .se-official-logo-svg {
@@ -133,11 +136,13 @@ body {
   background: transparent;
   border: none;
   color: var(--se-white);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   outline: none;
-  padding-right: 6px;
+  padding-right: 4px;
+  max-width: 185px;
+  text-overflow: ellipsis;
 }
 
 .playbook-select option {
@@ -149,12 +154,13 @@ body {
 .header-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
+  white-space: nowrap;
 }
 
 .search-wrapper {
   position: relative;
-  width: 310px;
+  width: 145px;
 }
 
 .search-input {
@@ -162,9 +168,9 @@ body {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(234, 244, 248, 0.28);
   border-radius: 6px;
-  padding: 7px 34px;
+  padding: 5px 24px 5px 28px;
   color: var(--se-white);
-  font-size: 13.5px;
+  font-size: 12px;
   transition: all 0.15s ease;
 }
 
@@ -181,24 +187,24 @@ body {
 
 .search-icon {
   position: absolute;
-  left: 11px;
+  left: 9px;
   top: 50%;
   transform: translateY(-50%);
   color: var(--se-gray-0);
-  font-size: 13px;
+  font-size: 12px;
   pointer-events: none;
 }
 
 .search-slash {
   position: absolute;
-  right: 8px;
+  right: 6px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--se-gray-0);
   background: rgba(255, 255, 255, 0.14);
   border-radius: 4px;
-  padding: 1px 6px;
+  padding: 1px 5px;
   font-family: ui-monospace, monospace;
 }
 
@@ -207,11 +213,12 @@ body {
   color: var(--se-white);
   border: none;
   border-radius: 6px;
-  padding: 7px 14px;
-  font-size: 12.5px;
+  padding: 5px 9px;
+  font-size: 11.5px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.15s ease;
+  white-space: nowrap;
 }
 
 .header-btn:hover {
@@ -2152,6 +2159,7 @@ body {
   box-shadow: 0 12px 28px rgba(27, 21, 52, 0.24);
   z-index: 1200;
   padding: 6px;
+  white-space: normal;
 }
 
 .hidden {
@@ -2276,6 +2284,128 @@ body {
 
 .sidebar-authoring-sec-btn:hover {
   background: rgba(255, 255, 255, 0.22);
+}
+
+.sidebar-authoring-contact-note {
+  margin-top: 8px;
+  padding: 7px 9px;
+  background: rgba(0, 153, 153, 0.18);
+  border: 1px dashed rgba(94, 234, 212, 0.55);
+  border-radius: 7px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #F0FDF9;
+}
+
+/* ============================================================================
+   FIRST-TIME COLLEAGUE ONBOARDING STRIP & FLOATING SIEMENS ENERGY TOOLTIPS
+   ============================================================================ */
+.first-time-btn {
+  background: rgba(138, 0, 229, 0.32) !important;
+  color: #FFFFFF !important;
+  border: 1.5px solid #C084FC !important;
+  font-weight: 800 !important;
+}
+
+.first-time-btn:hover,
+.first-time-btn.active {
+  background: #8A00E5 !important;
+  border-color: #FFFFFF !important;
+}
+
+.first-time-banner {
+  background: linear-gradient(95deg, #1B1534 0%, #38185C 60%, #4D217A 100%);
+  border-bottom: 2.5px solid #009999;
+  padding: 14px 28px;
+  color: #FFFFFF;
+  box-shadow: 0 8px 24px rgba(27, 21, 52, 0.16);
+}
+
+.first-time-banner-inner {
+  max-width: 1560px;
+  margin: 0 auto;
+}
+
+.first-time-banner-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.first-time-pill {
+  background: #009999;
+  color: #FFFFFF;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 99px;
+}
+
+.first-time-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.first-time-card {
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 10px;
+  padding: 11px 13px;
+}
+
+.first-time-card.highlight {
+  background: rgba(0, 153, 153, 0.22);
+  border: 1.5px solid #2DD4BF;
+}
+
+.first-time-step-num {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #5EEAD4;
+  margin-bottom: 4px;
+}
+
+.first-time-card p {
+  font-size: 12.2px;
+  line-height: 1.45;
+  color: #F1F5F9;
+  margin: 0;
+}
+
+.se-floating-tooltip {
+  position: fixed;
+  z-index: 9999;
+  max-width: 310px;
+  background: #1B1534;
+  color: #FFFFFF;
+  border: 1.5px solid #009999;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.42;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.35);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity 0.14s ease, transform 0.14s ease;
+}
+
+.se-floating-tooltip.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.se-floating-tooltip strong {
+  color: #5EEAD4;
 }
 
 @media (max-width: 1024px) {

@@ -2508,10 +2508,10 @@ window.FALLBACK_GUIDES_DB = {
         },
         {
           "stepNumber": 3,
-          "action": "Click '⬆ Upload Guide (.json)' to merge a colleague's Playbook or publish 'guides.json'.",
-          "detail": "Uploading a .leanguide.json file merges that Playbook directly into your Playbook Switcher; uploading or downloading 'guides.json' updates the full server library.",
+          "action": "Click '⬆ Upload Guide (.json)' to merge a colleague's Playbook or pass to Brian Johns.",
+          "detail": "Uploading a .leanguide.json file merges that Playbook directly into your Playbook Switcher; new guides can be passed to Brian Johns for inclusion in the official server library.",
           "toolId": "TOL-AUTH-1",
-          "coachingTip": "When a new Playbook is approved for everyone, send the .leanguide.json file to the Lean Core Team to merge into the master guides.json on megblcntpvc72.",
+          "coachingTip": "When a new Playbook is ready to be included in the official library for everyone, pass the exported .leanguide.json file to Brian Johns for inclusion.",
           "visual": {
             "type": "image",
             "imageSrc": "assets/screenshots/studio-header-sidebar.png",
@@ -4867,9 +4867,9 @@ window.FALLBACK_GUIDES_DB = {
           },
           {
             "stageNumber": 5,
-            "title": "Stage 5: Validate, Export & Share Your Guide (Publish)",
-            "summary": "Check that all green Poka-Yoke ticks pass, click 'Download Current Playbook Only' to share via Teams or SharePoint, or hand over to the Core Team to merge into the master server release.",
-            "whoInvolved": "Guide Author + Lean Core Team Publisher",
+            "title": "Stage 5: Validate, Export & Pass to Brian Johns for Inclusion (Publish)",
+            "summary": "Check that all green Poka-Yoke ticks pass, click 'Download Current Playbook Only' to share via Teams or SharePoint, and pass new guides to Brian Johns for inclusion in the official corporate library.",
+            "whoInvolved": "Guide Author + Brian Johns (Official Library Inclusion)",
             "toolUsed": "Top Header → Export / Upload Guide & validate-guides.js",
             "output": "Portable single-playbook file or live published corporate playbook",
             "ctaLabel": "Open Stage 5 Storage & Sharing Guide →",
@@ -5007,16 +5007,16 @@ window.FALLBACK_GUIDES_DB = {
               "badgeBg": "#4D217A",
               "borderColor": "#8A00E5",
               "title": "Single-Playbook Bundle (.leanguide.json)",
-              "desc": "Click '⬇ Export Guide ▾ → Download Current Playbook Only (.leanguide.json)' to package just the active Playbook (plus its SOPs, Tools, Roles, and embedded Base64 screenshots) into a single file. Send it via Teams or Email—colleagues click '⬆ Upload Guide (.json)' to merge it without wiping out their other playbooks.",
-              "fileSpec": "<Playbook-Slug>.leanguide.json (Upload & Merge into Any Colleague's Library)"
+              "desc": "Click '⬇ Export Guide ▾ → Download Current Playbook Only (.leanguide.json)' to package just the active Playbook (plus its SOPs, Tools, Roles, and embedded Base64 screenshots) into a single file. Send it via Teams or Email—and pass new guides to Brian Johns for inclusion in the official library.",
+              "fileSpec": "<Playbook-Slug>.leanguide.json (Share with Colleagues or Pass to Brian Johns)"
             },
             {
               "tierBadge": "TIER 3 • MASTER SERVER RELEASE",
               "badgeBg": "#1B1534",
               "borderColor": "#1B1534",
               "title": "Master Multi-Playbook Library (guides.json)",
-              "desc": "When a new or updated Playbook is ready to become part of the official corporate library for all users, click '⬇ Export Guide ▾ → Download Master Library (guides.json)', run 'node scripts/validate-guides.js', and commit 'data/guides.json' to the server repository.",
-              "fileSpec": "data/guides.json & data/fallback-db.js (Deployed to megblcntpvc72)"
+              "desc": "New guides can be passed to Brian Johns for inclusion in the official corporate library for all users. Once validated with 'node scripts/validate-guides.js', 'data/guides.json' is deployed to the server repository.",
+              "fileSpec": "Pass to Brian Johns → data/guides.json & data/fallback-db.js (megblcntpvc72)"
             }
           ],
           "aiCheatSheet": [

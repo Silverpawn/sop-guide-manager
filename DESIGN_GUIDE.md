@@ -161,6 +161,11 @@ Overview stage cards must **NEVER** look like database records, audit checklists
       - **Step 1:** Enter topic + target roles/tool + paste rough notes/SOP text -> Click **`📋 Copy Ready-to-Use AI Prompt (For M365 Copilot / Gemini)`** (with live prompt preview).
       - **Step 2:** Paste the AI's generated JSON output into the importer text area (automatically stripping ` ```json ` markdown fences) or upload a `.json` file.
       - **Step 3:** Click **`✓ Validate & Import Playbook into Studio`** (with live Pre-Import Poka-Yoke checks and `🔧 Auto-Fix Minor Schema / ID Gaps`) to merge the new Playbook into the active library, switch to it immediately, and open it in Tab 1/Tab 2 for WYSIWYG visual fine-tuning.
+18. **First-Time Colleague Tooltips & Interactive Quick-Start Strip:**
+    - Every primary navigation and authoring control across the Top Header, Playbook Switcher, 4 Universal Tabs, Left Sidebar, and Authoring Studio must display a styled hover tooltip (`data-tooltip`) explaining in plain human English what the button does.
+    - Include a **`👋 First Time Here?`** button in the Top Header that toggles an onboarding Quick-Start strip explaining how to switch playbooks, navigate the 4 tabs, and create or share a guide.
+19. **Official Master Library Inclusion Rule (Pass New Guides to Brian Johns):**
+    - When an author finishes creating or updating a Playbook and exports their `.leanguide.json` (Tier 2) or `guides.json` (Tier 3) file, **new guides can be passed to Brian Johns for inclusion** in the official corporate Lean@GS Guide Library on the intranet server (`megblcntpvc72`).
 
 ---
 

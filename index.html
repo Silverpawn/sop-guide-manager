@@ -13,26 +13,26 @@
 <body>
   <!-- Row 1: Official Siemens Energy Brand Gradient Header (#1B1534 -> #4D217A) -->
   <header class="top-header">
-    <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
-      <div class="brand-lockup" onclick="showOverview()" role="button" tabindex="0" title="Return to Playbook Journey Overview" aria-label="Lean@GS Documentation Home">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="brand-lockup" onclick="showOverview()" role="button" tabindex="0" data-tooltip="First Time Tip: Click here anytime to return to the active Playbook's End-to-End Journey Overview." data-tooltip-pos="bottom" aria-label="Lean@GS Documentation Home">
         <span class="lean-pill">LEAN@GS</span>
         <span class="doc-badge">DOCUMENTATION</span>
       </div>
 
       <!-- Global Playbook Switcher Dropdown (100% JSON-Driven) -->
-      <div class="playbook-switcher-wrap">
+      <div class="playbook-switcher-wrap" data-tooltip="First Time Tip: Switch between our 5 Playbooks (Navigator Toolkit, Standalone Maturity, PM Maturity Hub, How to Build a Guide, or Office Brew Run Demo)." data-tooltip-pos="bottom">
         <label for="playbookSelect" class="playbook-switcher-label">PLAYBOOK:</label>
         <select id="playbookSelect" class="playbook-select" aria-label="Select Active Lean@GS Playbook"></select>
       </div>
 
       <!-- Live 3-Tier Storage Status Badge -->
-      <span id="headerStorageStatusBadge" class="storage-status-badge" title="Shows whether you are viewing the Official Server Library or have Local Browser Edits active">
+      <span id="headerStorageStatusBadge" class="storage-status-badge" data-tooltip="Storage Status: Shows whether you are viewing the Official Server Library or have Local Browser Draft Edits active." data-tooltip-pos="bottom">
         ● Official Server Library
       </span>
     </div>
 
     <div class="header-right">
-      <div class="search-wrapper">
+      <div class="search-wrapper" data-tooltip="First Time Tip: Press '/' or type here to search steps, tools, or the 28-question rubric (type 'Q10' to jump straight to Question 10)." data-tooltip-pos="bottom">
         <span class="search-icon" aria-hidden="true">🔍</span>
         <input
           type="text"
@@ -44,12 +44,25 @@
         <span class="search-slash" aria-hidden="true">/</span>
       </div>
 
+      <!-- First-Time Colleague Onboarding & Tooltips Toggle -->
+      <button
+        type="button"
+        class="header-btn first-time-btn"
+        id="firstTimeTourBtn"
+        onclick="toggleFirstTimeTour()"
+        data-tooltip="New to this platform? Click to open the 30-second First-Time Colleague Guide & Tips."
+        data-tooltip-pos="bottom"
+      >
+        👋 First Time Here?
+      </button>
+
       <!-- Prominent Authoring Studio & 3-Tier Upload / Export Controls -->
       <button
         type="button"
         class="header-btn studio-cta-btn"
         id="openBuilderBtn"
-        title="Open the WYSIWYG Playbook & SOP Authoring Studio"
+        data-tooltip="Create or edit Playbooks visually, paste screenshots (Ctrl+V), or generate a new Playbook with AI. New guides can be passed to Brian Johns for inclusion."
+        data-tooltip-pos="bottom"
       >
         ✦ Open Authoring Studio
       </button>
@@ -65,7 +78,8 @@
         type="button"
         class="header-btn secondary"
         onclick="triggerGlobalGuideUpload()"
-        title="Upload & merge a single Playbook (.leanguide.json) or load a complete Master Library (guides.json)"
+        data-tooltip="Upload & merge a colleague's single Playbook (.leanguide.json) into your library without wiping out existing guides."
+        data-tooltip-pos="bottom"
       >
         ⬆ Upload Guide (.json)
       </button>
@@ -76,23 +90,27 @@
           class="header-btn secondary"
           id="headerExportDropdownBtn"
           onclick="toggleExportGuideMenu(event)"
-          title="Download active Playbook (.leanguide.json) to share with colleagues or download complete Master Library (guides.json)"
+          data-tooltip="Download the current Playbook (.leanguide.json) to share with colleagues, or pass new guides to Brian Johns for official inclusion."
+          data-tooltip-pos="bottom"
         >
           ⬇ Export Guide ▾
         </button>
         <div class="export-dropdown-menu hidden" id="headerExportDropdownMenu" role="menu">
           <button type="button" class="export-dropdown-item" onclick="downloadCurrentPlaybookBundle(); closeExportGuideMenu();">
             <strong>⬇ Download Current Playbook Only (.leanguide.json)</strong>
-            <span>For sharing a single guide via Teams, Email, or SharePoint</span>
+            <span>Share via Teams/Email — or pass new guides to <b>Brian Johns</b> for official library inclusion</span>
           </button>
           <button type="button" class="export-dropdown-item" onclick="downloadUpdatedGuidesJson(); closeExportGuideMenu();">
             <strong>⬇ Download Master Library (guides.json)</strong>
-            <span>For committing all playbooks to the server repository (megblcntpvc72)</span>
+            <span>Complete multi-playbook library for server deployment (megblcntpvc72)</span>
           </button>
+          <div style="margin-top:4px;padding:8px 10px;background:#F0FDF9;border-top:1px solid #B8CEDB;border-radius:6px;font-size:11.5px;color:#1B1534;line-height:1.4;">
+            📩 <strong style="color:#007A7A;">Official Inclusion:</strong> New guides can be passed to <strong>Brian Johns</strong> for inclusion in the master Lean@GS library.
+          </div>
         </div>
       </div>
 
-      <button type="button" class="header-btn secondary" onclick="window.print()">Print Guide</button>
+      <button type="button" class="header-btn secondary" onclick="window.print()" data-tooltip="Print or save the currently open guide page as a clean PDF." data-tooltip-pos="bottom">Print Guide</button>
     </div>
   </header>
 
@@ -104,19 +122,57 @@
 
   <!-- Row 2: 4 Universal Top Navigation Tabs (Playbook-Agnostic Labels + Dynamic JSON Subtitles) -->
   <nav class="sub-navbar" id="topCategoryBar" aria-label="Playbook Navigation Categories">
-    <button type="button" class="sub-tab active" data-tab="journey" onclick="switchTopTab('journey')">
+    <button type="button" class="sub-tab active" data-tab="journey" onclick="switchTopTab('journey')" data-tooltip="Tab 1 (Big Picture): See the end-to-end stages, who is involved, which tool is used, and click any stage card to open its step-by-step guide." data-tooltip-pos="bottom">
       1. End-to-End Journey
     </button>
-    <button type="button" class="sub-tab" data-tab="guides" onclick="switchTopTab('guides')">
+    <button type="button" class="sub-tab" data-tab="guides" onclick="switchTopTab('guides')" data-tooltip="Tab 2 (How-To SOPs): Follow scannable step-by-step instructions with real app screenshots, coaching tips, and screen button tables." data-tooltip-pos="bottom">
       2. Step-by-Step Guides
     </button>
-    <button type="button" class="sub-tab" data-tab="decision" onclick="switchTopTab('decision')">
+    <button type="button" class="sub-tab" data-tab="decision" onclick="switchTopTab('decision')" data-tooltip="Tab 3 (Decision & Scoring): Align Business Priorities (Lead Time, Quality, Throughput) with Lean capabilities and explore the Gateway Score Calculator." data-tooltip-pos="bottom">
       3. Decision &amp; Priority Tools
     </button>
-    <button type="button" class="sub-tab" data-tab="templates" onclick="switchTopTab('templates')">
+    <button type="button" class="sub-tab" data-tab="templates" onclick="switchTopTab('templates')" data-tooltip="Tab 4 (Templates & Rubric): View the annotated 1-Page Charter example and the interactive 1-Page 28-Question Scoring Matrix (with PPTX/PNG/PDF export)." data-tooltip-pos="bottom">
       4. Templates &amp; Reference
     </button>
   </nav>
+
+  <!-- First-Time Colleague Onboarding & Tooltip Guide Strip (Toggled via '👋 First Time Here?') -->
+  <section id="firstTimeBanner" class="first-time-banner hidden" aria-label="First-Time User Guide">
+    <div class="first-time-banner-inner">
+      <div class="first-time-banner-header">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span class="first-time-pill">👋 WELCOME • FIRST-TIME COLLEAGUE GUIDE</span>
+          <strong style="font-size:14.5px;color:#FFFFFF;">How to Navigate, Use &amp; Contribute to Lean@GS Documentation in 30 Seconds</strong>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button type="button" class="header-btn" style="background:#009999;padding:5px 12px;font-size:12px;" onclick="switchPlaybook('PLB-AUTHOR'); closeFirstTimeTour();">
+            📘 Open 'How to Build a Guide' Masterclass →
+          </button>
+          <button type="button" class="header-btn secondary" style="padding:5px 10px;font-size:12px;" onclick="closeFirstTimeTour()">
+            Got It, Hide Tips ✕
+          </button>
+        </div>
+      </div>
+      <div class="first-time-grid">
+        <div class="first-time-card">
+          <div class="first-time-step-num">1. PICK YOUR PLAYBOOK (TOP LEFT)</div>
+          <p>Use the <strong>PLAYBOOK</strong> dropdown in the top-left header to switch between <em>Navigator Toolkit</em>, <em>Standalone GS Lean Maturity</em>, <em>PM Maturity Hub</em>, <em>How to Build a Guide</em>, or the <em>Office Brew Run Demo</em>.</p>
+        </div>
+        <div class="first-time-card">
+          <div class="first-time-step-num">2. FOLLOW THE 4 TOP TABS</div>
+          <p><strong>Tab 1</strong> shows the end-to-end stage map. Click any stage to open <strong>Tab 2</strong> (Step-by-Step Guides with real screenshots). Use <strong>Tab 3</strong> for Business Priority &amp; Score tools, and <strong>Tab 4</strong> for the 1-Page 28-Question Rubric.</p>
+        </div>
+        <div class="first-time-card">
+          <div class="first-time-step-num">3. BUILD A NEW GUIDE (OR USE AI)</div>
+          <p>Click <strong>✦ Open Authoring Studio</strong> in the top header to create a new Playbook visually, paste screenshots with <kbd>Ctrl+V</kbd>, or use <strong>Tab 3 (✨ AI Playbook Generator)</strong> to turn rough notes into a complete guide in 60 seconds.</p>
+        </div>
+        <div class="first-time-card highlight">
+          <div class="first-time-step-num">4. SHARE OR PASS TO BRIAN JOHNS</div>
+          <p>Click <strong>⬇ Export Guide ▾ → Download Current Playbook (.leanguide.json)</strong> to share with colleagues. <strong>New guides can be passed to Brian Johns for inclusion</strong> in the official corporate Lean@GS library.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Main 2-Column Layout on Generous Siemens Energy White Canvas -->
   <div class="portal-layout">
@@ -131,31 +187,31 @@
         <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
           <strong>⚙️ Lean@GS Guide Authoring Studio &amp; M365 Manager</strong>
           <div class="studio-tab-group" role="tablist">
-            <button type="button" class="studio-tab-btn active" id="tabBtnStudioPlaybook" onclick="switchStudioTab('playbook')">
+            <button type="button" class="studio-tab-btn active" id="tabBtnStudioPlaybook" onclick="switchStudioTab('playbook')" data-tooltip="Tab 1: Edit the Playbook Title, Golden Principle quote, and add/reorder N-Stage Journey Cards with live preview." data-tooltip-pos="bottom">
               Tab 1: Playbook &amp; Journey Builder
             </button>
-            <button type="button" class="studio-tab-btn" id="tabBtnStudioVisual" onclick="switchStudioTab('visual')">
+            <button type="button" class="studio-tab-btn" id="tabBtnStudioVisual" onclick="switchStudioTab('visual')" data-tooltip="Tab 2: Write ≤20-word step actions, paste screenshots from Snipping Tool (Ctrl+V), and click to place highlight boxes." data-tooltip-pos="bottom">
               Tab 2: SOP &amp; Step WYSIWYG Editor
             </button>
-            <button type="button" class="studio-tab-btn" id="tabBtnStudioRaw" onclick="switchStudioTab('raw')">
+            <button type="button" class="studio-tab-btn" id="tabBtnStudioRaw" onclick="switchStudioTab('raw')" data-tooltip="Tab 3: Turn rough notes into a complete Playbook using M365 Copilot / Gemini and import the JSON in one click." data-tooltip-pos="bottom">
               Tab 3: ✨ AI Playbook Generator &amp; JSON Importer
             </button>
-            <button type="button" class="studio-tab-btn" id="tabBtnStudioDesign" onclick="switchStudioTab('design')">
+            <button type="button" class="studio-tab-btn" id="tabBtnStudioDesign" onclick="switchStudioTab('design')" data-tooltip="Tab 4: Read the living DESIGN_GUIDE.md standards and 10-Second Naive Colleague rules." data-tooltip-pos="bottom">
               Tab 4: Design &amp; Style Guide
             </button>
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-          <button type="button" class="header-btn secondary" onclick="triggerGlobalGuideUpload()" title="Upload and merge a colleague's .leanguide.json or master guides.json">
+          <button type="button" class="header-btn secondary" onclick="triggerGlobalGuideUpload()" data-tooltip="Upload and merge a colleague's .leanguide.json or master guides.json file." data-tooltip-pos="bottom">
             ⬆ Upload / Merge (.json)
           </button>
-          <button type="button" class="header-btn" style="background:#009999;" onclick="downloadCurrentPlaybookBundle()" title="Download only the active Playbook (.leanguide.json) to share via Teams or Email">
+          <button type="button" class="header-btn" style="background:#009999;" onclick="downloadCurrentPlaybookBundle()" data-tooltip="Download only the active Playbook (.leanguide.json) to share via Teams or pass to Brian Johns for inclusion." data-tooltip-pos="bottom">
             ⬇ Download Current Playbook (.leanguide.json)
           </button>
-          <button type="button" class="header-btn" style="background:#8A00E5;" onclick="downloadUpdatedGuidesJson()" title="Download complete master guides.json for server deployment">
+          <button type="button" class="header-btn" style="background:#8A00E5;" onclick="downloadUpdatedGuidesJson()" data-tooltip="Download complete master guides.json for server deployment or pass to Brian Johns." data-tooltip-pos="bottom">
             ⬇ Download Master Library (guides.json)
           </button>
-          <button type="button" class="header-btn secondary" id="toggleStudioFullscreenBtn" onclick="toggleStudioFullscreen()" title="Toggle Fullscreen (100vw x 100vh)">
+          <button type="button" class="header-btn secondary" id="toggleStudioFullscreenBtn" onclick="toggleStudioFullscreen()" data-tooltip="Expand the Authoring Studio to full screen (100vw x 100vh)." data-tooltip-pos="bottom">
             ⛶ Fullscreen
           </button>
           <button type="button" class="header-btn secondary" id="closeModalBtn">Close ✕</button>
@@ -169,13 +225,13 @@
             <label for="builderPlaybookSelect">Active Playbook:</label>
             <select id="builderPlaybookSelect" class="studio-select" onchange="onBuilderPlaybookChange(this.value)"></select>
           </div>
-          <button type="button" class="header-btn" style="background:#009999;" onclick="createNewPlaybookInStudio()">
+          <button type="button" class="header-btn" style="background:#009999;" onclick="createNewPlaybookInStudio()" data-tooltip="Create a brand-new blank Playbook scaffold to edit visually." data-tooltip-pos="bottom">
             + Create New Playbook
           </button>
-          <button type="button" class="header-btn" style="background:#641E8C;border:1px solid #C084FC;" onclick="switchStudioTab('raw')" title="Generate a complete Playbook from rough notes using M365 Copilot or Gemini">
+          <button type="button" class="header-btn" style="background:#641E8C;border:1px solid #C084FC;" onclick="switchStudioTab('raw')" data-tooltip="Jump to Tab 3 to generate a complete Playbook from rough notes using M365 Copilot or Gemini." data-tooltip-pos="bottom">
             ✨ Generate New Playbook with AI
           </button>
-          <button type="button" class="header-btn" style="background:#8A00E5;" onclick="addJourneyStageInStudio()">
+          <button type="button" class="header-btn" style="background:#8A00E5;" onclick="addJourneyStageInStudio()" data-tooltip="Add a new Stage Card to the active Playbook's End-to-End Journey Map." data-tooltip-pos="bottom">
             + Add Journey Stage
           </button>
           <span class="muted-code-pill" id="builderStageCountBadge">6 Stages</span>
@@ -498,6 +554,9 @@
                   <span class="muted-code-pill">Instant Schema &amp; 20-Word Audit</span>
                 </div>
                 <div id="liveAuditReport" style="font-size:13px;color:#54646E;"></div>
+                <div style="margin-top:8px;padding-top:8px;border-top:1px dashed #B8CEDB;font-size:12px;color:#1B1534;">
+                  📩 <strong style="color:#007A7A;">Ready to publish for everyone?</strong> Once your Playbook is complete, click <strong>⬇ Download Current Playbook (.leanguide.json)</strong> in the top bar—<strong>new guides can be passed to Brian Johns for inclusion</strong> in the official Lean@GS library.
+                </div>
               </div>
             </div>
 
@@ -577,6 +636,8 @@
               <li><strong style="color:#1B1534;">3-Tier Static-Host Storage &amp; Sharing Architecture:</strong> Tier 1 (Browser Draft): Automatic <code>localStorage</code> persistence with a visible <code>Local Draft Active</code> badge. Tier 2 (Single-Playbook Share — <code>.leanguide.json</code>): Export just the active Playbook (plus linked SOPs, Tools, Roles, and screenshots) as <code>&lt;Playbook-Slug&gt;.leanguide.json</code>, and Upload &amp; Merge a colleague's <code>.leanguide.json</code> without wiping out existing playbooks. Tier 3 (Master Release — <code>guides.json</code>): Download or upload the complete multi-playbook master <code>guides.json</code> for server deployment to <code>megblcntpvc72</code>.</li>
               <li><strong style="color:#1B1534;">Full-Viewport Authoring Studio (<code>96vw x 94vh</code>):</strong> The Authoring Studio opens at <code>width: 96vw; max-width: 1840px; height: 94vh;</code> with independently scrolling left/right split panes and a <code>⛶ Fullscreen (100vw x 100vh)</code> toggle button in the top-right header.</li>
               <li><strong style="color:#1B1534;">Mandatory AI Script-to-JSON Generator &amp; Live Importer (Tab 3):</strong> Tab 3 (<code>✨ AI Playbook Generator &amp; JSON Importer</code>) provides a 3-step self-service workflow: (1) Enter topic + target roles/tool + paste rough notes and click <code>📋 Copy Ready-to-Use AI Prompt</code>; (2) Paste the AI's JSON output into the right-hand importer (auto-stripping <code>```json</code> fences); (3) Click <code>✓ Validate &amp; Import Playbook into Studio</code> to run live Poka-Yoke checks, merge the new Playbook into the active library, and open it directly in Tab 1/Tab 2 for WYSIWYG editing.</li>
+              <li><strong style="color:#1B1534;">First-Time Colleague Tooltips &amp; Quick-Start Guide:</strong> Every primary navigation and authoring control displays a styled hover tooltip (<code>data-tooltip</code>), paired with a <code>👋 First Time Here?</code> Quick-Start banner in the top header.</li>
+              <li><strong style="color:#1B1534;">Official Master Library Inclusion Rule (Pass New Guides to Brian Johns):</strong> Once an author finishes creating or updating a Playbook and downloads their <code>.leanguide.json</code> or <code>guides.json</code> file, <strong>new guides can be passed to Brian Johns for inclusion</strong> in the official Lean@GS corporate library on the intranet server.</li>
             </ul>
           </div>
         </div>
