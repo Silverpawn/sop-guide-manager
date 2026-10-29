@@ -1,181 +1,109 @@
-# Siemens Energy • Lean@GS Documentation & Playbook Platform
-## Living Design & Plain-English Style Guide (`DESIGN_GUIDE.md`)
+# Siemens Energy • Documentation, Playbook & SOP Guide Platform
+## Design System, UX & Plain-English Style Guide (`DESIGN_GUIDE.md`)
 
-> **Status:** Mandatory Architectural & Editorial Standard (Stage 7 Locked)  
-> **Enforcement:** Automated via [`scripts/validate-guides.js`](./scripts/validate-guides.js) and surfaced inside the in-app **Guide Authoring Studio (⚙️ → Tab 4: Design & Style Guide)**.  
-> **Golden Rule:** Every prompt, playbook, journey map, decision tool, template, and SOP step MUST obey this document before code or JSON is written.
-
----
-
-## Section A: The "Naive Colleague" 10-Second Rule & Dynamic N-Stage Journey Maps
-
-Every screen must make immediate sense within **10 seconds** to a colleague who does not know our internal processes, acronyms, or software tools:
-
-1. **Why am I here? (Business Need + Gateway Capability Rule):**
-   - Every Playbook Overview starts with a plain-English description explaining what the journey helps you achieve in the real world, paired with a high-contrast **Golden Principle Callout Box**.
-   - **Business Need + Gateway Capability Rule:** *"The goal is not to chase a maturity score; the goal is to improve the business. However, foundational Gateway capabilities (★) must be strengthened to unlock and sustain that business performance."*
-
-2. **Dynamic N-Stage Journey Maps (Not Locked to 4 Cards):**
-   - The application shell always uses the **4 Universal Top Navigation Tabs**:
-     1. **`1. End-to-End Journey`** *(The single transparent process overview)*
-     2. **`2. Step-by-Step Guides`** *(Direct routing to step-by-step SOPs)*
-     3. **`3. Decision & Priority Tools`** *(Focus Action Prioritiser: 2–3 key actions at a time, max 5 ceiling)*
-     4. **`4. Templates & Reference`** *(1-page charters, agendas, and reference lists)*
-   - **Flexible N-Stage Rule:** *"Journey Maps support `N` stages to match the real operational sequence. For the Navigator Process (`PLB-001`), the chronological order is strictly locked to 6 stages: 1. Maturity Assessment → 2. Analysis → 3. Voice of the Customer (VOC) → 4. Navigator Workshop → 5. Charter → 6. Action Plan."*
-
-3. **No Intermediate `PRC-xxx` Cover Pages, Zero Visible Database IDs & Zero Version Numbers Rule:**
-   - **Direct Routing Rule:** *"Tab 1 (`1. End-to-End Journey`) is the single transparent process overview. Clicking a stage or sidebar guide routes directly to the Step-by-Step Guide—never through an intermediate `PRC-xxx` cover page."*
-   - **Hidden Database ID Rule:** *"Internal database IDs (`PRC-001`, `SOP-001`, `PLB-001`, `TOL-001`, `ROL-001`) must NEVER appear in UI breadcrumbs, headers, Kit Bags, or SVG diagrams."*
-   - **Zero Version Numbers Rule:** *"Never display software version numbers (e.g., `v6.0.0`, `v2.4.4`, `v1.0`) in Playbook titles, Stage cards, Tool names, Kit Bags, breadcrumbs, or SVG diagrams. Since our corporate web tools (`PM Maturity Hub`, `Navigator Toolkit`, `GS Lean Maturity`) are centrally hosted web apps, the live link always opens the latest version."*
-
-4. **Two-Step Scoring Progression & Role Ownership Rule (LPM Owns the Process, Core Team is Optional Support):**
-   - Never use `"MANDATORY"` stamps or `"Never score alone"` policing. Always use our two-step coaching progression:
-     - **First-Time Assessment:** Local Programme Manager (LPM) scores together with a Lean Core Team partner to learn the tool and evidence standard.
-     - **Ongoing Assessments:** LPM completes it with their Site Leadership Team as a capability self-assessment (not an audit).
-   - **LPM Owns the Process (Core Team is Optional Support):** The **Local Programme Manager (LPM)** is the primary owner and driver of all 6 stages of the Navigator Process—including leading the Stage 4 Navigator Workshop and Stage 5 Charter with their Site Leadership Team. After the first-time Maturity Assessment calibration, the **Lean Core Team** is always **optional support / coaching**, never mandatory.
-
-5. **Official Corporate Intranet Tool Links & Ground-Truth Menu Alignment Rule:**
-   - Always store and render clickable **`"Launch Live Tool ↗"`** buttons (`target="_blank" rel="noopener noreferrer"`) on Stage Cards, Kit Bags, and Tool Reference drawers using these exact URLs:
-     - **Maturity Model Storybook:** `https://share.gemini.google/UjLQiIQXFbgc`
-     - **GS Lean Maturity Portal:** `https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/`
-     - **Lean@GS Navigator Toolkit:** `https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/`
-     - **Lean@GS PM Maturity Hub:** `https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/`
-   - **A. `Lean@GS Navigator Toolkit` (`PLB-001`) Ground-Truth Menu (`https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/`):**
-     Contains these exact menu items (and **NEVER** `Score Explainer`, `Metro Journey`, `4 Pillars`, `Strategy Builder`, `Simulator`, or `CSV to JSON Fixer`):
-     - `Maturity Model Storybook` (`https://share.gemini.google/UjLQiIQXFbgc`)
-     - `Orientation`
-     - `Process Overview`
-     - `Maturity Assessment` (with sub-items: `↳ Maturity Explainer` and `↳ Interactive Roadmap`)
-     - `Analysis Report`
-     - `VOC Input`
-     - `Workshop Guide`
-     - `Charter Input`
-     - `Charter & Roadmaps`
-     - `Action Log`
-   - **B. `Lean@GS PM Maturity Hub` (`PLB-PMHUB`) Ground-Truth Menu (`https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/`):**
-     Organized into 3 Phases + Utilities (and **NEVER** participates in the Navigator Workshop, VOC Input, or Charter):
-     - `Maturity Model Storybook` (`https://share.gemini.google/UjLQiIQXFbgc`)
-     - **PHASE 1: ASSESS:** `Maturity Assessment`, `Maturity Explainer`, `Score Explainer`
-     - **PHASE 2: VISUALIZE:** `Metro Journey`, `The 4 Pillars (Live)`, `Pillars (Static)`
-     - **PHASE 3: PLAN:** `Strategy Builder`, `↳ Simulator`
-     - **UTILITIES:** `CSV to JSON Fixer`
-
-6. **Neutral Demo Playbook Standard (`PLB-DEMO`):**
-   - Maintain a neutral, everyday-life example playbook (`PLB-DEMO`: *"Demo Example: The Office Brew Run (How This Guide System Works)"*) in the Playbook Switcher so stakeholders can evaluate the platform UX and authoring features without getting distracted by internal process debates.
+> **Purpose:** Platform-wide Look & Feel, Information Architecture, Editorial, and Functionality standard. This guide is **playbook-agnostic** and applies to every guide created or hosted on the platform.  
+> **Enforcement:** Automated via [`scripts/validate-guides.js`](./scripts/validate-guides.js) and surfaced inside the in-app **Authoring Studio (`Tab 4: Design & Style Guide`)**.
 
 ---
 
-## Section B: Strict Card Density Standard (Clean 4-Element Stage Cards)
+## Section A: Look & Feel — Siemens Energy Visual Design System
 
-Overview stage cards must **NEVER** look like database records, audit checklists, or tech plumbing. Each stage card on the Journey Map uses a clean **4-element human layout**:
+1. **Brand Header & Signature Accents:**
+   - **Header Gradient:** `linear-gradient(90deg, #1B1534 0%, #4D217A 100%)` paired with a stacked two-line geometric SVG wordmark (**SIEMENS** in Petrol `#009999` + **energy** in crisp `#FFFFFF`).
+   - **Signature Fading Petrol Line:** Full-width horizontal divider (`#009999` fading to transparent) separating the top header bar from the navigation bar.
+   - **Canvas & Surface Palette:** Generous `#FFFFFF` and `#F8FAFC` light backgrounds, `#D7E4EE` subtle card borders, and `#EAF4F8` ice-blue visual framing cards.
+   - **Accessible Typography & Interactive Tokens:** Deep purple (`#1B1534`) primary headings and body copy, slate (`#54646E`) secondary copy, Bright Purple (`#8A00E5`, hover `#641E8C`) primary interactive accents, and accessible Petrol (`#009999` fills / `#007A7A` text on light backgrounds).
 
-1. **Stage Number & Plain-English Title:**
-   - e.g., *"Stage 1: Maturity Assessment"*, *"Stage 3: Voice of the Customer (VOC)"*, *"Stage 4: Navigator Workshop"*.
-2. **What Happens (Plain-English Summary):**
-   - Clear, conversational explanation of what happens in that stage without compliance stamps.
-3. **Who Is Involved & Tool Used (with Live Intranet Launcher):**
-   - Clean human role line, clickable tool reference link, and direct **`Launch Live Tool ↗`** button when a corporate `liveUrl` is configured.
-4. **What You Finish With:**
-   - Human outcome (e.g., *"Baseline picture of current Lean capability & gaps"*).
-   - Never display raw file extensions (`.csv`, `.json`) or technical handoff labels (`Input → Output:`) on overview cards.
+2. **True-to-App Button Colour Badges (`buttonsReference`):**
+   - Whenever documenting software controls in a **"Buttons & Controls on This Screen"** table, render each button badge in the exact colour it uses in the target application:
+     - **Petrol (`#009999` bg, `#FFFFFF` text):** Primary export, download, save, and active standard toggles.
+     - **Bright Purple (`#8A00E5` bg, `#FFFFFF` text):** Primary workflow progression (`Next Step →`), upload, and evaluation actions.
+     - **Deep Plum / Indigo (`#2E1065` bg, `#FFFFFF` text):** Secondary utility actions, imports, filters, and form controls.
+     - **Danger Red (`#DC2626` bg, `#FFFFFF` text):** Destructive actions (`Reset`, `Clear`, `Delete`).
+     - **Dark Sidebar Slate (`#1E1B4B` bg, `#E2E8F0` text):** Sidebar navigation and session management links.
+     - **Dark Teal Accent (`#1B1534` bg, `#2DD4BF` text, `#0D9488` border):** Featured external companion or storybook links.
 
 ---
 
-## Section C: Progressive Disclosure, VOC/Gateway Nuance & Target Action Focus ("The Red Pen Lexicon")
+## Section B: Information Architecture & The "10-Second Naive Colleague" Standard
 
-- **Rule 1 (VOC & Gateway Terminology Nuance):**
-  - Allow `Voice of the Customer (VOC)` when paired with its full name on first/header use (`"Stage 3: Voice of the Customer (VOC)"`).
-  - Explain **Foundation Gateway capabilities (★)** clearly as the foundational habits that must be strengthened to unlock and sustain business performance.
-- **Rule 2 (Target Action Focus — 2 to 3 Key Actions):**
-  - *"Focus on **2 to 3 key actions at a time** (with a hard ceiling of 5) so teams finish what they start instead of building a giant wishlist."*
-- **Rule 3 (Mandatory Plain-English Replacements):**
+Every screen must make immediate sense within **10 seconds** to a colleague who does not know internal processes, acronyms, or software menus:
 
-| ❌ Never Write This on Overviews (Tech Speak / Policing) | ✅ Always Write This Instead (Stage 7 Approved Copy) |
+1. **Universal 4-Tab Navigation Shell:**
+   - Every playbook uses the same predictable 4-tab structure:
+     1. **`1. End-to-End Journey`** — Executive purpose, Golden Principle callout box, live application launchers, cross-reference links, and the connected visual Journey Map.
+     2. **`2. Step-by-Step Guides`** — Dedicated, scannable SOP runbooks with pre-flight setup checklists, 2-column visual steps, button reference tables, and troubleshooting.
+     3. **`3. Decision & Priority Tools`** — Business-priority alignment guides, decision matrices, quality rubrics, and interactive calculators.
+     4. **`4. Templates & Reference`** — Annotated 1-page templates, field-by-field guides, and master reference matrices.
+
+2. **Dynamic `N`-Stage Journey Maps & 1-to-1 Stage-to-SOP Mapping Rule:**
+   - **Flexible `N`-Stage Flow:** Journey Maps dynamically support `N` stages to match the real operational sequence of any process.
+   - **1-to-1 Stage-to-SOP Mapping:** Every stage on a Playbook's Journey Map must have its own dedicated, standalone Step-by-Step Guide page in `2. Step-by-Step Guides`. Never bundle multiple journey stages into a single combined SOP page, and never route users through intermediate cover pages.
+   - **Separate Playbooks with Cross-References:** Keep distinct applications or workflows in separate, focused playbooks in the top Playbook Switcher, and use **1-Click Cross-Reference Cards** on Tab 1 and in the Left Sidebar when workflows connect.
+
+3. **Strict Card Density Standard (Clean 4-Element Journey Stage Cards):**
+   - Overview stage cards must never look like database records, compliance checklists, or technical plumbing. Each card displays only **4 human elements**:
+     1. **Stage Number & Plain-English Title** (what this stage is called).
+     2. **What Happens** (1–2 sentence conversational summary).
+     3. **Who Is Involved & Tool Used** (clear role ownership + clickable `Launch Live Tool ↗` button).
+     4. **What You Finish With** (tangible human outcome).
+   - **Zero Overview Clutter:** Never display raw file extensions (`.csv`, `.json`), compliance stamps (`MANDATORY` / `OPTIONAL`), or technical handoff labels (`Input → Output:`) on Tab 1 overview cards.
+
+4. **Zero Leaked Database IDs & Zero Version Numbers Rule:**
+   - Internal relational keys (`PLB-xxx`, `PRC-xxx`, `SOP-xxx`, `TOL-xxx`, `ROL-xxx`) and software version numbers (`v1.0`, `v2.4.0`) must **never** appear in user-facing titles, breadcrumbs, Kit Bags, or visual diagrams.
+
+---
+
+## Section C: Step-by-Step SOP, Visual Authenticity & Editorial Standards
+
+1. **≤ 20-Word Simplified Technical English (STE) Rule:**
+   - Every SOP step's primary `action` sentence must be **20 words or fewer**.
+   - Every step must begin with an active **imperative verb** (*Click, Open, Select, Review, Write, Assign, Upload, Export, Facilitate, Load*).
+
+2. **Zero Unexplained Acronyms & Business-First Framing:**
+   - Never use raw, unexplained acronyms in step actions. Spell terms out in plain English first.
+   - Always lead decision guides and templates with concrete **business and operational outcomes** rather than abstract scoring mechanics, and recommend focusing on **2 to 3 key actions at a time** (with a hard ceiling of 5) so teams finish what they start.
+
+3. **Predictable Structural Anchors on Every SOP Page:**
+   - **Top Kit Bag:** Displays *Who Leads & Supports*, *Point-of-Use Tool* (with expandable quick-fix drawer and `Launch Live Tool ↗` button), *Input Artifact*, and *Output Artifact*.
+   - **1. Before You Begin (Setup Checklist):** Interactive pre-flight checkboxes highlighting critical prerequisites (such as mandatory header/metadata fields).
+   - **2. Step-by-Step Instructions:** 2-column split rows pairing the action command, supporting detail, and **Good Practice Coaching Tip** on the left with the step visual on the right.
+   - **3. Buttons & Controls on This Screen:** Scannable table (`Button / Control Name` | `Where It Is` | `What It Does & When to Use It`) containing only the controls belonging to that specific screen.
+   - **4. Common Problems & Quick Fixes:** Self-service troubleshooting table (`What You See` | `Why It Happens` | `How to Fix It Now`).
+
+4. **Visual Authenticity & Post-Upload UI State Rule:**
+   - **Mode 1 — Real Application Screenshots (`type: "image"`):** Whenever a step instructs the user to click or type in a software application, display a real screenshot of that screen with a positioned highlight box and callout label. If a screen requires an uploaded file or session state to reveal its workspace, load sample data first so the real controls are visible.
+   - **Mode 2 — Clean Text + Coaching Card (`type: "none"`):** Whenever a step describes a human discussion, facilitation habit, or physical check rather than a software click, set `visual.type = "none"` so the right-hand column renders an elevated **Good Practice Coaching Card**. Never draw fake wireframe UI buttons for human rules.
+   - **"Guide, Don't Duplicate the App" Rule:** The platform is an interactive coaching and documentation guide—never clone stateful software forms or data-entry tables that belong inside the live operational tool itself.
+
+---
+
+## Section D: Authoring Studio, AI Generator & Controlled 3-Tier Storage Functionality
+
+1. **Prominent Authoring & First-Time Onboarding UI:**
+   - Keep **`👋 First Time Here?`** (4-step onboarding banner), **`✦ Open Authoring Studio`**, **`⬆ Upload Guide (.json)`**, and **`⬇ Export Guide ▾`** prominently accessible in the Top Header Bar and Left Sidebar (never hidden in a footer).
+   - Provide concise, plain-English hover tooltips (`data-tooltip`) across all primary navigation and authoring controls.
+
+2. **Full-Viewport Split-Screen Authoring Studio (`96vw × 94vh`):**
+   - Opens as a widescreen `96vw × 94vh` workspace (with a `⛶ Fullscreen` toggle) and independently scrolling left/right split panes:
+     - **Tab 1 (`Playbook & Journey Builder`):** Create/edit playbooks, Golden Principles, and dynamic `N`-stage Journey Maps with a live WYSIWYG preview.
+     - **Tab 2 (`SOP & Step WYSIWYG Editor`):** Edit SOPs and steps with live 20-word counter pills, active-verb/acronym Poka-Yoke checks, `Ctrl+V` clipboard screenshot paste (auto-compressed to Base64), and click-to-place highlight callout boxes.
+     - **Tab 3 (`✨ AI Playbook Generator & JSON Importer`):** 3-step self-service workflow: (1) Enter topic + rough notes and copy the schema-enforced AI prompt for M365 Copilot / Gemini; (2) Paste the AI's JSON output into the importer (auto-stripping markdown fences and offering 1-click minor schema/ID auto-fix); (3) Validate and import directly into Tab 1/Tab 2.
+     - **Tab 4 (`Design & Style Guide`):** In-app reference of these platform design, UX, and functionality standards.
+
+3. **3-Tier Static-Host Storage & Controlled Server Release Governance:**
+   - **Tier 1 — Browser Draft (`localStorage` — All Authors):** Edits auto-save immediately in the author's browser with a visible `● Local Draft Active` badge.
+   - **Tier 2 — Single-Playbook Bundle (`.leanguide.json` — All Authors):** Packages only the active Playbook (plus its linked SOPs, Tools, Roles, and embedded Base64 screenshots) into a portable `<Playbook-Slug>.leanguide.json` file. Colleagues can click `⬆ Upload Guide (.json)` to merge a playbook into their browser library without overwriting existing playbooks.
+   - **Tier 3 — Controlled Master Library Release (`guides.json` — App Owner Only):** Server release and repository upload is a **controlled governance step** and is **not** performed directly by individual authors. When a new or updated guide is ready for official publication, **authors send their exported `.leanguide.json` or `guides.json` update to the App Owner**, who runs `node scripts/validate-guides.js` and deploys the updated master library to the corporate server.
+
+---
+
+## Section E: Plain-English "Red Pen" Editorial Examples (Agnostic Bad vs. Good Copy)
+
+| ❌ Avoid (Jargon, Tech Plumbing & Compliance Policing) | ✅ Use Instead (Plain Human English & Outcome-Led Coaching) |
 | :--- | :--- |
-| *"Self / Pair Calibration & Scoring — Never score alone"* | **"Stage 1: Maturity Assessment (1st Time: LPM + Core Team Partner • Ongoing: LPM + Site Leadership Team)"** |
-| *"Gateway Cap & Gap Diagnosis"* | **"Stage 2: Analysis (Understand strengths, gaps & foundation gateway caps)"** |
-| *"Raw unexplained 'VOC'"* | **"Stage 3: Voice of the Customer (VOC) — Understand leadership business priorities & pain points"** |
-| *"Prioritise the 'Vital Few' (Max 5)"* | **"Focus on 2 to 3 key actions at a time (with a hard ceiling of 5)"** |
-| *"Input → Output: Raw scores.csv / .json"* | **"What you finish with: Baseline picture of current Lean capability & gaps"** |
-| *"Intermediate `PRC-001` cover pages or visible `SOP-001` IDs"* | **Direct routing to Step-by-Step Guides with zero visible database IDs in UI** |
-
----
-
-## Section D: SOP Step & Visual Standards
-
-1. **≤20-Word Rule:** Every step's primary `action` sentence must be **20 words or fewer**.
-2. **Imperative Verb Start:** Every step must begin with a direct action verb (*Click, Open, Review, Write, Ask, Filter, Assign*).
-3. **Zero Raw Acronyms:** Enforced via `glossary` in [`data/guides.json`](./data/guides.json) and [`scripts/validate-guides.js`](./scripts/validate-guides.js).
-4. **Value-Add Coaching Tip:** Every step includes a `coachingTip` explaining how to get the best real-world result.
-5. **Visual Authenticity Rule (No Fake UI Wireframes) & Flexible 3-Mode Visuals:**
-   - **Never Draw Fake UI Buttons for Process Rules:** Declarative SVG boxes must **NEVER** invent fake buttons that do not exist in the software (such as `"1st Time: LPM + Core Team"` or `"Score 2: 1 Pilot Only"`), and SVG text layers must never overlap.
-   - **Real Screenshots for Software Steps (`type: "image"`):** If a step instructs the user to interact with `Navigator Toolkit`, `PM Maturity Hub`, or `GS Lean Maturity`, the right-hand card must display a **real screenshot** (`visual.type = "image"`, stored in `/assets/screenshots/...` or Base64 data URI) captured from the actual application UI, with an optional percentage hotspot highlight over the real button/input.
-   - **Show the Open Question Scoring Modal (Stage 1, Step 2):** When explaining how to score the 28 questions (Step 2 of Stage 1), always show a real screenshot of an **open Question Card Modal** (`assets/screenshots/nav-question-modal.png` — showing the 1–5 rating scale descriptions, evidence notes box, and 1–5 score selector) captured from the live assessment UI.
-   - **Clean Text/Coaching Mode for Human Rules (`type: "none"`):** If a step describes a human behaviour or discussion rule rather than a software click, set `visual: { type: "none" }` so the right-hand column cleanly renders the Good Practice Coaching Card instead of a fake diagram.
-6. **Official Filing Rule (`600 Maturity Submissions` Folder):**
-   - Only **Lean Core Team members** have permission and responsibility to upload official submission files into the `'600 Maturity Submissions'` folder.
-   - **Local Programme Managers (LPMs)** export and save their `.json` and `.csv` files locally to load into `Navigator Toolkit` (`Analysis Report`), and share a copy with their Lean Core Team partner when an official baseline submission needs to be archived in `'600 Maturity Submissions'`.
-7. **"Guide, Don't Duplicate the App" Rule (No Redundant Interactive App Clones):**
-   - **Never Clone Software Features Inside the User Guide:** This platform is a user guide and coaching manual, **NOT** a replacement for `Navigator Toolkit` or `PM Maturity Hub`.
-   - Do **NOT** build interactive gap-selection checkboxes, filter pills, capacity counter bars, or `"Send to Charter"` state-builders that belong inside `Navigator Toolkit → Analysis Report`. Instead, render a clean **"How to Narrow Your Gaps to the 'Vital Few' (2 to 3 Key Actions)"** visual decision guide with a static **"What Good Looks Like"** comparison example and a direct `Launch Navigator Toolkit (Analysis Report) ↗` button.
-   - Do **NOT** include `"Copy Template to Clipboard"` or `"← Adjust in Focus Action Prioritiser"` buttons on reference examples when the real template lives inside `Navigator Toolkit → Charter Input`. Frame Tab 4 as **`One-Page Navigator Charter — Annotated Example & Field Guide`** with a `Launch Navigator Toolkit (Charter Input) ↗` button.
-8. **Mandatory "Buttons & Controls on This Screen" Reference (`buttonsReference`) & True-to-App Button Colour Badges:**
-   - Every SOP and Tool Reference page **MUST** include a clear, scannable **"Buttons & Controls on This Screen"** table (`Button / Control Name` | `Where It Is` | `What It Does & When to Use It`) extracted directly from the real `navigator-toolkit` and `pm-maturity-hub` source code.
-   - Render every button badge using the exact background and text colour it has in the live application:
-     - **Petrol (`#009999` bg, white text):** `Export Assessment (.json & .csv)`, `New Standard` active toggle, `Download` / `Export` buttons.
-     - **Bright Purple (`#8A00E5` bg, white text):** `Maturity Explainer`, `Orientation`, `Question Card Modal: Mark as Evaluated`, primary action buttons.
-     - **Dark Sidebar Teal Accent (`#1B1534` bg, `#2dd4bf` text, `#0d9488` border):** `✦ Maturity Model Storybook`.
-     - **Deep Plum / Indigo (`#2E1065` bg, white text):** `View Dashboard`, `Import Assessment (.json / .csv)`, `? User Guide`, `View Key`.
-     - **Danger Red (`#DC2626` bg, white text):** `Reset Progress`, `Clear Session`.
-     - **Dark Sidebar Slate (`#1E1B4B` bg, `#e2e8f0` text):** Sidebar navigation items & session buttons.
-9. **Four Distinct Playbooks in the Switcher (3 Operational + 1 Demo) with 3-Way Cross-References:**
-   - Keep **`PLB-001` (`Lean@GS Navigator Toolkit Guide`)**, **`PLB-MATURITY` (`Standalone GS Lean Maturity & Storybook Guide`)**, **`PLB-PMHUB` (`Lean@GS PM Maturity Hub Guide`)**, and **`PLB-DEMO` (`Demo Example: The Office Brew Run`)** as four separate, dedicated playbooks in the top Playbook Switcher:
-     - **`PLB-001` (`Lean@GS Navigator Toolkit Guide`):** `https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/`
-     - **`PLB-MATURITY` (`Standalone GS Lean Maturity & Storybook Guide`):** `https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/`
-     - **`PLB-PMHUB` (`Lean@GS PM Maturity Hub Guide`):** `https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/`
-     - **`PLB-DEMO` (`Demo Example: The Office Brew Run`):** Neutral stakeholder walkthrough.
-   - Do **NOT** merge the 3 operational playbooks. Keep each focused on its own web application and provide **3-Way 1-Click Cross-Reference Cards** on Tab 1 and in the left sidebar so users can jump between `Standalone Maturity`, `Navigator Toolkit`, and `PM Maturity Hub` in one click.
-10. **Shared 1-Page 28-Question & 1–5 Scoring Criteria Rubric Across All 3 Operational Playbooks:**
-    - Tab 4 (`4. Templates & Reference`) and Tab 3 (`3. Decision & Scoring Tools`) in `PLB-001`, `PLB-MATURITY`, and `PLB-PMHUB` **MUST** include the complete, verbatim **16:9 1-Page Scoring & Criteria Guide** (`dataNewStandard` and `dataOldStandard` for all 28 questions, Q1–Q3 binary gates, 17 ★ gateways, `New/Old Standard` toggle, `Full/Concise` toggle, and working `.pptx`, `.png`, and `.pdf` exports).
-11. **Business-Priority-First Decision Rule (Supported by Maturity Development):**
-    - Never frame the "Vital Few" (Tab 3) or the Charter (Tab 4) primarily around raising maturity scores or `"+0.4 Level Unlocks"`.
-    - Always lead with concrete **Business & Operational Priorities** (**Lead Time, Quality, Throughput, Cost, Overheads, Inventory, Complexity**) and position **Maturity Development** (including Foundation Gateways ★) as the *enabling capability* required to achieve and sustain those business results.
-12. **Post-Upload UI State Rule:**
-    - When documenting tools that require a data file to reveal their workspace (such as `Navigator Toolkit → Analysis Report`), always load a valid sample `.json` assessment file into the app before capturing screenshots and writing steps so the post-upload action selection controls are visible.
-13. **Mandatory Assessment Header Rule (`Org` Code & `Date of Assessment`):**
-    - In the Maturity Assessment (`Navigator Toolkit → Maturity Assessment` and `Standalone GS Lean Maturity`), getting the **`Org`** (`Org Code`, e.g. `GS-TI-EUW-BER01`) and **`Date of Assessment`** (`YYYY-MM-DD`) right in the top User Data Plate is critical:
-      1. The application uses `Org` and `Date of Assessment` to automatically name exported files (`<OrgCode>_<YYYY-MM-DD>_Lean_Assessment.json`, `.csv`, and `_Report.pdf`). Leaving them blank produces generic `Org_Date_Lean_Assessment.json` files that overwrite each other.
-      2. The **GS Dashboard** and the `'600 Maturity Submissions'` folder index and track baseline vs. re-assessment progress using the exact `Org` code and `Date of Assessment`.
-      3. Downstream tools (`Analysis Report`, `Charter & Roadmaps`, `PM Maturity Hub`) read `Org` and `Date of Assessment` directly from the uploaded `.json` header to stamp all reports and charters.
-14. **Prominent Authoring & File Management UI (Never Hide in Footer):**
-    - The `Playbook & SOP Authoring Studio` and `Upload / Download Guide` controls are core platform features and must **NEVER** be styled as muted grey footer links.
-    - Display a prominent **`✦ Open Authoring Studio`** button and **`⬆ Upload Guide (.json)` / `⬇ Export Guide ▾`** controls in the **Top Header Bar** AND as a high-contrast **`✦ BUILD OR SHARE A GUIDE`** card in the left sidebar.
-15. **3-Tier Static-Host Storage & Sharing Architecture:**
-    - **Tier 1 (Browser Draft — All Authors):** Automatic `localStorage` persistence with a visible header/sidebar status badge (`"Local Draft Active"` / `"Unsaved Browser Edits"`) when local edits exist.
-    - **Tier 2 (Single-Playbook Share — `.leanguide.json` — All Authors):** Ability to export just the currently active Playbook (plus its linked Processes, SOPs, Tools, Roles, and embedded Base64 screenshots) as a standalone `<Playbook-Slug>.leanguide.json` file, and **Upload & Merge** a colleague's `.leanguide.json` file into the active library without wiping out existing playbooks.
-    - **Tier 3 (Controlled Master Server Release — `guides.json` — App Owner Only):** Server release and upload is a **controlled governance step** and is not something most authors do themselves. Authors send their exported `.leanguide.json` or `guides.json` update to the **App Owner (Brian Johns)**, who validates and deploys the master `guides.json` library to `megblcntpvc72`.
-16. **Full-Viewport Authoring Studio (`96vw x 94vh`):**
-    - The `Playbook & SOP Authoring Studio` modal must **NEVER** render in a cramped dialog box. It must open at **`width: 96vw; max-width: 1840px; height: 94vh;`** with a clean `50% / 50%` (or `45% / 55%`) split pane where left and right columns scroll independently, plus a **`⛶ Fullscreen (100vw x 100vh)`** toggle button in the top-right modal header.
-17. **Mandatory AI Script-to-JSON Generator & Live Importer (Tab 3):**
-    - Tab 3 of the Authoring Studio (`Tab 3: ✨ AI Playbook Generator & JSON Importer`) must always provide a 3-step self-service workflow:
-      - **Step 1:** Enter topic + target roles/tool + paste rough notes/SOP text -> Click **`📋 Copy Ready-to-Use AI Prompt (For M365 Copilot / Gemini)`** (with live prompt preview).
-      - **Step 2:** Paste the AI's generated JSON output into the importer text area (automatically stripping ` ```json ` markdown fences) or upload a `.json` file.
-      - **Step 3:** Click **`✓ Validate & Import Playbook into Studio`** (with live Pre-Import Poka-Yoke checks and `🔧 Auto-Fix Minor Schema / ID Gaps`) to merge the new Playbook into the active library, switch to it immediately, and open it in Tab 1/Tab 2 for WYSIWYG visual fine-tuning.
-18. **First-Time Colleague Tooltips & Interactive Quick-Start Strip:**
-    - Every primary navigation and authoring control across the Top Header, Playbook Switcher, 4 Universal Tabs, Left Sidebar, and Authoring Studio must display a styled hover tooltip (`data-tooltip`) explaining in plain human English what the button does.
-    - Include a **`👋 First Time Here?`** button in the Top Header that toggles an onboarding Quick-Start strip explaining how to switch playbooks, navigate the 4 tabs, and create or share a guide.
-19. **Controlled Server Release & App Owner Governance Rule (Send `guides.json` / `.leanguide.json` Updates to App Owner — Brian Johns):**
-    - Server release and repository upload is a **controlled step** and is **NOT** something most authors will do themselves.
-    - When an author finishes creating or updating a Playbook and exports their `.leanguide.json` (Tier 2) or `guides.json` (Tier 3) file, **the `.leanguide.json` or `guides.json` update is sent to the App Owner (Brian Johns)** for validation and controlled deployment to the official corporate Lean@GS Guide Library on the intranet server (`megblcntpvc72`).
-20. **1-to-1 Stage-to-SOP Mapping Rule (Never Bundle Multiple Journey Stages Into One Combined SOP Page):**
-    - Every stage on a Playbook's Journey Map must have its own dedicated, standalone Step-by-Step Guide page in `2. Step-by-Step Guides`.
-    - For `PLB-001` (`Lean@GS Navigator Toolkit Guide`), there must be **6 individual Step-by-Step Guide pages** (`SOP-001` through `SOP-006`) matching Stages 1 to 6 one-for-one (`Stage 1: Complete the Site Maturity Assessment`, `Stage 2: Analysis — Understand Strengths, Gaps & Gateway Caps`, `Stage 3: Voice of the Customer (VOC) — Understand Business Priorities`, `Stage 4: Run the Navigator Workshop`, `Stage 5: Agree the 1-Page Navigator Charter`, and `Stage 6: Build & Track the Action Plan`).
-
----
-
-## Section E: Siemens Energy Visual Tokens
-
-- **Official Siemens Energy Wordmark:** Stacked two-line geometric SVG wordmark (**SIEMENS** in Petrol `#009999` + **energy** in crisp `#FFFFFF` on dark header `#1B1534`) paired with a clean vertical divider before `LEAN@GS DOCUMENTATION`.
-- **Header Gradient:** `linear-gradient(90deg, #1B1534 0%, #4D217A 100%)` with Siemens Petrol (`#009999`) precision accents and signature fading petrol line.
-- **Backgrounds & Text:** `#FFFFFF` / `#F8FAFC` generous light canvas, `#1B1534` deep purple headings and primary text, `#54646E` secondary copy.
-- **Interactive Accents:** Siemens Energy Bright Purple (`#8A00E5`), hover `#641E8C`, ice-blue visual cards (`#EAF4F8`), accessible petrol text (`#007A7A`).
+| *"Execute PRC-002 Calibration in v2.4.1 — MANDATORY GATE"* | **"Complete the baseline self-assessment with your team"** |
+| *"Input → Output: Raw export_payload.csv / .json"* | **"What you finish with: Clear baseline summary ready for review"** |
+| *"The configuration parameters should be verified by the user prior to export."* | **"Check the header details before clicking Export."** *(Active verb start, ≤ 20 words)* |
+| *"Select all 15 open items from the diagnostic list."* | **"Focus on 2 to 3 high-impact actions at a time (maximum 5) so the team finishes what they start."** |
+| *"Bundling Stages 4, 5, and 6 into a single combined SOP page"* | **"1-to-1 Stage-to-SOP Mapping: Give every Journey Stage its own dedicated Step-by-Step Guide page"** |
