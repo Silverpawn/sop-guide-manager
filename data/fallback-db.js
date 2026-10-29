@@ -15,10 +15,17 @@ window.FALLBACK_GUIDES_DB = {
       },
       {
         "id": "LIVE-PORTAL",
-        "name": "Maturity Model Storybook (GS Lean Maturity)",
-        "shortLabel": "Maturity Model Storybook ↗",
+        "name": "GS Lean Maturity Portal",
+        "shortLabel": "GS Lean Maturity ↗",
         "url": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
-        "description": "Maturity Model Storybook & Standalone 28-Question Assessment Portal"
+        "description": "Standalone 28-Question Assessment & Gateway Scoring Engine"
+      },
+      {
+        "id": "LIVE-STORYBOOK",
+        "name": "Maturity Model Storybook",
+        "shortLabel": "Maturity Model Storybook ↗",
+        "url": "https://share.gemini.google/UjLQiIQXFbgc",
+        "description": "Interactive Lean@GS Maturity Model Storybook"
       },
       {
         "id": "LIVE-HUB",
@@ -105,7 +112,7 @@ window.FALLBACK_GUIDES_DB = {
       "purpose": "Review the Navigator Orientation and Process Overview screens inside Lean@GS Navigator Toolkit (plus the Maturity Model Storybook) before starting Stage 1.",
       "accessUrl": "Navigator Toolkit → Orientation & Process Overview",
       "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
-      "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+      "secondaryLiveUrl": "https://share.gemini.google/UjLQiIQXFbgc",
       "secondaryLiveLabel": "Maturity Model Storybook ↗",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
@@ -139,7 +146,7 @@ window.FALLBACK_GUIDES_DB = {
       "purpose": "Score all 28 site Lean questions using the New Standard rubric, inspect ↳ Maturity Explainer flashcards and ↳ Interactive Roadmap, and export your assessment.",
       "accessUrl": "Navigator Toolkit → Maturity Assessment (↳ Maturity Explainer & Interactive Roadmap)",
       "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
-      "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+      "secondaryLiveUrl": "https://share.gemini.google/UjLQiIQXFbgc",
       "secondaryLiveLabel": "Maturity Model Storybook ↗",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
@@ -334,7 +341,7 @@ window.FALLBACK_GUIDES_DB = {
       "purpose": "Score the 28 questions in Maturity Assessment, review the Maturity Explainer flashcards, and diagnose gateway score caps in Score Explainer.",
       "accessUrl": "PM Maturity Hub → Phase 1: Assess (Maturity Assessment, Maturity Explainer, Score Explainer)",
       "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
-      "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+      "secondaryLiveUrl": "https://share.gemini.google/UjLQiIQXFbgc",
       "secondaryLiveLabel": "Maturity Model Storybook ↗",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
@@ -1502,7 +1509,7 @@ window.FALLBACK_GUIDES_DB = {
       "processIds": ["PRC-001", "PRC-002"],
       "sopIds": ["SOP-001", "SOP-002", "SOP-003", "SOP-004"],
       "toolIds": ["TOL-000", "TOL-001", "TOL-002", "TOL-004", "TOL-005", "TOL-009", "TOL-010"],
-      "liveToolIds": ["LIVE-NAVIGATOR", "LIVE-PORTAL"],
+      "liveToolIds": ["LIVE-NAVIGATOR", "LIVE-STORYBOOK", "LIVE-PORTAL"],
       "chooserLabel": "Which part of the journey are you working on today?",
       "rulesKey": {
         "title": "Before You Start: Orientation & 3 Helpful Principles for Scoring & Prioritising",
@@ -1551,7 +1558,7 @@ window.FALLBACK_GUIDES_DB = {
             "toolId": "TOL-001",
             "toolLabel": "Navigator Toolkit → Maturity Assessment (↳ Maturity Explainer & Interactive Roadmap)",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
-            "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+            "secondaryLiveUrl": "https://share.gemini.google/UjLQiIQXFbgc",
             "secondaryLiveLabel": "Maturity Model Storybook ↗",
             "outputArtifact": "Baseline picture of current Lean capability & gaps",
             "targetView": { "type": "sop", "id": "SOP-001", "cta": "Open Stage 1 Assessment Guide →" }
@@ -1964,7 +1971,7 @@ window.FALLBACK_GUIDES_DB = {
       "processIds": ["PRC-003"],
       "sopIds": ["SOP-005", "SOP-006"],
       "toolIds": ["TOL-007", "TOL-003", "TOL-006", "TOL-011"],
-      "liveToolIds": ["LIVE-HUB", "LIVE-PORTAL"],
+      "liveToolIds": ["LIVE-HUB", "LIVE-STORYBOOK"],
       "chooserLabel": "Which PM Maturity Hub phase or utility are you using today?",
       "rulesKey": {
         "title": "Before You Start: How Lean@GS PM Maturity Hub Is Organised",
@@ -2013,7 +2020,7 @@ window.FALLBACK_GUIDES_DB = {
             "toolId": "TOL-007",
             "toolLabel": "PM Maturity Hub → Phase 1: Assess",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
-            "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+            "secondaryLiveUrl": "https://share.gemini.google/UjLQiIQXFbgc",
             "secondaryLiveLabel": "Maturity Model Storybook ↗",
             "outputArtifact": "Completed 28-question assessment & Score Explainer gateway cap diagnosis",
             "targetView": { "type": "sop", "id": "SOP-005", "cta": "Open Phase 1 Assess Guide →" }

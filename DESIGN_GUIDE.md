@@ -35,13 +35,14 @@ Every screen must make immediate sense within **10 seconds** to a colleague who 
    - **LPM Owns the Process (Core Team is Optional Support):** The **Local Programme Manager (LPM)** is the primary owner and driver of all 6 stages of the Navigator Process—including leading the Stage 4 Navigator Workshop and Stage 5 Charter with their Site Leadership Team. After the first-time Maturity Assessment calibration, the **Lean Core Team** is always **optional support / coaching**, never mandatory.
 
 5. **Official Corporate Intranet Tool Links & Ground-Truth Menu Alignment Rule:**
-   - Always store and render clickable **`"Launch Live Tool ↗"`** buttons (`target="_blank" rel="noopener noreferrer"`) on Stage Cards, Kit Bags, and Tool Reference drawers using these exact corporate URLs:
-     - **Maturity Model Storybook (GS Lean Maturity Portal):** `https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/`
+   - Always store and render clickable **`"Launch Live Tool ↗"`** buttons (`target="_blank" rel="noopener noreferrer"`) on Stage Cards, Kit Bags, and Tool Reference drawers using these exact URLs:
+     - **Maturity Model Storybook:** `https://share.gemini.google/UjLQiIQXFbgc`
+     - **GS Lean Maturity Portal:** `https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/`
      - **Lean@GS Navigator Toolkit:** `https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/`
      - **Lean@GS PM Maturity Hub:** `https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/`
    - **A. `Lean@GS Navigator Toolkit` (`PLB-001`) Ground-Truth Menu (`https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/`):**
      Contains these exact menu items (and **NEVER** `Score Explainer`, `Metro Journey`, `4 Pillars`, `Strategy Builder`, `Simulator`, or `CSV to JSON Fixer`):
-     - `Maturity Model Storybook` (`https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/`)
+     - `Maturity Model Storybook` (`https://share.gemini.google/UjLQiIQXFbgc`)
      - `Orientation`
      - `Process Overview`
      - `Maturity Assessment` (with sub-items: `↳ Maturity Explainer` and `↳ Interactive Roadmap`)
@@ -53,7 +54,7 @@ Every screen must make immediate sense within **10 seconds** to a colleague who 
      - `Action Log`
    - **B. `Lean@GS PM Maturity Hub` (`PLB-PMHUB`) Ground-Truth Menu (`https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/`):**
      Organized into 3 Phases + Utilities (and **NEVER** participates in the Navigator Workshop, VOC Input, or Charter):
-     - `Maturity Model Storybook` (`https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/`)
+     - `Maturity Model Storybook` (`https://share.gemini.google/UjLQiIQXFbgc`)
      - **PHASE 1: ASSESS:** `Maturity Assessment`, `Maturity Explainer`, `Score Explainer`
      - **PHASE 2: VISUALIZE:** `Metro Journey`, `The 4 Pillars (Live)`, `Pillars (Static)`
      - **PHASE 3: PLAN:** `Strategy Builder`, `↳ Simulator`
