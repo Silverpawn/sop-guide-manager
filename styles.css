@@ -173,7 +173,7 @@ body {
   background: rgba(255, 255, 255, 0.22);
 }
 
-/* Quiet Admin Gear Button (hides developer JSON chrome from regular users) */
+/* Quiet Admin Gear Button */
 .admin-gear-btn {
   background: transparent;
   color: rgba(234, 244, 248, 0.6);
@@ -202,9 +202,9 @@ body {
   flex-shrink: 0;
 }
 
-/* 2. Secondary Horizontal Category Bar */
+/* 2. Secondary Horizontal Category Bar (4-Stage User Journey) */
 .sub-navbar {
-  height: 44px;
+  height: 46px;
   background: var(--se-dark-purple);
   border-bottom: 1px solid #2e2552;
   display: flex;
@@ -225,7 +225,7 @@ body {
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   transition: color 0.15s ease, border-color 0.15s ease;
 }
 
@@ -235,14 +235,14 @@ body {
 
 .sub-tab.active {
   color: var(--se-white);
-  font-weight: 600;
+  font-weight: 700;
   border-bottom-color: var(--se-petrol);
 }
 
 /* 3. Main 2-Column Layout */
 .portal-layout {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 292px 1fr;
   flex: 1;
   overflow: hidden;
 }
@@ -252,25 +252,25 @@ body {
   background: var(--se-canvas-subtle);
   border-right: 1px solid var(--se-gray-1);
   overflow-y: auto;
-  padding: 20px 14px 36px 18px;
+  padding: 18px 14px 32px 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .sidebar-section-label {
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 10.5px;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: var(--se-gray-5);
-  padding: 8px 10px 4px;
+  letter-spacing: 0.08em;
+  color: var(--se-petrol-dark);
+  padding: 10px 10px 4px;
 }
 
 .sidebar-divider {
   height: 1px;
   background: var(--se-gray-1);
-  margin: 12px 8px;
+  margin: 10px 8px;
 }
 
 .tree-item {
@@ -279,10 +279,10 @@ body {
   border: none;
   color: var(--se-dark-purple);
   text-align: left;
-  padding: 9px 12px;
+  padding: 8px 11px;
   border-radius: 6px;
-  font-size: 13.5px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   line-height: 1.35;
   cursor: pointer;
   display: flex;
@@ -299,7 +299,7 @@ body {
 .tree-item.active {
   background: var(--se-dark-purple);
   color: var(--se-white);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .tree-chevron {
@@ -312,8 +312,8 @@ body {
 }
 
 .tree-children {
-  padding-left: 12px;
-  margin: 4px 0 8px 12px;
+  padding-left: 10px;
+  margin: 3px 0 8px 10px;
   border-left: 2px solid var(--se-gray-1);
 }
 
@@ -325,9 +325,10 @@ body {
   text-align: left;
   padding: 6px 10px;
   border-radius: 5px;
-  font-size: 13px;
+  font-size: 12.5px;
   cursor: pointer;
   display: block;
+  line-height: 1.35;
 }
 
 .tree-child:hover {
@@ -337,23 +338,23 @@ body {
 
 .tree-child.active {
   color: var(--se-bright-purple);
-  font-weight: 600;
-  background: rgba(138, 0, 229, 0.06);
+  font-weight: 700;
+  background: rgba(138, 0, 229, 0.08);
 }
 
 .filing-callout {
-  margin-top: 20px;
+  margin-top: 18px;
   background: var(--se-dark-purple);
   color: var(--se-white);
   border-radius: 10px;
-  padding: 14px;
-  font-size: 12px;
+  padding: 13px;
+  font-size: 11.5px;
   line-height: 1.45;
   border-left: 4px solid var(--se-petrol);
 }
 
 .quiet-admin-link {
-  margin-top: 10px;
+  margin-top: 8px;
   background: none;
   border: none;
   color: var(--se-gray-5);
@@ -368,7 +369,6 @@ body {
   text-decoration: underline;
 }
 
-/* Muted Code/Version Pill Badges (Demoted from Main Headings) */
 .muted-code-pill {
   display: inline-flex;
   align-items: center;
@@ -385,12 +385,12 @@ body {
 /* Center Scrollable Stage */
 .content-stage {
   overflow-y: auto;
-  padding: 44px 64px 96px;
+  padding: 40px 56px 96px;
   background: var(--se-white);
 }
 
 .content-container {
-  max-width: 1060px;
+  max-width: 1120px;
   margin: 0 auto;
 }
 
@@ -398,7 +398,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -406,11 +406,11 @@ body {
   background: var(--se-gray-0);
   padding: 4px 10px;
   border-radius: 4px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .page-title {
-  font-size: 34px;
+  font-size: 33px;
   font-weight: 700;
   letter-spacing: -0.025em;
   color: var(--se-dark-purple);
@@ -419,13 +419,440 @@ body {
 }
 
 .page-subtitle {
-  font-size: 16.5px;
+  font-size: 16px;
   color: var(--se-gray-5);
-  max-width: 760px;
-  margin-bottom: 32px;
+  max-width: 800px;
+  margin-bottom: 28px;
 }
 
-/* Fix 2: "Which Job Are You Doing Today?" 2-Card Chooser */
+/* ============================================================================
+   DELIVERABLE 1: 6-STAGE CONNECTED END-TO-END PROCESS MAP & 60-SEC LPM PITCH
+   ============================================================================ */
+.journey-map-section {
+  background: var(--se-canvas-subtle);
+  border: 1.5px solid var(--se-gray-1);
+  border-radius: 16px;
+  padding: 22px 24px;
+  margin-bottom: 36px;
+}
+
+.journey-controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--se-gray-1);
+}
+
+.role-toggle-group {
+  display: inline-flex;
+  background: var(--se-white);
+  border: 1px solid var(--se-gray-1);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 4px;
+}
+
+.role-pill-btn {
+  background: transparent;
+  border: none;
+  color: var(--se-gray-5);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.role-pill-btn.active {
+  background: var(--se-dark-purple);
+  color: var(--se-white);
+}
+
+.pitch-toggle-btn {
+  background: linear-gradient(135deg, #1B1534 0%, #4D217A 100%);
+  color: var(--se-white);
+  border: 1px solid var(--se-petrol);
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(27, 21, 52, 0.12);
+}
+
+.pitch-toggle-btn:hover {
+  background: var(--se-purple);
+}
+
+/* 60-Second LPM Pitch Callout Drawer */
+.lpm-pitch-banner {
+  background: linear-gradient(135deg, #1B1534 0%, #4D217A 100%);
+  color: var(--se-white);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  border-left: 5px solid var(--se-petrol);
+  box-shadow: 0 12px 28px rgba(27, 21, 52, 0.18);
+}
+
+.lpm-pitch-banner.hidden {
+  display: none;
+}
+
+.pitch-equation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(234, 244, 248, 0.25);
+  border-radius: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.pitch-eq-box {
+  background: rgba(27, 21, 52, 0.75);
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--se-petrol);
+  color: var(--se-blue-0);
+}
+
+/* 6-Stage Swimlane Grid with Connecting Arrows */
+.six-stage-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.stage-flow-card {
+  background: var(--se-white);
+  border: 1.5px solid var(--se-gray-1);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.stage-flow-card:hover {
+  border-color: var(--se-bright-purple);
+  box-shadow: 0 8px 22px rgba(27, 21, 52, 0.08);
+}
+
+.stage-flow-card.dimmed {
+  opacity: 0.32;
+  filter: grayscale(40%);
+}
+
+.stage-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.stage-num-circle {
+  background: var(--se-dark-purple);
+  color: var(--se-white);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+
+.status-badge-purple {
+  background: var(--se-bright-purple);
+  color: var(--se-white);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.status-badge-teal {
+  background: var(--se-gray-0);
+  color: var(--se-petrol-dark);
+  border: 1px solid var(--se-petrol);
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  text-align: right;
+  line-height: 1.25;
+}
+
+.stage-card-title {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--se-dark-purple);
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+
+.stage-meta-rows {
+  font-size: 12px;
+  color: var(--se-gray-5);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 12px;
+  padding: 10px;
+  background: var(--se-canvas-subtle);
+  border-radius: 8px;
+  border: 1px solid var(--se-gray-1);
+}
+
+.stage-meta-rows strong {
+  color: var(--se-dark-purple);
+}
+
+.stage-io-box {
+  font-size: 11.5px;
+  background: var(--se-gray-0);
+  color: var(--se-dark-purple);
+  padding: 7px 10px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  border-left: 3px solid var(--se-petrol);
+}
+
+.stage-card-btn {
+  width: 100%;
+  background: var(--se-white);
+  color: var(--se-bright-purple);
+  border: 1.5px solid var(--se-bright-purple);
+  border-radius: 7px;
+  padding: 7px 12px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.stage-card-btn:hover {
+  background: var(--se-bright-purple);
+  color: var(--se-white);
+}
+
+/* ============================================================================
+   DELIVERABLE 2: TOP 5 ACTION PRIORITISER (3-STEP DECISION FUNNEL)
+   ============================================================================ */
+.funnel-controls-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.funnel-filter-card {
+  background: var(--se-canvas-subtle);
+  border: 1px solid var(--se-gray-1);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.funnel-step-badge {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--se-white);
+  background: var(--se-dark-purple);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+.funnel-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.funnel-chip {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 99px;
+  border: 1px solid var(--se-gray-1);
+  background: var(--se-white);
+  color: var(--se-dark-purple);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.funnel-chip.active {
+  background: var(--se-bright-purple);
+  color: var(--se-white);
+  border-color: var(--se-bright-purple);
+}
+
+/* Capacity Lock Tray */
+.capacity-tray {
+  background: var(--se-dark-purple);
+  color: var(--se-white);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  border-left: 5px solid var(--se-petrol);
+}
+
+.capacity-tray.over-limit {
+  background: #3B0A14;
+  border-left-color: var(--se-critical);
+}
+
+.capacity-meter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.capacity-count-pill {
+  font-family: ui-monospace, monospace;
+  font-size: 15px;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: var(--se-petrol);
+  color: var(--se-white);
+}
+
+.capacity-tray.over-limit .capacity-count-pill {
+  background: var(--se-critical);
+}
+
+.candidate-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.candidate-row {
+  background: var(--se-white);
+  border: 1.5px solid var(--se-gray-1);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 16px;
+  align-items: center;
+  transition: all 0.15s ease;
+}
+
+.candidate-row.selected {
+  border-color: var(--se-bright-purple);
+  background: #FAF5FF;
+}
+
+.priority1-badge {
+  background: #FFF1F2;
+  color: var(--se-critical);
+  border: 1px solid #FECDD3;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.lift-badge {
+  background: var(--se-gray-0);
+  color: var(--se-petrol-dark);
+  font-family: ui-monospace, monospace;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+/* ============================================================================
+   DELIVERABLE 3: POINT-OF-USE "KIT BAG" ON EVERY SOP PAGE
+   ============================================================================ */
+.kit-bag-card {
+  background: var(--se-canvas-subtle);
+  border: 1.5px solid var(--se-gray-1);
+  border-left: 5px solid var(--se-bright-purple);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+
+.kit-bag-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--se-gray-1);
+}
+
+.kit-bag-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  font-size: 13px;
+}
+
+.kit-bag-cell {
+  background: var(--se-white);
+  border: 1px solid var(--se-gray-1);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.kit-bag-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--se-gray-5);
+  margin-bottom: 4px;
+}
+
+.inline-tool-drawer {
+  margin-top: 14px;
+  background: var(--se-white);
+  border: 1.5px solid var(--se-petrol);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.inline-tool-drawer.hidden {
+  display: none;
+}
+
+/* Existing Chooser & Key Styles */
 .chooser-section-label {
   font-size: 13px;
   font-weight: 700;
@@ -446,18 +873,11 @@ body {
   background: var(--se-white);
   border: 1.5px solid var(--se-gray-1);
   border-radius: 14px;
-  padding: 26px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-shadow: 0 8px 24px rgba(27, 21, 52, 0.04);
-  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.job-card:hover {
-  border-color: var(--se-petrol);
-  transform: translateY(-2px);
-  box-shadow: 0 14px 32px rgba(27, 21, 52, 0.08);
 }
 
 .job-card-top {
@@ -478,23 +898,23 @@ body {
 }
 
 .job-card-title {
-  font-size: 21px;
+  font-size: 20px;
   font-weight: 700;
   color: var(--se-dark-purple);
   line-height: 1.3;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .job-meta-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 22px;
+  gap: 6px;
+  margin-bottom: 18px;
   padding: 12px 14px;
   background: var(--se-canvas-subtle);
   border: 1px solid var(--se-gray-1);
   border-radius: 10px;
-  font-size: 14px;
+  font-size: 13.5px;
   color: var(--se-gray-5);
 }
 
@@ -508,40 +928,38 @@ body {
   color: var(--se-white);
   border: none;
   border-radius: 8px;
-  padding: 12px 18px;
-  font-size: 14.5px;
+  padding: 11px 16px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: background 0.15s ease;
 }
 
 .job-cta-btn:hover {
   background: var(--se-purple);
 }
 
-/* Fix 3: 3-Term "Before You Start" Plain-English Key */
 .plain-key-box {
   background: var(--se-canvas-subtle);
   border: 1px solid var(--se-gray-1);
   border-left: 4px solid var(--se-petrol);
   border-radius: 12px;
-  padding: 20px 24px;
-  margin-bottom: 48px;
+  padding: 18px 22px;
+  margin-bottom: 40px;
 }
 
 .plain-key-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .plain-key-title {
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -551,56 +969,52 @@ body {
 .plain-key-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+  gap: 16px;
 }
 
 .plain-key-item {
   background: var(--se-white);
   border: 1px solid var(--se-gray-1);
   border-radius: 8px;
-  padding: 14px 16px;
+  padding: 12px 14px;
 }
 
 .plain-key-term {
-  font-size: 14.5px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--se-dark-purple);
   margin-bottom: 4px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
 }
 
 .plain-key-desc {
-  font-size: 13.5px;
+  font-size: 13px;
   color: var(--se-gray-5);
-  line-height: 1.5;
+  line-height: 1.45;
 }
 
 /* Split Feature Section */
 .feature-split {
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
-  gap: 56px;
+  gap: 48px;
   align-items: start;
-  margin-bottom: 64px;
-  padding-bottom: 52px;
+  margin-bottom: 56px;
+  padding-bottom: 48px;
   border-bottom: 1px solid var(--se-gray-1);
 }
 
 .section-h2 {
-  font-size: 23px;
+  font-size: 22px;
   font-weight: 700;
   color: var(--se-dark-purple);
-  letter-spacing: -0.015em;
   margin-bottom: 10px;
 }
 
 .section-lead {
   font-size: 15px;
   color: var(--se-gray-5);
-  line-height: 1.7;
-  margin-bottom: 16px;
+  line-height: 1.65;
+  margin-bottom: 14px;
 }
 
 .see-all-link,
@@ -614,22 +1028,15 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .learn-more-link {
-  margin-top: 12px;
+  margin-top: 10px;
   margin-bottom: 0;
   font-size: 13.5px;
 }
 
-.see-all-link:hover,
-.learn-more-link:hover {
-  color: var(--se-purple);
-  text-decoration: underline;
-}
-
-/* Clean Bottom-Border Accordions */
 .accordion-list {
   border-top: 1px solid var(--se-gray-1);
 }
@@ -642,9 +1049,9 @@ body {
   width: 100%;
   background: transparent;
   border: none;
-  padding: 15px 4px;
+  padding: 14px 4px;
   color: var(--se-dark-purple);
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 600;
   text-align: left;
   cursor: pointer;
@@ -653,38 +1060,22 @@ body {
   justify-content: space-between;
 }
 
-.accordion-trigger:hover {
-  color: var(--se-bright-purple);
-}
-
-.accordion-chevron {
-  font-size: 12px;
-  color: var(--se-gray-5);
-  transition: transform 0.2s ease;
-}
-
-.accordion-item.open .accordion-chevron {
-  transform: rotate(180deg);
-}
-
 .accordion-body {
   display: none;
-  padding: 0 4px 18px 4px;
+  padding: 0 4px 16px 4px;
   color: var(--se-gray-5);
-  font-size: 14.5px;
-  line-height: 1.65;
+  font-size: 14px;
 }
 
 .accordion-item.open .accordion-body {
   display: block;
 }
 
-/* Right Soft Ice-Blue Architectural Illustration Card (#EAF4F8) */
 .illustration-card {
   background: var(--se-gray-0);
   border: 1px solid var(--se-gray-1);
   border-radius: 16px;
-  padding: 24px;
+  padding: 22px;
   box-shadow: 0 12px 32px rgba(27, 21, 52, 0.06);
 }
 
@@ -694,14 +1085,13 @@ body {
   display: block;
 }
 
-/* Breadcrumbs & Metadata Strip */
 .breadcrumb-row {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 13px;
   color: var(--se-gray-5);
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .breadcrumb-link {
@@ -713,38 +1103,28 @@ body {
   font-size: 13px;
 }
 
-.breadcrumb-link:hover {
-  text-decoration: underline;
-}
-
 .meta-strip {
   display: flex;
   flex-wrap: wrap;
-  gap: 28px;
-  padding: 16px 20px;
+  gap: 24px;
+  padding: 14px 18px;
   background: var(--se-canvas-subtle);
   border: 1px solid var(--se-gray-1);
   border-radius: 10px;
-  margin-bottom: 40px;
+  margin-bottom: 28px;
   font-size: 13.5px;
   color: var(--se-gray-5);
 }
 
-.meta-strip strong {
-  color: var(--se-dark-purple);
-  font-weight: 700;
-}
-
 .editorial-section {
-  margin-bottom: 52px;
+  margin-bottom: 48px;
 }
 
 .editorial-h3 {
-  font-size: 21px;
+  font-size: 20px;
   font-weight: 700;
   color: var(--se-dark-purple);
-  margin-bottom: 16px;
-  letter-spacing: -0.01em;
+  margin-bottom: 14px;
 }
 
 .clean-list {
@@ -759,24 +1139,18 @@ body {
   align-items: flex-start;
   gap: 12px;
   color: var(--se-dark-purple);
-  font-size: 15px;
+  font-size: 14.5px;
   padding: 10px 14px;
   background: var(--se-canvas-subtle);
   border: 1px solid var(--se-gray-1);
   border-radius: 8px;
 }
 
-.clean-list input[type="checkbox"] {
-  margin-top: 5px;
-  accent-color: var(--se-petrol);
-}
-
-/* Step Split Row */
 .step-split-row {
   display: grid;
   grid-template-columns: 1fr 1.05fr;
-  gap: 48px;
-  padding: 36px 0;
+  gap: 44px;
+  padding: 32px 0;
   border-bottom: 1px solid var(--se-gray-1);
   align-items: center;
 }
@@ -787,14 +1161,11 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--se-petrol-dark);
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  margin-bottom: 6px;
 }
 
 .step-headline {
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 700;
   color: var(--se-dark-purple);
   line-height: 1.38;
@@ -804,7 +1175,7 @@ body {
 .step-subtext {
   font-size: 14.5px;
   color: var(--se-gray-5);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .step-note {
@@ -816,7 +1187,6 @@ body {
   color: var(--se-dark-purple);
 }
 
-/* Clean Siemens Energy Data Table */
 .clean-table {
   width: 100%;
   border-collapse: collapse;
@@ -840,16 +1210,13 @@ body {
   vertical-align: top;
 }
 
-/* Interactive Sandbox Card */
 .sandbox-card {
   background: var(--se-dark-purple);
   color: var(--se-white);
   border-radius: 14px;
   padding: 24px;
-  margin-top: 24px;
 }
 
-/* Modal for JSON Data Loader */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -871,7 +1238,6 @@ body {
   border: 1px solid var(--se-gray-1);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 25px 60px rgba(27, 21, 52, 0.35);
 }
 
 .modal-top {
@@ -902,7 +1268,10 @@ body {
   font-size: 12.5px;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1024px) {
+  .six-stage-grid,
+  .funnel-controls-grid,
+  .kit-bag-grid,
   .job-chooser-grid,
   .plain-key-grid,
   .feature-split,

@@ -1,12 +1,22 @@
 let DB = null;
 let state = {
-  view: "overview", // "overview" | "sop" | "process" | "tool" | "questions" | "calculator" | "charter"
+  view: "overview", // "overview" | "sop" | "process" | "tool" | "questions" | "calculator" | "charter" | "prioritiser"
   selectedId: null,
   expandedProcessId: "PRC-001",
   questionFilter: "all", // "all" | "gateway"
   searchQuery: "",
   simLevel: 1,
-  simRawAvg: 3.4
+  simRawAvg: 3.4,
+
+  // Stage 2 Upgrade State:
+  journeyRoleFilter: "all", // "all" | "lpm" | "core"
+  lpmPitchOpen: false,
+  prioritiserGatewayOnly: false,
+  prioritiserVocFilter: "ALL",
+  prioritiserMatrixFilter: "ALL",
+  selectedActionIds: [],
+  openInlineToolId: null,
+  sidebarToolsOpen: false
 };
 
 async function initApp() {
@@ -16,6 +26,14 @@ async function initApp() {
   } catch (e) {
     DB = window.FALLBACK_GUIDES_DB;
   }
+
+  // Initialize default Top 5 selected actions from DB.prioritiserCandidates
+  if (DB && Array.isArray(DB.prioritiserCandidates)) {
+    state.selectedActionIds = DB.prioritiserCandidates
+      .filter((c) => c.selectedByDefault)
+      .map((c) => c.id);
+  }
+
   bindEvents();
   renderSidebar();
   renderMain();
@@ -200,92 +218,133 @@ function renderStepIllustrationCard(step) {
   </div>`;
 }
 
+/**
+ * 4-Stage Connected User Journey Sidebar + Collapsible Bottom Software Tool Reference
+ */
 function renderSidebar() {
   const sidebar = document.getElementById("leftSidebar");
   const q = state.searchQuery.toLowerCase().trim();
 
-  const processes = Object.values(DB.processes || {}).filter(
-    (p) => !q || JSON.stringify(p).toLowerCase().includes(q)
-  );
   const tools = Object.values(DB.tools || {}).filter(
     (t) => !q || JSON.stringify(t).toLowerCase().includes(q)
   );
 
-  // Fix 1: Dropped "0." prefix and stripped raw SOP-001 / PRC-001 database codes from tree labels
-  let html = `
+  const sop1 = DB.sops["SOP-001"];
+  const sop2 = DB.sops["SOP-002"];
+  const sop3 = DB.sops["SOP-003"];
+  const sop4 = DB.sops["SOP-004"];
+
+  const html = `
     <div>
+      <!-- Stage 1 of Journey -->
+      <div class="sidebar-section-label" style="margin-top:4px;">1. End-to-End Journey</div>
       <button type="button" class="tree-item ${state.view === "overview" ? "active" : ""}" onclick="showOverview()">
-        <span>Overview</span>
+        <span>Connected 6-Stage Map &amp; Overview</span>
       </button>
 
       <div class="sidebar-divider"></div>
-      <div class="sidebar-section-label">Step-by-Step Guides</div>
 
-      ${processes
-        .map((proc) => {
-          const isExpanded = state.expandedProcessId === proc.id || q.length > 0;
-          const isActive = state.view === "process" && state.selectedId === proc.id;
-          const childSops = (proc.stages || []).map((st) => DB.sops[st.sopId]).filter(Boolean);
-
-          return `
-            <div>
-              <button type="button" class="tree-item ${isActive ? "active" : ""} ${isExpanded ? "expanded" : ""}"
-                      onclick="selectProcess('${proc.id}')">
-                <span>${escapeHtml(proc.title)}</span>
-                <span class="tree-chevron">›</span>
-              </button>
-              ${
-                isExpanded
-                  ? `<div class="tree-children">
-                      ${childSops
-                        .map(
-                          (s) => `
-                        <button type="button" class="tree-child ${state.view === "sop" && state.selectedId === s.id ? "active" : ""}"
-                                onclick="selectSOP('${s.id}')">
-                          ${escapeHtml(s.title)}
-                        </button>`
-                        )
-                        .join("")}
-                    </div>`
-                  : ""
-              }
-            </div>
-          `;
-        })
-        .join("")}
-
-      <div class="sidebar-divider"></div>
-      <div class="sidebar-section-label">Quick Reference &amp; Templates</div>
-
+      <!-- Stage 2 of Journey -->
+      <div class="sidebar-section-label">2. Where Are We? (Site Assessment)</div>
+      <button type="button" class="tree-item ${state.view === "process" && state.selectedId === "PRC-001" ? "active" : ""}"
+              onclick="selectProcess('PRC-001')">
+        <span>Check Your Site's Current Score</span>
+        <span class="tree-chevron">›</span>
+      </button>
+      <div class="tree-children">
+        ${
+          sop1
+            ? `<button type="button" class="tree-child ${state.view === "sop" && state.selectedId === "SOP-001" ? "active" : ""}"
+                       onclick="selectSOP('SOP-001')">
+                 Stage 1: ${escapeHtml(sop1.title)}
+               </button>`
+            : ""
+        }
+        ${
+          sop2
+            ? `<button type="button" class="tree-child ${state.view === "sop" && state.selectedId === "SOP-002" ? "active" : ""}"
+                       onclick="selectSOP('SOP-002')">
+                 Stage 2: ${escapeHtml(sop2.title)}
+               </button>`
+            : ""
+        }
+      </div>
       <button type="button" class="tree-item ${state.view === "questions" ? "active" : ""}" onclick="switchTopTab('questions')">
-        <span>All 28 Questions &amp; Gateways (★)</span>
+        <span>All 28 Questions &amp; 17 Gateways (★)</span>
         <span class="tree-chevron">›</span>
       </button>
 
+      <div class="sidebar-divider"></div>
+
+      <!-- Stage 3 of Journey -->
+      <div class="sidebar-section-label">3. What Matters? (Top 5 Prioritiser)</div>
+      <button type="button" class="tree-item ${state.view === "prioritiser" ? "active" : ""}" onclick="switchTopTab('prioritiser')">
+        <span>Pick Your Top 5 Actions (${state.selectedActionIds.length}/5)</span>
+        <span class="tree-chevron">›</span>
+      </button>
       <button type="button" class="tree-item ${state.view === "calculator" ? "active" : ""}" onclick="switchTopTab('calculator')">
         <span>Gateway Score Cap Calculator</span>
         <span class="tree-chevron">›</span>
       </button>
 
+      <div class="sidebar-divider"></div>
+
+      <!-- Stage 4 of Journey -->
+      <div class="sidebar-section-label">4. Turn Into Action (Workshop &amp; Charter)</div>
+      <button type="button" class="tree-item ${state.view === "process" && state.selectedId === "PRC-002" ? "active" : ""}"
+              onclick="selectProcess('PRC-002')">
+        <span>Run a Leadership Action Workshop</span>
+        <span class="tree-chevron">›</span>
+      </button>
+      <div class="tree-children">
+        ${
+          sop3
+            ? `<button type="button" class="tree-child ${state.view === "sop" && state.selectedId === "SOP-003" ? "active" : ""}"
+                       onclick="selectSOP('SOP-003')">
+                 Stage 3: ${escapeHtml(sop3.title)}
+               </button>`
+            : ""
+        }
+        ${
+          sop4
+            ? `<button type="button" class="tree-child ${state.view === "sop" && state.selectedId === "SOP-004" ? "active" : ""}"
+                       onclick="selectSOP('SOP-004')">
+                 Stage 5: ${escapeHtml(sop4.title)}
+               </button>`
+            : ""
+        }
+      </div>
       <button type="button" class="tree-item ${state.view === "charter" ? "active" : ""}" onclick="switchTopTab('charter')">
-        <span>1-Page Navigator Charter</span>
+        <span>1-Page Navigator Charter Template</span>
         <span class="tree-chevron">›</span>
       </button>
 
       <div class="sidebar-divider"></div>
-      <div class="sidebar-section-label">Software Tool Help</div>
 
-      ${tools
-        .map((tool) => {
-          const isActive = state.view === "tool" && state.selectedId === tool.id;
-          return `
-            <button type="button" class="tree-item ${isActive ? "active" : ""}" onclick="selectTool('${tool.id}')">
-              <span>${escapeHtml(tool.name)}</span>
-              <span class="tree-chevron">›</span>
-            </button>
-          `;
-        })
-        .join("")}
+      <!-- Collapsible Software Tool Reference Section -->
+      <button type="button" class="tree-item ${state.sidebarToolsOpen || state.view === "tool" || q.length > 0 ? "expanded" : ""}"
+              onclick="toggleSidebarTools()">
+        <span style="font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#54646E;">
+          Software Tool Reference (${tools.length})
+        </span>
+        <span class="tree-chevron">›</span>
+      </button>
+      ${
+        state.sidebarToolsOpen || state.view === "tool" || q.length > 0
+          ? `<div class="tree-children">
+              ${tools
+                .map((tool) => {
+                  const isActive = state.view === "tool" && state.selectedId === tool.id;
+                  return `
+                    <button type="button" class="tree-child ${isActive ? "active" : ""}" onclick="selectTool('${tool.id}')">
+                      ${escapeHtml(tool.name)}
+                    </button>
+                  `;
+                })
+                .join("")}
+            </div>`
+          : ""
+      }
     </div>
 
     <div>
@@ -321,6 +380,8 @@ function renderMain() {
     renderToolPage(tool, canvas);
   } else if (state.view === "questions") {
     renderQuestionsPage(canvas);
+  } else if (state.view === "prioritiser") {
+    renderPrioritiserPage(canvas);
   } else if (state.view === "calculator") {
     renderCalculatorPage(canvas);
   } else if (state.view === "charter") {
@@ -329,26 +390,132 @@ function renderMain() {
 }
 
 /**
- * Landing Page with:
- * - Fix 1: Human 1-sentence subtitle & muted version/ID pills
- * - Fix 2: "Which Job Are You Doing Today?" 2-Card Chooser
- * - Fix 3: 3-Term "Before You Start" Plain-English Key
+ * Deliverable 1: Connected 6-Stage End-to-End Process Map + Role Filter + 60-Sec LPM Pitch
+ * Plus Fix 1, Fix 2 (2-Card Chooser), and Fix 3 (3-Term Plain-English Key)
  */
 function renderOverviewPage(canvas) {
   const processes = Object.values(DB.processes || {});
   const p1 = DB.processes["PRC-001"] || processes[0];
   const p2 = DB.processes["PRC-002"] || processes[1];
+  const journeyStages = DB.journeyStages || [];
 
   canvas.innerHTML = `
     <div class="content-container">
       <div class="eyebrow-tag">
         <span class="petrol-dot" style="width:7px;height:7px;"></span>
-        <span>Siemens Energy • Lean@GS Practical User Guide</span>
+        <span>Siemens Energy • Lean@GS Connected User Journey</span>
       </div>
       <h1 class="page-title">Maturity Assessment &amp; Navigator Workshop Guides</h1>
       <p class="page-subtitle">
         Use these guides to check how Lean practices are working at your site and turn your findings into a practical leadership action plan.
       </p>
+
+      <!-- DELIVERABLE 1: Connected 6-Stage End-to-End Process Map -->
+      <section class="journey-map-section" aria-label="6-Stage Connected End-to-End Process Map">
+        <div class="journey-controls-bar">
+          <div>
+            <div style="font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#007A7A;margin-bottom:2px;">
+              Understand Where I Am → Understand What Matters → Know What To Do Next → Turn Into Action
+            </div>
+            <h2 style="font-size:18px;font-weight:700;color:#1B1534;">
+              End-to-End 6-Stage Process Map (Who Does What &amp; When)
+            </h2>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <div class="role-toggle-group" role="group" aria-label="Filter stages by role">
+              <button type="button" class="role-pill-btn ${state.journeyRoleFilter === "all" ? "active" : ""}"
+                      onclick="setJourneyRoleFilter('all')">
+                All Roles
+              </button>
+              <button type="button" class="role-pill-btn ${state.journeyRoleFilter === "lpm" ? "active" : ""}"
+                      onclick="setJourneyRoleFilter('lpm')">
+                Highlight LPM Tasks
+              </button>
+              <button type="button" class="role-pill-btn ${state.journeyRoleFilter === "core" ? "active" : ""}"
+                      onclick="setJourneyRoleFilter('core')">
+                Highlight Lean Core Team Tasks
+              </button>
+            </div>
+
+            <button type="button" class="pitch-toggle-btn" onclick="toggleLpmPitch()">
+              <span>⏱ Explain to an LPM (60-Sec Pitch)</span>
+              <span>${state.lpmPitchOpen ? "▴" : "▾"}</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 1-Click "Explain to an LPM (60-Sec Pitch)" Banner -->
+        <div class="lpm-pitch-banner ${state.lpmPitchOpen ? "" : "hidden"}">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;">
+            <div>
+              <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:#21C0FF;margin-bottom:6px;">
+                60-Second Screen-Share Briefing for Local Programme Managers (LPMs)
+              </div>
+              <p style="font-size:14.5px;line-height:1.6;color:#FFFFFF;margin-bottom:8px;">
+                <strong>1. Where we are:</strong> This is not an audit—we spend 90 minutes as a pair checking 28 everyday working habits across 70% of the site so we have an honest baseline.
+                <br/>
+                <strong>2. What matters:</strong> Instead of trying to fix all 28 items at once, our 3-step funnel unlocks your red Starred Gateways (★) and connects them directly to your Site Leader's top business headaches.
+                <br/>
+                <strong>3. Our next step:</strong> We walk out with a single 1-page action charter containing <strong>a maximum of 5 focused actions</strong> and a 90-day coaching cadence.
+              </p>
+            </div>
+          </div>
+          <div class="pitch-equation">
+            <span class="pitch-eq-box">90-Min Site Check (28 Qs)</span>
+            <span>+</span>
+            <span class="pitch-eq-box">Leader Priorities (VOC)</span>
+            <span>=</span>
+            <span class="pitch-eq-box" style="background:#009999;color:#FFFFFF;border-color:#FFFFFF;">
+              1-Page Action Plan of Max 5 Items
+            </span>
+          </div>
+        </div>
+
+        <!-- 6 Connected Stage Cards -->
+        <div class="six-stage-grid">
+          ${journeyStages
+            .map((st) => {
+              const isDimmed =
+                (state.journeyRoleFilter === "lpm" && st.roleTag === "core") ||
+                (state.journeyRoleFilter === "core" && st.roleTag === "lpm");
+              const badgeClass = st.statusTone === "purple" ? "status-badge-purple" : "status-badge-teal";
+
+              return `
+              <div class="stage-flow-card ${isDimmed ? "dimmed" : ""}">
+                <div>
+                  <div class="stage-card-top">
+                    <span class="stage-num-circle">STAGE ${st.stage}</span>
+                    <span class="${badgeClass}">${escapeHtml(st.statusBadge)}</span>
+                  </div>
+                  <h3 class="stage-card-title">${escapeHtml(st.title)}</h3>
+                  <div class="stage-meta-rows">
+                    <div><strong>Lead:</strong> ${escapeHtml(st.leadRole)}</div>
+                    <div><strong>Support:</strong> ${escapeHtml(st.supportRole)}</div>
+                    <div>
+                      <strong>Tool:</strong>
+                      <button type="button" class="breadcrumb-link" style="font-size:12px;"
+                              onclick="selectTool('${st.toolId}')">
+                        ${escapeHtml(st.toolLabel)}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="stage-io-box">
+                    <strong>Input → Output:</strong><br/>
+                    ${escapeHtml(st.input)} → <strong>${escapeHtml(st.output)}</strong>
+                  </div>
+                  <button type="button" class="stage-card-btn"
+                          onclick="openJourneyStage('${st.routeType}', '${st.routeId}')">
+                    ${escapeHtml(st.ctaText)}
+                  </button>
+                </div>
+              </div>`;
+            })
+            .join("")}
+        </div>
+      </section>
 
       <!-- Fix 2: "Which Job Are You Doing Today?" 2-Card Chooser -->
       <div class="chooser-section-label">Which job are you doing today?</div>
@@ -472,15 +639,20 @@ function renderOverviewPage(canvas) {
   `;
 }
 
+/**
+ * Deliverable 3: Point-of-Use "Kit Bag for This Task" on Every SOP Page + Inline Tool Drawer
+ */
 function renderSOPPage(sop, canvas) {
   const proc = DB.processes[sop.processId];
   const role = DB.roles[sop.roleId];
   const tools = (sop.toolIds || []).map((id) => DB.tools[id]).filter(Boolean);
+  const kb = sop.kitBag || {};
+  const activeInlineTool = tools.find((t) => t.id === state.openInlineToolId) || null;
 
   canvas.innerHTML = `
     <div class="content-container">
       <div class="breadcrumb-row">
-        <button type="button" class="breadcrumb-link" onclick="showOverview()">Overview</button>
+        <button type="button" class="breadcrumb-link" onclick="showOverview()">1. End-to-End Journey</button>
         <span>/</span>
         ${
           proc
@@ -491,24 +663,101 @@ function renderSOPPage(sop, canvas) {
       </div>
 
       <h1 class="page-title">${escapeHtml(sop.title)}</h1>
-      <p class="page-subtitle" style="margin-bottom:24px;">${escapeHtml(sop.userGoal)}</p>
+      <p class="page-subtitle" style="margin-bottom:20px;">${escapeHtml(sop.userGoal)}</p>
 
-      <div class="meta-strip">
-        <div><strong>Who does this:</strong> ${escapeHtml(role?.title || sop.roleId)}</div>
-        <div><strong>Time needed:</strong> ${escapeHtml(sop.estimatedTime)}</div>
-        <div><strong>Where in app:</strong> ${escapeHtml(sop.stationLocation)}</div>
-        <div>
-          <strong>Related Tools:</strong>
-          ${tools
-            .map(
-              (t) =>
-                `<button type="button" class="breadcrumb-link" style="margin-right:8px;" onclick="selectTool('${t.id}')">${escapeHtml(
-                  t.name
-                )}</button>`
-            )
-            .join("")}
+      <!-- DELIVERABLE 3: Point-of-Use "Kit Bag for This Task" Card -->
+      <section class="kit-bag-card" aria-label="Kit Bag for This Task">
+        <div class="kit-bag-header">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span class="petrol-dot"></span>
+            <strong style="font-size:14px;color:#1B1534;text-transform:uppercase;letter-spacing:0.04em;">
+              🧰 Kit Bag for This Task (Point-of-Use Reference)
+            </strong>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <span class="status-badge-purple">${escapeHtml(kb.mandatoryStatus || "MANDATORY")}</span>
+            <span class="time-pill">⏱ ${escapeHtml(sop.estimatedTime)}</span>
+          </div>
         </div>
-      </div>
+
+        <div class="kit-bag-grid">
+          <div class="kit-bag-cell">
+            <div class="kit-bag-label">Who Leads &amp; Supports</div>
+            <div style="color:#1B1534;font-weight:700;">${escapeHtml(kb.leadRole || role?.title || sop.roleId)}</div>
+            <div style="color:#54646E;font-size:12px;margin-top:2px;">${escapeHtml(kb.supportRole || "Partner: Lean Core Team")}</div>
+          </div>
+
+          <div class="kit-bag-cell">
+            <div class="kit-bag-label">Software Tool (Click for Help)</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">
+              ${tools
+                .map(
+                  (t) => `
+                  <button type="button" class="funnel-chip ${state.openInlineToolId === t.id ? "active" : ""}"
+                          onclick="toggleInlineToolDrawer('${t.id}')">
+                    🔧 ${escapeHtml(t.name)} ${state.openInlineToolId === t.id ? "▴" : "▾"}
+                  </button>`
+                )
+                .join("")}
+            </div>
+            <div style="color:#54646E;font-size:11.5px;margin-top:4px;">Where: ${escapeHtml(sop.stationLocation)}</div>
+          </div>
+
+          <div class="kit-bag-cell">
+            <div class="kit-bag-label">Input Needed</div>
+            <div style="color:#1B1534;font-weight:600;">${escapeHtml(kb.inputNeeded || "Previous stage file")}</div>
+          </div>
+
+          <div class="kit-bag-cell">
+            <div class="kit-bag-label">Output Produced</div>
+            <div style="color:#007A7A;font-weight:700;">${escapeHtml(kb.outputProduced || "Verified stage file")}</div>
+          </div>
+        </div>
+
+        <!-- Inline Point-of-Use Tool Drawer (Opens without leaving the SOP) -->
+        ${
+          activeInlineTool
+            ? `
+          <div class="inline-tool-drawer">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <div>
+                <span class="muted-code-pill">${escapeHtml(activeInlineTool.suite || "")} ${escapeHtml(activeInlineTool.versionBadge || "")}</span>
+                <strong style="font-size:15px;color:#1B1534;margin-left:6px;">${escapeHtml(activeInlineTool.name)} — Quick Guide</strong>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <button type="button" class="breadcrumb-link" onclick="selectTool('${activeInlineTool.id}')">Open Full Tool Page →</button>
+                <button type="button" class="header-btn secondary" style="padding:3px 10px;font-size:12px;" onclick="toggleInlineToolDrawer('${activeInlineTool.id}')">Close ✕</button>
+              </div>
+            </div>
+            <p style="font-size:13px;color:#54646E;margin-bottom:10px;">${escapeHtml(activeInlineTool.purpose)}</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+              <div style="background:#F8FAFC;padding:10px 12px;border-radius:8px;border:1px solid #D7E4EE;">
+                <div class="kit-bag-label">Quick Actions in This Tool</div>
+                ${(activeInlineTool.quickCommands || [])
+                  .map(
+                    (c) => `<div style="font-size:12.5px;margin-bottom:6px;">
+                      <strong style="color:#1B1534;">${escapeHtml(c.goal)}:</strong>
+                      <code style="color:#641E8C;background:#F3E8FF;padding:2px 6px;border-radius:4px;">${escapeHtml(c.command)}</code>
+                    </div>`
+                  )
+                  .join("")}
+              </div>
+              <div style="background:#F8FAFC;padding:10px 12px;border-radius:8px;border:1px solid #D7E4EE;">
+                <div class="kit-bag-label">Tool Troubleshooting</div>
+                ${(activeInlineTool.troubleshooting || [])
+                  .map(
+                    (tr) => `<div style="font-size:12.5px;margin-bottom:6px;">
+                      <strong style="color:#DA1E28;">${escapeHtml(tr.symptom)}</strong> →
+                      <span style="color:#007A7A;font-weight:600;">${escapeHtml(tr.fix)}</span>
+                    </div>`
+                  )
+                  .join("")}
+              </div>
+            </div>
+          </div>`
+            : ""
+        }
+      </section>
 
       <!-- Anchor 1: Getting Started -->
       <section class="editorial-section">
@@ -584,12 +833,210 @@ function renderSOPPage(sop, canvas) {
   `;
 }
 
+/**
+ * Deliverable 2: Interactive "Top 5 Action Prioritiser" Module (Tab 3: What Matters?)
+ */
+function renderPrioritiserPage(canvas) {
+  const candidates = DB.prioritiserCandidates || [];
+  const vocOptions = ["ALL", "Safety", "On-Time Delivery", "Quality / First-Time-Right", "Cost / Productivity"];
+  const matrixOptions = ["ALL", "Quick Win", "Major Step", "Fill-In", "Hard Slog"];
+
+  const filtered = candidates.filter((c) => {
+    const matchGate = !state.prioritiserGatewayOnly || (c.gateway && c.defaultBelowThreshold);
+    const matchVoc = state.prioritiserVocFilter === "ALL" || (c.vocTags || []).includes(state.prioritiserVocFilter);
+    const matchMatrix = state.prioritiserMatrixFilter === "ALL" || c.matrixQuadrant === state.prioritiserMatrixFilter;
+    return matchGate && matchVoc && matchMatrix;
+  });
+
+  const selectedCount = state.selectedActionIds.length;
+  const isOverLimit = selectedCount > 5;
+
+  canvas.innerHTML = `
+    <div class="content-container">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:10px;">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <span class="eyebrow-tag" style="margin-bottom:0;">Stage 4 Decision Funnel • Simplify the Decision</span>
+            <span class="muted-code-pill">Max 5 Actions Rule</span>
+          </div>
+          <h1 class="page-title" style="margin-bottom:8px;">How to Pick Your Top 5 Focus Actions (From 28 Questions to 5 Vital Few)</h1>
+          <p class="page-subtitle" style="margin-bottom:20px;">
+            Never leave a site check with a 28-item wish list. Use this 3-step decision funnel to filter your gaps down to <strong>at most 5 high-impact actions</strong>, then send them straight into your 1-Page Navigator Charter.
+          </p>
+        </div>
+        <button type="button" class="header-btn secondary" style="color:#1B1534;border-color:#D7E4EE;background:#EAF4F8;"
+                onclick="switchTopTab('calculator')">
+          🧮 Open Gateway Score Cap Calculator →
+        </button>
+      </div>
+
+      <!-- 3-Step Decision Funnel Controls -->
+      <div class="funnel-controls-grid">
+        <!-- Filter 1: Unlock Capped Gateways First -->
+        <div class="funnel-filter-card">
+          <span class="funnel-step-badge">Funnel Step 1 • Unblock the Score Cap</span>
+          <h3 style="font-size:15px;font-weight:700;color:#1B1534;margin-bottom:4px;">
+            1. Unlock Red Starred Gateways (★) First
+          </h3>
+          <p style="font-size:12.5px;color:#54646E;">
+            Any Starred Gateway scoring below 3 in your current level caps your entire site maturity score.
+          </p>
+          <div class="funnel-chip-row">
+            <button type="button" class="funnel-chip ${!state.prioritiserGatewayOnly ? "active" : ""}"
+                    onclick="setPrioritiserGatewayOnly(false)">
+              Show All Candidate Actions (${candidates.length})
+            </button>
+            <button type="button" class="funnel-chip ${state.prioritiserGatewayOnly ? "active" : ""}"
+                    onclick="setPrioritiserGatewayOnly(true)">
+              ★ Only Red Capped Gateways
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter 2: Match Site Leadership Priorities (VOC Alignment) -->
+        <div class="funnel-filter-card">
+          <span class="funnel-step-badge">Funnel Step 2 • Match Leader VOC</span>
+          <h3 style="font-size:15px;font-weight:700;color:#1B1534;margin-bottom:4px;">
+            2. Match Site Leadership Priorities
+          </h3>
+          <p style="font-size:12.5px;color:#54646E;">
+            Keep only actions that directly solve a problem your Site Leader raised in Stage 3 interviews.
+          </p>
+          <div class="funnel-chip-row">
+            ${vocOptions
+              .map(
+                (voc) => `
+              <button type="button" class="funnel-chip ${state.prioritiserVocFilter === voc ? "active" : ""}"
+                      onclick="setPrioritiserVocFilter('${voc}')">
+                ${voc === "ALL" ? "All VOC Priorities" : escapeHtml(voc)}
+              </button>`
+              )
+              .join("")}
+          </div>
+        </div>
+
+        <!-- Filter 3: Effort vs. Impact 2x2 Matrix Selector -->
+        <div class="funnel-filter-card">
+          <span class="funnel-step-badge">Funnel Step 3 • Rank Impact vs. Effort</span>
+          <h3 style="font-size:15px;font-weight:700;color:#1B1534;margin-bottom:4px;">
+            3. Filter by 2×2 Effort vs. Maturity Lift
+          </h3>
+          <p style="font-size:12.5px;color:#54646E;">
+            Pick <strong>Quick Wins</strong> first, add max 1–2 <strong>Major Steps</strong>, and drop <strong>Hard Slogs</strong>.
+          </p>
+          <div class="funnel-chip-row">
+            ${matrixOptions
+              .map(
+                (mat) => `
+              <button type="button" class="funnel-chip ${state.prioritiserMatrixFilter === mat ? "active" : ""}"
+                      onclick="setPrioritiserMatrixFilter('${mat}')">
+                ${mat === "ALL" ? "All Quadrants" : escapeHtml(mat)}
+              </button>`
+              )
+              .join("")}
+          </div>
+        </div>
+      </div>
+
+      <!-- Capacity Lock Output Tray (Max 5 Items) -->
+      <div class="capacity-tray ${isOverLimit ? "over-limit" : ""}">
+        <div>
+          <div class="capacity-meter">
+            <span class="capacity-count-pill">${selectedCount} / 5 Capacity Used</span>
+            <strong style="font-size:15.5px;">
+              ${
+                isOverLimit
+                  ? "⚠️ Stop: Tackling more than 5 actions at once reduces completion rates. Drop lower-impact items before exporting."
+                  : "✓ Focused Action Tray Ready (Keep at 5 or fewer actions for your 1-Page Charter)"
+              }
+            </strong>
+          </div>
+          <div style="font-size:12.5px;color:#EAF4F8;margin-top:6px;">
+            Selected actions automatically pre-fill the Key Results table in your <strong>1-Page Navigator Charter Template</strong>.
+          </div>
+        </div>
+
+        <button type="button" class="header-btn"
+                style="background:${isOverLimit ? "#641E8C" : "#8A00E5"};padding:10px 18px;font-size:13.5px;font-weight:700;"
+                onclick="sendTop5ToCharter()">
+          Send Top ${selectedCount} to 1-Page Charter →
+        </button>
+      </div>
+
+      <!-- Candidate Actions List -->
+      <div class="candidate-list">
+        ${filtered
+          .map((c) => {
+            const isSelected = state.selectedActionIds.includes(c.id);
+            const quadrantBadgeColor =
+              c.matrixQuadrant === "Quick Win"
+                ? "background:#EAF4F8;color:#007A7A;border:1px solid #009999;"
+                : c.matrixQuadrant === "Major Step"
+                ? "background:#F3E8FF;color:#641E8C;border:1px solid #8A00E5;"
+                : c.matrixQuadrant === "Fill-In"
+                ? "background:#F8FAFC;color:#54646E;border:1px solid #B8CEDB;"
+                : "background:#FFF1F2;color:#DA1E28;border:1px solid #FECDD3;";
+
+            return `
+            <div class="candidate-row ${isSelected ? "selected" : ""}" onclick="toggleCandidateAction('${c.id}')" style="cursor:pointer;">
+              <div>
+                <input type="checkbox" ${isSelected ? "checked" : ""}
+                       onclick="event.stopPropagation(); toggleCandidateAction('${c.id}')"
+                       style="width:20px;height:20px;accent-color:#8A00E5;cursor:pointer;"
+                       aria-label="Select ${escapeHtml(c.title)}" />
+              </div>
+
+              <div>
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+                  <span style="font-family:ui-monospace,monospace;font-weight:800;color:#1B1534;font-size:12.5px;">
+                    Q${c.qId} (Level ${c.level} ${c.gateway ? "★ Gateway" : "Standard"})
+                  </span>
+                  ${
+                    c.gateway && c.defaultBelowThreshold
+                      ? `<span class="priority1-badge">PRIORITY 1: UNLOCKS MATURITY CAP</span>`
+                      : ""
+                  }
+                  <span class="lift-badge">📈 ${escapeHtml(c.scoreLift)}</span>
+                  <span style="${quadrantBadgeColor}font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;">
+                    ${escapeHtml(c.matrixQuadrant)} (${escapeHtml(c.effort)} / ${escapeHtml(c.impact)})
+                  </span>
+                </div>
+
+                <h4 style="font-size:16px;font-weight:700;color:#1B1534;margin-bottom:4px;">
+                  ${escapeHtml(c.title)}
+                </h4>
+                <div style="font-size:13px;color:#54646E;">
+                  <strong>Charter Key Result Draft:</strong> ${escapeHtml(c.krTemplate)}
+                </div>
+              </div>
+
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+                <div style="font-size:11px;font-weight:700;color:#54646E;text-transform:uppercase;">Leader VOC Alignment</div>
+                <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;">
+                  ${(c.vocTags || [])
+                    .map(
+                      (tag) =>
+                        `<span style="background:#F8FAFC;border:1px solid #D7E4EE;color:#1B1534;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;">${escapeHtml(
+                          tag
+                        )}</span>`
+                    )
+                    .join("")}
+                </div>
+              </div>
+            </div>`;
+          })
+          .join("")}
+      </div>
+    </div>
+  `;
+}
+
 function renderProcessPage(proc, canvas) {
   const resp = DB.roles[proc.raci?.responsible];
   canvas.innerHTML = `
     <div class="content-container">
       <div class="breadcrumb-row">
-        <button type="button" class="breadcrumb-link" onclick="showOverview()">Overview</button>
+        <button type="button" class="breadcrumb-link" onclick="showOverview()">1. End-to-End Journey</button>
         <span>/</span>
         <span class="muted-code-pill">${escapeHtml(proc.appName || "")} ${escapeHtml(proc.versionBadge || "")}</span>
         <span class="muted-code-pill">${proc.id}</span>
@@ -643,7 +1090,7 @@ function renderToolPage(tool, canvas) {
   canvas.innerHTML = `
     <div class="content-container">
       <div class="breadcrumb-row">
-        <button type="button" class="breadcrumb-link" onclick="showOverview()">Overview</button>
+        <button type="button" class="breadcrumb-link" onclick="showOverview()">1. End-to-End Journey</button>
         <span>/</span>
         <span class="muted-code-pill">${escapeHtml(tool.suite || "Lean@GS Tool")} ${escapeHtml(tool.versionBadge || "")}</span>
         <span class="muted-code-pill">${tool.id}</span>
@@ -738,7 +1185,7 @@ function renderQuestionsPage(canvas) {
         Starred Gateway questions (<strong style="color:#007A7A;">★ Yes</strong>) must score at least <strong>3 across roughly 70% of the site</strong> before higher-level questions count toward your final score.
       </p>
 
-      <div style="display:flex;gap:10px;margin-bottom:20px;">
+      <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
         <button type="button" class="header-btn" style="background:${
           state.questionFilter === "all" ? "#1B1534" : "#EAF4F8"
         };color:${state.questionFilter === "all" ? "#FFF" : "#1B1534"};"
@@ -750,6 +1197,10 @@ function renderQuestionsPage(canvas) {
         };color:${state.questionFilter === "gateway" ? "#FFF" : "#1B1534"};"
                 onclick="setQuestionFilter('gateway')">
           ★ Starred Gateways Only (17)
+        </button>
+        <button type="button" class="header-btn secondary" style="color:#1B1534;border-color:#D7E4EE;background:#FFFFFF;"
+                onclick="switchTopTab('prioritiser')">
+          Filter Down to Top 5 Actions →
         </button>
       </div>
 
@@ -804,7 +1255,12 @@ function renderCalculatorPage(canvas) {
 
   canvas.innerHTML = `
     <div class="content-container">
-      <div class="eyebrow-tag">Score Explainer • Interactive Calculator</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:10px;">
+        <div class="eyebrow-tag" style="margin-bottom:0;">Score Explainer • Interactive Calculator</div>
+        <button type="button" class="breadcrumb-link" onclick="switchTopTab('prioritiser')">
+          ← Back to Top 5 Action Prioritiser
+        </button>
+      </div>
       <h1 class="page-title">How Gateway Score Caps Work</h1>
       <p class="page-subtitle" style="margin-bottom:28px;">
         Why high scores on Level 2–4 questions do not raise your total score if a Level 1 Starred Gateway (such as <strong>Q10: Pilot Experiments</strong>) scores below 3.
@@ -887,22 +1343,31 @@ function renderCalculatorPage(canvas) {
 }
 
 /**
- * 1-Page Navigator Charter Template
+ * 1-Page Navigator Charter Template (Pre-Filled with Selected Top 5 Actions from Prioritiser)
  */
 function renderCharterPage(canvas) {
+  const candidates = DB.prioritiserCandidates || [];
+  const chosen = candidates.filter((c) => state.selectedActionIds.includes(c.id));
+
   canvas.innerHTML = `
     <div class="content-container">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
         <div>
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-            <span class="eyebrow-tag" style="margin-bottom:0;">Workshop Output Template</span>
+            <span class="eyebrow-tag" style="margin-bottom:0;">Stage 6 Output Template • Pre-Filled from Top 5 Prioritiser</span>
             <span class="muted-code-pill">Navigator Toolkit • v2.4.4</span>
           </div>
           <h1 class="page-title" style="margin-bottom:4px;">One-Page Navigator Charter Template</h1>
         </div>
-        <button type="button" class="header-btn" id="copyCharterBtn" onclick="copyCharterText()">
-          Copy Charter to Clipboard
-        </button>
+        <div style="display:flex;gap:10px;">
+          <button type="button" class="header-btn secondary" style="color:#1B1534;border-color:#D7E4EE;background:#EAF4F8;"
+                  onclick="switchTopTab('prioritiser')">
+            ← Adjust Top 5 Actions (${chosen.length}/5)
+          </button>
+          <button type="button" class="header-btn" id="copyCharterBtn" onclick="copyCharterText()">
+            Copy Charter to Clipboard
+          </button>
+        </div>
       </div>
 
       <div id="charterBox" style="border:2px solid var(--se-gray-1);border-radius:14px;padding:28px;background:#FFFFFF;">
@@ -926,7 +1391,10 @@ function renderCharterPage(canvas) {
             <strong style="color:#1B1534;display:block;margin-bottom:8px;">2. Starting Site Score &amp; Starred Gateways to Fix</strong>
             <div style="color:#54646E;font-size:14px;">
               <div><strong>Current Score:</strong> 1.6 / 4.0 (Level 1: Basic Implementation)</div>
-              <div style="margin-top:6px;"><strong>Gateways to Fix:</strong> Q10 (Pilot Experiments: 2/5), Q16 (Structured Reflection: 2/5)</div>
+              <div style="margin-top:6px;">
+                <strong>Prioritised Gateways (${chosen.length}):</strong>
+                ${chosen.map((c) => `Q${c.qId}`).join(", ") || "None selected"}
+              </div>
             </div>
           </div>
         </div>
@@ -936,8 +1404,8 @@ function renderCharterPage(canvas) {
             <tr>
               <th style="width:70px;">#</th>
               <th>Agreed Programme Objective / Key Result ([Measure] from [Start] to [Target] by [Date])</th>
-              <th style="width:90px;">Start</th>
-              <th style="width:90px;">Target</th>
+              <th style="width:130px;">Expected Lift</th>
+              <th style="width:140px;">VOC Priority</th>
               <th style="width:80px;">Due</th>
               <th style="width:130px;">Owner</th>
             </tr>
@@ -946,25 +1414,31 @@ function renderCharterPage(canvas) {
             <tr style="background:var(--se-gray-0);">
               <td style="font-weight:700;color:#1B1534;">OBJ 1</td>
               <td colspan="5" style="font-weight:700;color:#1B1534;">
-                Make structured pilot experiments and daily problem solving a normal habit across core teams
+                Prioritised Top ${chosen.length} Actions (Locked via 3-Step Decision Funnel — Max 5 Capacity Rule)
               </td>
             </tr>
-            <tr>
-              <td style="font-family:ui-monospace,monospace;">KR 1.1</td>
-              <td style="color:#1B1534;">Raise Gateway #10 (Structured Pilot Experiments) across 70% of teams to unlock Level 2</td>
-              <td style="font-family:ui-monospace,monospace;">2 / 5</td>
-              <td style="font-family:ui-monospace,monospace;color:#007A7A;font-weight:700;">3 / 5</td>
-              <td style="font-family:ui-monospace,monospace;">Q2</td>
-              <td>@ProgrammeMgr</td>
-            </tr>
-            <tr>
-              <td style="font-family:ui-monospace,monospace;">KR 1.2</td>
-              <td style="color:#1B1534;">Share of daily shift huddles solving team-level issues within 48 hours</td>
-              <td style="font-family:ui-monospace,monospace;">25%</td>
-              <td style="font-family:ui-monospace,monospace;color:#007A7A;font-weight:700;">75%</td>
-              <td style="font-family:ui-monospace,monospace;">Q3</td>
-              <td>@OpsLeader</td>
-            </tr>
+            ${
+              chosen.length > 0
+                ? chosen
+                    .map(
+                      (c, idx) => `
+              <tr>
+                <td style="font-family:ui-monospace,monospace;font-weight:700;color:#1B1534;">KR 1.${idx + 1}</td>
+                <td style="color:#1B1534;font-weight:600;">
+                  ${escapeHtml(c.krTemplate)}
+                  <div style="font-size:12px;color:#54646E;font-weight:400;margin-top:2px;">
+                    Linked to Q${c.qId} (${c.gateway ? "★ Starred Gateway" : "Standard Question"}) • ${escapeHtml(c.matrixQuadrant)}
+                  </div>
+                </td>
+                <td style="font-family:ui-monospace,monospace;color:#007A7A;font-weight:700;">${escapeHtml(c.scoreLift)}</td>
+                <td>${escapeHtml((c.vocTags || []).join(", "))}</td>
+                <td style="font-family:ui-monospace,monospace;">Q${Math.min(4, Math.floor(idx / 2) + 2)}</td>
+                <td>@${idx % 2 === 0 ? "ProgrammeMgr" : "OpsLeader"}</td>
+              </tr>`
+                    )
+                    .join("")
+                : `<tr><td colspan="6" style="text-align:center;padding:24px;">No actions selected. Open the Top 5 Prioritiser to select up to 5 actions.</td></tr>`
+            }
           </tbody>
         </table>
       </div>
@@ -981,6 +1455,74 @@ function copyCharterText() {
   setTimeout(() => {
     btn.textContent = "Copy Charter to Clipboard";
   }, 2000);
+}
+
+function setJourneyRoleFilter(role) {
+  state.journeyRoleFilter = role;
+  renderMain();
+}
+
+function toggleLpmPitch() {
+  state.lpmPitchOpen = !state.lpmPitchOpen;
+  renderMain();
+}
+
+function openJourneyStage(routeType, routeId) {
+  if (routeType === "sop") {
+    selectSOP(routeId);
+  } else if (routeType === "prioritiser") {
+    switchTopTab("prioritiser");
+  } else if (routeType === "charter") {
+    switchTopTab("charter");
+  }
+}
+
+function setPrioritiserGatewayOnly(val) {
+  state.prioritiserGatewayOnly = val;
+  renderMain();
+}
+
+function setPrioritiserVocFilter(voc) {
+  state.prioritiserVocFilter = voc;
+  renderMain();
+}
+
+function setPrioritiserMatrixFilter(mat) {
+  state.prioritiserMatrixFilter = mat;
+  renderMain();
+}
+
+function toggleCandidateAction(actionId) {
+  const idx = state.selectedActionIds.indexOf(actionId);
+  if (idx >= 0) {
+    state.selectedActionIds.splice(idx, 1);
+  } else {
+    state.selectedActionIds.push(actionId);
+  }
+  renderSidebar();
+  renderMain();
+}
+
+function sendTop5ToCharter() {
+  if (state.selectedActionIds.length > 5) {
+    alert(
+      "Capacity Lock: You have selected " +
+        state.selectedActionIds.length +
+        " actions. Please uncheck lower-impact items so you have at most 5 focus actions before exporting to your 1-Page Charter."
+    );
+    return;
+  }
+  switchTopTab("charter");
+}
+
+function toggleInlineToolDrawer(toolId) {
+  state.openInlineToolId = state.openInlineToolId === toolId ? null : toolId;
+  renderMain();
+}
+
+function toggleSidebarTools() {
+  state.sidebarToolsOpen = !state.sidebarToolsOpen;
+  renderSidebar();
 }
 
 function setQuestionFilter(mode) {
@@ -1004,7 +1546,7 @@ function selectProcess(id) {
   state.view = "process";
   state.selectedId = id;
   state.expandedProcessId = id;
-  setActiveTopTab(id === "PRC-001" ? "part1" : "part2");
+  setActiveTopTab(id === "PRC-001" ? "where-are-we" : "action");
   renderSidebar();
   renderMain();
 }
@@ -1012,10 +1554,11 @@ function selectProcess(id) {
 function selectSOP(id) {
   state.view = "sop";
   state.selectedId = id;
+  state.openInlineToolId = null;
   const sop = DB.sops[id];
   if (sop) {
     state.expandedProcessId = sop.processId;
-    setActiveTopTab(sop.processId === "PRC-001" ? "part1" : "part2");
+    setActiveTopTab(sop.processId === "PRC-001" ? "where-are-we" : "action");
   }
   renderSidebar();
   renderMain();
@@ -1024,24 +1567,37 @@ function selectSOP(id) {
 function selectTool(id) {
   state.view = "tool";
   state.selectedId = id;
+  state.sidebarToolsOpen = true;
   renderSidebar();
   renderMain();
 }
 
 function switchTopTab(tab) {
-  setActiveTopTab(tab);
-  if (tab === "overview") showOverview();
-  else if (tab === "part1") selectProcess("PRC-001");
-  else if (tab === "part2") selectProcess("PRC-002");
-  else if (tab === "questions") {
+  if (tab === "overview") {
+    showOverview();
+  } else if (tab === "where-are-we" || tab === "part1") {
+    setActiveTopTab("where-are-we");
+    selectProcess("PRC-001");
+  } else if (tab === "prioritiser") {
+    setActiveTopTab("prioritiser");
+    state.view = "prioritiser";
+    renderSidebar();
+    renderMain();
+  } else if (tab === "action" || tab === "part2") {
+    setActiveTopTab("action");
+    selectProcess("PRC-002");
+  } else if (tab === "questions") {
+    setActiveTopTab("where-are-we");
     state.view = "questions";
     renderSidebar();
     renderMain();
   } else if (tab === "calculator") {
+    setActiveTopTab("prioritiser");
     state.view = "calculator";
     renderSidebar();
     renderMain();
   } else if (tab === "charter") {
+    setActiveTopTab("action");
     state.view = "charter";
     renderSidebar();
     renderMain();
@@ -1145,4 +1701,14 @@ window.toggleAccordion = toggleAccordion;
 window.setQuestionFilter = setQuestionFilter;
 window.copyCharterText = copyCharterText;
 window.openAdminModal = openAdminModal;
+window.setJourneyRoleFilter = setJourneyRoleFilter;
+window.toggleLpmPitch = toggleLpmPitch;
+window.openJourneyStage = openJourneyStage;
+window.setPrioritiserGatewayOnly = setPrioritiserGatewayOnly;
+window.setPrioritiserVocFilter = setPrioritiserVocFilter;
+window.setPrioritiserMatrixFilter = setPrioritiserMatrixFilter;
+window.toggleCandidateAction = toggleCandidateAction;
+window.sendTop5ToCharter = sendTop5ToCharter;
+window.toggleInlineToolDrawer = toggleInlineToolDrawer;
+window.toggleSidebarTools = toggleSidebarTools;
 window.addEventListener("DOMContentLoaded", initApp);
