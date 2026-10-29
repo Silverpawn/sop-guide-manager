@@ -19,12 +19,14 @@ const db = JSON.parse(raw);
 
 const MAX_WORDS = (db.meta && db.meta.strictWordLimit) || 20;
 const BANNED_ACRONYMS = ["CV", "SSO", "PR", "PPE", "LOTO", "KPI", "SLA"];
+const VERSION_PATTERN = /\bv\d+\.\d+(\.\d+)?\b/i;
 const BANNED_OVERVIEW_PATTERNS = [
   { pattern: /\.csv\b/i, reason: "raw file extension '.csv' (use human outcome per DESIGN_GUIDE.md)" },
   { pattern: /\.json\b/i, reason: "raw file extension '.json' (use human outcome per DESIGN_GUIDE.md)" },
   { pattern: /\bPair Calibration\b/i, reason: "banned overview jargon 'Pair Calibration' (use plain English per DESIGN_GUIDE.md)" },
   { pattern: /\b(?:MANDATORY|OPTIONAL)\b/, reason: "compliance stamp 'MANDATORY/OPTIONAL' (omit compliance stamps per DESIGN_GUIDE.md)" },
-  { pattern: /Input\s*(?:->|→)\s*Output/i, reason: "tech handoff label 'Input -> Output' (use 'What you finish with' per DESIGN_GUIDE.md)" }
+  { pattern: /Input\s*(?:->|→)\s*Output/i, reason: "tech handoff label 'Input -> Output' (use 'What you finish with' per DESIGN_GUIDE.md)" },
+  { pattern: VERSION_PATTERN, reason: "software version string (omit version numbers per DESIGN_GUIDE.md Zero Version Numbers Rule)" }
 ];
 const PASSIVE_PATTERNS = [
   /\bis\s+\w+ed\s+by\b/i,
@@ -46,8 +48,27 @@ let stats = {
   visualModes: { svg: 0, image: 0, none: 0 }
 };
 
-// 0. Validate Playbooks & Journey Map Stages against DESIGN_GUIDE.md (Flexible N-Stage Maps)
+// 0. Validate Playbooks & Journey Map Stages against DESIGN_GUIDE.md (Flexible N-Stage Maps & Zero Version Numbers)
 for (const plb of db.playbooks || []) {
+  for (const field of ["title", "subtitle", "eyebrow"]) {
+    if (VERSION_PATTERN.test(plb[field] || "")) {
+      errors.push(`[${plb.id} ${field}] Contains banned software version string: "${plb[field]}"`);
+    }
+  }
+  for (const tpl of plb.templates || []) {
+    for (const field of ["title", "navTitle", "eyebrow", "badge"]) {
+      if (VERSION_PATTERN.test(tpl[field] || "")) {
+        errors.push(`[${plb.id} Template ${tpl.id} ${field}] Contains banned software version string: "${tpl[field]}"`);
+      }
+    }
+  }
+  for (const ref of plb.referenceTables || []) {
+    for (const field of ["title", "navTitle", "eyebrow", "badge"]) {
+      if (VERSION_PATTERN.test(ref[field] || "")) {
+        errors.push(`[${plb.id} Reference ${ref.id} ${field}] Contains banned software version string: "${ref[field]}"`);
+      }
+    }
+  }
   const stages = plb.journeyMap?.stages || [];
   if (stages.length === 0) {
     errors.push(`[${plb.id}] Journey Map must contain at least 1 stage.`);
@@ -80,6 +101,7 @@ for (const plb of db.playbooks || []) {
       { name: "title", val: st.title || "" },
       { name: "summary", val: st.summary || "" },
       { name: "whoIsInvolved", val: st.whoIsInvolved || "" },
+      { name: "toolLabel", val: st.toolLabel || "" },
       { name: "outputArtifact", val: st.outputArtifact || "" },
       { name: "status", val: st.status || "" }
     ];
@@ -95,8 +117,21 @@ for (const plb of db.playbooks || []) {
   }
 }
 
-// 1. Validate Process relational links
+// 1. Validate Process & Tool relational links & Zero Version Numbers Rule
+for (const [toolId, tool] of Object.entries(db.tools || {})) {
+  for (const field of ["name", "suite", "purpose", "accessUrl"]) {
+    if (VERSION_PATTERN.test(tool[field] || "")) {
+      errors.push(`[${toolId} ${field}] Contains banned software version string: "${tool[field]}"`);
+    }
+  }
+}
+
 for (const [procId, proc] of Object.entries(db.processes || {})) {
+  for (const field of ["title", "appName", "userGoal"]) {
+    if (VERSION_PATTERN.test(proc[field] || "")) {
+      errors.push(`[${procId} ${field}] Contains banned software version string: "${proc[field]}"`);
+    }
+  }
   if (!db.roles[proc.raci?.responsible]) {
     errors.push(`[${procId}] Missing valid Responsible Role ID: ${proc.raci?.responsible}`);
   }
@@ -112,8 +147,13 @@ for (const [procId, proc] of Object.entries(db.processes || {})) {
   }
 }
 
-// 2. Validate SOP usability rules & relational links
+// 2. Validate SOP usability rules, Zero Version Numbers Rule & relational links
 for (const [sopId, sop] of Object.entries(db.sops || {})) {
+  for (const field of ["title", "userGoal", "stationLocation"]) {
+    if (VERSION_PATTERN.test(sop[field] || "")) {
+      errors.push(`[${sopId} ${field}] Contains banned software version string: "${sop[field]}"`);
+    }
+  }
   if (!db.processes[sop.processId]) {
     errors.push(`[${sopId}] Broken parent processId: ${sop.processId}`);
   }
@@ -136,6 +176,23 @@ for (const [sopId, sop] of Object.entries(db.sops || {})) {
   for (const step of sop.steps || []) {
     stats.stepsChecked++;
     const words = step.action.trim().split(/\s+/).filter(Boolean);
+
+    // Rule: Zero Version Numbers in Step Text & SVG Labels
+    for (const field of ["action", "detail", "coachingTip"]) {
+      if (VERSION_PATTERN.test(step[field] || "")) {
+        errors.push(`[${sopId} Step ${step.stepNumber} ${field}] Contains banned software version string: "${step[field]}"`);
+      }
+    }
+    if (step.visual) {
+      if (VERSION_PATTERN.test(step.visual.caption || "")) {
+        errors.push(`[${sopId} Step ${step.stepNumber} visual.caption] Contains banned software version string: "${step.visual.caption}"`);
+      }
+      for (const el of step.visual.elements || []) {
+        if (VERSION_PATTERN.test(el.label || "")) {
+          errors.push(`[${sopId} Step ${step.stepNumber} SVG element] Contains banned software version string: "${el.label}"`);
+        }
+      }
+    }
 
     // Rule: 20-Word Limit
     if (words.length > MAX_WORDS) {

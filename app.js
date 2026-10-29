@@ -33,7 +33,7 @@ let state = {
   studioSavedSvgVisual: null
 };
 
-const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V8";
+const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V9";
 let DEFAULT_DB_SNAPSHOT = null;
 
 async function initApp() {
@@ -2225,7 +2225,7 @@ function createNewPlaybookInStudio() {
     title: `New Lean@GS Operational Process (${newCode})`,
     category: "Operational Standard",
     appName: "Lean@GS Suite",
-    versionBadge: "v1.0.0",
+    versionBadge: "",
     durationBadge: "30 mins",
     whenToUse: "When running this standard operational workflow with your team.",
     cardOutput: "Completed operational checklist and action owners.",

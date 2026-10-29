@@ -23,9 +23,10 @@ Every screen must make immediate sense within **10 seconds** to a colleague who 
      4. **`4. Templates & Reference`** *(1-page charters, agendas, and reference lists)*
    - **Flexible N-Stage Rule:** *"Journey Maps support `N` stages to match the real operational sequence. For the Navigator Process (`PLB-001`), the chronological order is strictly locked to 6 stages: 1. Maturity Assessment → 2. Analysis → 3. Voice of the Customer (VOC) → 4. Navigator Workshop → 5. Charter → 6. Action Plan."*
 
-3. **No Intermediate `PRC-xxx` Cover Pages & Zero Visible Database IDs:**
+3. **No Intermediate `PRC-xxx` Cover Pages, Zero Visible Database IDs & Zero Version Numbers Rule:**
    - **Direct Routing Rule:** *"Tab 1 (`1. End-to-End Journey`) is the single transparent process overview. Clicking a stage or sidebar guide routes directly to the Step-by-Step Guide—never through an intermediate `PRC-xxx` cover page."*
    - **Hidden Database ID Rule:** *"Internal database IDs (`PRC-001`, `SOP-001`, `PLB-001`, `TOL-001`, `ROL-001`) must NEVER appear in UI breadcrumbs, headers, Kit Bags, or SVG diagrams."*
+   - **Zero Version Numbers Rule:** *"Never display software version numbers (e.g., `v6.0.0`, `v2.4.4`, `v1.0`) in Playbook titles, Stage cards, Tool names, Kit Bags, breadcrumbs, or SVG diagrams. Since our corporate web tools (`PM Maturity Hub`, `Navigator Toolkit`, `GS Lean Maturity`) are centrally hosted web apps, the live link always opens the latest version."*
 
 4. **Two-Step Scoring Progression & Role Ownership Rule (LPM Owns the Process, Core Team is Optional Support):**
    - Never use `"MANDATORY"` stamps or `"Never score alone"` policing. Always use our two-step coaching progression:
