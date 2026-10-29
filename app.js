@@ -1,20 +1,21 @@
 let DB = null;
 let state = {
-  view: "overview", // "overview" | "sop" | "process" | "tool" | "questions" | "calculator" | "charter" | "prioritiser"
+  playbookId: "PLB-001",
+  view: "journey", // "journey" | "sop" | "process" | "tool" | "decision" | "template" | "reference"
   selectedId: null,
-  expandedProcessId: "PRC-001",
-  questionFilter: "all", // "all" | "gateway"
+  expandedProcessId: null,
+  referenceFilter: "all", // "all" | "flagged"
   searchQuery: "",
   simLevel: 1,
   simRawAvg: 3.4,
 
-  // Stage 2 Upgrade State:
-  journeyRoleFilter: "all", // "all" | "lpm" | "core"
+  // Per-Playbook Dynamic State:
+  journeyRoleFilter: "all",
   lpmPitchOpen: false,
-  prioritiserGatewayOnly: false,
-  prioritiserVocFilter: "ALL",
-  prioritiserMatrixFilter: "ALL",
-  selectedActionIds: [],
+  funnelFlaggedOnly: false,
+  funnelTagFilter: "ALL",
+  funnelQuadrantFilter: "ALL",
+  selectedCandidatesByDecisionId: {}, // { "DEC-001": [...], "DEC-003": [...] }
   openInlineToolId: null,
   sidebarToolsOpen: false
 };
@@ -27,16 +28,55 @@ async function initApp() {
     DB = window.FALLBACK_GUIDES_DB;
   }
 
-  // Initialize default Top 5 selected actions from DB.prioritiserCandidates
-  if (DB && Array.isArray(DB.prioritiserCandidates)) {
-    state.selectedActionIds = DB.prioritiserCandidates
-      .filter((c) => c.selectedByDefault)
-      .map((c) => c.id);
-  }
-
+  initializePlaybookDefaults();
   bindEvents();
+  renderPlaybookSwitcher();
+  renderTopTabs();
   renderSidebar();
   renderMain();
+}
+
+function initializePlaybookDefaults() {
+  const playbooks = getPlaybooks();
+  if (playbooks.length > 0 && !playbooks.some((p) => p.id === state.playbookId)) {
+    state.playbookId = playbooks[0].id;
+  }
+
+  for (const plb of playbooks) {
+    for (const dec of plb.decisionTools || []) {
+      if (dec.kind === "prioritiser-funnel" && !state.selectedCandidatesByDecisionId[dec.id]) {
+        state.selectedCandidatesByDecisionId[dec.id] = (dec.candidates || [])
+          .filter((c) => c.selectedByDefault)
+          .map((c) => c.id);
+      }
+    }
+  }
+
+  const activePlb = getActivePlaybook();
+  if (activePlb && Array.isArray(activePlb.processIds) && activePlb.processIds.length > 0) {
+    state.expandedProcessId = activePlb.processIds[0];
+  }
+}
+
+function getPlaybooks() {
+  return Array.isArray(DB?.playbooks) ? DB.playbooks : [];
+}
+
+function getActivePlaybook() {
+  const list = getPlaybooks();
+  return list.find((p) => p.id === state.playbookId) || list[0] || null;
+}
+
+function getActiveProcesses() {
+  const plb = getActivePlaybook();
+  if (!plb) return Object.values(DB?.processes || {});
+  return (plb.processIds || []).map((id) => DB.processes[id]).filter(Boolean);
+}
+
+function getActiveTools() {
+  const plb = getActivePlaybook();
+  if (!plb) return Object.values(DB?.tools || {});
+  return (plb.toolIds || []).map((id) => DB.tools[id]).filter(Boolean);
 }
 
 function escapeHtml(str) {
@@ -52,61 +92,122 @@ function countWords(str) {
 }
 
 /**
- * Renders the Snowflake-style soft architectural illustration card
- * styled with Siemens Energy tokens (#EAF4F8 card, #1B1534, #009999 Petrol, #0057C6 Blue 4, #8A00E5 Bright Purple).
+ * Renders the Global Playbook Switcher dropdown in the Top Header
  */
-function renderSEArchitecturalCard(procId) {
-  const isPart1 = procId === "PRC-001";
-  const badgeText = isPart1 ? "PM MATURITY HUB" : "NAVIGATOR TOOLKIT";
-  const accentColor = isPart1 ? "#009999" : "#8A00E5";
+function renderPlaybookSwitcher() {
+  const selectEl = document.getElementById("playbookSelect");
+  if (!selectEl) return;
+  const playbooks = getPlaybooks();
+  selectEl.innerHTML = playbooks
+    .map(
+      (p) =>
+        `<option value="${escapeHtml(p.id)}" ${p.id === state.playbookId ? "selected" : ""}>
+          ${escapeHtml(p.code)} • ${escapeHtml(p.title)}
+        </option>`
+    )
+    .join("");
+}
+
+/**
+ * Updates the 4 Universal Top Navigation Tabs with dynamic counts from the active Playbook JSON
+ */
+function renderTopTabs() {
+  const plb = getActivePlaybook();
+  if (!plb) return;
+  const stageCount = (plb.journeyMap?.stages || []).length;
+  const sopCount = (plb.sopIds || []).length;
+  const decCount = (plb.decisionTools || []).length;
+  const tplCount = (plb.templates || []).length + (plb.referenceTables || []).length;
+
+  const tabLabels = {
+    journey: `1. End-to-End Journey (${stageCount} Stages)`,
+    guides: `2. Step-by-Step Guides (${sopCount} SOPs)`,
+    decision: `3. Decision & Priority Tools (${decCount})`,
+    templates: `4. Templates & Reference (${tplCount})`
+  };
+
+  document.querySelectorAll(".sub-tab").forEach((btn) => {
+    const key = btn.dataset.tab;
+    if (tabLabels[key]) {
+      btn.textContent = tabLabels[key];
+    }
+  });
+}
+
+function switchPlaybook(newPlaybookId) {
+  if (!newPlaybookId || newPlaybookId === state.playbookId) return;
+  state.playbookId = newPlaybookId;
+  state.view = "journey";
+  state.selectedId = null;
+  state.journeyRoleFilter = "all";
+  state.lpmPitchOpen = false;
+  state.funnelFlaggedOnly = false;
+  state.funnelTagFilter = "ALL";
+  state.funnelQuadrantFilter = "ALL";
+  state.referenceFilter = "all";
+  state.openInlineToolId = null;
+
+  const plb = getActivePlaybook();
+  state.expandedProcessId = plb?.processIds?.[0] || null;
+
+  renderPlaybookSwitcher();
+  renderTopTabs();
+  setActiveTopTab("journey");
+  renderSidebar();
+  renderMain();
+}
+
+/**
+ * Renders the Snowflake-style soft architectural illustration card
+ * dynamically populated from the Process JSON object
+ */
+function renderSEArchitecturalCard(proc) {
+  if (!proc) return "";
+  const firstStage = (proc.stages || [])[0];
+  const secondStage = (proc.stages || [])[1] || firstStage;
+  const badgeText = (proc.appName || proc.title || "").toUpperCase();
+  const accentColor = proc.id === "PRC-001" ? "#009999" : "#8A00E5";
 
   return `
   <div class="illustration-card">
-    <svg class="illus-svg" viewBox="0 0 460 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${badgeText} Visual Overview">
-      <!-- Connected Relational Nodes -->
+    <svg class="illus-svg" viewBox="0 0 460 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeHtml(badgeText)}">
       <line x1="295" y1="62" x2="355" y2="38" stroke="#96B0C0" stroke-width="1.8"/>
       <line x1="295" y1="62" x2="355" y2="88" stroke="#96B0C0" stroke-width="1.8"/>
-      <rect x="215" y="42" width="80" height="38" rx="6" fill="#FFFFFF" stroke="#B8CEDB" stroke-width="1.5"/>
-      <text x="227" y="65" fill="#1B1534" font-family="Inter, sans-serif" font-size="10" font-weight="700">${isPart1 ? "28 Questions" : "Leader Needs"}</text>
+      <rect x="205" y="42" width="90" height="38" rx="6" fill="#FFFFFF" stroke="#B8CEDB" stroke-width="1.5"/>
+      <text x="215" y="65" fill="#1B1534" font-family="Inter, sans-serif" font-size="9.5" font-weight="700">${escapeHtml(proc.durationBadge || "")}</text>
 
-      <rect x="355" y="18" width="84" height="36" rx="6" fill="#FFFFFF" stroke="#009999" stroke-width="1.5"/>
-      <text x="366" y="40" fill="#007A7A" font-family="Inter, sans-serif" font-size="10" font-weight="700">${isPart1 ? "17 Gateways ★" : "1-Page Charter"}</text>
+      <rect x="355" y="18" width="92" height="36" rx="6" fill="#FFFFFF" stroke="#009999" stroke-width="1.5"/>
+      <text x="364" y="40" fill="#007A7A" font-family="Inter, sans-serif" font-size="9.5" font-weight="700">${escapeHtml(firstStage?.sopId || "")}</text>
 
-      <rect x="355" y="70" width="84" height="36" rx="6" fill="#FFFFFF" stroke="#8A00E5" stroke-width="1.5"/>
-      <text x="366" y="92" fill="#641E8C" font-family="Inter, sans-serif" font-size="10" font-weight="700">${isPart1 ? "70% Site Proof" : "Action Log"}</text>
+      <rect x="355" y="70" width="92" height="36" rx="6" fill="#FFFFFF" stroke="#8A00E5" stroke-width="1.5"/>
+      <text x="364" y="92" fill="#641E8C" font-family="Inter, sans-serif" font-size="9.5" font-weight="700">${escapeHtml(secondStage?.sopId || "")}</text>
 
-      <!-- Left Decorative Hierarchy Bars -->
       <rect x="32" y="180" width="46" height="8" rx="4" fill="#B8CEDB"/>
       <rect x="32" y="198" width="58" height="8" rx="4" fill="#96B0C0"/>
       <rect x="32" y="216" width="48" height="8" rx="4" fill="#B8CEDB"/>
       <rect x="32" y="234" width="64" height="8" rx="4" fill="${accentColor}"/>
       <rect x="32" y="252" width="42" height="8" rx="4" fill="#B8CEDB"/>
 
-      <!-- Main Floating White Application Window -->
       <rect x="74" y="102" width="352" height="202" rx="10" fill="#FFFFFF" stroke="#D7E4EE" stroke-width="2"/>
-      <!-- Header Strip inside Card -->
       <rect x="74" y="102" width="352" height="34" rx="10" fill="#1B1534"/>
       <circle cx="94" cy="119" r="4.5" fill="#009999"/>
       <text x="108" y="123" fill="#FFFFFF" font-family="ui-monospace, monospace" font-size="10.5" font-weight="700">
-        SIEMENS ENERGY • ${badgeText}
+        ${escapeHtml(badgeText)} • ${escapeHtml(proc.versionBadge || "")}
       </text>
 
       <line x1="182" y1="136" x2="182" y2="304" stroke="#EAF4F8" stroke-width="1.5"/>
 
-      <!-- Left Mini Navigation inside Window -->
       <rect x="90" y="154" width="74" height="8" rx="4" fill="#1B1534"/>
       <rect x="90" y="172" width="62" height="8" rx="4" fill="#D7E4EE"/>
       <rect x="90" y="190" width="68" height="8" rx="4" fill="#D7E4EE"/>
       <rect x="98" y="210" width="58" height="8" rx="4" fill="#009999"/>
       <rect x="98" y="228" width="52" height="8" rx="4" fill="#D7E4EE"/>
 
-      <!-- Right Content Area inside Window -->
       <rect x="200" y="152" width="110" height="10" rx="5" fill="#1B1534"/>
       <rect x="200" y="170" width="190" height="7" rx="3.5" fill="#D7E4EE"/>
       <rect x="200" y="186" width="58" height="14" rx="6" fill="${accentColor}"/>
       <rect x="266" y="186" width="58" height="14" rx="6" fill="#EAF4F8"/>
 
-      <!-- Siemens Energy Alternating Tint Bar Chart (Blue 4 #0057C6, Blue 2 #21C0FF, Petrol #009999) -->
       <rect x="200" y="212" width="204" height="76" rx="6" fill="#F8FAFC" stroke="#EAF4F8"/>
       <rect x="220" y="252" width="16" height="26" rx="2" fill="#0057C6"/>
       <rect x="220" y="242" width="16" height="10" rx="2" fill="#009999"/>
@@ -147,7 +248,6 @@ function renderStepIllustrationCard(step) {
         </marker>
       </defs>
 
-      <!-- Clean White Floating Card -->
       <rect x="12" y="10" width="476" height="178" rx="10" fill="#FFFFFF" stroke="#D7E4EE" stroke-width="2" />
 
       ${els
@@ -195,129 +295,133 @@ function renderStepIllustrationCard(step) {
         })
         .join("")}
 
-      <!-- Target Highlight Box in SE Bright Purple (#8A00E5) -->
       <rect x="${tx - 4}" y="${ty - 4}" width="${tw + 8}" height="${th + 8}" rx="9"
             fill="none" stroke="#8A00E5" stroke-width="2.5" stroke-dasharray="5,3" />
 
-      <!-- Pointer Arrow -->
       <line x1="${fx}" y1="${fy + 10}" x2="${tx + tw / 2}" y2="${ty - 5}"
             stroke="#8A00E5" stroke-width="2.2" marker-end="url(#seArrow)" />
 
-      <!-- Callout Pill -->
       <rect x="${Math.max(18, fx - 105)}" y="${fy - 14}" width="225" height="24" rx="6" fill="#1B1534" />
       <circle cx="${Math.max(30, fx - 93)}" cy="${fy - 2}" r="4" fill="#009999" />
       <text x="${Math.max(40, fx - 83)}" y="${fy + 2}"
             fill="#FFFFFF" font-family="Inter, sans-serif" font-size="11" font-weight="700">
-        ${escapeHtml(ann.label || "Target Step")}
+        ${escapeHtml(ann.label || "")}
       </text>
     </svg>
     <div style="margin-top:8px;display:flex;justify-content:space-between;font-size:12px;color:#54646E;font-weight:600;">
       <span>${escapeHtml(visual.caption || "")}</span>
-      <span style="color:#007A7A;">Visual Step Guide</span>
+      <span style="color:#007A7A;">${escapeHtml(step.toolId || "")}</span>
     </div>
   </div>`;
 }
 
 /**
- * 4-Stage Connected User Journey Sidebar + Collapsible Bottom Software Tool Reference
+ * Universal 4-Section Left Sidebar Driven 100% by Active Playbook JSON
  */
 function renderSidebar() {
   const sidebar = document.getElementById("leftSidebar");
+  const plb = getActivePlaybook();
+  if (!plb || !sidebar) return;
+
   const q = state.searchQuery.toLowerCase().trim();
-
-  const tools = Object.values(DB.tools || {}).filter(
-    (t) => !q || JSON.stringify(t).toLowerCase().includes(q)
-  );
-
-  const sop1 = DB.sops["SOP-001"];
-  const sop2 = DB.sops["SOP-002"];
-  const sop3 = DB.sops["SOP-003"];
-  const sop4 = DB.sops["SOP-004"];
+  const processes = getActiveProcesses().filter((p) => !q || JSON.stringify(p).toLowerCase().includes(q));
+  const tools = getActiveTools().filter((t) => !q || JSON.stringify(t).toLowerCase().includes(q));
+  const decisionTools = plb.decisionTools || [];
+  const templates = plb.templates || [];
+  const referenceTables = plb.referenceTables || [];
 
   const html = `
     <div>
-      <!-- Stage 1 of Journey -->
+      <!-- Universal Section 1 -->
       <div class="sidebar-section-label" style="margin-top:4px;">1. End-to-End Journey</div>
-      <button type="button" class="tree-item ${state.view === "overview" ? "active" : ""}" onclick="showOverview()">
-        <span>Connected 6-Stage Map &amp; Overview</span>
+      <button type="button" class="tree-item ${state.view === "journey" ? "active" : ""}" onclick="showOverview()">
+        <span>Connected (${(plb.journeyMap?.stages || []).length}-Stage) Process Map</span>
       </button>
 
       <div class="sidebar-divider"></div>
 
-      <!-- Stage 2 of Journey -->
-      <div class="sidebar-section-label">2. Where Are We? (Site Assessment)</div>
-      <button type="button" class="tree-item ${state.view === "process" && state.selectedId === "PRC-001" ? "active" : ""}"
-              onclick="selectProcess('PRC-001')">
-        <span>Check Your Site's Current Score</span>
-        <span class="tree-chevron">›</span>
-      </button>
-      <div class="tree-children">
-        ${
-          sop1
-            ? `<button type="button" class="tree-child ${state.view === "sop" && state.selectedId === "SOP-001" ? "active" : ""}"
-                       onclick="selectSOP('SOP-001')">
-                 Stage 1: ${escapeHtml(sop1.title)}
-               </button>`
-            : ""
-        }
-        ${
-          sop2
-            ? `<button type="button" class="tree-child ${state.view === "sop" && state.selectedId === "SOP-002" ? "active" : ""}"
-                       onclick="selectSOP('SOP-002')">
-                 Stage 2: ${escapeHtml(sop2.title)}
-               </button>`
-            : ""
-        }
-      </div>
-      <button type="button" class="tree-item ${state.view === "questions" ? "active" : ""}" onclick="switchTopTab('questions')">
-        <span>All 28 Questions &amp; 17 Gateways (★)</span>
-        <span class="tree-chevron">›</span>
-      </button>
+      <!-- Universal Section 2 -->
+      <div class="sidebar-section-label">2. Step-by-Step Guides</div>
+      ${processes
+        .map((proc) => {
+          const isExpanded = state.expandedProcessId === proc.id || q.length > 0 || processes.length === 1;
+          const isActive = state.view === "process" && state.selectedId === proc.id;
+          const childSops = (proc.stages || []).map((st) => DB.sops[st.sopId]).filter(Boolean);
+
+          return `
+            <div>
+              <button type="button" class="tree-item ${isActive ? "active" : ""} ${isExpanded ? "expanded" : ""}"
+                      onclick="selectProcess('${proc.id}')">
+                <span>${escapeHtml(proc.title)}</span>
+                <span class="tree-chevron">›</span>
+              </button>
+              ${
+                isExpanded
+                  ? `<div class="tree-children">
+                      ${childSops
+                        .map(
+                          (s) => `
+                        <button type="button" class="tree-child ${state.view === "sop" && state.selectedId === s.id ? "active" : ""}"
+                                onclick="selectSOP('${s.id}')">
+                          ${escapeHtml(s.title)}
+                        </button>`
+                        )
+                        .join("")}
+                    </div>`
+                  : ""
+              }
+            </div>
+          `;
+        })
+        .join("")}
 
       <div class="sidebar-divider"></div>
 
-      <!-- Stage 3 of Journey -->
-      <div class="sidebar-section-label">3. What Matters? (Top 5 Prioritiser)</div>
-      <button type="button" class="tree-item ${state.view === "prioritiser" ? "active" : ""}" onclick="switchTopTab('prioritiser')">
-        <span>Pick Your Top 5 Actions (${state.selectedActionIds.length}/5)</span>
-        <span class="tree-chevron">›</span>
-      </button>
-      <button type="button" class="tree-item ${state.view === "calculator" ? "active" : ""}" onclick="switchTopTab('calculator')">
-        <span>Gateway Score Cap Calculator</span>
-        <span class="tree-chevron">›</span>
-      </button>
+      <!-- Universal Section 3 -->
+      <div class="sidebar-section-label">3. Decision &amp; Priority Tools</div>
+      ${decisionTools
+        .map((dec) => {
+          const isActive = state.view === "decision" && state.selectedId === dec.id;
+          const chosenCount = (state.selectedCandidatesByDecisionId[dec.id] || []).length;
+          const capSuffix = dec.kind === "prioritiser-funnel" ? ` (${chosenCount}/${dec.maxCapacity})` : "";
+          return `
+            <button type="button" class="tree-item ${isActive ? "active" : ""}"
+                    onclick="selectDecisionTool('${dec.id}')">
+              <span>${escapeHtml(dec.navTitle)}${escapeHtml(capSuffix)}</span>
+              <span class="tree-chevron">›</span>
+            </button>
+          `;
+        })
+        .join("")}
 
       <div class="sidebar-divider"></div>
 
-      <!-- Stage 4 of Journey -->
-      <div class="sidebar-section-label">4. Turn Into Action (Workshop &amp; Charter)</div>
-      <button type="button" class="tree-item ${state.view === "process" && state.selectedId === "PRC-002" ? "active" : ""}"
-              onclick="selectProcess('PRC-002')">
-        <span>Run a Leadership Action Workshop</span>
-        <span class="tree-chevron">›</span>
-      </button>
-      <div class="tree-children">
-        ${
-          sop3
-            ? `<button type="button" class="tree-child ${state.view === "sop" && state.selectedId === "SOP-003" ? "active" : ""}"
-                       onclick="selectSOP('SOP-003')">
-                 Stage 3: ${escapeHtml(sop3.title)}
-               </button>`
-            : ""
-        }
-        ${
-          sop4
-            ? `<button type="button" class="tree-child ${state.view === "sop" && state.selectedId === "SOP-004" ? "active" : ""}"
-                       onclick="selectSOP('SOP-004')">
-                 Stage 5: ${escapeHtml(sop4.title)}
-               </button>`
-            : ""
-        }
-      </div>
-      <button type="button" class="tree-item ${state.view === "charter" ? "active" : ""}" onclick="switchTopTab('charter')">
-        <span>1-Page Navigator Charter Template</span>
-        <span class="tree-chevron">›</span>
-      </button>
+      <!-- Universal Section 4 -->
+      <div class="sidebar-section-label">4. Templates &amp; Reference</div>
+      ${templates
+        .map((tpl) => {
+          const isActive = state.view === "template" && state.selectedId === tpl.id;
+          return `
+            <button type="button" class="tree-item ${isActive ? "active" : ""}"
+                    onclick="selectTemplate('${tpl.id}')">
+              <span>${escapeHtml(tpl.navTitle)}</span>
+              <span class="tree-chevron">›</span>
+            </button>
+          `;
+        })
+        .join("")}
+      ${referenceTables
+        .map((ref) => {
+          const isActive = state.view === "reference" && state.selectedId === ref.id;
+          return `
+            <button type="button" class="tree-item ${isActive ? "active" : ""}"
+                    onclick="selectReferenceTable('${ref.id}')">
+              <span>${escapeHtml(ref.navTitle)}</span>
+              <span class="tree-chevron">›</span>
+            </button>
+          `;
+        })
+        .join("")}
 
       <div class="sidebar-divider"></div>
 
@@ -325,7 +429,7 @@ function renderSidebar() {
       <button type="button" class="tree-item ${state.sidebarToolsOpen || state.view === "tool" || q.length > 0 ? "expanded" : ""}"
               onclick="toggleSidebarTools()">
         <span style="font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#54646E;">
-          Software Tool Reference (${tools.length})
+          Kit Bag Tool Reference (${tools.length})
         </span>
         <span class="tree-chevron">›</span>
       </button>
@@ -350,10 +454,10 @@ function renderSidebar() {
     <div>
       <div class="filing-callout">
         <div style="font-family:ui-monospace,monospace;font-size:10.5px;font-weight:700;color:#009999;text-transform:uppercase;margin-bottom:4px;">
-          Where to Save Final Files
+          ${escapeHtml(plb.code)} • Filing Rule
         </div>
         <div>
-          ${escapeHtml(DB.meta?.filingRule || "Save finished .csv and .json files in 600 Maturity Submissions.")}
+          ${escapeHtml(plb.filingRule || DB.meta?.filingRule || "")}
         </div>
       </div>
       <button type="button" class="quiet-admin-link" onclick="openAdminModal()">
@@ -367,136 +471,133 @@ function renderSidebar() {
 
 function renderMain() {
   const canvas = document.getElementById("mainCanvas");
-  if (state.view === "overview") {
-    renderOverviewPage(canvas);
+  const plb = getActivePlaybook();
+  if (!canvas || !plb) return;
+
+  if (state.view === "journey") {
+    renderJourneyPage(plb, canvas);
   } else if (state.view === "sop") {
-    const sop = DB.sops[state.selectedId] || Object.values(DB.sops)[0];
-    renderSOPPage(sop, canvas);
+    const sop = DB.sops[state.selectedId] || DB.sops[plb.sopIds?.[0]];
+    renderSOPPage(sop, plb, canvas);
   } else if (state.view === "process") {
-    const proc = DB.processes[state.selectedId] || Object.values(DB.processes)[0];
-    renderProcessPage(proc, canvas);
+    const proc = DB.processes[state.selectedId] || DB.processes[plb.processIds?.[0]];
+    renderProcessPage(proc, plb, canvas);
   } else if (state.view === "tool") {
-    const tool = DB.tools[state.selectedId] || Object.values(DB.tools)[0];
-    renderToolPage(tool, canvas);
-  } else if (state.view === "questions") {
-    renderQuestionsPage(canvas);
-  } else if (state.view === "prioritiser") {
-    renderPrioritiserPage(canvas);
-  } else if (state.view === "calculator") {
-    renderCalculatorPage(canvas);
-  } else if (state.view === "charter") {
-    renderCharterPage(canvas);
+    const tool = DB.tools[state.selectedId] || DB.tools[plb.toolIds?.[0]];
+    renderToolPage(tool, plb, canvas);
+  } else if (state.view === "decision") {
+    const dec = (plb.decisionTools || []).find((d) => d.id === state.selectedId) || (plb.decisionTools || [])[0];
+    renderDecisionToolPage(dec, plb, canvas);
+  } else if (state.view === "template") {
+    const tpl = (plb.templates || []).find((t) => t.id === state.selectedId) || (plb.templates || [])[0];
+    renderTemplatePage(tpl, plb, canvas);
+  } else if (state.view === "reference") {
+    const ref = (plb.referenceTables || []).find((r) => r.id === state.selectedId) || (plb.referenceTables || [])[0];
+    renderReferenceTablePage(ref, plb, canvas);
   }
 }
 
 /**
- * Deliverable 1: Connected 6-Stage End-to-End Process Map + Role Filter + 60-Sec LPM Pitch
- * Plus Fix 1, Fix 2 (2-Card Chooser), and Fix 3 (3-Term Plain-English Key)
+ * Tab 1: Universal End-to-End Journey Page (100% Driven by activePlaybook.journeyMap, processes, and rulesKey)
  */
-function renderOverviewPage(canvas) {
-  const processes = Object.values(DB.processes || {});
-  const p1 = DB.processes["PRC-001"] || processes[0];
-  const p2 = DB.processes["PRC-002"] || processes[1];
-  const journeyStages = DB.journeyStages || [];
+function renderJourneyPage(plb, canvas) {
+  const jMap = plb.journeyMap || {};
+  const stages = jMap.stages || [];
+  const roleFilters = jMap.roleFilters || [{ id: "all", label: "All Roles" }];
+  const processes = getActiveProcesses();
+  const rulesKey = plb.rulesKey;
 
   canvas.innerHTML = `
     <div class="content-container">
       <div class="eyebrow-tag">
         <span class="petrol-dot" style="width:7px;height:7px;"></span>
-        <span>Siemens Energy • Lean@GS Connected User Journey</span>
+        <span>${escapeHtml(plb.eyebrow || plb.code)}</span>
       </div>
-      <h1 class="page-title">Maturity Assessment &amp; Navigator Workshop Guides</h1>
+      <h1 class="page-title">${escapeHtml(plb.title)}</h1>
       <p class="page-subtitle">
-        Use these guides to check how Lean practices are working at your site and turn your findings into a practical leadership action plan.
+        ${escapeHtml(plb.subtitle)}
       </p>
 
-      <!-- DELIVERABLE 1: Connected 6-Stage End-to-End Process Map -->
-      <section class="journey-map-section" aria-label="6-Stage Connected End-to-End Process Map">
+      <!-- Connected End-to-End Process Map Driven by activePlaybook.journeyMap -->
+      <section class="journey-map-section" aria-label="Connected End-to-End Process Map">
         <div class="journey-controls-bar">
           <div>
             <div style="font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#007A7A;margin-bottom:2px;">
-              Understand Where I Am → Understand What Matters → Know What To Do Next → Turn Into Action
+              ${escapeHtml(jMap.formulaBanner || "")}
             </div>
             <h2 style="font-size:18px;font-weight:700;color:#1B1534;">
-              End-to-End 6-Stage Process Map (Who Does What &amp; When)
+              ${escapeHtml(jMap.mapHeading || "")}
             </h2>
           </div>
 
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
             <div class="role-toggle-group" role="group" aria-label="Filter stages by role">
-              <button type="button" class="role-pill-btn ${state.journeyRoleFilter === "all" ? "active" : ""}"
-                      onclick="setJourneyRoleFilter('all')">
-                All Roles
-              </button>
-              <button type="button" class="role-pill-btn ${state.journeyRoleFilter === "lpm" ? "active" : ""}"
-                      onclick="setJourneyRoleFilter('lpm')">
-                Highlight LPM Tasks
-              </button>
-              <button type="button" class="role-pill-btn ${state.journeyRoleFilter === "core" ? "active" : ""}"
-                      onclick="setJourneyRoleFilter('core')">
-                Highlight Lean Core Team Tasks
-              </button>
+              ${roleFilters
+                .map(
+                  (rf) => `
+                <button type="button" class="role-pill-btn ${state.journeyRoleFilter === rf.id ? "active" : ""}"
+                        onclick="setJourneyRoleFilter('${escapeHtml(rf.id)}')">
+                  ${escapeHtml(rf.label)}
+                </button>`
+                )
+                .join("")}
             </div>
 
             <button type="button" class="pitch-toggle-btn" onclick="toggleLpmPitch()">
-              <span>⏱ Explain to an LPM (60-Sec Pitch)</span>
+              <span>${escapeHtml(jMap.briefingButtonLabel || "")}</span>
               <span>${state.lpmPitchOpen ? "▴" : "▾"}</span>
             </button>
           </div>
         </div>
 
-        <!-- 1-Click "Explain to an LPM (60-Sec Pitch)" Banner -->
+        <!-- 60-Second Briefing Banner Driven by activePlaybook.journeyMap -->
         <div class="lpm-pitch-banner ${state.lpmPitchOpen ? "" : "hidden"}">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;">
-            <div>
-              <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:#21C0FF;margin-bottom:6px;">
-                60-Second Screen-Share Briefing for Local Programme Managers (LPMs)
-              </div>
-              <p style="font-size:14.5px;line-height:1.6;color:#FFFFFF;margin-bottom:8px;">
-                <strong>1. Where we are:</strong> This is not an audit—we spend 90 minutes as a pair checking 28 everyday working habits across 70% of the site so we have an honest baseline.
-                <br/>
-                <strong>2. What matters:</strong> Instead of trying to fix all 28 items at once, our 3-step funnel unlocks your red Starred Gateways (★) and connects them directly to your Site Leader's top business headaches.
-                <br/>
-                <strong>3. Our next step:</strong> We walk out with a single 1-page action charter containing <strong>a maximum of 5 focused actions</strong> and a 90-day coaching cadence.
-              </p>
+          <div>
+            <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:#21C0FF;margin-bottom:6px;">
+              ${escapeHtml(jMap.briefingTitle || "")}
+            </div>
+            <div style="font-size:14.5px;line-height:1.6;color:#FFFFFF;margin-bottom:8px;">
+              ${(jMap.briefingBullets || [])
+                .map((b) => `<div style="margin-bottom:4px;">${escapeHtml(b)}</div>`)
+                .join("")}
             </div>
           </div>
           <div class="pitch-equation">
-            <span class="pitch-eq-box">90-Min Site Check (28 Qs)</span>
-            <span>+</span>
-            <span class="pitch-eq-box">Leader Priorities (VOC)</span>
-            <span>=</span>
             <span class="pitch-eq-box" style="background:#009999;color:#FFFFFF;border-color:#FFFFFF;">
-              1-Page Action Plan of Max 5 Items
+              ${escapeHtml(jMap.briefingEquation || "")}
             </span>
           </div>
         </div>
 
-        <!-- 6 Connected Stage Cards -->
+        <!-- Connected Stage Cards -->
         <div class="six-stage-grid">
-          ${journeyStages
+          ${stages
             .map((st) => {
               const isDimmed =
-                (state.journeyRoleFilter === "lpm" && st.roleTag === "core") ||
-                (state.journeyRoleFilter === "core" && st.roleTag === "lpm");
+                state.journeyRoleFilter !== "all" &&
+                st.leadRoleId !== state.journeyRoleFilter &&
+                st.supportRoleId !== state.journeyRoleFilter;
               const badgeClass = st.statusTone === "purple" ? "status-badge-purple" : "status-badge-teal";
+              const leadRoleObj = DB.roles[st.leadRoleId];
+              const supportRoleObj = DB.roles[st.supportRoleId];
+              const toolObj = DB.tools[st.toolId];
 
               return `
               <div class="stage-flow-card ${isDimmed ? "dimmed" : ""}">
                 <div>
                   <div class="stage-card-top">
-                    <span class="stage-num-circle">STAGE ${st.stage}</span>
-                    <span class="${badgeClass}">${escapeHtml(st.statusBadge)}</span>
+                    <span class="stage-num-circle">STAGE ${st.stageNumber}</span>
+                    <span class="${badgeClass}">${escapeHtml(st.status)}</span>
                   </div>
                   <h3 class="stage-card-title">${escapeHtml(st.title)}</h3>
                   <div class="stage-meta-rows">
-                    <div><strong>Lead:</strong> ${escapeHtml(st.leadRole)}</div>
-                    <div><strong>Support:</strong> ${escapeHtml(st.supportRole)}</div>
+                    <div><strong>Lead:</strong> ${escapeHtml(st.leadRoleLabel || leadRoleObj?.title || st.leadRoleId)}</div>
+                    <div><strong>Support:</strong> ${escapeHtml(st.supportRoleLabel || supportRoleObj?.title || st.supportRoleId)}</div>
                     <div>
                       <strong>Tool:</strong>
                       <button type="button" class="breadcrumb-link" style="font-size:12px;"
-                              onclick="selectTool('${st.toolId}')">
-                        ${escapeHtml(st.toolLabel)}
+                              onclick="selectTool('${escapeHtml(st.toolId)}')">
+                        ${escapeHtml(st.toolLabel || toolObj?.name || st.toolId)}
                       </button>
                     </div>
                   </div>
@@ -504,11 +605,13 @@ function renderOverviewPage(canvas) {
                 <div>
                   <div class="stage-io-box">
                     <strong>Input → Output:</strong><br/>
-                    ${escapeHtml(st.input)} → <strong>${escapeHtml(st.output)}</strong>
+                    ${escapeHtml(st.inputArtifact)} → <strong>${escapeHtml(st.outputArtifact)}</strong>
                   </div>
                   <button type="button" class="stage-card-btn"
-                          onclick="openJourneyStage('${st.routeType}', '${st.routeId}')">
-                    ${escapeHtml(st.ctaText)}
+                          onclick="openJourneyStage('${escapeHtml(st.targetView?.type || "sop")}', '${escapeHtml(
+                st.targetView?.id || ""
+              )}')">
+                    ${escapeHtml(st.targetView?.cta || "")}
                   </button>
                 </div>
               </div>`;
@@ -517,97 +620,79 @@ function renderOverviewPage(canvas) {
         </div>
       </section>
 
-      <!-- Fix 2: "Which Job Are You Doing Today?" 2-Card Chooser -->
-      <div class="chooser-section-label">Which job are you doing today?</div>
+      <!-- Dynamic Job Chooser Cards Driven by activePlaybook.processIds -->
+      <div class="chooser-section-label">${escapeHtml(plb.chooserLabel || "")}</div>
       <div class="job-chooser-grid">
-        <!-- Card 1 -->
-        <div class="job-card">
-          <div>
-            <div class="job-card-top">
-              <span class="time-pill">⏱ ${escapeHtml(p1.durationBadge || "90 mins")}</span>
-              <span class="muted-code-pill">${escapeHtml(p1.appName || "PM Maturity Hub")} • ${escapeHtml(p1.versionBadge || "v6.0.0")}</span>
-            </div>
-            <h2 class="job-card-title">${escapeHtml(p1.title)}</h2>
-            <div class="job-meta-list">
-              <div><strong>When to use:</strong> ${escapeHtml(p1.whenToUse || "Every quarter with a partner.")}</div>
-              <div><strong>Output:</strong> ${escapeHtml(p1.cardOutput || "Completed 28-question health check.")}</div>
-            </div>
-          </div>
-          <button type="button" class="job-cta-btn" onclick="selectSOP('SOP-001')">
-            <span>${escapeHtml(p1.ctaLabel || "Start Site Assessment Guide")}</span>
-            <span>→</span>
-          </button>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="job-card">
-          <div>
-            <div class="job-card-top">
-              <span class="time-pill">⏱ ${escapeHtml(p2.durationBadge || "Half Day")}</span>
-              <span class="muted-code-pill">${escapeHtml(p2.appName || "Navigator Toolkit")} • ${escapeHtml(p2.versionBadge || "v2.4.4")}</span>
-            </div>
-            <h2 class="job-card-title">${escapeHtml(p2.title)}</h2>
-            <div class="job-meta-list">
-              <div><strong>When to use:</strong> ${escapeHtml(p2.whenToUse || "After your site check.")}</div>
-              <div><strong>Output:</strong> ${escapeHtml(p2.cardOutput || "Signed 1-page action charter.")}</div>
-            </div>
-          </div>
-          <button type="button" class="job-cta-btn" onclick="selectSOP('SOP-003')">
-            <span>${escapeHtml(p2.ctaLabel || "Start Workshop Guide")}</span>
-            <span>→</span>
-          </button>
-        </div>
+        ${processes
+          .map((proc) => {
+            const firstSopId = proc.stages?.[0]?.sopId || "";
+            return `
+            <div class="job-card">
+              <div>
+                <div class="job-card-top">
+                  <span class="time-pill">⏱ ${escapeHtml(proc.durationBadge || "")}</span>
+                  <span class="muted-code-pill">${escapeHtml(proc.appName || "")} • ${escapeHtml(proc.versionBadge || "")}</span>
+                </div>
+                <h2 class="job-card-title">${escapeHtml(proc.title)}</h2>
+                <div class="job-meta-list">
+                  <div><strong>When to use:</strong> ${escapeHtml(proc.whenToUse || proc.trigger || "")}</div>
+                  <div><strong>Output:</strong> ${escapeHtml(proc.cardOutput || proc.finalOutcome || "")}</div>
+                </div>
+              </div>
+              <button type="button" class="job-cta-btn" onclick="selectSOP('${escapeHtml(firstSopId)}')">
+                <span>${escapeHtml(proc.ctaLabel || proc.title)}</span>
+                <span>→</span>
+              </button>
+            </div>`;
+          })
+          .join("")}
       </div>
 
-      <!-- Fix 3: 3-Term "Before You Start" Plain-English Key -->
-      <div class="plain-key-box">
-        <div class="plain-key-header">
-          <span class="plain-key-title">Before You Start: The 3 Rules of the Game</span>
-          <span style="font-size:12px;color:var(--se-gray-5);">How site scoring works in plain English</span>
-        </div>
-        <div class="plain-key-grid">
-          <div class="plain-key-item">
-            <div class="plain-key-term">📋 1. The 28 Questions</div>
-            <p class="plain-key-desc">
-              You and a Lean Core Team partner rate 28 everyday habits from <strong>1 (Not in place)</strong> to <strong>5 (Self-running)</strong>. Never score alone.
-            </p>
+      <!-- Dynamic 3-Term Plain-English Rules Key Driven by activePlaybook.rulesKey -->
+      ${
+        rulesKey
+          ? `
+        <div class="plain-key-box">
+          <div class="plain-key-header">
+            <span class="plain-key-title">${escapeHtml(rulesKey.title)}</span>
+            <span style="font-size:12px;color:var(--se-gray-5);">${escapeHtml(rulesKey.subtitle || "")}</span>
           </div>
-          <div class="plain-key-item">
-            <div class="plain-key-term">🏭 2. 70% Site Proof</div>
-            <p class="plain-key-desc">
-              To score a <strong>3 or higher</strong>, a habit must be working with real boards and logs across <strong>roughly 70% of teams</strong>—one pilot area does not count.
-            </p>
+          <div class="plain-key-grid">
+            ${(rulesKey.items || [])
+              .map(
+                (item) => `
+              <div class="plain-key-item">
+                <div class="plain-key-term">${escapeHtml(item.term)}</div>
+                <p class="plain-key-desc">${escapeHtml(item.desc)}</p>
+              </div>`
+              )
+              .join("")}
           </div>
-          <div class="plain-key-item">
-            <div class="plain-key-term">★ 3. 17 Starred Gateways</div>
-            <p class="plain-key-desc">
-              17 key questions are marked with a star (<strong>★</strong>). Every starred question in your current level must score at least <strong>3</strong> before you can move up to the next level.
-            </p>
-          </div>
-        </div>
-      </div>
+        </div>`
+          : ""
+      }
 
-      <!-- Detailed Process & Stage Accordions Below the Chooser -->
+      <!-- Process & Stage Accordions Driven by activePlaybook.processIds -->
       ${processes
         .map((proc) => {
-          const stages = proc.stages || [];
+          const procStages = proc.stages || [];
           return `
           <section class="feature-split">
             <div>
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
                 <span class="muted-code-pill">${escapeHtml(proc.appName || "")} ${escapeHtml(proc.versionBadge || "")}</span>
-                <span class="muted-code-pill">${proc.id}</span>
+                <span class="muted-code-pill">${escapeHtml(proc.id)}</span>
               </div>
               <h2 class="section-h2">${escapeHtml(proc.title)}</h2>
               <p class="section-lead">
                 ${escapeHtml(proc.userGoal)}
               </p>
-              <button type="button" class="see-all-link" onclick="selectProcess('${proc.id}')">
+              <button type="button" class="see-all-link" onclick="selectProcess('${escapeHtml(proc.id)}')">
                 View full process overview <span>→</span>
               </button>
 
               <div class="accordion-list">
-                ${stages
+                ${procStages
                   .map((st, idx) => {
                     const sop = DB.sops[st.sopId];
                     const isOpen = idx === 0;
@@ -618,8 +703,10 @@ function renderOverviewPage(canvas) {
                         <span class="accordion-chevron">⌃</span>
                       </button>
                       <div class="accordion-body">
-                        <p>${escapeHtml(st.summary)} (${escapeHtml(sop?.estimatedTime || "45 mins")})</p>
-                        <button type="button" class="learn-more-link" onclick="event.stopPropagation(); selectSOP('${st.sopId}')">
+                        <p>${escapeHtml(st.summary)} (${escapeHtml(sop?.estimatedTime || "")})</p>
+                        <button type="button" class="learn-more-link" onclick="event.stopPropagation(); selectSOP('${escapeHtml(
+                          st.sopId
+                        )}')">
                           Open step-by-step guide <span>→</span>
                         </button>
                       </div>
@@ -630,7 +717,7 @@ function renderOverviewPage(canvas) {
             </div>
 
             <div>
-              ${renderSEArchitecturalCard(proc.id)}
+              ${renderSEArchitecturalCard(proc)}
             </div>
           </section>`;
         })
@@ -640,14 +727,16 @@ function renderOverviewPage(canvas) {
 }
 
 /**
- * Deliverable 3: Point-of-Use "Kit Bag for This Task" on Every SOP Page + Inline Tool Drawer
+ * Tab 2: Universal SOP Page with Point-of-Use "Kit Bag" Resolved from SOP & Relations
  */
-function renderSOPPage(sop, canvas) {
+function renderSOPPage(sop, plb, canvas) {
+  if (!sop) return;
   const proc = DB.processes[sop.processId];
   const role = DB.roles[sop.roleId];
   const tools = (sop.toolIds || []).map((id) => DB.tools[id]).filter(Boolean);
   const kb = sop.kitBag || {};
   const activeInlineTool = tools.find((t) => t.id === state.openInlineToolId) || null;
+  const linkedTemplate = (plb.templates || [])[0] || null;
 
   canvas.innerHTML = `
     <div class="content-container">
@@ -656,27 +745,36 @@ function renderSOPPage(sop, canvas) {
         <span>/</span>
         ${
           proc
-            ? `<button type="button" class="breadcrumb-link" onclick="selectProcess('${proc.id}')">${escapeHtml(proc.title)}</button><span>/</span>`
+            ? `<button type="button" class="breadcrumb-link" onclick="selectProcess('${escapeHtml(proc.id)}')">${escapeHtml(
+                proc.title
+              )}</button><span>/</span>`
             : ""
         }
-        <span class="muted-code-pill">${sop.id}</span>
+        <span class="muted-code-pill">${escapeHtml(sop.id)}</span>
       </div>
 
       <h1 class="page-title">${escapeHtml(sop.title)}</h1>
       <p class="page-subtitle" style="margin-bottom:20px;">${escapeHtml(sop.userGoal)}</p>
 
-      <!-- DELIVERABLE 3: Point-of-Use "Kit Bag for This Task" Card -->
+      <!-- Point-of-Use "Kit Bag for This Task" Card (Resolved from SOP + Relations) -->
       <section class="kit-bag-card" aria-label="Kit Bag for This Task">
         <div class="kit-bag-header">
           <div style="display:flex;align-items:center;gap:10px;">
             <span class="petrol-dot"></span>
             <strong style="font-size:14px;color:#1B1534;text-transform:uppercase;letter-spacing:0.04em;">
-              🧰 Kit Bag for This Task (Point-of-Use Reference)
+              🧰 Kit Bag for This Task (${escapeHtml(sop.id)})
             </strong>
           </div>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
             <span class="status-badge-purple">${escapeHtml(kb.mandatoryStatus || "MANDATORY")}</span>
             <span class="time-pill">⏱ ${escapeHtml(sop.estimatedTime)}</span>
+            ${
+              linkedTemplate
+                ? `<button type="button" class="breadcrumb-link" onclick="selectTemplate('${escapeHtml(linkedTemplate.id)}')">
+                     📄 ${escapeHtml(linkedTemplate.navTitle)} →
+                   </button>`
+                : ""
+            }
           </div>
         </div>
 
@@ -684,17 +782,17 @@ function renderSOPPage(sop, canvas) {
           <div class="kit-bag-cell">
             <div class="kit-bag-label">Who Leads &amp; Supports</div>
             <div style="color:#1B1534;font-weight:700;">${escapeHtml(kb.leadRole || role?.title || sop.roleId)}</div>
-            <div style="color:#54646E;font-size:12px;margin-top:2px;">${escapeHtml(kb.supportRole || "Partner: Lean Core Team")}</div>
+            <div style="color:#54646E;font-size:12px;margin-top:2px;">${escapeHtml(kb.supportRole || "")}</div>
           </div>
 
           <div class="kit-bag-cell">
-            <div class="kit-bag-label">Software Tool (Click for Help)</div>
+            <div class="kit-bag-label">Point-of-Use Tool (Click for Quick Fixes)</div>
             <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">
               ${tools
                 .map(
                   (t) => `
                   <button type="button" class="funnel-chip ${state.openInlineToolId === t.id ? "active" : ""}"
-                          onclick="toggleInlineToolDrawer('${t.id}')">
+                          onclick="toggleInlineToolDrawer('${escapeHtml(t.id)}')">
                     🔧 ${escapeHtml(t.name)} ${state.openInlineToolId === t.id ? "▴" : "▾"}
                   </button>`
                 )
@@ -704,35 +802,39 @@ function renderSOPPage(sop, canvas) {
           </div>
 
           <div class="kit-bag-cell">
-            <div class="kit-bag-label">Input Needed</div>
-            <div style="color:#1B1534;font-weight:600;">${escapeHtml(kb.inputNeeded || "Previous stage file")}</div>
+            <div class="kit-bag-label">Input Artifact</div>
+            <div style="color:#1B1534;font-weight:600;">${escapeHtml(kb.inputNeeded || proc?.trigger || "")}</div>
           </div>
 
           <div class="kit-bag-cell">
-            <div class="kit-bag-label">Output Produced</div>
-            <div style="color:#007A7A;font-weight:700;">${escapeHtml(kb.outputProduced || "Verified stage file")}</div>
+            <div class="kit-bag-label">Output Artifact</div>
+            <div style="color:#007A7A;font-weight:700;">${escapeHtml(kb.outputProduced || proc?.finalOutcome || "")}</div>
           </div>
         </div>
 
-        <!-- Inline Point-of-Use Tool Drawer (Opens without leaving the SOP) -->
+        <!-- Inline Point-of-Use Tool Drawer -->
         ${
           activeInlineTool
             ? `
           <div class="inline-tool-drawer">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
               <div>
-                <span class="muted-code-pill">${escapeHtml(activeInlineTool.suite || "")} ${escapeHtml(activeInlineTool.versionBadge || "")}</span>
-                <strong style="font-size:15px;color:#1B1534;margin-left:6px;">${escapeHtml(activeInlineTool.name)} — Quick Guide</strong>
+                <span class="muted-code-pill">${escapeHtml(activeInlineTool.suite || "")} ${escapeHtml(
+                activeInlineTool.versionBadge || ""
+              )}</span>
+                <strong style="font-size:15px;color:#1B1534;margin-left:6px;">${escapeHtml(activeInlineTool.name)}</strong>
               </div>
               <div style="display:flex;gap:8px;">
-                <button type="button" class="breadcrumb-link" onclick="selectTool('${activeInlineTool.id}')">Open Full Tool Page →</button>
-                <button type="button" class="header-btn secondary" style="padding:3px 10px;font-size:12px;" onclick="toggleInlineToolDrawer('${activeInlineTool.id}')">Close ✕</button>
+                <button type="button" class="breadcrumb-link" onclick="selectTool('${escapeHtml(activeInlineTool.id)}')">Open Full Tool Page →</button>
+                <button type="button" class="header-btn secondary" style="padding:3px 10px;font-size:12px;color:#1B1534;" onclick="toggleInlineToolDrawer('${escapeHtml(
+                  activeInlineTool.id
+                )}')">Close ✕</button>
               </div>
             </div>
             <p style="font-size:13px;color:#54646E;margin-bottom:10px;">${escapeHtml(activeInlineTool.purpose)}</p>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
               <div style="background:#F8FAFC;padding:10px 12px;border-radius:8px;border:1px solid #D7E4EE;">
-                <div class="kit-bag-label">Quick Actions in This Tool</div>
+                <div class="kit-bag-label">Quick Commands &amp; Rules</div>
                 ${(activeInlineTool.quickCommands || [])
                   .map(
                     (c) => `<div style="font-size:12.5px;margin-bottom:6px;">
@@ -743,7 +845,7 @@ function renderSOPPage(sop, canvas) {
                   .join("")}
               </div>
               <div style="background:#F8FAFC;padding:10px 12px;border-radius:8px;border:1px solid #D7E4EE;">
-                <div class="kit-bag-label">Tool Troubleshooting</div>
+                <div class="kit-bag-label">Quick Fixes</div>
                 ${(activeInlineTool.troubleshooting || [])
                   .map(
                     (tr) => `<div style="font-size:12.5px;margin-bottom:6px;">
@@ -834,103 +936,216 @@ function renderSOPPage(sop, canvas) {
 }
 
 /**
- * Deliverable 2: Interactive "Top 5 Action Prioritiser" Module (Tab 3: What Matters?)
+ * Tab 3: Universal Decision & Priority Tools Engine
+ * Supports declarative "prioritiser-funnel" (PLB-001 Top 5 Actions / PLB-002 Max 3 Escalations)
+ * and "score-calculator" (Gateway Score Cap Calculator)
  */
-function renderPrioritiserPage(canvas) {
-  const candidates = DB.prioritiserCandidates || [];
-  const vocOptions = ["ALL", "Safety", "On-Time Delivery", "Quality / First-Time-Right", "Cost / Productivity"];
-  const matrixOptions = ["ALL", "Quick Win", "Major Step", "Fill-In", "Hard Slog"];
+function renderDecisionToolPage(dec, plb, canvas) {
+  if (!dec) return;
+  const allDecTools = plb.decisionTools || [];
+
+  const switcherPills =
+    allDecTools.length > 1
+      ? `<div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+          ${allDecTools
+            .map(
+              (d) => `
+            <button type="button" class="funnel-chip ${d.id === dec.id ? "active" : ""}"
+                    onclick="selectDecisionTool('${escapeHtml(d.id)}')">
+              ${escapeHtml(d.navTitle)}
+            </button>`
+            )
+            .join("")}
+        </div>`
+      : "";
+
+  if (dec.kind === "score-calculator") {
+    const levelNames = dec.levelNames || [];
+    const compressed = state.simLevel + (state.simRawAvg - 1) / 4;
+    const finalScore = Math.min(state.simRawAvg, compressed);
+
+    canvas.innerHTML = `
+      <div class="content-container">
+        ${switcherPills}
+        <div class="eyebrow-tag">${escapeHtml(dec.eyebrow || "")}</div>
+        <h1 class="page-title">${escapeHtml(dec.title)}</h1>
+        <p class="page-subtitle" style="margin-bottom:28px;">
+          ${escapeHtml(dec.subtitle)}
+        </p>
+
+        <div class="step-split-row" style="padding-top:0;">
+          <div>
+            <h3 class="editorial-h3">${escapeHtml(dec.stepsTitle || "")}</h3>
+            <ol class="clean-list" style="margin-bottom:20px;">
+              ${(dec.steps || []).map((s) => `<li><span>${escapeHtml(s)}</span></li>`).join("")}
+            </ol>
+          </div>
+
+          <div class="sandbox-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+              <strong style="font-size:16px;">${escapeHtml(dec.navTitle)}</strong>
+              <span class="lean-pill">Interactive</span>
+            </div>
+
+            <div style="margin-bottom:18px;">
+              <label for="simLevelSlider" style="display:block;font-size:13px;margin-bottom:6px;color:#EAF4F8;">
+                Highest Unlocked Level: <strong style="color:#21C0FF;">${escapeHtml(levelNames[state.simLevel] || "")}</strong>
+              </label>
+              <input
+                type="range"
+                id="simLevelSlider"
+                min="0"
+                max="${Math.max(1, levelNames.length - 1)}"
+                step="1"
+                value="${state.simLevel}"
+                style="width:100%;accent-color:#009999;cursor:pointer;"
+              />
+            </div>
+
+            <div style="margin-bottom:22px;">
+              <label for="simRawSlider" style="display:block;font-size:13px;margin-bottom:6px;color:#EAF4F8;">
+                Average of Unlocked Questions: <strong style="color:#21C0FF;">${state.simRawAvg.toFixed(2)}</strong>
+              </label>
+              <input
+                type="range"
+                id="simRawSlider"
+                min="1.0"
+                max="5.0"
+                step="0.1"
+                value="${state.simRawAvg}"
+                style="width:100%;accent-color:#009999;cursor:pointer;"
+              />
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;text-align:center;background:rgba(255,255,255,0.08);padding:14px;border-radius:10px;">
+              <div>
+                <div style="font-size:11px;color:#cbd5e1;">Unlocked Avg</div>
+                <div style="font-size:18px;font-weight:700;font-family:ui-monospace,monospace;">${state.simRawAvg.toFixed(2)}</div>
+              </div>
+              <div>
+                <div style="font-size:11px;color:#cbd5e1;">Level Cap</div>
+                <div style="font-size:18px;font-weight:700;color:#21C0FF;font-family:ui-monospace,monospace;">${compressed.toFixed(2)}</div>
+              </div>
+              <div style="background:#009999;border-radius:8px;padding:4px;">
+                <div style="font-size:10px;text-transform:uppercase;">Final Score</div>
+                <div style="font-size:20px;font-weight:800;font-family:ui-monospace,monospace;">${finalScore.toFixed(1)}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById("simLevelSlider").addEventListener("input", (e) => {
+      state.simLevel = parseInt(e.target.value, 10);
+      renderDecisionToolPage(dec, plb, canvas);
+    });
+    document.getElementById("simRawSlider").addEventListener("input", (e) => {
+      state.simRawAvg = parseFloat(e.target.value);
+      renderDecisionToolPage(dec, plb, canvas);
+    });
+    return;
+  }
+
+  // Generic 3-Step Prioritiser / Triage Funnel Engine
+  const candidates = dec.candidates || [];
+  const f1 = dec.filter1 || {};
+  const f2 = dec.filter2 || {};
+  const f3 = dec.filter3 || {};
+  const selectedIds = state.selectedCandidatesByDecisionId[dec.id] || [];
+  const maxCap = dec.maxCapacity || 5;
 
   const filtered = candidates.filter((c) => {
-    const matchGate = !state.prioritiserGatewayOnly || (c.gateway && c.defaultBelowThreshold);
-    const matchVoc = state.prioritiserVocFilter === "ALL" || (c.vocTags || []).includes(state.prioritiserVocFilter);
-    const matchMatrix = state.prioritiserMatrixFilter === "ALL" || c.matrixQuadrant === state.prioritiserMatrixFilter;
-    return matchGate && matchVoc && matchMatrix;
+    const matchFlag = !state.funnelFlaggedOnly || c.isPriorityFlagged;
+    const matchTag = state.funnelTagFilter === "ALL" || (c.tags || []).includes(state.funnelTagFilter);
+    const matchQuad = state.funnelQuadrantFilter === "ALL" || c.quadrant === state.funnelQuadrantFilter;
+    return matchFlag && matchTag && matchQuad;
   });
 
-  const selectedCount = state.selectedActionIds.length;
-  const isOverLimit = selectedCount > 5;
+  const selectedCount = selectedIds.length;
+  const isOverLimit = selectedCount > maxCap;
 
   canvas.innerHTML = `
     <div class="content-container">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:10px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-            <span class="eyebrow-tag" style="margin-bottom:0;">Stage 4 Decision Funnel • Simplify the Decision</span>
-            <span class="muted-code-pill">Max 5 Actions Rule</span>
-          </div>
-          <h1 class="page-title" style="margin-bottom:8px;">How to Pick Your Top 5 Focus Actions (From 28 Questions to 5 Vital Few)</h1>
-          <p class="page-subtitle" style="margin-bottom:20px;">
-            Never leave a site check with a 28-item wish list. Use this 3-step decision funnel to filter your gaps down to <strong>at most 5 high-impact actions</strong>, then send them straight into your 1-Page Navigator Charter.
-          </p>
-        </div>
-        <button type="button" class="header-btn secondary" style="color:#1B1534;border-color:#D7E4EE;background:#EAF4F8;"
-                onclick="switchTopTab('calculator')">
-          🧮 Open Gateway Score Cap Calculator →
-        </button>
+      ${switcherPills}
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <span class="eyebrow-tag" style="margin-bottom:0;">${escapeHtml(dec.eyebrow || "")}</span>
+        <span class="muted-code-pill">${escapeHtml(dec.badge || "")}</span>
       </div>
+      <h1 class="page-title" style="margin-bottom:8px;">${escapeHtml(dec.title)}</h1>
+      <p class="page-subtitle" style="margin-bottom:20px;">
+        ${escapeHtml(dec.subtitle)}
+      </p>
 
-      <!-- 3-Step Decision Funnel Controls -->
+      <!-- Declarative 3-Step Decision Funnel Controls -->
       <div class="funnel-controls-grid">
-        <!-- Filter 1: Unlock Capped Gateways First -->
+        <!-- Filter 1 -->
         <div class="funnel-filter-card">
-          <span class="funnel-step-badge">Funnel Step 1 • Unblock the Score Cap</span>
+          <span class="funnel-step-badge">${escapeHtml(f1.badge || "")}</span>
           <h3 style="font-size:15px;font-weight:700;color:#1B1534;margin-bottom:4px;">
-            1. Unlock Red Starred Gateways (★) First
+            ${escapeHtml(f1.title || "")}
           </h3>
           <p style="font-size:12.5px;color:#54646E;">
-            Any Starred Gateway scoring below 3 in your current level caps your entire site maturity score.
+            ${escapeHtml(f1.desc || "")}
           </p>
           <div class="funnel-chip-row">
-            <button type="button" class="funnel-chip ${!state.prioritiserGatewayOnly ? "active" : ""}"
-                    onclick="setPrioritiserGatewayOnly(false)">
-              Show All Candidate Actions (${candidates.length})
+            <button type="button" class="funnel-chip ${!state.funnelFlaggedOnly ? "active" : ""}"
+                    onclick="setFunnelFlaggedOnly(false)">
+              ${escapeHtml(f1.allLabel || "Show All")} (${candidates.length})
             </button>
-            <button type="button" class="funnel-chip ${state.prioritiserGatewayOnly ? "active" : ""}"
-                    onclick="setPrioritiserGatewayOnly(true)">
-              ★ Only Red Capped Gateways
+            <button type="button" class="funnel-chip ${state.funnelFlaggedOnly ? "active" : ""}"
+                    onclick="setFunnelFlaggedOnly(true)">
+              ${escapeHtml(f1.flaggedLabel || "Priority Only")}
             </button>
           </div>
         </div>
 
-        <!-- Filter 2: Match Site Leadership Priorities (VOC Alignment) -->
+        <!-- Filter 2 -->
         <div class="funnel-filter-card">
-          <span class="funnel-step-badge">Funnel Step 2 • Match Leader VOC</span>
+          <span class="funnel-step-badge">${escapeHtml(f2.badge || "")}</span>
           <h3 style="font-size:15px;font-weight:700;color:#1B1534;margin-bottom:4px;">
-            2. Match Site Leadership Priorities
+            ${escapeHtml(f2.title || "")}
           </h3>
           <p style="font-size:12.5px;color:#54646E;">
-            Keep only actions that directly solve a problem your Site Leader raised in Stage 3 interviews.
+            ${escapeHtml(f2.desc || "")}
           </p>
           <div class="funnel-chip-row">
-            ${vocOptions
+            <button type="button" class="funnel-chip ${state.funnelTagFilter === "ALL" ? "active" : ""}"
+                    onclick="setFunnelTagFilter('ALL')">
+              ${escapeHtml(f2.allLabel || "All")}
+            </button>
+            ${(f2.options || [])
               .map(
-                (voc) => `
-              <button type="button" class="funnel-chip ${state.prioritiserVocFilter === voc ? "active" : ""}"
-                      onclick="setPrioritiserVocFilter('${voc}')">
-                ${voc === "ALL" ? "All VOC Priorities" : escapeHtml(voc)}
+                (opt) => `
+              <button type="button" class="funnel-chip ${state.funnelTagFilter === opt ? "active" : ""}"
+                      onclick="setFunnelTagFilter('${escapeHtml(opt)}')">
+                ${escapeHtml(opt)}
               </button>`
               )
               .join("")}
           </div>
         </div>
 
-        <!-- Filter 3: Effort vs. Impact 2x2 Matrix Selector -->
+        <!-- Filter 3 -->
         <div class="funnel-filter-card">
-          <span class="funnel-step-badge">Funnel Step 3 • Rank Impact vs. Effort</span>
+          <span class="funnel-step-badge">${escapeHtml(f3.badge || "")}</span>
           <h3 style="font-size:15px;font-weight:700;color:#1B1534;margin-bottom:4px;">
-            3. Filter by 2×2 Effort vs. Maturity Lift
+            ${escapeHtml(f3.title || "")}
           </h3>
           <p style="font-size:12.5px;color:#54646E;">
-            Pick <strong>Quick Wins</strong> first, add max 1–2 <strong>Major Steps</strong>, and drop <strong>Hard Slogs</strong>.
+            ${escapeHtml(f3.desc || "")}
           </p>
           <div class="funnel-chip-row">
-            ${matrixOptions
+            <button type="button" class="funnel-chip ${state.funnelQuadrantFilter === "ALL" ? "active" : ""}"
+                    onclick="setFunnelQuadrantFilter('ALL')">
+              ${escapeHtml(f3.allLabel || "All")}
+            </button>
+            ${(f3.options || [])
               .map(
-                (mat) => `
-              <button type="button" class="funnel-chip ${state.prioritiserMatrixFilter === mat ? "active" : ""}"
-                      onclick="setPrioritiserMatrixFilter('${mat}')">
-                ${mat === "ALL" ? "All Quadrants" : escapeHtml(mat)}
+                (opt) => `
+              <button type="button" class="funnel-chip ${state.funnelQuadrantFilter === opt ? "active" : ""}"
+                      onclick="setFunnelQuadrantFilter('${escapeHtml(opt)}')">
+                ${escapeHtml(opt)}
               </button>`
               )
               .join("")}
@@ -938,50 +1153,36 @@ function renderPrioritiserPage(canvas) {
         </div>
       </div>
 
-      <!-- Capacity Lock Output Tray (Max 5 Items) -->
+      <!-- Capacity Lock Output Tray -->
       <div class="capacity-tray ${isOverLimit ? "over-limit" : ""}">
         <div>
           <div class="capacity-meter">
-            <span class="capacity-count-pill">${selectedCount} / 5 Capacity Used</span>
+            <span class="capacity-count-pill">${selectedCount} / ${maxCap} Capacity Used</span>
             <strong style="font-size:15.5px;">
-              ${
-                isOverLimit
-                  ? "⚠️ Stop: Tackling more than 5 actions at once reduces completion rates. Drop lower-impact items before exporting."
-                  : "✓ Focused Action Tray Ready (Keep at 5 or fewer actions for your 1-Page Charter)"
-              }
+              ${escapeHtml(isOverLimit ? dec.overLimitWarning : dec.withinLimitMessage)}
             </strong>
-          </div>
-          <div style="font-size:12.5px;color:#EAF4F8;margin-top:6px;">
-            Selected actions automatically pre-fill the Key Results table in your <strong>1-Page Navigator Charter Template</strong>.
           </div>
         </div>
 
         <button type="button" class="header-btn"
                 style="background:${isOverLimit ? "#641E8C" : "#8A00E5"};padding:10px 18px;font-size:13.5px;font-weight:700;"
-                onclick="sendTop5ToCharter()">
-          Send Top ${selectedCount} to 1-Page Charter →
+                onclick="sendSelectedToTemplate('${escapeHtml(dec.id)}', '${escapeHtml(dec.targetTemplateId || "")}', ${maxCap})">
+          Send (${selectedCount}/${maxCap}) to ${escapeHtml(dec.sendButtonLabel || "Template")} →
         </button>
       </div>
 
-      <!-- Candidate Actions List -->
+      <!-- Candidate Rows -->
       <div class="candidate-list">
         ${filtered
           .map((c) => {
-            const isSelected = state.selectedActionIds.includes(c.id);
-            const quadrantBadgeColor =
-              c.matrixQuadrant === "Quick Win"
-                ? "background:#EAF4F8;color:#007A7A;border:1px solid #009999;"
-                : c.matrixQuadrant === "Major Step"
-                ? "background:#F3E8FF;color:#641E8C;border:1px solid #8A00E5;"
-                : c.matrixQuadrant === "Fill-In"
-                ? "background:#F8FAFC;color:#54646E;border:1px solid #B8CEDB;"
-                : "background:#FFF1F2;color:#DA1E28;border:1px solid #FECDD3;";
-
+            const isSelected = selectedIds.includes(c.id);
             return `
-            <div class="candidate-row ${isSelected ? "selected" : ""}" onclick="toggleCandidateAction('${c.id}')" style="cursor:pointer;">
+            <div class="candidate-row ${isSelected ? "selected" : ""}"
+                 onclick="toggleDecisionCandidate('${escapeHtml(dec.id)}', '${escapeHtml(c.id)}')"
+                 style="cursor:pointer;">
               <div>
                 <input type="checkbox" ${isSelected ? "checked" : ""}
-                       onclick="event.stopPropagation(); toggleCandidateAction('${c.id}')"
+                       onclick="event.stopPropagation(); toggleDecisionCandidate('${escapeHtml(dec.id)}', '${escapeHtml(c.id)}')"
                        style="width:20px;height:20px;accent-color:#8A00E5;cursor:pointer;"
                        aria-label="Select ${escapeHtml(c.title)}" />
               </div>
@@ -989,16 +1190,16 @@ function renderPrioritiserPage(canvas) {
               <div>
                 <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
                   <span style="font-family:ui-monospace,monospace;font-weight:800;color:#1B1534;font-size:12.5px;">
-                    Q${c.qId} (Level ${c.level} ${c.gateway ? "★ Gateway" : "Standard"})
+                    ${escapeHtml(c.codeLabel)}
                   </span>
                   ${
-                    c.gateway && c.defaultBelowThreshold
-                      ? `<span class="priority1-badge">PRIORITY 1: UNLOCKS MATURITY CAP</span>`
+                    c.isPriorityFlagged
+                      ? `<span class="priority1-badge">${escapeHtml(f1.priorityBadgeText || "PRIORITY 1")}</span>`
                       : ""
                   }
-                  <span class="lift-badge">📈 ${escapeHtml(c.scoreLift)}</span>
-                  <span style="${quadrantBadgeColor}font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;">
-                    ${escapeHtml(c.matrixQuadrant)} (${escapeHtml(c.effort)} / ${escapeHtml(c.impact)})
+                  <span class="lift-badge">📈 ${escapeHtml(c.liftLabel)}</span>
+                  <span style="background:#F3E8FF;color:#641E8C;border:1px solid #8A00E5;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;">
+                    ${escapeHtml(c.quadrant)} (${escapeHtml(c.effort)} / ${escapeHtml(c.impact)})
                   </span>
                 </div>
 
@@ -1006,14 +1207,16 @@ function renderPrioritiserPage(canvas) {
                   ${escapeHtml(c.title)}
                 </h4>
                 <div style="font-size:13px;color:#54646E;">
-                  <strong>Charter Key Result Draft:</strong> ${escapeHtml(c.krTemplate)}
+                  <strong>Action / Countermeasure Draft:</strong> ${escapeHtml(c.draftText)}
                 </div>
               </div>
 
               <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
-                <div style="font-size:11px;font-weight:700;color:#54646E;text-transform:uppercase;">Leader VOC Alignment</div>
+                <div style="font-size:11px;font-weight:700;color:#54646E;text-transform:uppercase;">
+                  ${escapeHtml(f2.columnLabel || "Alignment")}
+                </div>
                 <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;">
-                  ${(c.vocTags || [])
+                  ${(c.tags || [])
                     .map(
                       (tag) =>
                         `<span style="background:#F8FAFC;border:1px solid #D7E4EE;color:#1B1534;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;">${escapeHtml(
@@ -1031,7 +1234,210 @@ function renderPrioritiserPage(canvas) {
   `;
 }
 
-function renderProcessPage(proc, canvas) {
+/**
+ * Tab 4A: Universal Template Renderer (Pre-filled from linked Decision Tool)
+ */
+function renderTemplatePage(tpl, plb, canvas) {
+  if (!tpl) return;
+  const linkedDec = (plb.decisionTools || []).find((d) => d.id === tpl.linkedDecisionId);
+  const selectedIds = linkedDec ? state.selectedCandidatesByDecisionId[linkedDec.id] || [] : [];
+  const chosen = linkedDec ? (linkedDec.candidates || []).filter((c) => selectedIds.includes(c.id)) : [];
+  const th = tpl.tableHeaders || {};
+
+  canvas.innerHTML = `
+    <div class="content-container">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <span class="eyebrow-tag" style="margin-bottom:0;">${escapeHtml(tpl.eyebrow || "")}</span>
+            <span class="muted-code-pill">${escapeHtml(tpl.badge || "")}</span>
+          </div>
+          <h1 class="page-title" style="margin-bottom:4px;">${escapeHtml(tpl.title)}</h1>
+        </div>
+        <div style="display:flex;gap:10px;">
+          ${
+            linkedDec
+              ? `<button type="button" class="header-btn secondary" style="color:#1B1534;border-color:#D7E4EE;background:#EAF4F8;"
+                         onclick="selectDecisionTool('${escapeHtml(linkedDec.id)}')">
+                   ← Adjust in ${escapeHtml(linkedDec.navTitle)} (${chosen.length}/${linkedDec.maxCapacity || 5})
+                 </button>`
+              : ""
+          }
+          <button type="button" class="header-btn" id="copyCharterBtn" onclick="copyCharterText()">
+            Copy Template to Clipboard
+          </button>
+        </div>
+      </div>
+
+      <div id="charterBox" style="border:2px solid var(--se-gray-1);border-radius:14px;padding:28px;background:#FFFFFF;">
+        <div class="meta-strip" style="margin-bottom:24px;">
+          ${(tpl.metaFields || [])
+            .map((mf) => `<div><strong>${escapeHtml(mf.label)}:</strong> ${escapeHtml(mf.value)}</div>`)
+            .join("")}
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;">
+          <div style="padding:16px;background:var(--se-canvas-subtle);border:1px solid var(--se-gray-1);border-radius:10px;">
+            <strong style="color:#1B1534;display:block;margin-bottom:8px;">${escapeHtml(tpl.leftBoxTitle || "")}</strong>
+            <ul style="padding-left:18px;color:#54646E;font-size:14px;">
+              ${(tpl.leftBoxBullets || []).map((b) => `<li>${escapeHtml(b)}</li>`).join("")}
+            </ul>
+          </div>
+          <div style="padding:16px;background:var(--se-canvas-subtle);border:1px solid var(--se-gray-1);border-radius:10px;">
+            <strong style="color:#1B1534;display:block;margin-bottom:8px;">${escapeHtml(tpl.rightBoxTitle || "")}</strong>
+            <div style="color:#54646E;font-size:14px;">
+              <div><strong>${escapeHtml(tpl.rightBoxPrimary || "")}</strong></div>
+              <div style="margin-top:6px;">
+                <strong>${escapeHtml(tpl.rightBoxSecondaryPrefix || "Selected")} (${chosen.length}):</strong>
+                ${chosen.map((c) => c.codeLabel).join(" • ") || "None selected"}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <table class="clean-table">
+          <thead>
+            <tr>
+              <th style="width:80px;">${escapeHtml(th.code || "#")}</th>
+              <th>${escapeHtml(th.action || "Action")}</th>
+              <th style="width:140px;">${escapeHtml(th.lift || "Impact")}</th>
+              <th style="width:140px;">${escapeHtml(th.tag || "Category")}</th>
+              <th style="width:95px;">${escapeHtml(th.due || "Due")}</th>
+              <th style="width:130px;">${escapeHtml(th.owner || "Owner")}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:var(--se-gray-0);">
+              <td style="font-weight:700;color:#1B1534;">${escapeHtml(tpl.objectiveRowCode || "OBJ 1")}</td>
+              <td colspan="5" style="font-weight:700;color:#1B1534;">
+                ${escapeHtml(tpl.objectiveRowText || "")}
+              </td>
+            </tr>
+            ${
+              chosen.length > 0
+                ? chosen
+                    .map(
+                      (c, idx) => `
+              <tr>
+                <td style="font-family:ui-monospace,monospace;font-weight:700;color:#1B1534;">${escapeHtml(
+                  (tpl.rowCodePrefix || "ITEM-") + (idx + 1)
+                )}</td>
+                <td style="color:#1B1534;font-weight:600;">
+                  ${escapeHtml(c.draftText)}
+                  <div style="font-size:12px;color:#54646E;font-weight:400;margin-top:2px;">
+                    ${escapeHtml(c.codeLabel)} • ${escapeHtml(c.quadrant)}
+                  </div>
+                </td>
+                <td style="font-family:ui-monospace,monospace;color:#007A7A;font-weight:700;">${escapeHtml(c.liftLabel)}</td>
+                <td>${escapeHtml((c.tags || []).join(", "))}</td>
+                <td style="font-family:ui-monospace,monospace;">${escapeHtml(c.defaultDue || "Q2")}</td>
+                <td>${escapeHtml(c.defaultOwner || "@Owner")}</td>
+              </tr>`
+                    )
+                    .join("")
+                : `<tr><td colspan="6" style="text-align:center;padding:24px;">No items selected. Open the Decision Tool to select items.</td></tr>`
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Tab 4B: Universal Reference Table Renderer (Driven by activePlaybook.referenceTables)
+ */
+function renderReferenceTablePage(ref, plb, canvas) {
+  if (!ref) return;
+  const rows = ref.rows || [];
+  const cols = ref.columns || ["Code", "Description", "Category", "Level", "Flag"];
+  const q = state.searchQuery.toLowerCase().trim();
+  const primaryDec = (plb.decisionTools || [])[0];
+
+  const filtered = rows.filter((r) => {
+    const matchFlag = state.referenceFilter === "all" || (state.referenceFilter === "flagged" && r.flagged);
+    const matchQ =
+      !q ||
+      r.code.toLowerCase().includes(q) ||
+      r.col1.toLowerCase().includes(q) ||
+      r.col2.toLowerCase().includes(q) ||
+      r.col3.toLowerCase().includes(q);
+    return matchFlag && matchQ;
+  });
+
+  canvas.innerHTML = `
+    <div class="content-container">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span class="eyebrow-tag" style="margin-bottom:0;">${escapeHtml(ref.eyebrow || "")}</span>
+        <span class="muted-code-pill">${escapeHtml(ref.badge || "")}</span>
+      </div>
+      <h1 class="page-title">${escapeHtml(ref.title)}</h1>
+      <p class="page-subtitle" style="margin-bottom:24px;">
+        ${escapeHtml(ref.subtitle || "")}
+      </p>
+
+      <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
+        <button type="button" class="header-btn" style="background:${
+          state.referenceFilter === "all" ? "#1B1534" : "#EAF4F8"
+        };color:${state.referenceFilter === "all" ? "#FFF" : "#1B1534"};"
+                onclick="setReferenceFilter('all')">
+          ${escapeHtml(ref.filterAllLabel || "All")}
+        </button>
+        <button type="button" class="header-btn" style="background:${
+          state.referenceFilter === "flagged" ? "#8A00E5" : "#EAF4F8"
+        };color:${state.referenceFilter === "flagged" ? "#FFF" : "#1B1534"};"
+                onclick="setReferenceFilter('flagged')">
+          ${escapeHtml(ref.filterFlaggedLabel || "Flagged Only")}
+        </button>
+        ${
+          primaryDec
+            ? `<button type="button" class="header-btn secondary" style="color:#1B1534;border-color:#D7E4EE;background:#FFFFFF;"
+                       onclick="selectDecisionTool('${escapeHtml(primaryDec.id)}')">
+                 Open ${escapeHtml(primaryDec.navTitle)} →
+               </button>`
+            : ""
+        }
+      </div>
+
+      <table class="clean-table">
+        <thead>
+          <tr>
+            <th style="width:90px;">${escapeHtml(cols[0])}</th>
+            <th>${escapeHtml(cols[1])}</th>
+            <th style="width:200px;">${escapeHtml(cols[2])}</th>
+            <th style="width:140px;">${escapeHtml(cols[3])}</th>
+            <th style="width:130px;">${escapeHtml(cols[4])}</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${filtered
+            .map(
+              (r) => `
+            <tr>
+              <td style="font-family:ui-monospace,monospace;font-weight:700;color:#1B1534;">${escapeHtml(r.code)}</td>
+              <td style="color:#1B1534;font-weight:500;">${escapeHtml(r.col1)}</td>
+              <td>${escapeHtml(r.col2)}</td>
+              <td style="font-family:ui-monospace,monospace;">${escapeHtml(r.col3)}</td>
+              <td>
+                ${
+                  r.flagged
+                    ? `<span style="background:#EAF4F8;color:#007A7A;font-weight:700;padding:3px 8px;border-radius:4px;font-size:12px;">${escapeHtml(
+                        r.flagLabel
+                      )}</span>`
+                    : `<span style="color:#96B0C0;">${escapeHtml(r.flagLabel)}</span>`
+                }
+              </td>
+            </tr>`
+            )
+            .join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function renderProcessPage(proc, plb, canvas) {
+  if (!proc) return;
   const resp = DB.roles[proc.raci?.responsible];
   canvas.innerHTML = `
     <div class="content-container">
@@ -1039,7 +1445,7 @@ function renderProcessPage(proc, canvas) {
         <button type="button" class="breadcrumb-link" onclick="showOverview()">1. End-to-End Journey</button>
         <span>/</span>
         <span class="muted-code-pill">${escapeHtml(proc.appName || "")} ${escapeHtml(proc.versionBadge || "")}</span>
-        <span class="muted-code-pill">${proc.id}</span>
+        <span class="muted-code-pill">${escapeHtml(proc.id)}</span>
       </div>
 
       <div class="feature-split">
@@ -1063,7 +1469,9 @@ function renderProcessPage(proc, canvas) {
                 </button>
                 <div class="accordion-body">
                   <p>${escapeHtml(st.summary)}</p>
-                  <button type="button" class="learn-more-link" onclick="event.stopPropagation(); selectSOP('${st.sopId}')">
+                  <button type="button" class="learn-more-link" onclick="event.stopPropagation(); selectSOP('${escapeHtml(
+                    st.sopId
+                  )}')">
                     Start Stage ${st.stageNumber} Guide <span>→</span>
                   </button>
                 </div>
@@ -1074,7 +1482,7 @@ function renderProcessPage(proc, canvas) {
         </div>
 
         <div>
-          ${renderSEArchitecturalCard(proc.id)}
+          ${renderSEArchitecturalCard(proc)}
           <div style="margin-top:20px;padding:18px;background:var(--se-canvas-subtle);border:1px solid var(--se-gray-1);border-radius:10px;font-size:13.5px;color:var(--se-gray-5);">
             <div><strong style="color:#1B1534;">When to start:</strong> ${escapeHtml(proc.trigger)}</div>
             <div style="margin-top:8px;"><strong style="color:#1B1534;">Final outcome:</strong> ${escapeHtml(proc.finalOutcome)}</div>
@@ -1086,14 +1494,15 @@ function renderProcessPage(proc, canvas) {
   `;
 }
 
-function renderToolPage(tool, canvas) {
+function renderToolPage(tool, plb, canvas) {
+  if (!tool) return;
   canvas.innerHTML = `
     <div class="content-container">
       <div class="breadcrumb-row">
         <button type="button" class="breadcrumb-link" onclick="showOverview()">1. End-to-End Journey</button>
         <span>/</span>
-        <span class="muted-code-pill">${escapeHtml(tool.suite || "Lean@GS Tool")} ${escapeHtml(tool.versionBadge || "")}</span>
-        <span class="muted-code-pill">${tool.id}</span>
+        <span class="muted-code-pill">${escapeHtml(tool.suite || "")} ${escapeHtml(tool.versionBadge || "")}</span>
+        <span class="muted-code-pill">${escapeHtml(tool.id)}</span>
       </div>
 
       <h1 class="page-title">${escapeHtml(tool.name)}</h1>
@@ -1157,295 +1566,6 @@ function renderToolPage(tool, canvas) {
   `;
 }
 
-/**
- * Interactive 28 Questions & 17 Gateways Explorer
- */
-function renderQuestionsPage(canvas) {
-  const questions = DB.questions28 || [];
-  const q = state.searchQuery.toLowerCase().trim();
-  const filtered = questions.filter((item) => {
-    const matchGate = state.questionFilter === "all" || (state.questionFilter === "gateway" && item.gateway);
-    const matchQ =
-      !q ||
-      `q${item.id}`.includes(q) ||
-      item.text.toLowerCase().includes(q) ||
-      item.theme.toLowerCase().includes(q) ||
-      `level ${item.level}`.includes(q);
-    return matchGate && matchQ;
-  });
-
-  canvas.innerHTML = `
-    <div class="content-container">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-        <span class="eyebrow-tag" style="margin-bottom:0;">Site Assessment Reference</span>
-        <span class="muted-code-pill">PM Maturity Hub • v6.0.0</span>
-      </div>
-      <h1 class="page-title">All 28 Assessment Questions &amp; 17 Gateways</h1>
-      <p class="page-subtitle" style="margin-bottom:24px;">
-        Starred Gateway questions (<strong style="color:#007A7A;">★ Yes</strong>) must score at least <strong>3 across roughly 70% of the site</strong> before higher-level questions count toward your final score.
-      </p>
-
-      <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
-        <button type="button" class="header-btn" style="background:${
-          state.questionFilter === "all" ? "#1B1534" : "#EAF4F8"
-        };color:${state.questionFilter === "all" ? "#FFF" : "#1B1534"};"
-                onclick="setQuestionFilter('all')">
-          All Questions (28)
-        </button>
-        <button type="button" class="header-btn" style="background:${
-          state.questionFilter === "gateway" ? "#8A00E5" : "#EAF4F8"
-        };color:${state.questionFilter === "gateway" ? "#FFF" : "#1B1534"};"
-                onclick="setQuestionFilter('gateway')">
-          ★ Starred Gateways Only (17)
-        </button>
-        <button type="button" class="header-btn secondary" style="color:#1B1534;border-color:#D7E4EE;background:#FFFFFF;"
-                onclick="switchTopTab('prioritiser')">
-          Filter Down to Top 5 Actions →
-        </button>
-      </div>
-
-      <table class="clean-table">
-        <thead>
-          <tr>
-            <th style="width:65px;">#</th>
-            <th>Assessment Question</th>
-            <th style="width:220px;">Topic</th>
-            <th style="width:95px;">Level</th>
-            <th style="width:110px;">Gateway?</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${filtered
-            .map(
-              (item) => `
-            <tr>
-              <td style="font-family:ui-monospace,monospace;font-weight:700;color:#1B1534;">Q${item.id}</td>
-              <td style="color:#1B1534;font-weight:500;">${escapeHtml(item.text)}</td>
-              <td>${escapeHtml(item.theme)}</td>
-              <td style="font-family:ui-monospace,monospace;">Level ${item.level}</td>
-              <td>
-                ${
-                  item.gateway
-                    ? `<span style="background:#EAF4F8;color:#007A7A;font-weight:700;padding:3px 8px;border-radius:4px;font-size:12px;">★ Yes</span>`
-                    : `<span style="color:#96B0C0;">No</span>`
-                }
-              </td>
-            </tr>`
-            )
-            .join("")}
-        </tbody>
-      </table>
-    </div>
-  `;
-}
-
-/**
- * Interactive Gateway Score Cap Calculator
- */
-function renderCalculatorPage(canvas) {
-  const levelNames = [
-    "0 (Lean Awareness)",
-    "1 (Basic Implementation)",
-    "2 (Structured Approach)",
-    "3 (Integrated Lean Culture)",
-    "4 (Strategic Mastery)"
-  ];
-  const compressed = state.simLevel + (state.simRawAvg - 1) / 4;
-  const finalScore = Math.min(state.simRawAvg, compressed);
-
-  canvas.innerHTML = `
-    <div class="content-container">
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:10px;">
-        <div class="eyebrow-tag" style="margin-bottom:0;">Score Explainer • Interactive Calculator</div>
-        <button type="button" class="breadcrumb-link" onclick="switchTopTab('prioritiser')">
-          ← Back to Top 5 Action Prioritiser
-        </button>
-      </div>
-      <h1 class="page-title">How Gateway Score Caps Work</h1>
-      <p class="page-subtitle" style="margin-bottom:28px;">
-        Why high scores on Level 2–4 questions do not raise your total score if a Level 1 Starred Gateway (such as <strong>Q10: Pilot Experiments</strong>) scores below 3.
-      </p>
-
-      <div class="step-split-row" style="padding-top:0;">
-        <div>
-          <h3 class="editorial-h3">How Your Site Score Is Worked Out</h3>
-          <ol class="clean-list" style="margin-bottom:20px;">
-            <li><strong>1. Check Starred Gateways:</strong> Find the highest level where every starred Gateway question scored at least 3.</li>
-            <li><strong>2. Count Unlocked Questions:</strong> Only include questions up to your unlocked level (e.g., 10 of 28 questions at Level 1).</li>
-            <li><strong>3. Find the Average:</strong> Divide total points by unlocked questions (<code>34 ÷ 10 = 3.40</code>).</li>
-            <li><strong>4. Apply Level Cap:</strong> <code>Level + [(Average - 1) / 4]</code> keeps your final score inside your unlocked level (<code>1.6</code>).</li>
-          </ol>
-        </div>
-
-        <div class="sandbox-card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-            <strong style="font-size:16px;">Try the Score Calculator</strong>
-            <span class="lean-pill">Move Sliders</span>
-          </div>
-
-          <div style="margin-bottom:18px;">
-            <label for="simLevelSlider" style="display:block;font-size:13px;margin-bottom:6px;color:#EAF4F8;">
-              Highest Unlocked Level: <strong style="color:#21C0FF;" id="simLevelLabel">${levelNames[state.simLevel]}</strong>
-            </label>
-            <input
-              type="range"
-              id="simLevelSlider"
-              min="0"
-              max="4"
-              step="1"
-              value="${state.simLevel}"
-              style="width:100%;accent-color:#009999;cursor:pointer;"
-            />
-          </div>
-
-          <div style="margin-bottom:22px;">
-            <label for="simRawSlider" style="display:block;font-size:13px;margin-bottom:6px;color:#EAF4F8;">
-              Average of Unlocked Questions: <strong style="color:#21C0FF;" id="simRawLabel">${state.simRawAvg.toFixed(2)}</strong>
-            </label>
-            <input
-              type="range"
-              id="simRawSlider"
-              min="1.0"
-              max="5.0"
-              step="0.1"
-              value="${state.simRawAvg}"
-              style="width:100%;accent-color:#009999;cursor:pointer;"
-            />
-          </div>
-
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;text-align:center;background:rgba(255,255,255,0.08);padding:14px;border-radius:10px;">
-            <div>
-              <div style="font-size:11px;color:#cbd5e1;">Unlocked Avg</div>
-              <div id="simOutRaw" style="font-size:18px;font-weight:700;font-family:ui-monospace,monospace;">${state.simRawAvg.toFixed(2)}</div>
-            </div>
-            <div>
-              <div style="font-size:11px;color:#cbd5e1;">Level Cap</div>
-              <div id="simOutComp" style="font-size:18px;font-weight:700;color:#21C0FF;font-family:ui-monospace,monospace;">${compressed.toFixed(2)}</div>
-            </div>
-            <div style="background:#009999;border-radius:8px;padding:4px;">
-              <div style="font-size:10px;text-transform:uppercase;">Final Score</div>
-              <div id="simOutFinal" style="font-size:20px;font-weight:800;font-family:ui-monospace,monospace;">${finalScore.toFixed(1)}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-
-  document.getElementById("simLevelSlider").addEventListener("input", (e) => {
-    state.simLevel = parseInt(e.target.value, 10);
-    renderCalculatorPage(canvas);
-  });
-  document.getElementById("simRawSlider").addEventListener("input", (e) => {
-    state.simRawAvg = parseFloat(e.target.value);
-    renderCalculatorPage(canvas);
-  });
-}
-
-/**
- * 1-Page Navigator Charter Template (Pre-Filled with Selected Top 5 Actions from Prioritiser)
- */
-function renderCharterPage(canvas) {
-  const candidates = DB.prioritiserCandidates || [];
-  const chosen = candidates.filter((c) => state.selectedActionIds.includes(c.id));
-
-  canvas.innerHTML = `
-    <div class="content-container">
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-            <span class="eyebrow-tag" style="margin-bottom:0;">Stage 6 Output Template • Pre-Filled from Top 5 Prioritiser</span>
-            <span class="muted-code-pill">Navigator Toolkit • v2.4.4</span>
-          </div>
-          <h1 class="page-title" style="margin-bottom:4px;">One-Page Navigator Charter Template</h1>
-        </div>
-        <div style="display:flex;gap:10px;">
-          <button type="button" class="header-btn secondary" style="color:#1B1534;border-color:#D7E4EE;background:#EAF4F8;"
-                  onclick="switchTopTab('prioritiser')">
-            ← Adjust Top 5 Actions (${chosen.length}/5)
-          </button>
-          <button type="button" class="header-btn" id="copyCharterBtn" onclick="copyCharterText()">
-            Copy Charter to Clipboard
-          </button>
-        </div>
-      </div>
-
-      <div id="charterBox" style="border:2px solid var(--se-gray-1);border-radius:14px;padding:28px;background:#FFFFFF;">
-        <div class="meta-strip" style="margin-bottom:24px;">
-          <div><strong>Site / Area:</strong> [Insert Site]</div>
-          <div><strong>Date:</strong> [YYYY-MM-DD]</div>
-          <div><strong>Local Programme Manager:</strong> @[Name]</div>
-          <div><strong>Site Leader Sponsor:</strong> @[Name]</div>
-        </div>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;">
-          <div style="padding:16px;background:var(--se-canvas-subtle);border:1px solid var(--se-gray-1);border-radius:10px;">
-            <strong style="color:#1B1534;display:block;margin-bottom:8px;">1. Top 3 Leader Priorities (Business Problems to Solve)</strong>
-            <ul style="padding-left:18px;color:#54646E;font-size:14px;">
-              <li>Shorten delivery lead time on the main line.</li>
-              <li>Cut repeat quality defects across shifts.</li>
-              <li>Fix handoff delays between departments.</li>
-            </ul>
-          </div>
-          <div style="padding:16px;background:var(--se-canvas-subtle);border:1px solid var(--se-gray-1);border-radius:10px;">
-            <strong style="color:#1B1534;display:block;margin-bottom:8px;">2. Starting Site Score &amp; Starred Gateways to Fix</strong>
-            <div style="color:#54646E;font-size:14px;">
-              <div><strong>Current Score:</strong> 1.6 / 4.0 (Level 1: Basic Implementation)</div>
-              <div style="margin-top:6px;">
-                <strong>Prioritised Gateways (${chosen.length}):</strong>
-                ${chosen.map((c) => `Q${c.qId}`).join(", ") || "None selected"}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <table class="clean-table">
-          <thead>
-            <tr>
-              <th style="width:70px;">#</th>
-              <th>Agreed Programme Objective / Key Result ([Measure] from [Start] to [Target] by [Date])</th>
-              <th style="width:130px;">Expected Lift</th>
-              <th style="width:140px;">VOC Priority</th>
-              <th style="width:80px;">Due</th>
-              <th style="width:130px;">Owner</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="background:var(--se-gray-0);">
-              <td style="font-weight:700;color:#1B1534;">OBJ 1</td>
-              <td colspan="5" style="font-weight:700;color:#1B1534;">
-                Prioritised Top ${chosen.length} Actions (Locked via 3-Step Decision Funnel — Max 5 Capacity Rule)
-              </td>
-            </tr>
-            ${
-              chosen.length > 0
-                ? chosen
-                    .map(
-                      (c, idx) => `
-              <tr>
-                <td style="font-family:ui-monospace,monospace;font-weight:700;color:#1B1534;">KR 1.${idx + 1}</td>
-                <td style="color:#1B1534;font-weight:600;">
-                  ${escapeHtml(c.krTemplate)}
-                  <div style="font-size:12px;color:#54646E;font-weight:400;margin-top:2px;">
-                    Linked to Q${c.qId} (${c.gateway ? "★ Starred Gateway" : "Standard Question"}) • ${escapeHtml(c.matrixQuadrant)}
-                  </div>
-                </td>
-                <td style="font-family:ui-monospace,monospace;color:#007A7A;font-weight:700;">${escapeHtml(c.scoreLift)}</td>
-                <td>${escapeHtml((c.vocTags || []).join(", "))}</td>
-                <td style="font-family:ui-monospace,monospace;">Q${Math.min(4, Math.floor(idx / 2) + 2)}</td>
-                <td>@${idx % 2 === 0 ? "ProgrammeMgr" : "OpsLeader"}</td>
-              </tr>`
-                    )
-                    .join("")
-                : `<tr><td colspan="6" style="text-align:center;padding:24px;">No actions selected. Open the Top 5 Prioritiser to select up to 5 actions.</td></tr>`
-            }
-          </tbody>
-        </table>
-      </div>
-    </div>
-  `;
-}
-
 function copyCharterText() {
   const el = document.getElementById("charterBox");
   if (!el) return;
@@ -1453,12 +1573,12 @@ function copyCharterText() {
   const btn = document.getElementById("copyCharterBtn");
   btn.textContent = "✓ Copied to Clipboard!";
   setTimeout(() => {
-    btn.textContent = "Copy Charter to Clipboard";
+    btn.textContent = "Copy Template to Clipboard";
   }, 2000);
 }
 
-function setJourneyRoleFilter(role) {
-  state.journeyRoleFilter = role;
+function setJourneyRoleFilter(roleId) {
+  state.journeyRoleFilter = roleId;
   renderMain();
 }
 
@@ -1470,49 +1590,58 @@ function toggleLpmPitch() {
 function openJourneyStage(routeType, routeId) {
   if (routeType === "sop") {
     selectSOP(routeId);
-  } else if (routeType === "prioritiser") {
-    switchTopTab("prioritiser");
-  } else if (routeType === "charter") {
-    switchTopTab("charter");
+  } else if (routeType === "decision") {
+    selectDecisionTool(routeId);
+  } else if (routeType === "template") {
+    selectTemplate(routeId);
+  } else if (routeType === "reference") {
+    selectReferenceTable(routeId);
   }
 }
 
-function setPrioritiserGatewayOnly(val) {
-  state.prioritiserGatewayOnly = val;
+function setFunnelFlaggedOnly(val) {
+  state.funnelFlaggedOnly = val;
   renderMain();
 }
 
-function setPrioritiserVocFilter(voc) {
-  state.prioritiserVocFilter = voc;
+function setFunnelTagFilter(tag) {
+  state.funnelTagFilter = tag;
   renderMain();
 }
 
-function setPrioritiserMatrixFilter(mat) {
-  state.prioritiserMatrixFilter = mat;
+function setFunnelQuadrantFilter(quad) {
+  state.funnelQuadrantFilter = quad;
   renderMain();
 }
 
-function toggleCandidateAction(actionId) {
-  const idx = state.selectedActionIds.indexOf(actionId);
+function toggleDecisionCandidate(decisionId, candidateId) {
+  if (!state.selectedCandidatesByDecisionId[decisionId]) {
+    state.selectedCandidatesByDecisionId[decisionId] = [];
+  }
+  const arr = state.selectedCandidatesByDecisionId[decisionId];
+  const idx = arr.indexOf(candidateId);
   if (idx >= 0) {
-    state.selectedActionIds.splice(idx, 1);
+    arr.splice(idx, 1);
   } else {
-    state.selectedActionIds.push(actionId);
+    arr.push(candidateId);
   }
   renderSidebar();
   renderMain();
 }
 
-function sendTop5ToCharter() {
-  if (state.selectedActionIds.length > 5) {
+function sendSelectedToTemplate(decisionId, templateId, maxCap) {
+  const arr = state.selectedCandidatesByDecisionId[decisionId] || [];
+  if (arr.length > maxCap) {
     alert(
       "Capacity Lock: You have selected " +
-        state.selectedActionIds.length +
-        " actions. Please uncheck lower-impact items so you have at most 5 focus actions before exporting to your 1-Page Charter."
+        arr.length +
+        " items (Max " +
+        maxCap +
+        " allowed). Please uncheck lower-impact items before exporting to the template."
     );
     return;
   }
-  switchTopTab("charter");
+  selectTemplate(templateId);
 }
 
 function toggleInlineToolDrawer(toolId) {
@@ -1525,8 +1654,8 @@ function toggleSidebarTools() {
   renderSidebar();
 }
 
-function setQuestionFilter(mode) {
-  state.questionFilter = mode;
+function setReferenceFilter(mode) {
+  state.referenceFilter = mode;
   renderMain();
 }
 
@@ -1535,9 +1664,9 @@ function toggleAccordion(el) {
 }
 
 function showOverview() {
-  state.view = "overview";
+  state.view = "journey";
   state.selectedId = null;
-  setActiveTopTab("overview");
+  setActiveTopTab("journey");
   renderSidebar();
   renderMain();
 }
@@ -1546,7 +1675,7 @@ function selectProcess(id) {
   state.view = "process";
   state.selectedId = id;
   state.expandedProcessId = id;
-  setActiveTopTab(id === "PRC-001" ? "where-are-we" : "action");
+  setActiveTopTab("guides");
   renderSidebar();
   renderMain();
 }
@@ -1558,8 +1687,32 @@ function selectSOP(id) {
   const sop = DB.sops[id];
   if (sop) {
     state.expandedProcessId = sop.processId;
-    setActiveTopTab(sop.processId === "PRC-001" ? "where-are-we" : "action");
   }
+  setActiveTopTab("guides");
+  renderSidebar();
+  renderMain();
+}
+
+function selectDecisionTool(id) {
+  state.view = "decision";
+  state.selectedId = id;
+  setActiveTopTab("decision");
+  renderSidebar();
+  renderMain();
+}
+
+function selectTemplate(id) {
+  state.view = "template";
+  state.selectedId = id;
+  setActiveTopTab("templates");
+  renderSidebar();
+  renderMain();
+}
+
+function selectReferenceTable(id) {
+  state.view = "reference";
+  state.selectedId = id;
+  setActiveTopTab("templates");
   renderSidebar();
   renderMain();
 }
@@ -1573,34 +1726,20 @@ function selectTool(id) {
 }
 
 function switchTopTab(tab) {
-  if (tab === "overview") {
+  const plb = getActivePlaybook();
+  if (!plb) return;
+
+  if (tab === "journey") {
     showOverview();
-  } else if (tab === "where-are-we" || tab === "part1") {
-    setActiveTopTab("where-are-we");
-    selectProcess("PRC-001");
-  } else if (tab === "prioritiser") {
-    setActiveTopTab("prioritiser");
-    state.view = "prioritiser";
-    renderSidebar();
-    renderMain();
-  } else if (tab === "action" || tab === "part2") {
-    setActiveTopTab("action");
-    selectProcess("PRC-002");
-  } else if (tab === "questions") {
-    setActiveTopTab("where-are-we");
-    state.view = "questions";
-    renderSidebar();
-    renderMain();
-  } else if (tab === "calculator") {
-    setActiveTopTab("prioritiser");
-    state.view = "calculator";
-    renderSidebar();
-    renderMain();
-  } else if (tab === "charter") {
-    setActiveTopTab("action");
-    state.view = "charter";
-    renderSidebar();
-    renderMain();
+  } else if (tab === "guides") {
+    const firstSopId = plb.sopIds?.[0];
+    if (firstSopId) selectSOP(firstSopId);
+  } else if (tab === "decision") {
+    const firstDecId = plb.decisionTools?.[0]?.id;
+    if (firstDecId) selectDecisionTool(firstDecId);
+  } else if (tab === "templates") {
+    const firstTplId = plb.templates?.[0]?.id;
+    if (firstTplId) selectTemplate(firstTplId);
   }
 }
 
@@ -1618,11 +1757,19 @@ function openAdminModal() {
 }
 
 function bindEvents() {
+  const playbookSelect = document.getElementById("playbookSelect");
+  if (playbookSelect) {
+    playbookSelect.addEventListener("change", (e) => {
+      switchPlaybook(e.target.value);
+    });
+  }
+
   const searchInput = document.getElementById("searchInput");
   searchInput.addEventListener("input", (e) => {
     state.searchQuery = e.target.value;
-    if (state.searchQuery.toLowerCase().startsWith("q") && state.view !== "questions") {
-      switchTopTab("questions");
+    const plb = getActivePlaybook();
+    if (state.searchQuery.toLowerCase().startsWith("q") && plb?.referenceTables?.[0] && state.view !== "reference") {
+      selectReferenceTable(plb.referenceTables[0].id);
     } else {
       renderSidebar();
       renderMain();
@@ -1649,6 +1796,9 @@ function bindEvents() {
   document.getElementById("applyJsonBtn").addEventListener("click", () => {
     try {
       DB = JSON.parse(document.getElementById("jsonEditor").value);
+      initializePlaybookDefaults();
+      renderPlaybookSwitcher();
+      renderTopTabs();
       renderSidebar();
       renderMain();
       document.getElementById("jsonModal").classList.add("hidden");
@@ -1683,9 +1833,10 @@ function runLiveJsonAudit(rawText) {
         if (w > maxW) issues.push(`${sopId} Step ${st.stepNumber}: ${w}/${maxW} words`);
       }
     }
+    const plbCount = Array.isArray(candidate.playbooks) ? candidate.playbooks.length : 0;
     reportEl.innerHTML =
       issues.length === 0
-        ? `<div style="color:#007A7A;font-weight:700;">✓ Valid Siemens Energy Lean@GS Payload (${steps} steps checked, all ≤ ${maxW} words, zero raw acronyms).</div>`
+        ? `<div style="color:#007A7A;font-weight:700;">✓ Valid Multi-Playbook Payload (${plbCount} Playbooks, ${steps} steps checked, all ≤ ${maxW} words, zero raw acronyms).</div>`
         : `<div style="color:#DA1E28;">${issues.join("<br/>")}</div>`;
   } catch (e) {
     reportEl.innerHTML = `<div style="color:#DA1E28;">Syntax Error: ${escapeHtml(e.message)}</div>`;
@@ -1696,19 +1847,23 @@ window.showOverview = showOverview;
 window.selectProcess = selectProcess;
 window.selectSOP = selectSOP;
 window.selectTool = selectTool;
+window.selectDecisionTool = selectDecisionTool;
+window.selectTemplate = selectTemplate;
+window.selectReferenceTable = selectReferenceTable;
 window.switchTopTab = switchTopTab;
+window.switchPlaybook = switchPlaybook;
 window.toggleAccordion = toggleAccordion;
-window.setQuestionFilter = setQuestionFilter;
+window.setReferenceFilter = setReferenceFilter;
 window.copyCharterText = copyCharterText;
 window.openAdminModal = openAdminModal;
 window.setJourneyRoleFilter = setJourneyRoleFilter;
 window.toggleLpmPitch = toggleLpmPitch;
 window.openJourneyStage = openJourneyStage;
-window.setPrioritiserGatewayOnly = setPrioritiserGatewayOnly;
-window.setPrioritiserVocFilter = setPrioritiserVocFilter;
-window.setPrioritiserMatrixFilter = setPrioritiserMatrixFilter;
-window.toggleCandidateAction = toggleCandidateAction;
-window.sendTop5ToCharter = sendTop5ToCharter;
+window.setFunnelFlaggedOnly = setFunnelFlaggedOnly;
+window.setFunnelTagFilter = setFunnelTagFilter;
+window.setFunnelQuadrantFilter = setFunnelQuadrantFilter;
+window.toggleDecisionCandidate = toggleDecisionCandidate;
+window.sendSelectedToTemplate = sendSelectedToTemplate;
 window.toggleInlineToolDrawer = toggleInlineToolDrawer;
 window.toggleSidebarTools = toggleSidebarTools;
 window.addEventListener("DOMContentLoaded", initApp);

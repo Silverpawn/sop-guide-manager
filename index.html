@@ -9,11 +9,19 @@
 <body>
   <!-- Row 1: Official Siemens Energy Brand Gradient Header (#1B1534 -> #4D217A) -->
   <header class="top-header">
-    <div class="brand-lockup" onclick="showOverview()">
-      <span class="petrol-dot" aria-hidden="true"></span>
-      <span class="se-wordmark">SIEMENS ENERGY</span>
-      <span class="lean-pill">LEAN@GS</span>
-      <span class="doc-badge">DOCUMENTATION</span>
+    <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
+      <div class="brand-lockup" onclick="showOverview()">
+        <span class="petrol-dot" aria-hidden="true"></span>
+        <span class="se-wordmark">SIEMENS ENERGY</span>
+        <span class="lean-pill">LEAN@GS</span>
+        <span class="doc-badge">DOCUMENTATION</span>
+      </div>
+
+      <!-- Global Playbook Switcher Dropdown (100% JSON-Driven) -->
+      <div class="playbook-switcher-wrap">
+        <label for="playbookSelect" class="playbook-switcher-label">PLAYBOOK:</label>
+        <select id="playbookSelect" class="playbook-select" aria-label="Select Active Lean@GS Playbook"></select>
+      </div>
     </div>
 
     <div class="header-right">
@@ -23,8 +31,8 @@
           type="text"
           id="searchInput"
           class="search-input"
-          aria-label="Search guides, 28 questions, Gateways, or tools"
-          placeholder="Search guides, Q10, Metro, Charter..."
+          aria-label="Search active playbook guides, steps, tools, or reference tables"
+          placeholder="Search active playbook..."
         />
         <span class="search-slash" aria-hidden="true">/</span>
       </div>
@@ -44,19 +52,19 @@
   <!-- Signature Siemens Energy Fading Petrol Line -->
   <div class="se-fading-line" aria-hidden="true"></div>
 
-  <!-- Row 2: Secondary Category Navigation Bar (4-Stage Connected User Journey) -->
-  <nav class="sub-navbar" id="topCategoryBar" aria-label="Documentation Categories">
-    <button type="button" class="sub-tab active" data-tab="overview" onclick="switchTopTab('overview')">
+  <!-- Row 2: 4 Universal Top Navigation Tabs (Playbook-Agnostic Labels + Dynamic JSON Subtitles) -->
+  <nav class="sub-navbar" id="topCategoryBar" aria-label="Playbook Navigation Categories">
+    <button type="button" class="sub-tab active" data-tab="journey" onclick="switchTopTab('journey')">
       1. End-to-End Journey
     </button>
-    <button type="button" class="sub-tab" data-tab="where-are-we" onclick="switchTopTab('where-are-we')">
-      2. Where Are We? (Site Assessment)
+    <button type="button" class="sub-tab" data-tab="guides" onclick="switchTopTab('guides')">
+      2. Step-by-Step Guides
     </button>
-    <button type="button" class="sub-tab" data-tab="prioritiser" onclick="switchTopTab('prioritiser')">
-      3. What Matters? (Top 5 Prioritiser)
+    <button type="button" class="sub-tab" data-tab="decision" onclick="switchTopTab('decision')">
+      3. Decision &amp; Priority Tools
     </button>
-    <button type="button" class="sub-tab" data-tab="action" onclick="switchTopTab('action')">
-      4. Turn Into Action (Workshop &amp; Charter)
+    <button type="button" class="sub-tab" data-tab="templates" onclick="switchTopTab('templates')">
+      4. Templates &amp; Reference
     </button>
   </nav>
 

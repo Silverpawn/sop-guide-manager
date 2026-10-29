@@ -46,6 +46,12 @@ window.FALLBACK_GUIDES_DB = {
       "title": "Site Leadership Sponsor",
       "department": "Site Operations Management",
       "color": "#0057C6"
+    },
+    "ROL-004": {
+      "id": "ROL-004",
+      "title": "Frontline Team Leader",
+      "department": "Cell & Shift Operations",
+      "color": "#27B66D"
     }
   },
   "tools": {
@@ -201,6 +207,68 @@ window.FALLBACK_GUIDES_DB = {
           "fix": "Rewrite as a habit metric: 'Increase shift huddles solving issues within 48h from 25% to 75% by Q3'."
         }
       ]
+    },
+    "TOL-006": {
+      "id": "TOL-006",
+      "name": "Visual Stand-Up Board (Safety, Quality, Delivery, Cost)",
+      "suite": "Daily Management Suite",
+      "versionBadge": "v3.1.0",
+      "category": "Tier 1 Cell Operations",
+      "purpose": "Display shift targets vs. actuals in red and green, log frontline containment actions, and flag cross-team blockers.",
+      "accessUrl": "Work Area Stand-Up Board / Digital Tier 1 Hub",
+      "ownerRoleId": "ROL-004",
+      "gettingStarted": [
+        "Update yesterday's safety, quality, delivery, and cost numbers 5 minutes before the shift horn.",
+        "Have red and green dry-erase markers or the digital Tier 1 touch screen unlocked."
+      ],
+      "quickCommands": [
+        {
+          "goal": "Mark a missed shift target",
+          "command": "Colour the cell Red + Write a 1-line root cause + Assign a 24h owner"
+        },
+        {
+          "goal": "Flag a blocker for Tier 2 escalation",
+          "command": "Attach a Red Escalation Tag when an issue breaches the 2-hour cell limit"
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "Tier 1 stand-up drags past 15 minutes into a 40-minute technical debate.",
+          "cause": "Engineers trying to solve complex root causes at the stand-up board.",
+          "fix": "Use the 60-Second Rule: log immediate containment on the board and book a separate 3-person problem-solving huddle right after."
+        }
+      ]
+    },
+    "TOL-007": {
+      "id": "TOL-007",
+      "name": "Escalation Triage Filter & 24-Hour Countermeasure Log",
+      "suite": "Daily Management Suite",
+      "versionBadge": "v3.1.0",
+      "category": "Tier 2 Cross-Department Escalation",
+      "purpose": "Filter shift blockers down to a maximum of 3 critical escalations for Tier 2 and assign 24-hour leadership countermeasures.",
+      "accessUrl": "Tier 2 Operations Board → Escalation & Countermeasure Log",
+      "ownerRoleId": "ROL-001",
+      "gettingStarted": [
+        "Collect red escalation cards from all Tier 1 boards at least 15 minutes before the 09:00 Tier 2 huddle.",
+        "Ensure engineering, quality, and warehouse leads are present at the Tier 2 board."
+      ],
+      "quickCommands": [
+        {
+          "goal": "Filter Tier 1 red tags before Tier 2",
+          "command": "Keep only cross-department blockers -> Cap at Max 3 Escalations per shift"
+        },
+        {
+          "goal": "Close the loop back to the shop floor",
+          "command": "Write the agreed 24-hour countermeasure and owner directly on the Tier 1 board before 10:00"
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "Team leaders stop raising red blockers because nothing changes after Tier 2.",
+          "cause": "Escalated items disappear into management emails without feedback to the cell.",
+          "fix": "Enforce the 10:00 AM Feedback Rule: the Local Programme Manager walks back to the cell board to confirm the assigned owner and fix time."
+        }
+      ]
     }
   },
   "processes": {
@@ -275,6 +343,44 @@ window.FALLBACK_GUIDES_DB = {
           "sopId": "SOP-004",
           "toolIds": ["TOL-005"],
           "summary": "Run the 3-part agenda, write measurable goals in Charter Input, and review monthly in Action Log."
+        }
+      ]
+    },
+    "PRC-003": {
+      "id": "PRC-003",
+      "playbookId": "PLB-002",
+      "title": "Run Tier 1 Cell Stand-Up & Escalate to Tier 2",
+      "appName": "Daily Management Suite",
+      "versionBadge": "v3.1.0",
+      "durationBadge": "15 mins daily",
+      "whenToUse": "At the start of every shift across all operational cells.",
+      "cardOutput": "Updated SQDC board, 24-hour containment owners & max 3 Tier 2 escalations.",
+      "ctaLabel": "Start Tier 1 Stand-Up Guide",
+      "category": "Tiered Daily Management",
+      "userGoal": "Run a crisp 15-minute shift stand-up that spots safety, quality, delivery, and cost misses immediately and escalates cross-team blockers within 2 hours.",
+      "trigger": "Start of shift (5 minutes before shift handover horn) and 09:00 AM Tier 2 escalation review.",
+      "finalOutcome": "Every red metric has a named 24-hour containment owner and cross-department blockers are resolved at Tier 2 with feedback to the cell by 10:00 AM.",
+      "valueAddCoaching": "A stand-up board is an action trigger, not a wallpaper report. Keep discussion strictly on red misses—green metrics take five seconds.",
+      "raci": {
+        "responsible": "ROL-004",
+        "accountable": "ROL-001",
+        "consulted": ["ROL-002"],
+        "informed": ["ROL-003"]
+      },
+      "stages": [
+        {
+          "stageNumber": 1,
+          "name": "Prep Visual Board & Run 15-Minute Tier 1 Stand-Up",
+          "sopId": "SOP-005",
+          "toolIds": ["TOL-006"],
+          "summary": "Update shift actuals 5 minutes before shift start and run the 15-minute cell stand-up focused on red misses."
+        },
+        {
+          "stageNumber": 2,
+          "name": "Triage Blockers to Tier 2 & Assign 24-Hour Countermeasures",
+          "sopId": "SOP-006",
+          "toolIds": ["TOL-007"],
+          "summary": "Filter cross-department blockers down to at most 3 red tags for Tier 2 and close the loop back to the shop floor."
         }
       ]
     }
@@ -712,6 +818,222 @@ window.FALLBACK_GUIDES_DB = {
           "fix": "Remind the room that scores were calibrated in pairs; pivot immediately to which red Gateway blocks the leader's top 3 priorities."
         }
       ]
+    },
+    "SOP-005": {
+      "id": "SOP-005",
+      "title": "Prep Visual Board Metrics and Run the 15-Minute Tier 1 Stand-Up",
+      "processId": "PRC-003",
+      "roleId": "ROL-004",
+      "toolIds": ["TOL-006"],
+      "estimatedTime": "15 mins",
+      "stationLocation": "Cell SQDC Stand-Up Board (5 mins before shift)",
+      "kitBag": {
+        "leadRole": "Frontline Team Leader",
+        "supportRole": "Local Programme Manager (LPM)",
+        "mandatoryStatus": "MANDATORY",
+        "inputNeeded": "Shift Handover Log",
+        "outputProduced": "Updated SQDC Board & Immediate Containment Actions"
+      },
+      "userGoal": "Update Safety, Quality, Delivery, and Cost metrics before shift start and run a sharp 15-minute stand-up that assigns containment actions to every red miss.",
+      "gettingStarted": [
+        "Arrive at the cell board 5 minutes before the shift handover horn with the outgoing shift log.",
+        "Ensure green and red markers (or digital status tiles) are ready before calling the team together."
+      ],
+      "steps": [
+        {
+          "stepNumber": 1,
+          "action": "Write yesterday's safety, quality, delivery, and cost numbers on the board before shift starts.",
+          "detail": "Mark each metric green when it meets target or red when it misses target.",
+          "toolId": "TOL-006",
+          "coachingTip": "Never waste stand-up time writing numbers while the team watches—have every metric colored red or green 5 minutes early.",
+          "visual": {
+            "type": "ui-mockup",
+            "caption": "Stage 1 — Prep Visual SQDC Board 5 Minutes Before Shift",
+            "elements": [
+              { "id": "w1", "kind": "window", "label": "Tier 1 Visual Stand-Up Board • Pre-Shift Check (-5 Mins)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Safety: 0 Incidents (GREEN ✓)", "x": 35, "y": 58, "w": 200, "h": 48, "state": "success" },
+              { "id": "c2", "kind": "button", "label": "Delivery: -2 Units Behind (RED ✗)", "x": 250, "y": 58, "w": 210, "h": 48, "state": "danger" },
+              { "id": "c3", "kind": "badge", "label": "Rule: All SQDC cells must be colored Red or Green before the horn sounds", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
+            ],
+            "annotation": {
+              "targetX": 250,
+              "targetY": 58,
+              "targetW": 210,
+              "targetH": 48,
+              "arrowFromX": 295,
+              "arrowFromY": 26,
+              "label": "1. Mark Missed Targets in Red Early"
+            }
+          }
+        },
+        {
+          "stepNumber": 2,
+          "action": "Walk through Safety, Quality, Delivery, and Cost in 15 minutes focusing on red misses.",
+          "detail": "Spend five seconds acknowledging green targets and focus discussion on red misses and today's risks.",
+          "toolId": "TOL-006",
+          "coachingTip": "Stand physically in front of the board—when the leader touches the red number on the board, the whole team focuses on the gap.",
+          "visual": {
+            "type": "ui-mockup",
+            "caption": "Stage 2 — 15-Minute Tier 1 Stand-Up Cadence",
+            "elements": [
+              { "id": "w1", "kind": "window", "label": "15-Minute Tier 1 Huddle • Focus on Red Exceptions", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Green Targets: 5-Sec Check ✓", "x": 35, "y": 58, "w": 195, "h": 48, "state": "default" },
+              { "id": "c2", "kind": "button", "label": "Red Misses: Log Containment Now", "x": 245, "y": 58, "w": 215, "h": 48, "state": "active" },
+              { "id": "c3", "kind": "badge", "label": "Strict Timebox: 15 Minutes Max • Park deep root-cause debates for offline", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
+            ],
+            "annotation": {
+              "targetX": 245,
+              "targetY": 58,
+              "targetW": 215,
+              "targetH": 48,
+              "arrowFromX": 295,
+              "arrowFromY": 26,
+              "label": "2. Focus Time on Red Exceptions"
+            }
+          }
+        },
+        {
+          "stepNumber": 3,
+          "action": "Write a named owner and 24-hour fix time next to every red item.",
+          "detail": "If the team cannot fix a blocker within 2 hours, attach a Red Escalation Tag for Tier 2.",
+          "toolId": "TOL-006",
+          "coachingTip": "Never write 'Team' as the owner—write a single person's name and exact hour when the check will happen.",
+          "visual": {
+            "type": "ui-mockup",
+            "caption": "Stage 2 Output — Immediate Containment & Red Tag Trigger",
+            "elements": [
+              { "id": "w1", "kind": "window", "label": "Tier 1 Action Strip • Single Owner & 24-Hour Due Time", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Fixable in Cell: Assign @Owner (24h)", "x": 35, "y": 58, "w": 210, "h": 48, "state": "success" },
+              { "id": "c2", "kind": "button", "label": "Blocked >2h: Attach Red Tag ↑", "x": 260, "y": 58, "w": 200, "h": 48, "state": "danger" },
+              { "id": "c3", "kind": "badge", "label": "Handoff: Red Escalation Tags move to Tier 2 Triage before 09:00 AM", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
+            ],
+            "annotation": {
+              "targetX": 260,
+              "targetY": 58,
+              "targetW": 200,
+              "targetH": 48,
+              "arrowFromX": 300,
+              "arrowFromY": 26,
+              "label": "3. Tag Cross-Team Blockers (>2h)"
+            }
+          }
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "Team members stay silent when asked about obstacles on the shift.",
+          "cause": "Questions are too vague ('Any issues?') instead of pointing to a specific target condition.",
+          "fix": "Ask a direct target-condition question: 'We lost 40 minutes on station 3 yesterday—what blocked the handoff?'"
+        }
+      ]
+    },
+    "SOP-006": {
+      "id": "SOP-006",
+      "title": "Filter Blockers to Tier 2 and Close the 24-Hour Countermeasure Loop",
+      "processId": "PRC-003",
+      "roleId": "ROL-001",
+      "toolIds": ["TOL-007"],
+      "estimatedTime": "20 mins",
+      "stationLocation": "Tier 2 Operations Board (09:00 AM Daily)",
+      "kitBag": {
+        "leadRole": "Local Programme Manager (LPM) & Site Leadership Sponsor",
+        "supportRole": "Lean Core Team Partner",
+        "mandatoryStatus": "MANDATORY",
+        "inputNeeded": "Tier 1 Red Escalation Tags",
+        "outputProduced": "Max 3 Escalated Red Blockers & Signed Countermeasure Log"
+      },
+      "userGoal": "Filter Tier 1 red tags down to a maximum of 3 critical cross-department escalations and lock 24-hour leadership countermeasures.",
+      "gettingStarted": [
+        "Gather all Red Escalation Tags from the Tier 1 boards 15 minutes before the 09:00 AM Tier 2 meeting.",
+        "Open the Escalation Triage Filter to separate cell-level fixes from true cross-department blockers."
+      ],
+      "steps": [
+        {
+          "stepNumber": 1,
+          "action": "Filter incoming Tier 1 red tags down to at most three cross-department blockers.",
+          "detail": "Return local single-team issues to the cell leader and keep only safety, quality, or delivery stops needing cross-team help.",
+          "toolId": "TOL-007",
+          "coachingTip": "Escalating ten minor items paralyzes Tier 2—capping escalations at three forces leaders to solve the real bottleneck today.",
+          "visual": {
+            "type": "ui-mockup",
+            "caption": "Stage 3 — Escalation Triage Filter (Max 3 Red Blockers)",
+            "elements": [
+              { "id": "w1", "kind": "window", "label": "Escalation Triage Filter • Pre-Tier 2 Screening", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Local Cell Issue → Return to Tier 1", "x": 35, "y": 58, "w": 205, "h": 48, "state": "default" },
+              { "id": "c2", "kind": "button", "label": "Lock Max 3 Cross-Team Red Tags", "x": 255, "y": 58, "w": 205, "h": 48, "state": "active" },
+              { "id": "c3", "kind": "badge", "label": "Priority Order: 1. Safety Stop -> 2. Customer Line Stop -> 3. Quality Hold", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
+            ],
+            "annotation": {
+              "targetX": 255,
+              "targetY": 58,
+              "targetW": 205,
+              "targetH": 48,
+              "arrowFromX": 295,
+              "arrowFromY": 26,
+              "label": "1. Cap Tier 2 Escalations at Max 3"
+            }
+          }
+        },
+        {
+          "stepNumber": 2,
+          "action": "Assign a support department owner and 24-hour countermeasure for each escalated blocker.",
+          "detail": "The Site Leadership Sponsor assigns engineering, quality, or logistics leads to clear the obstacle within 24 hours.",
+          "toolId": "TOL-007",
+          "coachingTip": "Confirm the support owner physically visits the shop-floor cell before noon rather than replying by email.",
+          "visual": {
+            "type": "ui-mockup",
+            "caption": "Stage 4 — Assign 24-Hour Countermeasure & Support Owner",
+            "elements": [
+              { "id": "w1", "kind": "window", "label": "Tier 2 Countermeasure Log • Leadership Commitment", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Red Tag #1: Torque Tool Calibration", "x": 35, "y": 58, "w": 205, "h": 48, "state": "danger" },
+              { "id": "c2", "kind": "button", "label": "Assign @MaintLead (Fix < 24h) ✓", "x": 255, "y": 58, "w": 205, "h": 48, "state": "success" },
+              { "id": "c3", "kind": "badge", "label": "Sponsor Sign-Off: Verifies resource commitment at the Tier 2 board", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
+            ],
+            "annotation": {
+              "targetX": 255,
+              "targetY": 58,
+              "targetW": 205,
+              "targetH": 48,
+              "arrowFromX": 295,
+              "arrowFromY": 26,
+              "label": "2. Lock 24h Support Owner at Tier 2"
+            }
+          }
+        },
+        {
+          "stepNumber": 3,
+          "action": "Walk back to the cell board before 10:00 AM and write the agreed fix time.",
+          "detail": "Close the communication loop so frontline operators see their escalated blocker has an active owner.",
+          "toolId": "TOL-007",
+          "coachingTip": "Nothing builds frontline trust faster than seeing a Tier 2 countermeasure written on their cell board within an hour.",
+          "visual": {
+            "type": "ui-mockup",
+            "caption": "Stage 4 Close-Loop — 10:00 AM Shop-Floor Feedback",
+            "elements": [
+              { "id": "w1", "kind": "window", "label": "Close the Loop • Tier 2 Back to Tier 1 Cell Board", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "09:15 AM: Tier 2 Decision Locked", "x": 35, "y": 58, "w": 200, "h": 48, "state": "default" },
+              { "id": "c2", "kind": "button", "label": "10:00 AM: Update Tier 1 Board ✓", "x": 250, "y": 58, "w": 210, "h": 48, "state": "success" },
+              { "id": "c3", "kind": "badge", "label": "Output: Signed Countermeasure Log & Verified Cell Feedback", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
+            ],
+            "annotation": {
+              "targetX": 250,
+              "targetY": 58,
+              "targetW": 210,
+              "targetH": 48,
+              "arrowFromX": 295,
+              "arrowFromY": 26,
+              "label": "3. Post Fix Time on Cell Board <10:00"
+            }
+          }
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "Tier 2 board is flooded with 12 red tags every morning.",
+          "cause": "Tier 1 leaders are escalating issues before attempting a 2-hour cell containment.",
+          "fix": "Use the Escalation Triage Filter before the meeting to return cell-fixable items and enforce the Max 3 Red Blockers cap."
+        }
+      ]
     }
   },
   "questions28": [
@@ -1022,6 +1344,756 @@ window.FALLBACK_GUIDES_DB = {
       "effort": "High Effort",
       "impact": "Low Lift (Until L1-L3 Unlocked)",
       "selectedByDefault": false
+    }
+  ],
+  "playbooks": [
+    {
+      "id": "PLB-001",
+      "code": "PLB-001",
+      "title": "Maturity Assessment & Navigator Workshop",
+      "eyebrow": "Siemens Energy • Lean@GS Playbook #1",
+      "subtitle": "Use these guides to check how Lean practices are working at your site and turn your findings into a practical leadership action plan.",
+      "filingRule": "Save finished .csv and .json files in '600 Maturity Submissions'. Never move or delete files in that folder.",
+      "processIds": ["PRC-001", "PRC-002"],
+      "sopIds": ["SOP-001", "SOP-002", "SOP-003", "SOP-004"],
+      "toolIds": ["TOL-001", "TOL-002", "TOL-003", "TOL-004", "TOL-005"],
+      "chooserLabel": "Which job are you doing today?",
+      "rulesKey": {
+        "title": "Before You Start: The 3 Rules of the Game",
+        "subtitle": "How site scoring works in plain English",
+        "items": [
+          {
+            "term": "📋 1. The 28 Questions",
+            "desc": "You and a Lean Core Team partner rate 28 everyday habits from 1 (Not in place) to 5 (Self-running). Never score alone."
+          },
+          {
+            "term": "🏭 2. 70% Site Proof",
+            "desc": "To score a 3 or higher, a habit must be working with real boards and logs across roughly 70% of teams—one pilot area does not count."
+          },
+          {
+            "term": "★ 3. 17 Starred Gateways",
+            "desc": "17 key questions are marked with a star (★). Every starred question in your current level must score at least 3 before you can move up to the next level."
+          }
+        ]
+      },
+      "journeyMap": {
+        "formulaBanner": "Understand Where I Am → Understand What Matters → Know What To Do Next → Turn Into Action",
+        "mapHeading": "End-to-End 6-Stage Process Map (Who Does What & When)",
+        "roleFilters": [
+          { "id": "all", "label": "All Roles" },
+          { "id": "ROL-001", "label": "Highlight LPM Tasks" },
+          { "id": "ROL-002", "label": "Highlight Lean Core Team Tasks" }
+        ],
+        "briefingButtonLabel": "⏱ Explain to an LPM (60-Sec Pitch)",
+        "briefingTitle": "60-Second Screen-Share Briefing for Local Programme Managers (LPMs)",
+        "briefingEquation": "90-Min Site Check (28 Qs) + Leader Priorities (VOC) = 1-Page Action Plan of Max 5 Items",
+        "briefingBullets": [
+          "1. Where we are: This is not an audit—we spend 90 minutes as a pair checking 28 everyday working habits across 70% of the site so we have an honest baseline.",
+          "2. What matters: Instead of trying to fix all 28 items at once, our 3-step funnel unlocks your red Starred Gateways (★) and connects them directly to your Site Leader's top business headaches.",
+          "3. Our next step: We walk out with a single 1-page action charter containing a maximum of 5 focused actions and a 90-day coaching cadence."
+        ],
+        "stages": [
+          {
+            "stageNumber": 1,
+            "title": "Self / Pair Calibration & Scoring (90 mins)",
+            "status": "MANDATORY",
+            "statusTone": "purple",
+            "leadRoleId": "ROL-001",
+            "leadRoleLabel": "Local Programme Manager (LPM)",
+            "supportRoleId": "ROL-002",
+            "supportRoleLabel": "Lean Core Team",
+            "toolId": "TOL-001",
+            "toolLabel": "PM Maturity Hub v6.0.0 (Assessment Tab)",
+            "inputArtifact": "Workplace Evidence (70% Rule)",
+            "outputArtifact": "Raw scores.csv / .json",
+            "targetView": { "type": "sop", "id": "SOP-001", "cta": "Open Stage 1 Guide →" }
+          },
+          {
+            "stageNumber": 2,
+            "title": "Gateway Cap & Gap Diagnosis",
+            "status": "MANDATORY",
+            "statusTone": "purple",
+            "leadRoleId": "ROL-002",
+            "leadRoleLabel": "Lean Core Team",
+            "supportRoleId": "ROL-001",
+            "supportRoleLabel": "Review: LPM",
+            "toolId": "TOL-002",
+            "toolLabel": "PM Maturity Hub v6.0.0 (Score Explainer & Strategy Builder)",
+            "inputArtifact": "Scored Assessment",
+            "outputArtifact": "Capped Maturity Score & Red Starred Gateways (★)",
+            "targetView": { "type": "sop", "id": "SOP-002", "cta": "Open Stage 2 Guide →" }
+          },
+          {
+            "stageNumber": 3,
+            "title": "Business Priorities & Leader Interviews (VOC)",
+            "status": "MANDATORY FOR WORKSHOP • OPTIONAL FOR STANDALONE CHECK",
+            "statusTone": "teal",
+            "leadRoleId": "ROL-002",
+            "leadRoleLabel": "Lean Core Team + LPM",
+            "supportRoleId": "ROL-003",
+            "supportRoleLabel": "Input: Site Leadership Sponsor",
+            "toolId": "TOL-004",
+            "toolLabel": "Navigator Toolkit v2.4.4 (Analysis Report & VOC Input)",
+            "inputArtifact": "Leader Interviews",
+            "outputArtifact": "Top Site Pain Points (Safety, Delivery, Quality, Cost)",
+            "targetView": { "type": "sop", "id": "SOP-003", "cta": "Open Stage 3 Guide →" }
+          },
+          {
+            "stageNumber": 4,
+            "title": "Prioritise the 'Vital Few' (Max 5 Actions)",
+            "status": "MANDATORY",
+            "statusTone": "purple",
+            "leadRoleId": "ROL-001",
+            "leadRoleLabel": "Joint: LPM + Lean Core Team",
+            "supportRoleId": "ROL-002",
+            "supportRoleLabel": "Joint Calibration",
+            "toolId": "TOL-003",
+            "toolLabel": "Top 5 Action Prioritiser & Simulator",
+            "inputArtifact": "All Gaps + VOC",
+            "outputArtifact": "Ranked Top 5 High-Impact / Low-Effort Actions",
+            "targetView": { "type": "decision", "id": "DEC-001", "cta": "Open Top 5 Prioritiser →" }
+          },
+          {
+            "stageNumber": 5,
+            "title": "Leadership Navigator Workshop",
+            "status": "RECOMMENDED (SITE TRANSFORMATION) • OPTIONAL (LOCAL TUNE-UP)",
+            "statusTone": "teal",
+            "leadRoleId": "ROL-003",
+            "leadRoleLabel": "Host: Site Sponsor & LPM",
+            "supportRoleId": "ROL-002",
+            "supportRoleLabel": "Facilitator: Lean Core Team",
+            "toolId": "TOL-005",
+            "toolLabel": "Navigator Toolkit v2.4.4 (Workshop Guide & Charter Input)",
+            "inputArtifact": "Top 5 Priorities",
+            "outputArtifact": "Agreed Owners & Measurable Targets",
+            "targetView": { "type": "sop", "id": "SOP-004", "cta": "Open Workshop Guide →" }
+          },
+          {
+            "stageNumber": 6,
+            "title": "1-Page Charter & 90-Day Coaching Roadmap",
+            "status": "MANDATORY",
+            "statusTone": "purple",
+            "leadRoleId": "ROL-001",
+            "leadRoleLabel": "Owner: LPM",
+            "supportRoleId": "ROL-002",
+            "supportRoleLabel": "Coaching Cadence: Lean Core Team",
+            "toolId": "TOL-005",
+            "toolLabel": "Navigator Toolkit v2.4.4 (Action Log) + 600 Maturity Submissions",
+            "inputArtifact": "Signed 1-Page Charter",
+            "outputArtifact": "Active 90-Day Coaching Plan & Filed Submission",
+            "targetView": { "type": "template", "id": "TPL-001", "cta": "Open 1-Page Charter →" }
+          }
+        ]
+      },
+      "decisionTools": [
+        {
+          "id": "DEC-001",
+          "kind": "prioritiser-funnel",
+          "navTitle": "Top 5 Action Prioritiser",
+          "eyebrow": "Stage 4 Decision Funnel • Simplify the Decision",
+          "badge": "Max 5 Actions Rule",
+          "title": "How to Pick Your Top 5 Focus Actions (From 28 Questions to 5 Vital Few)",
+          "subtitle": "Never leave a site check with a 28-item wish list. Use this 3-step decision funnel to filter your gaps down to at most 5 high-impact actions, then send them straight into your 1-Page Navigator Charter.",
+          "maxCapacity": 5,
+          "targetTemplateId": "TPL-001",
+          "sendButtonLabel": "1-Page Charter",
+          "overLimitWarning": "⚠️ Stop: Tackling more than 5 actions at once reduces completion rates. Drop lower-impact items before exporting.",
+          "withinLimitMessage": "✓ Focused Action Tray Ready (Keep at 5 or fewer actions for your 1-Page Charter)",
+          "filter1": {
+            "badge": "Funnel Step 1 • Unblock the Score Cap",
+            "title": "1. Unlock Red Starred Gateways (★) First",
+            "desc": "Any Starred Gateway scoring below 3 in your current level caps your entire site maturity score.",
+            "allLabel": "Show All Candidate Actions",
+            "flaggedLabel": "★ Only Red Capped Gateways",
+            "priorityBadgeText": "PRIORITY 1: UNLOCKS MATURITY CAP"
+          },
+          "filter2": {
+            "badge": "Funnel Step 2 • Match Leader VOC",
+            "title": "2. Match Site Leadership Priorities",
+            "desc": "Keep only actions that directly solve a problem your Site Leader raised in Stage 3 interviews.",
+            "allLabel": "All VOC Priorities",
+            "columnLabel": "Leader VOC Alignment",
+            "options": ["Safety", "On-Time Delivery", "Quality / First-Time-Right", "Cost / Productivity"]
+          },
+          "filter3": {
+            "badge": "Funnel Step 3 • Rank Impact vs. Effort",
+            "title": "3. Filter by 2×2 Effort vs. Maturity Lift",
+            "desc": "Pick Quick Wins first, add max 1–2 Major Steps, and drop Hard Slogs.",
+            "allLabel": "All Quadrants",
+            "options": ["Quick Win", "Major Step", "Fill-In", "Hard Slog"]
+          },
+          "candidates": [
+            {
+              "id": "ACT-Q10",
+              "codeLabel": "Q10 (Level 1 ★ Gateway)",
+              "isPriorityFlagged": true,
+              "liftLabel": "+1.0 Level Unlock (1.6 → 2.6)",
+              "title": "Standardise structured pilot experiments across 70% of site teams",
+              "draftText": "Raise Gateway #10 (Structured Pilot Experiments) from 2/5 to 3/5 across 70% of teams by Q2",
+              "tags": ["Quality / First-Time-Right", "Cost / Productivity"],
+              "quadrant": "Quick Win",
+              "effort": "Low Effort",
+              "impact": "High Maturity Lift",
+              "defaultDue": "Q2",
+              "defaultOwner": "@ProgrammeMgr",
+              "selectedByDefault": true
+            },
+            {
+              "id": "ACT-Q07",
+              "codeLabel": "Q7 (Level 1 ★ Gateway)",
+              "isPriorityFlagged": false,
+              "liftLabel": "+0.4 Level 1 Lift",
+              "title": "Assign clear Lean structure and written role ownership in every department",
+              "draftText": "Establish signed Lean role cards across 75% of operational areas from 30% to 75% by Q1",
+              "tags": ["Safety", "On-Time Delivery"],
+              "quadrant": "Quick Win",
+              "effort": "Low Effort",
+              "impact": "High Maturity Lift",
+              "defaultDue": "Q1",
+              "defaultOwner": "@OpsLeader",
+              "selectedByDefault": true
+            },
+            {
+              "id": "ACT-Q08",
+              "codeLabel": "Q8 (Level 1 ★ Gateway)",
+              "isPriorityFlagged": false,
+              "liftLabel": "+0.3 Level 1 Lift",
+              "title": "Run a monthly site strategy review cadence with visual target tracking",
+              "draftText": "Complete monthly leadership strategy reviews on time from 40% to 100% by Q2",
+              "tags": ["On-Time Delivery", "Cost / Productivity"],
+              "quadrant": "Quick Win",
+              "effort": "Low Effort",
+              "impact": "High Maturity Lift",
+              "defaultDue": "Q2",
+              "defaultOwner": "@ProgrammeMgr",
+              "selectedByDefault": false
+            },
+            {
+              "id": "ACT-Q12",
+              "codeLabel": "Q12 (Level 2 ★ Gateway)",
+              "isPriorityFlagged": true,
+              "liftLabel": "+0.35 Level 2 Unlock",
+              "title": "Display and actively review safety, quality, and delivery boards in every work area",
+              "draftText": "Increase work areas updating visual SQDC boards daily from 35% to 75% by Q2",
+              "tags": ["Safety", "Quality / First-Time-Right", "On-Time Delivery"],
+              "quadrant": "Quick Win",
+              "effort": "Low Effort",
+              "impact": "High Maturity Lift",
+              "defaultDue": "Q2",
+              "defaultOwner": "@OpsLeader",
+              "selectedByDefault": true
+            },
+            {
+              "id": "ACT-Q14",
+              "codeLabel": "Q14 (Level 2 ★ Gateway)",
+              "isPriorityFlagged": true,
+              "liftLabel": "+0.45 Level 2 Unlock",
+              "title": "Run 15-minute daily shift huddles that close team blockers within 48 hours",
+              "draftText": "Increase daily shift huddles solving team-level issues within 48 hours from 25% to 75% by Q3",
+              "tags": ["Safety", "On-Time Delivery", "Quality / First-Time-Right"],
+              "quadrant": "Quick Win",
+              "effort": "Low Effort",
+              "impact": "High Maturity Lift",
+              "defaultDue": "Q3",
+              "defaultOwner": "@ProgrammeMgr",
+              "selectedByDefault": true
+            },
+            {
+              "id": "ACT-Q15",
+              "codeLabel": "Q15 (Level 2 ★ Gateway)",
+              "isPriorityFlagged": false,
+              "liftLabel": "+0.25 Level 2 Lift",
+              "title": "Capture and implement frontline safety and waste-reduction ideas weekly",
+              "draftText": "Raise frontline employee suggestions implemented within 14 days from 20% to 70% by Q3",
+              "tags": ["Safety", "Cost / Productivity"],
+              "quadrant": "Quick Win",
+              "effort": "Low Effort",
+              "impact": "High Maturity Lift",
+              "defaultDue": "Q3",
+              "defaultOwner": "@OpsLeader",
+              "selectedByDefault": false
+            },
+            {
+              "id": "ACT-Q16",
+              "codeLabel": "Q16 (Level 2 ★ Gateway)",
+              "isPriorityFlagged": true,
+              "liftLabel": "+0.50 Unlocks Level 3 Cap",
+              "title": "Embed structured root-cause reflection after every major line stop or defect",
+              "draftText": "Raise Gateway #16 (Structured Reflection) from 2/5 to 3/5 across 70% of teams by Q3",
+              "tags": ["Quality / First-Time-Right", "Safety"],
+              "quadrant": "Major Step",
+              "effort": "High Effort",
+              "impact": "High Maturity Lift",
+              "defaultDue": "Q3",
+              "defaultOwner": "@OpsLeader",
+              "selectedByDefault": true
+            },
+            {
+              "id": "ACT-Q22",
+              "codeLabel": "Q22 (Level 2 ★ Gateway)",
+              "isPriorityFlagged": false,
+              "liftLabel": "+0.30 Level 2 Unlock",
+              "title": "Coach team leaders on safe experimentation and blameless problem reporting",
+              "draftText": "Raise Gateway #22 (Psychological Safety for Experimentation) from 2/5 to 3/5 by Q3",
+              "tags": ["Safety", "Quality / First-Time-Right"],
+              "quadrant": "Major Step",
+              "effort": "High Effort",
+              "impact": "High Maturity Lift",
+              "defaultDue": "Q3",
+              "defaultOwner": "@ProgrammeMgr",
+              "selectedByDefault": false
+            },
+            {
+              "id": "ACT-Q26",
+              "codeLabel": "Q26 (Level 2 ★ Gateway)",
+              "isPriorityFlagged": false,
+              "liftLabel": "+0.35 Cross-Team Flow Lift",
+              "title": "Fix cross-department handoff delays between engineering, warehouse, and assembly",
+              "draftText": "Reduce cross-department handoff wait time between shifts from 6 hours to 1.5 hours by Q4",
+              "tags": ["On-Time Delivery", "Cost / Productivity"],
+              "quadrant": "Major Step",
+              "effort": "High Effort",
+              "impact": "High Maturity Lift",
+              "defaultDue": "Q4",
+              "defaultOwner": "@OpsLeader",
+              "selectedByDefault": false
+            },
+            {
+              "id": "ACT-Q28",
+              "codeLabel": "Q28 (Level 1 Standard)",
+              "isPriorityFlagged": false,
+              "liftLabel": "+0.10 Non-Gateway Lift",
+              "title": "Publish a monthly 1-page site Lean win bulletin on shift boards",
+              "draftText": "Share 2 replicated team improvement stories per month from 0 to 2 by Q2",
+              "tags": ["Cost / Productivity"],
+              "quadrant": "Fill-In",
+              "effort": "Low Effort",
+              "impact": "Low Lift",
+              "defaultDue": "Q2",
+              "defaultOwner": "@ProgrammeMgr",
+              "selectedByDefault": false
+            },
+            {
+              "id": "ACT-Q27",
+              "codeLabel": "Q27 (Level 4 ★ Gateway)",
+              "isPriorityFlagged": false,
+              "liftLabel": "+0.15 Level 4 Only (Locked)",
+              "title": "Launch joint external supplier Lean transformation workshops",
+              "draftText": "Run 2 external supplier value-stream workshops by Q4",
+              "tags": ["On-Time Delivery", "Cost / Productivity"],
+              "quadrant": "Hard Slog",
+              "effort": "High Effort",
+              "impact": "Low Lift (Until L1-L3 Unlocked)",
+              "defaultDue": "Q4",
+              "defaultOwner": "@OpsLeader",
+              "selectedByDefault": false
+            }
+          ]
+        },
+        {
+          "id": "DEC-002",
+          "kind": "score-calculator",
+          "navTitle": "Gateway Score Cap Calculator",
+          "eyebrow": "Score Explainer • Interactive Calculator",
+          "title": "How Gateway Score Caps Work",
+          "subtitle": "Why high scores on Level 2–4 questions do not raise your total score if a Level 1 Starred Gateway (such as Q10: Pilot Experiments) scores below 3.",
+          "stepsTitle": "How Your Site Score Is Worked Out",
+          "steps": [
+            "1. Check Starred Gateways: Find the highest level where every starred Gateway question scored at least 3.",
+            "2. Count Unlocked Questions: Only include questions up to your unlocked level (e.g., 10 of 28 questions at Level 1).",
+            "3. Find the Average: Divide total points by unlocked questions (34 ÷ 10 = 3.40).",
+            "4. Apply Level Cap: Level + [(Average - 1) / 4] keeps your final score inside your unlocked level (1.6)."
+          ],
+          "levelNames": [
+            "0 (Lean Awareness)",
+            "1 (Basic Implementation)",
+            "2 (Structured Approach)",
+            "3 (Integrated Lean Culture)",
+            "4 (Strategic Mastery)"
+          ]
+        }
+      ],
+      "templates": [
+        {
+          "id": "TPL-001",
+          "kind": "action-charter",
+          "navTitle": "1-Page Navigator Charter Template",
+          "eyebrow": "Stage 6 Output Template • Pre-Filled from Top 5 Prioritiser",
+          "badge": "Navigator Toolkit • v2.4.4",
+          "title": "One-Page Navigator Charter Template",
+          "linkedDecisionId": "DEC-001",
+          "metaFields": [
+            { "label": "Site / Area", "value": "[Insert Site]" },
+            { "label": "Date", "value": "[YYYY-MM-DD]" },
+            { "label": "Local Programme Manager", "value": "@[Name]" },
+            { "label": "Site Leader Sponsor", "value": "@[Name]" }
+          ],
+          "leftBoxTitle": "1. Top 3 Leader Priorities (Business Problems to Solve)",
+          "leftBoxBullets": [
+            "Shorten delivery lead time on the main line.",
+            "Cut repeat quality defects across shifts.",
+            "Fix handoff delays between departments."
+          ],
+          "rightBoxTitle": "2. Starting Site Score & Starred Gateways to Fix",
+          "rightBoxPrimary": "Current Score: 1.6 / 4.0 (Level 1: Basic Implementation)",
+          "rightBoxSecondaryPrefix": "Prioritised Items",
+          "tableHeaders": {
+            "code": "#",
+            "action": "Agreed Programme Objective / Key Result ([Measure] from [Start] to [Target] by [Date])",
+            "lift": "Expected Lift",
+            "tag": "VOC Priority",
+            "due": "Due",
+            "owner": "Owner"
+          },
+          "objectiveRowCode": "OBJ 1",
+          "objectiveRowText": "Prioritised Top Focus Actions (Locked via 3-Step Decision Funnel — Max 5 Capacity Rule)",
+          "rowCodePrefix": "KR 1."
+        }
+      ],
+      "referenceTables": [
+        {
+          "id": "REF-001",
+          "navTitle": "All 28 Questions & 17 Gateways (★)",
+          "eyebrow": "Site Assessment Reference",
+          "badge": "PM Maturity Hub • v6.0.0",
+          "title": "All 28 Assessment Questions & 17 Gateways",
+          "subtitle": "Starred Gateway questions (★ Yes) must score at least 3 across roughly 70% of the site before higher-level questions count toward your final score.",
+          "filterAllLabel": "All Questions (28)",
+          "filterFlaggedLabel": "★ Starred Gateways Only (17)",
+          "columns": ["#", "Assessment Question", "Topic", "Level", "Gateway?"],
+          "rows": [
+            { "code": "Q1", "col1": "Is there a clear business reason driving this Lean Programme?", "col2": "Foundation", "col3": "Level 0", "flagged": true, "flagLabel": "★ Yes" },
+            { "code": "Q2", "col1": "Is leadership committed and actively invested in being involved?", "col2": "Foundation", "col3": "Level 0", "flagged": true, "flagLabel": "★ Yes" },
+            { "code": "Q3", "col1": "Has the team or organisation started acquiring foundational Lean knowledge?", "col2": "Foundation", "col3": "Level 0", "flagged": true, "flagLabel": "★ Yes" },
+            { "code": "Q4", "col1": "How clearly can your team describe what Lean means and how it supports your business goals?", "col2": "Awareness and Training", "col3": "Level 0", "flagged": true, "flagLabel": "★ Yes" },
+            { "code": "Q5", "col1": "How deeply do team members understand core Lean concepts?", "col2": "Awareness and Training", "col3": "Level 0", "flagged": true, "flagLabel": "★ Yes" },
+            { "code": "Q6", "col1": "Is there a consistent and active plan to close competency gaps?", "col2": "Awareness and Training", "col3": "Level 1", "flagged": false, "flagLabel": "No" },
+            { "code": "Q7", "col1": "Is there a clear Lean structure and defined role ownership within the team?", "col2": "Lean Structure and Strategy", "col3": "Level 1", "flagged": true, "flagLabel": "★ Yes" },
+            { "code": "Q8", "col1": "How effectively is strategy managed and reviewed at your level?", "col2": "Lean Structure and Strategy", "col3": "Level 1", "flagged": true, "flagLabel": "★ Yes" },
+            { "code": "Q9", "col1": "How well are strategic objectives cascaded to teams?", "col2": "Lean Structure and Strategy", "col3": "Level 2", "flagged": false, "flagLabel": "No" },
+            { "code": "Q10", "col1": "Does the team actively execute structured, pilot experiments?", "col2": "Lean Tools and KPI Alignment", "col3": "Level 1", "flagged": true, "flagLabel": "★ Yes" },
+            { "code": "Q11", "col1": "Are Lean tools routinely applied and embedded in daily operations?", "col2": "Lean Tools and KPI Alignment", "col3": "Level 2", "flagged": false, "flagLabel": "No" },
+            { "code": "Q12", "col1": "Are performance metrics and Lean-relevant KPIs displayed and actively discussed in the work area?", "col2": "Lean Tools and KPI Alignment", "col3": "Level 2", "flagged": true, "flagLabel": "★ Yes" },
+            { "code": "Q13", "col1": "Is the review of KPIs driven by Lean principles to prevent local optimization?", "col2": "Lean Tools and KPI Alignment", "col3": "Level 3", "flagged": false, "flagLabel": "No" },
+            { "code": "Q14", "col1": "Are daily huddles used consistently to raise and resolve issues?", "col2": "Daily Management and CI", "col3": "Level 2", "flagged": true, "flagLabel": "★ Yes" },
+            { "code": "Q15", "col1": "How effectively are employee suggestions captured and implemented?", "col2": "Daily Management and CI", "col3": "Level 2", "flagged": true, "flagLabel": "★ Yes" },
+            { "code": "Q16", "col1": "Does the team practice structured reflection?", "col2": "Learning and Value Chain Integration", "col3": "Level 2", "flagged": true, "flagLabel": "★ Yes" },
+            { "code": "Q17", "col1": "How consistently are lessons learned documented and applied?", "col2": "Learning and Value Chain Integration", "col3": "Level 3", "flagged": false, "flagLabel": "No" },
+            { "code": "Q18", "col1": "Does your Lean philosophy extend across your entire value chain?", "col2": "Learning and Value Chain Integration", "col3": "Level 3", "flagged": true, "flagLabel": "★ Yes" },
+            { "code": "Q19", "col1": "Are internal departmental handoffs integrated to ensure seamless process flow?", "col2": "Learning and Value Chain Integration", "col3": "Level 3", "flagged": false, "flagLabel": "No" },
+            { "code": "Q20", "col1": "Do leaders practice the 'Gemba Walk' habit consistently?", "col2": "Leadership & Culture", "col3": "Level 2", "flagged": false, "flagLabel": "No" },
+            { "code": "Q21", "col1": "Do leaders use a consistent questioning cycle to identify target conditions and obstacles?", "col2": "Leadership & Culture", "col3": "Level 2", "flagged": false, "flagLabel": "No" },
+            { "code": "Q22", "col1": "Is there a culture of psychological safety that encourages safe experimentation?", "col2": "Leadership & Culture", "col3": "Level 2", "flagged": true, "flagLabel": "★ Yes" },
+            { "code": "Q23", "col1": "Are learnings from reflection used to update standard work?", "col2": "Learning & Scaling", "col3": "Level 3", "flagged": false, "flagLabel": "No" },
+            { "code": "Q24", "col1": "Is physical verification used to validate pilot project outcomes?", "col2": "Learning & Scaling", "col3": "Level 3", "flagged": false, "flagLabel": "No" },
+            { "code": "Q25", "col1": "Are successful standards systematically scaled across the site?", "col2": "Learning & Scaling", "col3": "Level 3", "flagged": true, "flagLabel": "★ Yes" },
+            { "code": "Q26", "col1": "Do teams from different functions collaborate to improve shared processes?", "col2": "Collaboration & Feedback", "col3": "Level 2", "flagged": true, "flagLabel": "★ Yes" },
+            { "code": "Q27", "col1": "Are joint improvement projects executed with external partners?", "col2": "Collaboration & Feedback", "col3": "Level 4", "flagged": true, "flagLabel": "★ Yes" },
+            { "code": "Q28", "col1": "How consistently are success stories shared and replicated?", "col2": "Communication", "col3": "Level 1", "flagged": false, "flagLabel": "No" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PLB-002",
+      "code": "PLB-002",
+      "title": "Tiered Daily Management & Escalation Meetings",
+      "eyebrow": "Siemens Energy • Lean@GS Playbook #2",
+      "subtitle": "Run crisp 15-minute shift stand-up meetings, filter cross-department blockers down to at most 3 red tags, and lock 24-hour countermeasures.",
+      "filingRule": "Post signed Tier 2 Countermeasure Logs on the Operations Board and archive weekly inside '200 Daily Management Logs'.",
+      "processIds": ["PRC-003"],
+      "sopIds": ["SOP-005", "SOP-006"],
+      "toolIds": ["TOL-006", "TOL-007"],
+      "chooserLabel": "Which daily management task are you running right now?",
+      "rulesKey": {
+        "title": "Before You Start: The 3 Rules of Tiered Daily Management",
+        "subtitle": "How shift stand-ups and escalations work in plain English",
+        "items": [
+          {
+            "term": "⏱ 1. The 15-Minute Rule",
+            "desc": "Update numbers 5 minutes before the horn. Spend 5 seconds on green metrics and focus the 15-minute stand-up strictly on red misses."
+          },
+          {
+            "term": "🏷️ 2. The 2-Hour Red-Tag Trigger",
+            "desc": "If a cell team cannot contain a safety, quality, or delivery obstacle within 2 hours, attach a Red Escalation Tag for Tier 2."
+          },
+          {
+            "term": "🔄 3. Max 3 Escalations & 10:00 AM Loop",
+            "desc": "Filter Tier 2 escalations to at most 3 critical cross-team blockers per shift and write the agreed fix time back on the cell board by 10:00 AM."
+          }
+        ]
+      },
+      "journeyMap": {
+        "formulaBanner": "Spot Red Exceptions Early → Contain in Cell (<2h) → Triage Max 3 Blockers to Tier 2 → Close Loop by 10:00 AM",
+        "mapHeading": "End-to-End 4-Stage Daily Management & Escalation Map",
+        "roleFilters": [
+          { "id": "all", "label": "All Roles" },
+          { "id": "ROL-004", "label": "Highlight Team Leader Tasks" },
+          { "id": "ROL-001", "label": "Highlight LPM Tasks" },
+          { "id": "ROL-003", "label": "Highlight Site Sponsor Tasks" }
+        ],
+        "briefingButtonLabel": "⏱ Explain Tiered Stand-Ups (60-Sec Pitch)",
+        "briefingTitle": "60-Second Floor Briefing: Why We Run Tier 1 & Tier 2 Stand-Ups",
+        "briefingEquation": "5-Min Board Prep + 15-Min Red-Miss Focus + Max 3 Tier 2 Red Tags = 24-Hour Countermeasure Loop",
+        "briefingBullets": [
+          "1. Where we are: Every shift starts with a 15-minute check at the visual SQDC board—numbers are colored Red or Green 5 minutes before the horn so we never waste meeting time writing.",
+          "2. What matters: We don't debate root causes at the stand-up board. Cell-fixable misses get a named 24-hour owner; cross-team blockers breaching 2 hours get a Red Escalation Tag.",
+          "3. Our next step: The Local Programme Manager filters red tags down to a maximum of 3 critical blockers for the 09:00 AM Tier 2 huddle and writes the agreed fix back on the cell board by 10:00 AM."
+        ],
+        "stages": [
+          {
+            "stageNumber": 1,
+            "title": "Prep Visual Board Metrics (5 mins before shift)",
+            "status": "MANDATORY",
+            "statusTone": "purple",
+            "leadRoleId": "ROL-004",
+            "leadRoleLabel": "Team Leader",
+            "supportRoleId": "ROL-001",
+            "supportRoleLabel": "Standard Check: LPM",
+            "toolId": "TOL-006",
+            "toolLabel": "Visual Stand-Up Board (SQDC)",
+            "inputArtifact": "Shift Handover Log",
+            "outputArtifact": "Updated SQDC Board",
+            "targetView": { "type": "sop", "id": "SOP-005", "cta": "Open Stage 1–2 Guide →" }
+          },
+          {
+            "stageNumber": 2,
+            "title": "Run 15-Minute Tier 1 Stand-Up Meeting",
+            "status": "MANDATORY",
+            "statusTone": "purple",
+            "leadRoleId": "ROL-004",
+            "leadRoleLabel": "Team Leader",
+            "supportRoleId": "ROL-001",
+            "supportRoleLabel": "Support: Local Programme Manager",
+            "toolId": "TOL-006",
+            "toolLabel": "Visual Stand-Up Board (SQDC)",
+            "inputArtifact": "Updated SQDC Board",
+            "outputArtifact": "Immediate Containment Actions",
+            "targetView": { "type": "sop", "id": "SOP-005", "cta": "Open Tier 1 Stand-Up SOP →" }
+          },
+          {
+            "stageNumber": 3,
+            "title": "Filter & Escalate Blockers to Tier 2",
+            "status": "MANDATORY",
+            "statusTone": "purple",
+            "leadRoleId": "ROL-001",
+            "leadRoleLabel": "Local Programme Manager",
+            "supportRoleId": "ROL-004",
+            "supportRoleLabel": "Input: Team Leader Red Tags",
+            "toolId": "TOL-007",
+            "toolLabel": "Escalation Triage Filter",
+            "inputArtifact": "Tier 1 Red Escalation Tags",
+            "outputArtifact": "Max 3 Escalated Red Blockers",
+            "targetView": { "type": "decision", "id": "DEC-003", "cta": "Open Escalation Triage Filter →" }
+          },
+          {
+            "stageNumber": 4,
+            "title": "Assign 24-Hour Countermeasures & Close Loop",
+            "status": "MANDATORY",
+            "statusTone": "purple",
+            "leadRoleId": "ROL-003",
+            "leadRoleLabel": "Site Leadership Sponsor",
+            "supportRoleId": "ROL-002",
+            "supportRoleLabel": "Coach: Lean Core Team",
+            "toolId": "TOL-007",
+            "toolLabel": "24-Hour Countermeasure Log",
+            "inputArtifact": "Max 3 Escalated Red Blockers",
+            "outputArtifact": "Signed Countermeasure Log",
+            "targetView": { "type": "sop", "id": "SOP-006", "cta": "Open Tier 2 Close-Loop SOP →" }
+          }
+        ]
+      },
+      "decisionTools": [
+        {
+          "id": "DEC-003",
+          "kind": "prioritiser-funnel",
+          "navTitle": "Meeting Escalation & Red-Tag Triage Filter",
+          "eyebrow": "Stage 3 Triage Funnel • Protect Tier 2 Focus",
+          "badge": "Max 3 Red Blockers Rule",
+          "title": "Meeting Escalation & Red-Tag Triage Filter (Tier 1 → Tier 2)",
+          "subtitle": "Never flood the 09:00 AM Tier 2 operations huddle with 15 minor cell issues. Filter today's incoming shift blockers down to a maximum of 3 critical cross-department escalations.",
+          "maxCapacity": 3,
+          "targetTemplateId": "TPL-002",
+          "sendButtonLabel": "Tier 2 Stand-Up Board Agenda",
+          "overLimitWarning": "⚠️ Stop: Escalating more than 3 red blockers stalls the 15-minute Tier 2 meeting. Return single-department items to Tier 1 containment.",
+          "withinLimitMessage": "✓ Tier 2 Escalation Tray Ready (Max 3 Cross-Department Red Blockers Locked for 09:00 AM)",
+          "filter1": {
+            "badge": "Triage Step 1 • Line-Stop & Safety Gate",
+            "title": "1. Prioritise Immediate Line Stops & Safety Risks (★)",
+            "desc": "Any red tag halting customer delivery or safety breaches the 2-hour cell rule and must go to Tier 2 first.",
+            "allLabel": "Show All Shift Red Tags",
+            "flaggedLabel": "★ Only Line-Stop / >2h Breaches",
+            "priorityBadgeText": "PRIORITY 1: LINE STOP / >2H CELL BREACH"
+          },
+          "filter2": {
+            "badge": "Triage Step 2 • SQDC Category",
+            "title": "2. Filter by SQDC Board Pillar",
+            "desc": "Match the blocker to the affected SQDC pillar so the right support lead (Safety, Quality, Maintenance, Logistics) is ready.",
+            "allLabel": "All SQDC Pillars",
+            "columnLabel": "SQDC Board Pillar",
+            "options": ["Safety", "Quality", "Delivery", "Cost / Equipment"]
+          },
+          "filter3": {
+            "badge": "Triage Step 3 • Resolution Scope",
+            "title": "3. Filter by Resolution Ownership Scope",
+            "desc": "Escalate Cross-Dept Blockers to Tier 2; keep Cell-Level Fixes at Tier 1.",
+            "allLabel": "All Scopes",
+            "options": ["Tier 2 Cross-Dept", "Supplier / External", "Contain in Cell (Tier 1)"]
+          },
+          "candidates": [
+            {
+              "id": "ESC-01",
+              "codeLabel": "RED-TAG #1 (Bay 4 Assembly ★)",
+              "isPriorityFlagged": true,
+              "liftLabel": "Stops Main Line in 2h",
+              "title": "Torque controller calibration fault halting Bay 4 final casing bolt-up",
+              "draftText": "Dispatch Maintenance Calibration Lead to swap backup controller on Bay 4 before 11:00 AM",
+              "tags": ["Quality", "Delivery"],
+              "quadrant": "Tier 2 Cross-Dept",
+              "effort": "Cross-Team Needed",
+              "impact": "Unblocks Shift Output",
+              "defaultDue": "11:00 AM",
+              "defaultOwner": "@MaintLead",
+              "selectedByDefault": true
+            },
+            {
+              "id": "ESC-02",
+              "codeLabel": "RED-TAG #2 (Test Cell B ★)",
+              "isPriorityFlagged": true,
+              "liftLabel": "High Safety Priority",
+              "title": "Overhead crane limit switch intermittent trip during rotor lift",
+              "draftText": "Lock out Secondary Hoist B and complete EHS & Electrical inspection before afternoon shift",
+              "tags": ["Safety", "Cost / Equipment"],
+              "quadrant": "Tier 2 Cross-Dept",
+              "effort": "EHS + Facilities",
+              "impact": "Zero-Harm Mandatory",
+              "defaultDue": "13:00 PM",
+              "defaultOwner": "@EHSLead",
+              "selectedByDefault": true
+            },
+            {
+              "id": "ESC-03",
+              "codeLabel": "RED-TAG #3 (Sub-Assembly 2 ★)",
+              "isPriorityFlagged": true,
+              "liftLabel": "3 Shifts Delayed",
+              "title": "Missing kitted seal rings from central warehouse holding 4 customer units",
+              "draftText": "Expedite bonded inspection release of seal batch #4402 from Warehouse to Sub-Assembly 2 by 14:00",
+              "tags": ["Delivery", "Quality"],
+              "quadrant": "Tier 2 Cross-Dept",
+              "effort": "Logistics + QA",
+              "impact": "Saves +4 Units OTD",
+              "defaultDue": "14:00 PM",
+              "defaultOwner": "@MaterialsMgr",
+              "selectedByDefault": true
+            },
+            {
+              "id": "ESC-04",
+              "codeLabel": "RED-TAG #4 (Machining Cell 1)",
+              "isPriorityFlagged": false,
+              "liftLabel": "Vendor Batch Issue",
+              "title": "Surface burr on incoming cast brackets requiring 15 mins extra deburring",
+              "draftText": "Issue 24-hour supplier containment alert and sort current pallet with Quality Tech",
+              "tags": ["Quality", "Cost / Equipment"],
+              "quadrant": "Supplier / External",
+              "effort": "Supplier QA",
+              "impact": "Saves 2h Rework/Shift",
+              "defaultDue": "Tomorrow 09:00",
+              "defaultOwner": "@SupplierQA",
+              "selectedByDefault": false
+            },
+            {
+              "id": "ESC-05",
+              "codeLabel": "RED-TAG #5 (Pack Station)",
+              "isPriorityFlagged": false,
+              "liftLabel": "Fixable in Cell (<30m)",
+              "title": "Label printer ribbon roll depleted at Station 2 packing bench",
+              "draftText": "Return to Tier 1 Team Leader: restock ribbon from cell kanban cabinet within 15 minutes",
+              "tags": ["Delivery"],
+              "quadrant": "Contain in Cell (Tier 1)",
+              "effort": "Cell Operator",
+              "impact": "No Tier 2 Needed",
+              "defaultDue": "08:30 AM",
+              "defaultOwner": "@TeamLeader",
+              "selectedByDefault": false
+            },
+            {
+              "id": "ESC-06",
+              "codeLabel": "RED-TAG #6 (Weld Booth 3)",
+              "isPriorityFlagged": false,
+              "liftLabel": "Fixable in Cell (<1h)",
+              "title": "Shadow board 10mm socket missing after night shift handover",
+              "draftText": "Return to Tier 1 Team Leader: replace from tool crib and audit shift-end 5S checklist",
+              "tags": ["Cost / Equipment"],
+              "quadrant": "Contain in Cell (Tier 1)",
+              "effort": "Cell Team",
+              "impact": "No Tier 2 Needed",
+              "defaultDue": "09:30 AM",
+              "defaultOwner": "@TeamLeader",
+              "selectedByDefault": false
+            }
+          ]
+        }
+      ],
+      "templates": [
+        {
+          "id": "TPL-002",
+          "kind": "action-charter",
+          "navTitle": "Tier 1 / Tier 2 Stand-up Board Agenda Template",
+          "eyebrow": "Stage 4 Output Template • Pre-Filled from Escalation Triage Filter",
+          "badge": "Daily Management Suite • v3.1.0",
+          "title": "Tier 1 / Tier 2 Stand-Up Board Agenda & 24-Hour Countermeasure Log",
+          "linkedDecisionId": "DEC-003",
+          "metaFields": [
+            { "label": "Site / Cell Area", "value": "[Insert Cell / Value Stream]" },
+            { "label": "Shift & Date", "value": "[Day Shift • YYYY-MM-DD]" },
+            { "label": "Tier 1 Team Leader", "value": "@[TeamLeader]" },
+            { "label": "Tier 2 Chair (LPM / Sponsor)", "value": "@[OpsSponsor]" }
+          ],
+          "leftBoxTitle": "1. Standard 15-Minute Tier 1 / Tier 2 Stand-Up Agenda",
+          "leftBoxBullets": [
+            "00–03 Mins (Safety & People): Check zero-harm status, ergonomic risks, and shift staffing.",
+            "03–08 Mins (Quality & Delivery): Review red misses only; verify 24h cell containment owners.",
+            "08–15 Mins (Cost & Escalations): Lock max 3 Red Tags for Tier 2 and confirm 10:00 AM feedback."
+          ],
+          "rightBoxTitle": "2. Shift SQDC Status & Escalation Cap Summary",
+          "rightBoxPrimary": "Tier 2 Escalation Cap: Max 3 Cross-Department Red Blockers",
+          "rightBoxSecondaryPrefix": "Active Red Tags Escalated Today",
+          "tableHeaders": {
+            "code": "Tag #",
+            "action": "24-Hour Countermeasure & Shop-Floor Verification ([Action] + [Location] + [Fix Window])",
+            "lift": "Operational Impact",
+            "tag": "SQDC Pillar",
+            "due": "Fix By",
+            "owner": "24h Owner"
+          },
+          "objectiveRowCode": "TIER 2",
+          "objectiveRowText": "Escalated Cross-Department Blockers (Filtered via Tier 2 Red-Tag Triage — 10:00 AM Feedback Rule)",
+          "rowCodePrefix": "CM-"
+        }
+      ],
+      "referenceTables": [
+        {
+          "id": "REF-002",
+          "navTitle": "Standard SQDC Escalation Matrix",
+          "eyebrow": "Daily Management Reference",
+          "badge": "Daily Management Suite • v3.1.0",
+          "title": "Standard Tier 1 → Tier 3 Escalation Matrix & Response Times",
+          "subtitle": "Clear rules for when a shop-floor issue stays in the cell (Tier 1) versus when it must be escalated with a Red Tag to Tier 2 or Tier 3.",
+          "filterAllLabel": "All Triggers (8)",
+          "filterFlaggedLabel": "★ Immediate Tier 2 Red-Tag Triggers Only (5)",
+          "columns": ["Code", "Shop-Floor Trigger Condition", "Pillar", "Target Tier", "Red-Tag Rule"],
+          "rows": [
+            { "code": "ESC-S1", "col1": "First-aid injury, near-miss with high potential, or unsafe lifting/hoist equipment condition", "col2": "Safety", "col3": "Tier 2 & EHS Immediately", "flagged": true, "flagLabel": "★ Red Tag Now" },
+            { "code": "ESC-S2", "col1": "Minor 5S housekeeping or walkway clutter fixable by cell operators within 15 minutes", "col2": "Safety", "col3": "Tier 1 Cell Containment", "flagged": false, "flagLabel": "Cell Fix (<15m)" },
+            { "code": "ESC-Q1", "col1": "Repeat critical-to-quality defect or calibrated torque/test tool out of tolerance", "col2": "Quality", "col3": "Tier 2 (<2 Hours)", "flagged": true, "flagLabel": "★ Red Tag (>2h)" },
+            { "code": "ESC-Q2", "col1": "Single cosmetic blemish with documented standard rework instruction in cell", "col2": "Quality", "col3": "Tier 1 Cell Containment", "flagged": false, "flagLabel": "Cell Fix (<2h)" },
+            { "code": "ESC-D1", "col1": "Main line or test bay stopped >2 hours waiting on warehouse parts, crane, or engineering", "col2": "Delivery", "col3": "Tier 2 (09:00 AM Huddle)", "flagged": true, "flagLabel": "★ Red Tag (>2h)" },
+            { "code": "ESC-D2", "col1": "Customer shipment at risk of missing weekly commit date after 24h Tier 2 containment", "col2": "Delivery", "col3": "Tier 3 Plant Director", "flagged": true, "flagLabel": "★ Escalate Tier 3" },
+            { "code": "ESC-C1", "col1": "Key bottleneck machine breakdown exceeding 2 hours without maintenance replacement", "col2": "Cost / Equipment", "col3": "Tier 2 (<2 Hours)", "flagged": true, "flagLabel": "★ Red Tag (>2h)" },
+            { "code": "ESC-C2", "col1": "Consumable kanban bin or label roll depleted with backup stock available in cell", "col2": "Cost / Equipment", "col3": "Tier 1 Cell Containment", "flagged": false, "flagLabel": "Cell Fix (<30m)" }
+          ]
+        }
+      ]
     }
   ]
 }
