@@ -33,7 +33,7 @@ let state = {
   studioSavedSvgVisual: null
 };
 
-const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V13";
+const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V15";
 let DEFAULT_DB_SNAPSHOT = null;
 
 async function initApp() {
@@ -445,12 +445,10 @@ function renderSidebar() {
       ${decisionTools
         .map((dec) => {
           const isActive = state.view === "decision" && state.selectedId === dec.id;
-          const chosenCount = (state.selectedCandidatesByDecisionId[dec.id] || []).length;
-          const capSuffix = dec.kind === "prioritiser-funnel" ? ` (${chosenCount}/${dec.maxCapacity})` : "";
           return `
             <button type="button" class="tree-item ${isActive ? "active" : ""}"
                     onclick="selectDecisionTool('${dec.id}')">
-              <span>${escapeHtml(dec.navTitle)}${escapeHtml(capSuffix)}</span>
+              <span>${escapeHtml(dec.navTitle)}</span>
               <span class="tree-chevron">›</span>
             </button>
           `;
@@ -1074,9 +1072,12 @@ function renderSOPPage(sop, plb, canvas) {
           .join("")}
       </section>
 
-      <!-- Anchor 3: Self-Service Troubleshooting -->
+      <!-- Anchor 3: Mandatory "Buttons & Controls on This Screen" Reference -->
+      ${renderButtonsReferenceSection(getResolvedButtonsReference(sop, tools), "3. Buttons & controls on this screen")}
+
+      <!-- Anchor 4: Self-Service Troubleshooting -->
       <section class="editorial-section">
-        <h3 class="editorial-h3">3. Common problems &amp; quick fixes</h3>
+        <h3 class="editorial-h3">4. Common problems &amp; quick fixes</h3>
         <table class="clean-table">
           <thead>
             <tr>
@@ -1103,10 +1104,69 @@ function renderSOPPage(sop, plb, canvas) {
   `;
 }
 
+function getResolvedButtonsReference(sop, tools) {
+  if (Array.isArray(sop?.buttonsReference) && sop.buttonsReference.length > 0) {
+    return sop.buttonsReference;
+  }
+  const combined = [];
+  const seen = new Set();
+  for (const t of tools || []) {
+    for (const btn of t.buttonsReference || []) {
+      const key = `${btn.button}||${btn.where}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        combined.push(btn);
+      }
+    }
+  }
+  return combined;
+}
+
+function renderButtonsReferenceSection(buttons, sectionHeading) {
+  const list = Array.isArray(buttons) ? buttons : [];
+  if (list.length === 0) return "";
+  return `
+    <section class="editorial-section">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+        <h3 class="editorial-h3" style="margin-bottom:0;">${escapeHtml(sectionHeading || "Buttons & controls on this screen")}</h3>
+        <span class="muted-code-pill">Screen-by-Screen UI Reference (${list.length} Controls)</span>
+      </div>
+      <p style="font-size:13.5px;color:#54646E;margin-bottom:12px;">
+        Quick reference for every button, toggle, and input control on this screen in the live application:
+      </p>
+      <table class="clean-table">
+        <thead>
+          <tr>
+            <th style="width:28%;">Button / Control Name</th>
+            <th style="width:26%;">Where It Is on Screen</th>
+            <th style="width:46%;">What It Does &amp; When to Use It</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${list
+            .map(
+              (b) => `
+            <tr>
+              <td>
+                <code style="color:#1B1534;background:#EAF4F8;border:1px solid #B8CEDB;padding:3px 8px;border-radius:5px;font-weight:700;font-size:12.5px;">
+                  ${escapeHtml(b.button)}
+                </code>
+              </td>
+              <td style="color:#4D217A;font-weight:600;font-size:13px;">${escapeHtml(b.where)}</td>
+              <td style="color:#1B1534;font-size:13.5px;line-height:1.5;">${escapeHtml(b.whatItDoes)}</td>
+            </tr>`
+            )
+            .join("")}
+        </tbody>
+      </table>
+    </section>
+  `;
+}
+
 /**
  * Tab 3: Universal Decision & Priority Tools Engine
- * Supports declarative "prioritiser-funnel" (PLB-001 Top 5 Actions / PLB-002 Max 3 Escalations)
- * and "score-calculator" (Gateway Score Cap Calculator)
+ * - "vital-few-guide": Clean 3-rule coaching guide ("How to Narrow Your Gaps to the 'Vital Few' (2 to 3 Key Actions)") + static "What Good Looks Like" comparison + Live App Launcher (Zero redundant app clones or tickboxes)
+ * - "score-calculator": Gateway Score Cap Calculator
  */
 function renderDecisionToolPage(dec, plb, canvas) {
   if (!dec) return;
@@ -1215,243 +1275,191 @@ function renderDecisionToolPage(dec, plb, canvas) {
     return;
   }
 
-  // Generic 3-Step Prioritiser / Triage Funnel Engine
-  const candidates = dec.candidates || [];
-  const f1 = dec.filter1 || {};
-  const f2 = dec.filter2 || {};
-  const f3 = dec.filter3 || {};
-  const selectedIds = state.selectedCandidatesByDecisionId[dec.id] || [];
-  const maxCap = dec.maxCapacity || 5;
-
-  const filtered = candidates.filter((c) => {
-    const matchFlag = !state.funnelFlaggedOnly || c.isPriorityFlagged;
-    const matchTag = state.funnelTagFilter === "ALL" || (c.tags || []).includes(state.funnelTagFilter);
-    const matchQuad = state.funnelQuadrantFilter === "ALL" || c.quadrant === state.funnelQuadrantFilter;
-    return matchFlag && matchTag && matchQuad;
-  });
-
-  const selectedCount = selectedIds.length;
-  const isOverLimit = selectedCount > maxCap;
+  // Clean "How to Narrow Your Gaps to the 'Vital Few' (2 to 3 Key Actions)" Coaching Guide
+  const rules = dec.rules || [];
+  const cmp = dec.comparisonExample || {};
+  const goodEx = cmp.good || {};
+  const badEx = cmp.bad || {};
 
   canvas.innerHTML = `
     <div class="content-container">
       ${switcherPills}
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-        <span class="eyebrow-tag" style="margin-bottom:0;">${escapeHtml(dec.eyebrow || "")}</span>
-        <span class="muted-code-pill">${escapeHtml(dec.badge || "")}</span>
-      </div>
-      <h1 class="page-title" style="margin-bottom:8px;">${escapeHtml(dec.title)}</h1>
-      <p class="page-subtitle" style="margin-bottom:20px;">
-        ${escapeHtml(dec.subtitle)}
-      </p>
-
-      <!-- Declarative 3-Step Decision Funnel Controls -->
-      <div class="funnel-controls-grid">
-        <!-- Filter 1 -->
-        <div class="funnel-filter-card">
-          <span class="funnel-step-badge">${escapeHtml(f1.badge || "")}</span>
-          <h3 style="font-size:15px;font-weight:700;color:#1B1534;margin-bottom:4px;">
-            ${escapeHtml(f1.title || "")}
-          </h3>
-          <p style="font-size:12.5px;color:#54646E;">
-            ${escapeHtml(f1.desc || "")}
-          </p>
-          <div class="funnel-chip-row">
-            <button type="button" class="funnel-chip ${!state.funnelFlaggedOnly ? "active" : ""}"
-                    onclick="setFunnelFlaggedOnly(false)">
-              ${escapeHtml(f1.allLabel || "Show All")} (${candidates.length})
-            </button>
-            <button type="button" class="funnel-chip ${state.funnelFlaggedOnly ? "active" : ""}"
-                    onclick="setFunnelFlaggedOnly(true)">
-              ${escapeHtml(f1.flaggedLabel || "Priority Only")}
-            </button>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;margin-bottom:16px;">
+        <div style="max-width:740px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
+            <span class="eyebrow-tag" style="margin-bottom:0;">${escapeHtml(dec.eyebrow || "")}</span>
+            <span class="muted-code-pill">${escapeHtml(dec.badge || "Target: 2 to 3 Key Actions")}</span>
           </div>
-        </div>
-
-        <!-- Filter 2 -->
-        <div class="funnel-filter-card">
-          <span class="funnel-step-badge">${escapeHtml(f2.badge || "")}</span>
-          <h3 style="font-size:15px;font-weight:700;color:#1B1534;margin-bottom:4px;">
-            ${escapeHtml(f2.title || "")}
-          </h3>
-          <p style="font-size:12.5px;color:#54646E;">
-            ${escapeHtml(f2.desc || "")}
+          <h1 class="page-title" style="margin-bottom:8px;">${escapeHtml(dec.title)}</h1>
+          <p class="page-subtitle" style="margin-bottom:0;">
+            ${escapeHtml(dec.subtitle)}
           </p>
-          <div class="funnel-chip-row">
-            <button type="button" class="funnel-chip ${state.funnelTagFilter === "ALL" ? "active" : ""}"
-                    onclick="setFunnelTagFilter('ALL')">
-              ${escapeHtml(f2.allLabel || "All")}
-            </button>
-            ${(f2.options || [])
-              .map(
-                (opt) => `
-              <button type="button" class="funnel-chip ${state.funnelTagFilter === opt ? "active" : ""}"
-                      onclick="setFunnelTagFilter('${escapeHtml(opt)}')">
-                ${escapeHtml(opt)}
-              </button>`
-              )
-              .join("")}
-          </div>
         </div>
-
-        <!-- Filter 3 -->
-        <div class="funnel-filter-card">
-          <span class="funnel-step-badge">${escapeHtml(f3.badge || "")}</span>
-          <h3 style="font-size:15px;font-weight:700;color:#1B1534;margin-bottom:4px;">
-            ${escapeHtml(f3.title || "")}
-          </h3>
-          <p style="font-size:12.5px;color:#54646E;">
-            ${escapeHtml(f3.desc || "")}
-          </p>
-          <div class="funnel-chip-row">
-            <button type="button" class="funnel-chip ${state.funnelQuadrantFilter === "ALL" ? "active" : ""}"
-                    onclick="setFunnelQuadrantFilter('ALL')">
-              ${escapeHtml(f3.allLabel || "All")}
-            </button>
-            ${(f3.options || [])
-              .map(
-                (opt) => `
-              <button type="button" class="funnel-chip ${state.funnelQuadrantFilter === opt ? "active" : ""}"
-                      onclick="setFunnelQuadrantFilter('${escapeHtml(opt)}')">
-                ${escapeHtml(opt)}
-              </button>`
-              )
-              .join("")}
-          </div>
-        </div>
+        ${
+          dec.liveUrl
+            ? `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                <a href="${escapeHtml(dec.liveUrl)}" target="_blank" rel="noopener noreferrer" class="live-tool-btn">
+                  ${escapeHtml(dec.liveLabel || "Launch Navigator Toolkit (Analysis Report) ↗")}
+                </a>
+              </div>`
+            : ""
+        }
       </div>
 
-      <!-- Capacity Lock Output Tray -->
-      <div class="capacity-tray ${isOverLimit ? "over-limit" : ""}">
-        <div>
-          <div class="capacity-meter">
-            <span class="capacity-count-pill">
-              Selected Focus Initiatives: ${selectedCount} ${
-      dec.recommendedMin && dec.recommendedMax
-        ? `(Recommended: ${dec.recommendedMin}–${dec.recommendedMax} key actions at a time • Max ${maxCap} ceiling)`
-        : `(Max ${maxCap} ceiling)`
-    }
-            </span>
-            <strong style="font-size:15.5px;">
-              ${escapeHtml(isOverLimit ? dec.overLimitWarning : dec.withinLimitMessage)}
-            </strong>
-          </div>
-        </div>
-
-        <button type="button" class="header-btn"
-                style="background:${isOverLimit ? "#641E8C" : "#8A00E5"};padding:10px 18px;font-size:13.5px;font-weight:700;"
-                onclick="sendSelectedToTemplate('${escapeHtml(dec.id)}', '${escapeHtml(dec.targetTemplateId || "")}', ${maxCap})">
-          Send Selected Actions to ${escapeHtml(dec.sendButtonLabel || "Stage 5 Charter")} →
-        </button>
-      </div>
-
-      <!-- Candidate Rows -->
-      <div class="candidate-list">
-        ${filtered
-          .map((c) => {
-            const isSelected = selectedIds.includes(c.id);
-            return `
-            <div class="candidate-row ${isSelected ? "selected" : ""}"
-                 onclick="toggleDecisionCandidate('${escapeHtml(dec.id)}', '${escapeHtml(c.id)}')"
-                 style="cursor:pointer;">
+      <!-- 3-Rule Visual Decision Guide Cards -->
+      <section class="editorial-section" style="margin-top:18px;">
+        <h3 class="editorial-h3">3 Rules for Selecting Your 2 to 3 Focus Actions</h3>
+        <div class="funnel-controls-grid">
+          ${rules
+            .map(
+              (r) => `
+            <div class="funnel-filter-card" style="display:flex;flex-direction:column;justify-content:space-between;">
               <div>
-                <input type="checkbox" ${isSelected ? "checked" : ""}
-                       onclick="event.stopPropagation(); toggleDecisionCandidate('${escapeHtml(dec.id)}', '${escapeHtml(c.id)}')"
-                       style="width:20px;height:20px;accent-color:#8A00E5;cursor:pointer;"
-                       aria-label="Select ${escapeHtml(c.title)}" />
+                <span class="funnel-step-badge">${escapeHtml(r.badge || "")}</span>
+                <h3 style="font-size:16px;font-weight:800;color:#1B1534;margin-bottom:8px;line-height:1.35;">
+                  ${escapeHtml(r.title || "")}
+                </h3>
+                <p style="font-size:13.5px;color:#54646E;line-height:1.55;margin-bottom:12px;">
+                  ${escapeHtml(r.desc || "")}
+                </p>
               </div>
-
-              <div>
-                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
-                  <span style="font-family:ui-monospace,monospace;font-weight:800;color:#1B1534;font-size:12.5px;">
-                    ${escapeHtml(c.codeLabel)}
-                  </span>
-                  ${
-                    c.isPriorityFlagged
-                      ? `<span class="priority1-badge">${escapeHtml(f1.priorityBadgeText || "PRIORITY 1")}</span>`
-                      : ""
-                  }
-                  <span class="lift-badge">📈 ${escapeHtml(c.liftLabel)}</span>
-                  <span style="background:#F3E8FF;color:#641E8C;border:1px solid #8A00E5;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;">
-                    ${escapeHtml(c.quadrant)} (${escapeHtml(c.effort)} / ${escapeHtml(c.impact)})
-                  </span>
-                </div>
-
-                <h4 style="font-size:16px;font-weight:700;color:#1B1534;margin-bottom:4px;">
-                  ${escapeHtml(c.title)}
-                </h4>
-                <div style="font-size:13px;color:#54646E;">
-                  <strong>Action / Countermeasure Draft:</strong> ${escapeHtml(c.draftText)}
-                </div>
+              <div style="background:#F8FAFC;border:1px solid #D7E4EE;border-left:4px solid #009999;border-radius:8px;padding:10px 12px;font-size:12.5px;color:#1B1534;">
+                <strong style="color:#007A7A;display:block;margin-bottom:2px;">Where to do this in the app:</strong>
+                <span>${escapeHtml(r.whereInApp || "")}</span>
               </div>
+            </div>`
+            )
+            .join("")}
+        </div>
+      </section>
 
-              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
-                <div style="font-size:11px;font-weight:700;color:#54646E;text-transform:uppercase;">
-                  ${escapeHtml(f2.columnLabel || "Alignment")}
-                </div>
-                <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;">
-                  ${(c.tags || [])
-                    .map(
-                      (tag) =>
-                        `<span style="background:#F8FAFC;border:1px solid #D7E4EE;color:#1B1534;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;">${escapeHtml(
-                          tag
-                        )}</span>`
-                    )
-                    .join("")}
-                </div>
-              </div>
-            </div>`;
-          })
-          .join("")}
-      </div>
+      <!-- Static "What Good Looks Like" Comparison Card (1 Good Focused Action vs. 1 Vague Wishlist Item) -->
+      <section class="editorial-section">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+          <h3 class="editorial-h3" style="margin-bottom:0;">
+            ${escapeHtml(cmp.heading || "What Good Looks Like: 1 Focused Action vs. 1 Vague Wishlist Item")}
+          </h3>
+          <span class="muted-code-pill">Static Coaching Comparison</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+          <!-- Good Focused Action -->
+          <div style="background:#F0FDF9;border:2px solid #009999;border-radius:12px;padding:20px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;">
+              <span style="background:#009999;color:#FFFFFF;font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:99px;text-transform:uppercase;letter-spacing:0.04em;">
+                ${escapeHtml(goodEx.badge || "✅ Good Focused Action (Vital Few)")}
+              </span>
+              <span style="font-family:ui-monospace,monospace;font-size:12px;font-weight:700;color:#007A7A;">
+                ${escapeHtml(goodEx.gatewayRef || "")}
+              </span>
+            </div>
+            <h4 style="font-size:16px;font-weight:800;color:#1B1534;margin-bottom:8px;">
+              ${escapeHtml(goodEx.title || "")}
+            </h4>
+            <div style="background:#FFFFFF;border:1px solid #B8CEDB;border-radius:8px;padding:12px;margin-bottom:12px;font-size:13.5px;color:#1B1534;font-weight:600;">
+              "${escapeHtml(goodEx.statement || "")}"
+            </div>
+            <div style="font-size:13px;color:#1B1534;line-height:1.5;">
+              <strong style="color:#007A7A;">Why this works:</strong> ${escapeHtml(goodEx.whyItWorks || "")}
+            </div>
+          </div>
+
+          <!-- Vague Wishlist Item -->
+          <div style="background:#FFF1F2;border:2px solid #DA1E28;border-radius:12px;padding:20px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;">
+              <span style="background:#DA1E28;color:#FFFFFF;font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:99px;text-transform:uppercase;letter-spacing:0.04em;">
+                ${escapeHtml(badEx.badge || "❌ Vague Wishlist Item (Avoid)")}
+              </span>
+              <span style="font-family:ui-monospace,monospace;font-size:12px;font-weight:700;color:#DA1E28;">
+                ${escapeHtml(badEx.warningRef || "Unfocused Wishlist")}
+              </span>
+            </div>
+            <h4 style="font-size:16px;font-weight:800;color:#1B1534;margin-bottom:8px;">
+              ${escapeHtml(badEx.title || "")}
+            </h4>
+            <div style="background:#FFFFFF;border:1px solid #FECDD3;border-radius:8px;padding:12px;margin-bottom:12px;font-size:13.5px;color:#54646E;font-style:italic;">
+              "${escapeHtml(badEx.statement || "")}"
+            </div>
+            <div style="font-size:13px;color:#1B1534;line-height:1.5;">
+              <strong style="color:#DA1E28;">Why this fails:</strong> ${escapeHtml(badEx.whyItFails || "")}
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   `;
 }
 
 /**
- * Tab 4A: Universal Template Renderer (Pre-filled from linked Decision Tool)
+ * Tab 4A: Annotated Example & Field Guide Renderer (Zero Copy-to-Clipboard or Prioritiser State Clones)
  */
 function renderTemplatePage(tpl, plb, canvas) {
   if (!tpl) return;
-  const linkedDec = (plb.decisionTools || []).find((d) => d.id === tpl.linkedDecisionId);
-  const selectedIds = linkedDec ? state.selectedCandidatesByDecisionId[linkedDec.id] || [] : [];
-  const chosen = linkedDec ? (linkedDec.candidates || []).filter((c) => selectedIds.includes(c.id)) : [];
   const th = tpl.tableHeaders || {};
+  const exampleRows = tpl.exampleRows || [];
+  const fieldGuide = tpl.fieldGuide || [];
 
   canvas.innerHTML = `
     <div class="content-container">
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
-        <div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;margin-bottom:18px;">
+        <div style="max-width:740px;">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
             <span class="eyebrow-tag" style="margin-bottom:0;">${escapeHtml(tpl.eyebrow || "")}</span>
-            ${
-              tpl.liveUrl
-                ? `<a href="${escapeHtml(tpl.liveUrl)}" target="_blank" rel="noopener noreferrer" class="live-tool-btn compact">
-                    ${escapeHtml(tpl.liveLabel || "Launch " + (tpl.badge || "Live Tool") + " ↗")}
-                  </a>`
-                : tpl.badge
-                ? `<span class="muted-code-pill">${escapeHtml(tpl.badge)}</span>`
-                : ""
-            }
+            <span class="muted-code-pill">${escapeHtml(tpl.badge || "Annotated Field Guide")}</span>
           </div>
-          <h1 class="page-title" style="margin-bottom:4px;">${escapeHtml(tpl.title)}</h1>
+          <h1 class="page-title" style="margin-bottom:6px;">${escapeHtml(tpl.title)}</h1>
+          <p class="page-subtitle" style="margin-bottom:0;">
+            ${escapeHtml(
+              tpl.subtitle ||
+                "Annotated reference showing what goes into each field inside Navigator Toolkit → Charter Input and Charter & Roadmaps."
+            )}
+          </p>
         </div>
-        <div style="display:flex;gap:10px;">
-          ${
-            linkedDec
-              ? `<button type="button" class="header-btn secondary" style="color:#1B1534;border-color:#D7E4EE;background:#EAF4F8;"
-                         onclick="selectDecisionTool('${escapeHtml(linkedDec.id)}')">
-                   ← Adjust in ${escapeHtml(linkedDec.navTitle)} (${chosen.length}/${linkedDec.maxCapacity || 5})
-                 </button>`
-              : ""
-          }
-          <button type="button" class="header-btn" id="copyCharterBtn" onclick="copyCharterText()">
-            Copy Template to Clipboard
-          </button>
-        </div>
+        ${
+          tpl.liveUrl
+            ? `<div style="display:flex;gap:10px;align-items:center;">
+                <a href="${escapeHtml(tpl.liveUrl)}" target="_blank" rel="noopener noreferrer" class="live-tool-btn">
+                  ${escapeHtml(tpl.liveLabel || "Launch Navigator Toolkit (Charter Input) ↗")}
+                </a>
+              </div>`
+            : ""
+        }
       </div>
 
+      ${
+        fieldGuide.length > 0
+          ? `
+        <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:14px;margin-bottom:20px;">
+          ${fieldGuide
+            .map(
+              (fg) => `
+            <div style="background:#EAF4F8;border:1px solid #B8CEDB;border-radius:10px;padding:14px;">
+              <div style="font-size:11px;font-weight:800;color:#007A7A;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">
+                ${escapeHtml(fg.section)}
+              </div>
+              <div style="font-size:14px;font-weight:700;color:#1B1534;margin-bottom:4px;">
+                ${escapeHtml(fg.appField)}
+              </div>
+              <div style="font-size:12.5px;color:#54646E;line-height:1.45;">
+                ${escapeHtml(fg.guidance)}
+              </div>
+            </div>`
+            )
+            .join("")}
+        </div>`
+          : ""
+      }
+
       <div id="charterBox" style="border:2px solid var(--se-gray-1);border-radius:14px;padding:28px;background:#FFFFFF;">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #EAF4F8;">
+          <strong style="font-size:13px;color:#4D217A;text-transform:uppercase;letter-spacing:0.05em;">
+            📌 Annotated Example — Completed 1-Page Charter Layout
+          </strong>
+          <span style="font-size:12px;color:#007A7A;font-weight:600;">
+            Built &amp; Exported Inside ${escapeHtml(tpl.appLocation || "Navigator Toolkit → Charter Input & Charter & Roadmaps")}
+          </span>
+        </div>
+
         <div class="meta-strip" style="margin-bottom:24px;">
           ${(tpl.metaFields || [])
             .map((mf) => `<div><strong>${escapeHtml(mf.label)}:</strong> ${escapeHtml(mf.value)}</div>`)
@@ -1470,8 +1478,8 @@ function renderTemplatePage(tpl, plb, canvas) {
             <div style="color:#54646E;font-size:14px;">
               <div><strong>${escapeHtml(tpl.rightBoxPrimary || "")}</strong></div>
               <div style="margin-top:6px;">
-                <strong>${escapeHtml(tpl.rightBoxSecondaryPrefix || "Selected")} (${chosen.length}):</strong>
-                ${chosen.map((c) => c.codeLabel).join(" • ") || "None selected"}
+                <strong>${escapeHtml(tpl.rightBoxSecondaryPrefix || "Focus Gateways")}:</strong>
+                ${escapeHtml(tpl.rightBoxSecondaryValue || "Q10 (Pilot Experiments) • Q12 (Visual KPIs) • Q14 (Daily Huddles)")}
               </div>
             </div>
           </div>
@@ -1481,9 +1489,9 @@ function renderTemplatePage(tpl, plb, canvas) {
           <thead>
             <tr>
               <th style="width:80px;">${escapeHtml(th.code || "#")}</th>
-              <th>${escapeHtml(th.action || "Action")}</th>
-              <th style="width:140px;">${escapeHtml(th.lift || "Impact")}</th>
-              <th style="width:140px;">${escapeHtml(th.tag || "Category")}</th>
+              <th>${escapeHtml(th.action || "Agreed Focus Initiative & Measurable Key Result")}</th>
+              <th style="width:140px;">${escapeHtml(th.lift || "Expected Lift")}</th>
+              <th style="width:140px;">${escapeHtml(th.tag || "Business Need")}</th>
               <th style="width:95px;">${escapeHtml(th.due || "Due")}</th>
               <th style="width:130px;">${escapeHtml(th.owner || "Owner")}</th>
             </tr>
@@ -1495,30 +1503,24 @@ function renderTemplatePage(tpl, plb, canvas) {
                 ${escapeHtml(tpl.objectiveRowText || "")}
               </td>
             </tr>
-            ${
-              chosen.length > 0
-                ? chosen
-                    .map(
-                      (c, idx) => `
+            ${exampleRows
+              .map(
+                (r) => `
               <tr>
-                <td style="font-family:ui-monospace,monospace;font-weight:700;color:#1B1534;">${escapeHtml(
-                  (tpl.rowCodePrefix || "ITEM-") + (idx + 1)
-                )}</td>
+                <td style="font-family:ui-monospace,monospace;font-weight:700;color:#1B1534;">${escapeHtml(r.code)}</td>
                 <td style="color:#1B1534;font-weight:600;">
-                  ${escapeHtml(c.draftText)}
+                  ${escapeHtml(r.action)}
                   <div style="font-size:12px;color:#54646E;font-weight:400;margin-top:2px;">
-                    ${escapeHtml(c.codeLabel)} • ${escapeHtml(c.quadrant)}
+                    ${escapeHtml(r.note || "")}
                   </div>
                 </td>
-                <td style="font-family:ui-monospace,monospace;color:#007A7A;font-weight:700;">${escapeHtml(c.liftLabel)}</td>
-                <td>${escapeHtml((c.tags || []).join(", "))}</td>
-                <td style="font-family:ui-monospace,monospace;">${escapeHtml(c.defaultDue || "Q2")}</td>
-                <td>${escapeHtml(c.defaultOwner || "@Owner")}</td>
+                <td style="font-family:ui-monospace,monospace;color:#007A7A;font-weight:700;">${escapeHtml(r.lift)}</td>
+                <td>${escapeHtml(r.tag)}</td>
+                <td style="font-family:ui-monospace,monospace;">${escapeHtml(r.due)}</td>
+                <td>${escapeHtml(r.owner)}</td>
               </tr>`
-                    )
-                    .join("")
-                : `<tr><td colspan="6" style="text-align:center;padding:24px;">No items selected. Open the Decision Tool to select items.</td></tr>`
-            }
+              )
+              .join("")}
           </tbody>
         </table>
       </div>
@@ -1720,8 +1722,10 @@ function renderToolPage(tool, plb, canvas) {
         </ul>
       </section>
 
+      ${renderButtonsReferenceSection(tool.buttonsReference || [], "2. Buttons & controls on this screen")}
+
       <section class="editorial-section">
-        <h3 class="editorial-h3">2. Quick reference actions</h3>
+        <h3 class="editorial-h3">3. Quick reference actions</h3>
         <table class="clean-table">
           <thead>
             <tr><th>What You Want to Do</th><th>Exact Rule or Action</th></tr>
@@ -1741,7 +1745,7 @@ function renderToolPage(tool, plb, canvas) {
       </section>
 
       <section class="editorial-section">
-        <h3 class="editorial-h3">3. Common problems &amp; fixes</h3>
+        <h3 class="editorial-h3">4. Common problems &amp; fixes</h3>
         <table class="clean-table">
           <thead>
             <tr><th>Symptom</th><th>Why It Happens</th><th>How to Fix It Now</th></tr>
@@ -1764,16 +1768,6 @@ function renderToolPage(tool, plb, canvas) {
   `;
 }
 
-function copyCharterText() {
-  const el = document.getElementById("charterBox");
-  if (!el) return;
-  navigator.clipboard.writeText(el.innerText);
-  const btn = document.getElementById("copyCharterBtn");
-  btn.textContent = "✓ Copied to Clipboard!";
-  setTimeout(() => {
-    btn.textContent = "Copy Template to Clipboard";
-  }, 2000);
-}
 
 function setJourneyRoleFilter(roleId) {
   state.journeyRoleFilter = roleId;

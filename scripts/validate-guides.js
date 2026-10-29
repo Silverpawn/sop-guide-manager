@@ -55,11 +55,40 @@ for (const plb of db.playbooks || []) {
       errors.push(`[${plb.id} ${field}] Contains banned software version string: "${plb[field]}"`);
     }
   }
+  for (const dec of plb.decisionTools || []) {
+    for (const field of ["title", "navTitle", "eyebrow", "badge"]) {
+      if (VERSION_PATTERN.test(dec[field] || "")) {
+        errors.push(`[${plb.id} DecisionTool ${dec.id} ${field}] Contains banned software version string: "${dec[field]}"`);
+      }
+    }
+    if (dec.kind === "prioritiser-funnel" || Array.isArray(dec.candidates)) {
+      errors.push(
+        `[${plb.id} DecisionTool ${dec.id}] Violates 'Guide, Don't Duplicate the App' Rule: interactive checkbox 'prioritiser-funnel' / 'candidates' list is banned. Use kind = 'vital-few-guide' with 3 rules and a static comparisonExample.`
+      );
+    }
+    if (dec.kind === "vital-few-guide") {
+      if (!Array.isArray(dec.rules) || dec.rules.length < 3) {
+        errors.push(`[${plb.id} DecisionTool ${dec.id}] 'vital-few-guide' requires at least 3 coaching rules.`);
+      }
+      if (!dec.comparisonExample || !dec.comparisonExample.good || !dec.comparisonExample.bad) {
+        errors.push(`[${plb.id} DecisionTool ${dec.id}] 'vital-few-guide' requires 'comparisonExample' with 'good' and 'bad' examples.`);
+      }
+    }
+  }
   for (const tpl of plb.templates || []) {
     for (const field of ["title", "navTitle", "eyebrow", "badge"]) {
       if (VERSION_PATTERN.test(tpl[field] || "")) {
         errors.push(`[${plb.id} Template ${tpl.id} ${field}] Contains banned software version string: "${tpl[field]}"`);
       }
+    }
+    if (/PRE-FILLED FROM/i.test(tpl.eyebrow || "")) {
+      errors.push(`[${plb.id} Template ${tpl.id}] Violates 'Guide, Don't Duplicate the App' Rule: eyebrow must not say 'PRE-FILLED FROM'.`);
+    }
+    if (!Array.isArray(tpl.fieldGuide) || tpl.fieldGuide.length === 0) {
+      errors.push(`[${plb.id} Template ${tpl.id}] Missing 'fieldGuide' array explaining Charter fields.`);
+    }
+    if (!Array.isArray(tpl.exampleRows) || tpl.exampleRows.length === 0) {
+      errors.push(`[${plb.id} Template ${tpl.id}] Missing static 'exampleRows' array on Charter reference.`);
     }
   }
   for (const ref of plb.referenceTables || []) {
@@ -141,12 +170,21 @@ for (const plb of db.playbooks || []) {
   }
 }
 
-// 1. Validate Process & Tool relational links & Zero Version Numbers Rule
+// 1. Validate Process & Tool relational links, Buttons Reference & Zero Version Numbers Rule
 for (const [toolId, tool] of Object.entries(db.tools || {})) {
   for (const field of ["name", "suite", "purpose", "accessUrl"]) {
     if (VERSION_PATTERN.test(tool[field] || "")) {
       errors.push(`[${toolId} ${field}] Contains banned software version string: "${tool[field]}"`);
     }
+  }
+  if (!Array.isArray(tool.buttonsReference) || tool.buttonsReference.length === 0) {
+    errors.push(`[${toolId}] Missing mandatory 'buttonsReference' array ('Buttons & Controls on This Screen').`);
+  } else {
+    tool.buttonsReference.forEach((row, idx) => {
+      if (!row.button || !row.where || !row.whatItDoes) {
+        errors.push(`[${toolId} buttonsReference[${idx}]] Must include non-empty 'button', 'where', and 'whatItDoes'.`);
+      }
+    });
   }
 }
 

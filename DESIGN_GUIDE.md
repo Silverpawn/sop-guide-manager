@@ -110,7 +110,17 @@ Overview stage cards must **NEVER** look like database records, audit checklists
 5. **Visual Authenticity Rule (No Fake UI Wireframes) & Flexible 3-Mode Visuals:**
    - **Never Draw Fake UI Buttons for Process Rules:** Declarative SVG boxes must **NEVER** invent fake buttons that do not exist in the software (such as `"1st Time: LPM + Core Team"` or `"Score 2: 1 Pilot Only"`), and SVG text layers must never overlap.
    - **Real Screenshots for Software Steps (`type: "image"`):** If a step instructs the user to interact with `Navigator Toolkit`, `PM Maturity Hub`, or `GS Lean Maturity`, the right-hand card must display a **real screenshot** (`visual.type = "image"`, stored in `/assets/screenshots/...` or Base64 data URI) captured from the actual application UI, with an optional percentage hotspot highlight over the real button/input.
+   - **Show the Open Question Scoring Modal (Stage 1, Step 2):** When explaining how to score the 28 questions (Step 2 of Stage 1), always show a real screenshot of an **open Question Card Modal** (`assets/screenshots/nav-question-modal.png` — showing the 1–5 rating scale descriptions, evidence notes box, and 1–5 score selector) captured from the live assessment UI.
    - **Clean Text/Coaching Mode for Human Rules (`type: "none"`):** If a step describes a human behaviour or discussion rule rather than a software click, set `visual: { type: "none" }` so the right-hand column cleanly renders the Good Practice Coaching Card instead of a fake diagram.
+6. **Official Filing Rule (`600 Maturity Submissions` Folder):**
+   - Only **Lean Core Team members** have permission and responsibility to upload official submission files into the `'600 Maturity Submissions'` folder.
+   - **Local Programme Managers (LPMs)** export and save their `.json` and `.csv` files locally to load into `Navigator Toolkit` (`Analysis Report`), and share a copy with their Lean Core Team partner when an official baseline submission needs to be archived in `'600 Maturity Submissions'`.
+7. **"Guide, Don't Duplicate the App" Rule (No Redundant Interactive App Clones):**
+   - **Never Clone Software Features Inside the User Guide:** This platform is a user guide and coaching manual, **NOT** a replacement for `Navigator Toolkit` or `PM Maturity Hub`.
+   - Do **NOT** build interactive gap-selection checkboxes, filter pills, capacity counter bars, or `"Send to Charter"` state-builders that belong inside `Navigator Toolkit → Analysis Report`. Instead, render a clean **"How to Narrow Your Gaps to the 'Vital Few' (2 to 3 Key Actions)"** visual decision guide with a static **"What Good Looks Like"** comparison example and a direct `Launch Navigator Toolkit (Analysis Report) ↗` button.
+   - Do **NOT** include `"Copy Template to Clipboard"` or `"← Adjust in Focus Action Prioritiser"` buttons on reference examples when the real template lives inside `Navigator Toolkit → Charter Input`. Frame Tab 4 as **`One-Page Navigator Charter — Annotated Example & Field Guide`** with a `Launch Navigator Toolkit (Charter Input) ↗` button.
+8. **Mandatory "Buttons & Controls on This Screen" Reference (`buttonsReference`):**
+   - Every SOP and Tool Reference page **MUST** include a clear, scannable **"Buttons & Controls on This Screen"** table (`Button / Control Name` | `Where It Is` | `What It Does & When to Use It`) extracted directly from the real `navigator-toolkit` and `pm-maturity-hub` source code.
 
 ---
 
