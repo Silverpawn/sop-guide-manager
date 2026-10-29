@@ -34,12 +34,13 @@ Every screen must make immediate sense within **10 seconds** to a colleague who 
      - **Ongoing Assessments:** LPM completes it with their Site Leadership Team as a capability self-assessment (not an audit).
    - **LPM Owns the Process (Core Team is Optional Support):** The **Local Programme Manager (LPM)** is the primary owner and driver of all 6 stages of the Navigator Process—including leading the Stage 4 Navigator Workshop and Stage 5 Charter with their Site Leadership Team. After the first-time Maturity Assessment calibration, the **Lean Core Team** is always **optional support / coaching**, never mandatory.
 
-5. **Official Corporate Intranet Tool Links:**
+5. **Official Corporate Intranet Tool Links & Strict Tool Boundary Rule:**
    - Always store and render clickable **`"Launch Live Tool ↗"`** buttons (`target="_blank" rel="noopener noreferrer"`) on Stage Cards, Kit Bags, and Tool Reference drawers using these exact corporate URLs:
      - **GS Lean Maturity Portal:** `https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/`
      - **PM Maturity Hub:** `https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/`
      - **Navigator Toolkit:** `https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/`
-   - Maintain a compact **"Live Lean@GS Tool Launcher"** quick-links bar so users can jump straight to any of the 3 corporate web apps in one click.
+   - **Navigator Process (`PLB-001`) Uses `Navigator Toolkit` / `GS Lean Maturity` Only:** The 6-stage Navigator Process (1. Maturity Assessment → 2. Analysis → 3. Voice of the Customer (VOC) → 4. Navigator Workshop → 5. Charter → 6. Action Plan) runs entirely in the **Navigator Toolkit** (`https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/`) and **GS Lean Maturity** (`https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/`). **NEVER** link `PM Maturity Hub` or its sub-tools (`Metro Journey & 4 Pillars`, `Score Explainer`, `Strategy Builder`, `Simulator & CSV Fixer`) inside the Navigator Process (`PLB-001`).
+   - **PM Maturity Hub Is a Separate System (`PLB-PMHUB`):** `PM Maturity Hub` (`https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/`) has its own distinct tools and does not participate in the Navigator Workshop. Keep its guides and tools in a dedicated Playbook (`PLB-PMHUB: PM Maturity Hub Standalone Guide`) in the Playbook Switcher.
 
 6. **Neutral Demo Playbook Standard (`PLB-DEMO`):**
    - Maintain a neutral, everyday-life example playbook (`PLB-DEMO`: *"Demo Example: The Office Brew Run (How This Guide System Works)"*) in the Playbook Switcher so stakeholders can evaluate the platform UX and authoring features without getting distracted by internal process debates.

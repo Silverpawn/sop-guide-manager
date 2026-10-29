@@ -99,14 +99,14 @@ window.FALLBACK_GUIDES_DB = {
     "TOL-001": {
       "id": "TOL-001",
       "name": "Maturity Assessment & Explainer",
-      "suite": "PM Maturity Hub",
+      "suite": "Navigator Toolkit / GS Lean Maturity",
       "versionBadge": "",
-      "category": "Phase 1: Assess",
+      "category": "Stage 1: Assess",
       "purpose": "Score all 28 site Lean questions using the New Standard rubric, inspect Maturity Explainer flashcards, and click 'Export Assessment (.json & .csv)'.",
-      "accessUrl": "PM Maturity Hub → Phase 1: Assess (or GS Lean Maturity Portal)",
-      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
-      "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
-      "secondaryLiveLabel": "Open GS Lean Maturity Portal ↗",
+      "accessUrl": "Navigator Toolkit → Maturity Assessment (or GS Lean Maturity Portal)",
+      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+      "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
+      "secondaryLiveLabel": "Open Navigator Toolkit ↗",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
         "First-Time Assessment: Complete with your Lean Core Team partner to learn the 28-question rubric and evidence standard.",
@@ -133,6 +133,38 @@ window.FALLBACK_GUIDES_DB = {
     },
     "TOL-002": {
       "id": "TOL-002",
+      "name": "Analysis Report (10-Stage Diagnostic)",
+      "suite": "Navigator Toolkit",
+      "versionBadge": "",
+      "category": "Stage 2: Analyze",
+      "purpose": "Upload your completed assessment into Analysis Report to review the 10-stage diagnostic, identify 2–3 priority Gateway gaps, and export executive gap slides.",
+      "accessUrl": "Navigator Toolkit → Analysis Report",
+      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
+      "ownerRoleId": "ROL-001",
+      "gettingStarted": [
+        "Open 'Analysis Report' in the left sidebar of Navigator Toolkit and click 'Upload Assessment (.json / .csv)'.",
+        "Enter 'Analysed By' and 'Analysis Date', then expand the 10 roadmap stages or click 'View Action Report'."
+      ],
+      "quickCommands": [
+        {
+          "goal": "Inspect consolidated dimension gaps & recommended actions",
+          "command": "Click 'Upload Assessment (.json / .csv)' → Click 'View Action Report'"
+        },
+        {
+          "goal": "Export executive diagnostic slides & reports",
+          "command": "Click 'Export to PowerPoint', 'Export Full Report (PDF)', or 'Export Results (CSV)'"
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "Analysis Report shows 15+ potential gap actions across all 10 roadmap stages.",
+          "cause": "Trying to fix every low question at once overwhelms the local team.",
+          "fix": "Focus on 2 to 3 priority capability gaps (especially failed starred Gateways) to bring into your Navigator Workshop."
+        }
+      ]
+    },
+    "TOL-003": {
+      "id": "TOL-003",
       "name": "Score Explainer, Metro Journey & 4 Pillars",
       "suite": "PM Maturity Hub",
       "versionBadge": "",
@@ -143,7 +175,7 @@ window.FALLBACK_GUIDES_DB = {
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
         "Click 'Load JSON / CSV' in the left sidebar of PM Maturity Hub (or score directly in Maturity Assessment—your assessment syncs automatically).",
-        "If uploading a legacy Excel .csv file fails, run it through 'CSV to JSON Fixer' under Phase 4: Utilities."
+        "If uploading a legacy Excel .csv file fails, run it through 'CSV to JSON Fixer' under Utilities."
       ],
       "quickCommands": [
         {
@@ -163,59 +195,28 @@ window.FALLBACK_GUIDES_DB = {
         }
       ]
     },
-    "TOL-003": {
-      "id": "TOL-003",
-      "name": "Strategy Builder, Simulator & CSV to JSON Fixer",
-      "suite": "PM Maturity Hub",
-      "versionBadge": "",
-      "category": "Phase 3: Plan & Simulate + Phase 4: Utilities",
-      "purpose": "Select Light, Standard, Intense, or Custom initiative templates for failed Gateways in Strategy Builder and model score improvements in the Simulator Sandbox.",
-      "accessUrl": "PM Maturity Hub → Phase 3: Plan & Simulate",
-      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
-      "ownerRoleId": "ROL-001",
-      "gettingStarted": [
-        "Load your site's .json assessment file via 'Load JSON / CSV' in the PM Maturity Hub sidebar."
-      ],
-      "quickCommands": [
-        {
-          "goal": "Fix broken Excel semicolon CSV exports",
-          "command": "Open Phase 4: Utilities → 'CSV to JSON Fixer' → Convert ';' to clean .json"
-        },
-        {
-          "goal": "Build a targeted local action plan & test score impact",
-          "command": "Open 'Strategy Builder' → Select Light/Standard/Intense template → Test sliders in 'Simulator'"
-        }
-      ],
-      "troubleshooting": [
-        {
-          "symptom": "CSV file fails to load into Score Explainer or Strategy Builder.",
-          "cause": "Regional Excel settings saved semicolons (;) instead of commas (,).",
-          "fix": "Open 'CSV to JSON Fixer' in Utilities and convert the file into a clean .json file."
-        }
-      ]
-    },
     "TOL-004": {
       "id": "TOL-004",
-      "name": "Analysis Report & VOC Input",
+      "name": "VOC Input (Voice of the Customer)",
       "suite": "Navigator Toolkit",
       "versionBadge": "",
-      "category": "Assess, Analyze & Prepare",
+      "category": "Stage 3: Prepare",
       "purpose": "Turn your maturity capability gaps and leadership interview notes into a focused briefing pack for your Navigator Workshop.",
-      "accessUrl": "Navigator Toolkit → Analysis Report / VOC Input",
+      "accessUrl": "Navigator Toolkit → VOC Input",
       "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
-        "Click 'Upload Assessment (.json / .csv)' inside Analysis Report (or 'Load Session (.leansession)' in the left sidebar).",
-        "Schedule 20-minute pre-workshop interviews with site leaders and ask the primary guiding question in VOC Input."
+        "Schedule 20-minute pre-workshop interviews with site leaders and open 'VOC Input' in the Navigator Toolkit sidebar.",
+        "Ask the primary guiding question: 'If you could fix one thing in the next 12 months to significantly improve operational performance and flow, what would it be?'"
       ],
       "quickCommands": [
         {
-          "goal": "Generate executive gap slides & radar chart",
-          "command": "Analysis Report → 'Upload Assessment (.json / .csv)' → Click 'Export to PowerPoint'"
+          "goal": "Capture Voice of the Customer (VOC) interviews",
+          "command": "VOC Input → Record interview insights → Click 'Export VOC to CSV'"
         },
         {
-          "goal": "Capture Voice of the Customer (VOC) interviews",
-          "command": "VOC Input → Record insights → Click 'Export VOC to CSV' & 'Save Session (.leansession)'"
+          "goal": "Save combined Analysis + VOC workshop prep state",
+          "command": "Click 'Save Session (.leansession)' in the Navigator Toolkit sidebar"
         }
       ],
       "troubleshooting": [
@@ -231,7 +232,7 @@ window.FALLBACK_GUIDES_DB = {
       "name": "Workshop Guide, Charter Input, Charter & Roadmaps + Action Log",
       "suite": "Navigator Toolkit",
       "versionBadge": "",
-      "category": "Align, Create & Communicate",
+      "category": "Stages 4–6: Align, Create & Communicate",
       "purpose": "Facilitate the 3-module alignment workshop, draft Top 3 Leadership Priorities and 2–3 focus initiatives in Charter Input, export the 1-Page Charter, and track owners in Action Log.",
       "accessUrl": "Navigator Toolkit → Workshop Guide / Charter Input / Charter & Roadmaps / Action Log",
       "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
@@ -259,63 +260,64 @@ window.FALLBACK_GUIDES_DB = {
     },
     "TOL-006": {
       "id": "TOL-006",
-      "name": "Visual Stand-Up Board (Safety, Quality, Delivery, Cost)",
-      "suite": "Daily Management Suite",
+      "name": "Strategy Builder, Simulator & CSV to JSON Fixer",
+      "suite": "PM Maturity Hub",
       "versionBadge": "",
-      "category": "Tier 1 Cell Operations",
-      "purpose": "Display shift targets vs. actuals in red and green, log frontline containment actions, and flag cross-team blockers.",
-      "accessUrl": "Work Area Stand-Up Board / Digital Tier 1 Hub",
-      "ownerRoleId": "ROL-004",
+      "category": "Phase 3: Plan & Utilities",
+      "purpose": "Select Light, Standard, Intense, or Custom initiative templates for failed Gateways in Strategy Builder, model score improvements in Simulator, and fix legacy CSVs.",
+      "accessUrl": "PM Maturity Hub → Phase 3: Plan & Utilities",
+      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
+      "ownerRoleId": "ROL-001",
       "gettingStarted": [
-        "Update yesterday's safety, quality, delivery, and cost numbers 5 minutes before the shift horn.",
-        "Have red and green dry-erase markers or the digital Tier 1 touch screen unlocked."
+        "Load your site's .json assessment file via 'Load JSON / CSV' in the PM Maturity Hub sidebar."
       ],
       "quickCommands": [
         {
-          "goal": "Mark a missed shift target",
-          "command": "Colour the cell Red + Write a 1-line root cause + Assign a 24h owner"
+          "goal": "Fix broken Excel semicolon CSV exports",
+          "command": "Open Utilities → 'CSV to JSON Fixer' → Convert ';' to clean .json"
         },
         {
-          "goal": "Flag a blocker for Tier 2 escalation",
-          "command": "Attach a Red Escalation Tag when an issue breaches the 2-hour cell limit"
+          "goal": "Build a targeted local action plan & test score impact",
+          "command": "Open 'Strategy Builder' → Select Light/Standard/Intense template → Test sliders in 'Simulator'"
         }
       ],
       "troubleshooting": [
         {
-          "symptom": "Tier 1 stand-up drags past 15 minutes into a 40-minute technical debate.",
-          "cause": "Engineers trying to solve complex root causes at the stand-up board.",
-          "fix": "Use the 60-Second Rule: log immediate containment on the board and book a separate 3-person problem-solving huddle right after."
+          "symptom": "CSV file fails to load into Score Explainer or Strategy Builder.",
+          "cause": "Regional Excel settings saved semicolons (;) instead of commas (,).",
+          "fix": "Open 'CSV to JSON Fixer' in Utilities and convert the file into a clean .json file."
         }
       ]
     },
     "TOL-007": {
       "id": "TOL-007",
-      "name": "Escalation Triage Filter & 24-Hour Countermeasure Log",
-      "suite": "Daily Management Suite",
+      "name": "Maturity Assessment & Explainer (PM Maturity Hub)",
+      "suite": "PM Maturity Hub",
       "versionBadge": "",
-      "category": "Tier 2 Cross-Department Escalation",
-      "purpose": "Filter shift blockers down to a maximum of 3 critical escalations for Tier 2 and assign 24-hour leadership countermeasures.",
-      "accessUrl": "Tier 2 Operations Board → Escalation & Countermeasure Log",
+      "category": "Phase 1: Assess",
+      "purpose": "Score the 28-question assessment inside the standalone PM Maturity Hub, review Maturity Explainer cards, and sync session data into Score Explainer and Strategy Builder.",
+      "accessUrl": "PM Maturity Hub → Phase 1: Assess",
+      "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
       "ownerRoleId": "ROL-001",
       "gettingStarted": [
-        "Collect red escalation cards from all Tier 1 boards at least 15 minutes before the 09:00 Tier 2 huddle.",
-        "Ensure engineering, quality, and warehouse leads are present at the Tier 2 board."
+        "Open PM Maturity Hub and select 'Maturity Assessment' or 'Maturity Explainer' under Phase 1: Assess.",
+        "Confirm 'New Standard' is selected and complete the User Data Plate before scoring."
       ],
       "quickCommands": [
         {
-          "goal": "Filter Tier 1 red tags before Tier 2",
-          "command": "Keep only cross-department blockers -> Cap at Max 3 Escalations per shift"
+          "goal": "Sync scores across all PM Maturity Hub tools",
+          "command": "Score cards in Maturity Assessment or click 'Load JSON / CSV' in the Hub sidebar"
         },
         {
-          "goal": "Close the loop back to the shop floor",
-          "command": "Write the agreed 24-hour countermeasure and owner directly on the Tier 1 board before 10:00"
+          "goal": "Export completed assessment files",
+          "command": "Click 'Export Assessment (.json & .csv)' in the top header bar"
         }
       ],
       "troubleshooting": [
         {
-          "symptom": "Team leaders stop raising red blockers because nothing changes after Tier 2.",
-          "cause": "Escalated items disappear into management emails without feedback to the cell.",
-          "fix": "Enforce the 10:00 AM Feedback Rule: the Local Programme Manager walks back to the cell board to confirm the assigned owner and fix time."
+          "symptom": "Session data badge in the Hub sidebar does not show 'Data Active'.",
+          "cause": "No assessment file has been loaded or scored in the current browser session.",
+          "fix": "Click 'Load JSON / CSV' in the bottom-left Session Data box of PM Maturity Hub."
         }
       ]
     },
@@ -354,17 +356,17 @@ window.FALLBACK_GUIDES_DB = {
   "processes": {
     "PRC-001": {
       "id": "PRC-001",
-      "title": "Check Your Site's Current Score",
-      "appName": "PM Maturity Hub",
+      "title": "Check Your Site's Current Score & Analyse Gaps",
+      "appName": "Navigator Toolkit / GS Lean Maturity",
       "versionBadge": "",
       "durationBadge": "90 mins",
       "whenToUse": "1st Time: With a Lean Core Team partner • Ongoing: With your Site Leadership Team (Core Team optional).",
-      "cardOutput": "Completed 28-question capability baseline & focused 2–3 gap analysis.",
+      "cardOutput": "Completed 28-question capability baseline & focused 2–3 gap analysis in Analysis Report.",
       "ctaLabel": "Start Stage 1 Assessment Guide",
       "category": "Stages 1 & 2: Capability Baseline & Analysis",
-      "userGoal": "Establish your site's baseline Lean capability across all 28 questions, verify real workplace proof across ~70% of teams, and identify 2–3 priority Gateway gaps.",
+      "userGoal": "Establish your site's baseline Lean capability across all 28 questions, verify real workplace proof across ~70% of teams, and identify 2–3 priority Gateway gaps in Analysis Report.",
       "trigger": "First-time site baseline (with Core Team partner) or ongoing leadership self-assessment before a Navigator Workshop.",
-      "finalOutcome": "Exported Assessment (.json & .csv) archived in '600 Maturity Submissions' plus Score Explainer, Metro Journey, and Strategy Builder plan.",
+      "finalOutcome": "Exported Assessment (.json & .csv) archived in '600 Maturity Submissions' plus 10-stage diagnostic in Navigator Toolkit (Analysis Report).",
       "valueAddCoaching": "Treat the assessment as a helpful self-assessment of capability, never an audit. Lowering an old score when a habit stops is a win because it directs help to the real bottleneck.",
       "raci": {
         "responsible": "ROL-001",
@@ -384,8 +386,8 @@ window.FALLBACK_GUIDES_DB = {
           "stageNumber": 2,
           "name": "Stage 2: Analysis — Strengths, Gaps & Gateway Caps",
           "sopId": "SOP-002",
-          "toolIds": ["TOL-002", "TOL-003"],
-          "summary": "Inspect Gateway caps in Score Explainer, view Metro Journey, and select 2–3 focus actions in Strategy Builder."
+          "toolIds": ["TOL-002"],
+          "summary": "Upload your assessment into Navigator Toolkit (Analysis Report) to inspect the 10-stage diagnostic and focus on 2–3 priority Gateway gaps."
         }
       ]
     },
@@ -412,10 +414,10 @@ window.FALLBACK_GUIDES_DB = {
       "stages": [
         {
           "stageNumber": 1,
-          "name": "Stage 3: Voice of the Customer (VOC) & Analysis Report",
+          "name": "Stage 3: Voice of the Customer (VOC)",
           "sopId": "SOP-003",
           "toolIds": ["TOL-004"],
-          "summary": "Upload your assessment into Analysis Report and capture leadership interviews inside VOC Input."
+          "summary": "Capture leadership business priorities and pain points inside Navigator Toolkit (VOC Input)."
         },
         {
           "stageNumber": 2,
@@ -428,21 +430,21 @@ window.FALLBACK_GUIDES_DB = {
     },
     "PRC-003": {
       "id": "PRC-003",
-      "playbookId": "PLB-002",
-      "title": "Run Tier 1 Cell Stand-Up & Escalate to Tier 2",
-      "appName": "Daily Management Suite",
+      "playbookId": "PLB-PMHUB",
+      "title": "Run the Standalone PM Maturity Hub Suite",
+      "appName": "PM Maturity Hub",
       "versionBadge": "",
-      "durationBadge": "15 mins daily",
-      "whenToUse": "At the start of every shift across all operational cells.",
-      "cardOutput": "Updated SQDC board, 24-hour containment owners & max 3 Tier 2 escalations.",
-      "ctaLabel": "Start Tier 1 Stand-Up Guide",
-      "category": "Tiered Daily Management",
-      "userGoal": "Run a crisp 15-minute shift stand-up that spots safety, quality, delivery, and cost misses immediately and escalates cross-team blockers within 2 hours.",
-      "trigger": "Start of shift (5 minutes before shift handover horn) and 09:00 AM Tier 2 escalation review.",
-      "finalOutcome": "Every red metric has a named 24-hour containment owner and cross-department blockers are resolved at Tier 2 with feedback to the cell by 10:00 AM.",
-      "valueAddCoaching": "A stand-up board is an action trigger, not a wallpaper report. Keep discussion strictly on red misses—green metrics take five seconds.",
+      "durationBadge": "60 mins",
+      "whenToUse": "When using the standalone PM Maturity Hub for Score Explainer, Metro Journey, 4 Pillars, Strategy Builder, Simulator, or CSV fixing.",
+      "cardOutput": "Score Explainer diagnostic, Metro Journey & 4 Pillars visualisations, Strategy Builder templates & Simulator model.",
+      "ctaLabel": "Start PM Maturity Hub Guide",
+      "category": "Standalone PM Maturity Hub Suite",
+      "userGoal": "Use the standalone PM Maturity Hub tools to inspect Gateway score caps in Score Explainer, visualise Metro Journey and The 4 Pillars, and model local plans in Strategy Builder and Simulator.",
+      "trigger": "Local Programme Manager wants to explore Score Explainer math, Metro Journey visualisations, or Strategy Builder simulations.",
+      "finalOutcome": "Visualised Metro Journey & 4 Pillars plus simulated local improvement plan and clean JSON/CSV files.",
+      "valueAddCoaching": "PM Maturity Hub is a standalone exploration and simulation suite—use its Score Explainer and Metro Journey to visualise how Gateway caps work.",
       "raci": {
-        "responsible": "ROL-004",
+        "responsible": "ROL-001",
         "accountable": "ROL-001",
         "consulted": ["ROL-002"],
         "informed": ["ROL-003"]
@@ -450,17 +452,17 @@ window.FALLBACK_GUIDES_DB = {
       "stages": [
         {
           "stageNumber": 1,
-          "name": "Prep Visual Board & Run 15-Minute Tier 1 Stand-Up",
+          "name": "Phases 1 & 2: Score Explainer, Metro Journey & The 4 Pillars",
           "sopId": "SOP-005",
-          "toolIds": ["TOL-006"],
-          "summary": "Update shift actuals 5 minutes before shift start and run the 15-minute cell stand-up focused on red misses."
+          "toolIds": ["TOL-007", "TOL-003"],
+          "summary": "Load your assessment into PM Maturity Hub to inspect Score Explainer and view Metro Journey and The 4 Pillars."
         },
         {
           "stageNumber": 2,
-          "name": "Triage Blockers to Tier 2 & Assign 24-Hour Countermeasures",
+          "name": "Phase 3 & Utilities: Strategy Builder, Simulator & CSV to JSON Fixer",
           "sopId": "SOP-006",
-          "toolIds": ["TOL-007"],
-          "summary": "Filter cross-department blockers down to at most 3 red tags for Tier 2 and close the loop back to the shop floor."
+          "toolIds": ["TOL-006"],
+          "summary": "Select Light, Standard, or Intense templates in Strategy Builder, test sliders in Simulator, and fix legacy CSV files."
         }
       ]
     },
@@ -511,7 +513,7 @@ window.FALLBACK_GUIDES_DB = {
       "roleId": "ROL-001",
       "toolIds": ["TOL-001"],
       "estimatedTime": "90 mins",
-      "stationLocation": "PM Maturity Hub → Phase 1: Assess → Maturity Assessment",
+      "stationLocation": "Navigator Toolkit → Maturity Assessment (or GS Lean Maturity Portal)",
       "kitBag": {
         "leadRole": "Lead: Local Programme Manager (LPM) with Site Leadership Team",
         "supportRole": "1st time: with Lean Core Team partner; Ongoing: Core Team optional",
@@ -534,7 +536,7 @@ window.FALLBACK_GUIDES_DB = {
           "coachingTip": "Treat scoring as an open self-assessment of capability, never an audit—the goal is to see where teams need support, not to chase a higher score.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "PM Maturity Hub (maturity.html) — New Standard Toggle & User Data Plate",
+            "caption": "Navigator Toolkit / GS Lean Maturity (maturity.html) — New Standard Toggle & User Data Plate",
             "elements": [
               { "id": "w1", "kind": "window", "label": "Interactive Lean Maturity Assessment • [New Standard ✓]", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
               { "id": "b1", "kind": "card", "label": "1st Time: LPM + Core Team (Learn Tool)", "x": 35, "y": 58, "w": 210, "h": 50, "state": "active" },
@@ -609,7 +611,7 @@ window.FALLBACK_GUIDES_DB = {
           "action": "Click 'Export Assessment (.json & .csv)' and save both files inside 600 Maturity Submissions.",
           "detail": "Never move, rename, or delete historical files inside the 600 Maturity Submissions folder.",
           "toolId": "TOL-001",
-          "coachingTip": "The exported <Org>_<Date>_Lean_Assessment.json file automatically strips image bloat and loads cleanly into both PM Maturity Hub and Navigator Toolkit.",
+          "coachingTip": "The exported <Org>_<Date>_Lean_Assessment.json file automatically strips image bloat and loads cleanly into Navigator Toolkit (Analysis Report).",
           "visual": {
             "type": "ui-mockup",
             "caption": "Header Button — 'Export Assessment (.json & .csv)'",
@@ -635,7 +637,7 @@ window.FALLBACK_GUIDES_DB = {
         {
           "symptom": "A manager insists a single high-performing cell justifies a score of 3 for the whole site.",
           "cause": "Confusing a local pilot (Score 2) with a site-wide standard (Score 3).",
-          "fix": "Point to the 70% Site Rule: score it 2 today and use Strategy Builder to scale that cell's standard to 70% of teams."
+          "fix": "Point to the 70% Site Rule: score it 2 today and use your Navigator Charter to scale that cell's standard to 70% of teams."
         }
       ]
     },
@@ -644,106 +646,106 @@ window.FALLBACK_GUIDES_DB = {
       "title": "Stage 2: Analysis — Understand Strengths, Gaps & Gateway Caps",
       "processId": "PRC-001",
       "roleId": "ROL-001",
-      "toolIds": ["TOL-002", "TOL-003"],
+      "toolIds": ["TOL-002"],
       "estimatedTime": "45 mins",
-      "stationLocation": "PM Maturity Hub → Score Explainer, Phase 2 (Visualize) & Phase 3 (Plan)",
+      "stationLocation": "Navigator Toolkit → Analysis Report",
       "kitBag": {
         "leadRole": "Lead: Local Programme Manager (LPM)",
         "supportRole": "Optional Support: Lean Core Team partner",
         "mandatoryStatus": "Stage 2 • Capability Analysis",
-        "inputNeeded": "Completed Site Maturity Assessment",
+        "inputNeeded": "Completed Site Maturity Assessment (.json or .csv)",
         "outputProduced": "Focused View of 2–3 Priority Capability Gaps & Foundation Gateway Caps"
       },
-      "userGoal": "Inspect how the scoring engine evaluates your 17 starred Gateways, visualise roadblocks on the Metro Journey map, and focus on 2–3 priority capability gaps.",
+      "userGoal": "Upload your completed assessment into Navigator Toolkit (Analysis Report) to review the 10-stage diagnostic, inspect foundation Gateway caps, and focus on 2–3 priority capability gaps.",
       "gettingStarted": [
-        "Click 'Load JSON / CSV' in the left sidebar of PM Maturity Hub to load your saved assessment into all Hub tools at once.",
-        "Open Score Explainer (Phase 1), Metro Journey & The 4 Pillars (Phase 2), and Strategy Builder & Simulator (Phase 3)."
+        "Open Navigator Toolkit and select 'Analysis Report' in the left navigation sidebar.",
+        "Have your exported assessment file (.json or .csv) ready, or score directly in Maturity Assessment inside Navigator Toolkit so your session data syncs automatically."
       ],
       "steps": [
         {
           "stepNumber": 1,
-          "action": "Click 'Load JSON / CSV' and open Score Explainer to see which Gateways cap your level.",
-          "detail": "Score Explainer walks through the 4-step scoring check: Gateway Ceiling, Blinkers Filter, Raw Valid Average, and Compressed Score.",
+          "action": "Click 'Upload Assessment (.json / .csv)' in Analysis Report to generate your 10-stage gap diagnostic.",
+          "detail": "Analysis Report evaluates all 28 ratings across the 10 roadmap stages and flags high-risk foundation Gateway gaps.",
           "toolId": "TOL-002",
-          "coachingTip": "If Gateway #10 (Pilot Experiments) scores 2/5, your Operating Level is locked at Level 1 (e.g., 1.6/4.0) even if Level 2 questions score 4.",
+          "coachingTip": "If Gateway #10 (Pilot Experiments) scores 2/5, your site is capped at Level 1 even if higher-level questions scored 4.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "Score Explainer (lean_score_explainer.html) — Gateway Ceiling Breakdown",
+            "caption": "Navigator Toolkit (analysis.html) — Upload Assessment & 10-Stage Diagnostic",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "Score Explainer • Compressed = OperatingLevel + [(RawValidAvg - 1) / 4]", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Level 0 Gateways (Q1–Q5 >= 3) ✓", "x": 35, "y": 58, "w": 195, "h": 48, "state": "success" },
-              { "id": "c2", "kind": "button", "label": "Gateway Q10 = 2/5 ✗ (Ceiling L1)", "x": 245, "y": 58, "w": 215, "h": 48, "state": "danger" },
-              { "id": "c3", "kind": "badge", "label": "Blinkers Filter Active: Levels 2–4 Ignored Until Q10 >= 3 • Final: 1.6", "x": 35, "y": 122, "w": 425, "h": 36, "state": "active" }
+              { "id": "w1", "kind": "window", "label": "Lean Maturity Analysis (analysis.html) • 10-Stage Diagnostic Engine", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "button", "label": "Upload Assessment (.json / .csv)", "x": 35, "y": 58, "w": 215, "h": 48, "state": "active" },
+              { "id": "c2", "kind": "card", "label": "Optional: Launch Co-pilot AI Agent", "x": 265, "y": 58, "w": 195, "h": 48, "state": "default" },
+              { "id": "c3", "kind": "badge", "label": "Evaluates Stages 0–9 & Highlights Foundation Gateway Caps (★)", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
             ],
             "annotation": {
-              "targetX": 245,
+              "targetX": 35,
               "targetY": 58,
               "targetW": 215,
               "targetH": 48,
-              "arrowFromX": 295,
+              "arrowFromX": 140,
               "arrowFromY": 26,
-              "label": "1. Inspect Gateway Ceiling & Cap"
+              "label": "1. Upload Assessment in Analysis Report"
             }
           }
         },
         {
           "stepNumber": 2,
-          "action": "Open Metro Journey and The 4 Pillars (Live) to show leaders where the train stops.",
-          "detail": "Metro Journey displays your Digital Twin train stopping at the exact failed Gateway station alongside The 4 Pillars diagnostic view.",
+          "action": "Enter 'Analysed By' and 'Analysis Date' and click 'Expand All' to inspect foundation Gateway gaps.",
+          "detail": "Review the red High-Risk and amber Medium-Risk roadmap stages to see which starred Gateways need attention first.",
           "toolId": "TOL-002",
-          "coachingTip": "Leaders grasp the subway map in ten seconds—point directly to the red station blocking the train from advancing.",
+          "coachingTip": "Do not build a 28-item wishlist—look for the 2 or 3 foundational Gateway gaps that hold back your site's next level.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "Phase 2: Visualize — Metro Journey & The 4 Pillars (Live)",
+            "caption": "Navigator Toolkit (analysis.html) — Analysis Details & 10-Stage Accordion",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "Phase 2: Visualize • Metro Journey & The 4 Pillars (Live)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Metro Line: L0 PASS ──● Q10 STOP", "x": 35, "y": 60, "w": 235, "h": 48, "state": "active" },
-              { "id": "c2", "kind": "button", "label": "The 4 Pillars (Live) View", "x": 285, "y": 60, "w": 175, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "4 Pillars: Strategy & Alignment • Leadership • Daily Execution • Scaling", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
+              { "id": "w1", "kind": "window", "label": "2. Add Analysis Details • Expand All 10 Roadmap Stages", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Analysed By + Analysis Date", "x": 35, "y": 60, "w": 210, "h": 48, "state": "default" },
+              { "id": "c2", "kind": "button", "label": "Click: [Expand All] Stages 0–9", "x": 260, "y": 60, "w": 200, "h": 48, "state": "active" },
+              { "id": "c3", "kind": "badge", "label": "Focus on 2–3 Priority Capability Gaps & Foundation Gateway Caps (★)", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
             ],
             "annotation": {
-              "targetX": 285,
+              "targetX": 260,
               "targetY": 60,
-              "targetW": 175,
+              "targetW": 200,
               "targetH": 48,
-              "arrowFromX": 315,
+              "arrowFromX": 310,
               "arrowFromY": 26,
-              "label": "2. View Metro Journey & 4 Pillars"
+              "label": "2. Inspect 10 Roadmap Stage Gaps"
             }
           }
         },
         {
           "stepNumber": 3,
-          "action": "Select initiative templates inside Strategy Builder, test scores in Simulator, and export your local plan.",
-          "detail": "Choose Light, Standard, Intense, or Custom initiative cards for 2–3 priority Gateway gaps and model the score lift in Simulator.",
-          "toolId": "TOL-003",
-          "coachingTip": "Keep analysis focused on 2 to 3 key capability actions at a time—raising Q10 from 2 to 3 immediately unlocks all Level-2 questions.",
+          "action": "Click 'View Action Report' and 'Export to PowerPoint' to prepare your 2–3 priority capability gaps.",
+          "detail": "Export your diagnostic slides or PDF report, then click 'Next Step: Voice of Customer (VOC)' to continue.",
+          "toolId": "TOL-002",
+          "coachingTip": "Click 'Save Session (.leansession)' in the left sidebar so your Analysis Report carries directly into VOC Input and Charter Input.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "Phase 3: Plan & Simulate — Strategy Builder & Simulator Sandbox",
+            "caption": "Navigator Toolkit (analysis.html) — View Action Report & Export to PowerPoint",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "Strategy Builder & Simulator (Lean_Strategy_builder.html)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Gap Q10 → [Standard Template ✓]", "x": 35, "y": 60, "w": 230, "h": 48, "state": "active" },
-              { "id": "c2", "kind": "button", "label": "Test in Simulator Sandbox", "x": 280, "y": 60, "w": 180, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Simulator Sliders: Fixing Q10 Unlocks Level 2 Ceiling (1.6 → 2.6)", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
+              { "id": "w1", "kind": "window", "label": "Consolidated Action Report & Executive Slide Export", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Click: [View Action Report]", "x": 35, "y": 60, "w": 210, "h": 48, "state": "active" },
+              { "id": "c2", "kind": "button", "label": "Click: [Export to PowerPoint]", "x": 260, "y": 60, "w": 200, "h": 48, "state": "success" },
+              { "id": "c3", "kind": "badge", "label": "Also Available: Export Full Report (PDF) • Export Results (CSV) • Next: VOC →", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
             ],
             "annotation": {
-              "targetX": 280,
+              "targetX": 260,
               "targetY": 60,
-              "targetW": 180,
+              "targetW": 200,
               "targetH": 48,
-              "arrowFromX": 315,
+              "arrowFromX": 310,
               "arrowFromY": 26,
-              "label": "3. Pick Template & Test Simulator"
+              "label": "3. Export Gap Report & Continue to VOC"
             }
           }
         }
       ],
       "troubleshooting": [
         {
-          "symptom": "Uploading the Excel .csv file into Score Explainer gives a format error.",
-          "cause": "Excel saved semicolons (;) instead of commas (,).",
-          "fix": "Click 'CSV to JSON Fixer' under Phase 4: Utilities in the PM Maturity Hub to convert the file to a clean .json."
+          "symptom": "Analysis Report lists many recommended actions across all 10 stages.",
+          "cause": "Each low question triggers a recommendation in the diagnostic engine.",
+          "fix": "Select only 2 to 3 priority capability gaps (starting with failed starred Gateways) to bring into Stage 4."
         }
       ]
     },
@@ -754,7 +756,7 @@ window.FALLBACK_GUIDES_DB = {
       "roleId": "ROL-001",
       "toolIds": ["TOL-004"],
       "estimatedTime": "2 hours (Pre-Work)",
-      "stationLocation": "Navigator Toolkit → Analysis Report & VOC Input",
+      "stationLocation": "Navigator Toolkit → VOC Input",
       "kitBag": {
         "leadRole": "Lead: Local Programme Manager (LPM) with Site Leaders",
         "supportRole": "Optional Support: Lean Core Team",
@@ -762,35 +764,35 @@ window.FALLBACK_GUIDES_DB = {
         "inputNeeded": "Leader & Stakeholder Interviews",
         "outputProduced": "Clear Business Priorities & Leadership Pain Points (VOC Entries & Session Backup)"
       },
-      "userGoal": "Prepare the two principal inputs for the Navigator Workshop: the 10-stage Maturity Analysis Report (Input 1: Capability) and the Voice of the Customer executive interviews (Input 2: Business Need).",
+      "userGoal": "Engage site leadership and stakeholders to capture their critical business challenges, measures of breakthrough success, and the problems they need Lean to solve.",
       "gettingStarted": [
-        "Open Navigator Toolkit and click 'Upload Assessment (.json / .csv)' on the Analysis Report page.",
-        "Schedule short 1-on-1 interviews with site leaders and open 'VOC Input' to ask the primary guiding question: 'If you could fix one thing in the next 12 months to significantly improve operational performance and flow, what would it be?'"
+        "Open Navigator Toolkit and select 'VOC Input' in the left navigation sidebar.",
+        "Schedule short 1-on-1 interviews with site leaders and ask the primary guiding question: 'If you could fix one thing in the next 12 months to significantly improve operational performance and flow, what would it be?'"
       ],
       "steps": [
         {
           "stepNumber": 1,
-          "action": "Click 'Upload Assessment (.json / .csv)' in Analysis Report and click 'Export to PowerPoint'.",
-          "detail": "Enter 'Analysed By' and 'Analysis Date', inspect the 10 roadmap stages (or launch the optional Co-pilot AI Agent), and export your slides.",
+          "action": "Open VOC Input in Navigator Toolkit and ask site leaders the guiding business-need questions.",
+          "detail": "Use the Primary Guiding Question and Probing Questions on the VOC Input screen to uncover real operational bottlenecks.",
           "toolId": "TOL-004",
-          "coachingTip": "Highlight the exact 2 or 3 red Gateway questions that block the next maturity level so leaders don't drown in all 28 questions.",
+          "coachingTip": "Focus on business pain points (delivery lead time, repeat defects, handoff delays) rather than asking leaders which Lean tool they want.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "Navigator Toolkit (analysis.html) — Upload Assessment & Export PowerPoint",
+            "caption": "Navigator Toolkit (voc.html) — Guiding Questions & Interview Details",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "Lean Maturity Analysis • 10-Stage Diagnostic & Co-pilot Agent", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Upload Assessment (.json / .csv)", "x": 35, "y": 60, "w": 230, "h": 48, "state": "active" },
-              { "id": "c2", "kind": "button", "label": "Export to PowerPoint", "x": 280, "y": 60, "w": 180, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Also Available: View Action Report • Export Full Report (PDF) • Next: VOC →", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
+              { "id": "w1", "kind": "window", "label": "Voice of Customer (VOC) • Pre-Workshop Diagnostic (voc.html)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "1. Guiding & Probing Questions", "x": 35, "y": 60, "w": 210, "h": 48, "state": "default" },
+              { "id": "c2", "kind": "button", "label": "2. Enter Interview Details & Role", "x": 260, "y": 60, "w": 200, "h": 48, "state": "active" },
+              { "id": "c3", "kind": "badge", "label": "Captures: Key Challenge • Measure of Success • Process Bottlenecks", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
             ],
             "annotation": {
-              "targetX": 280,
+              "targetX": 260,
               "targetY": 60,
-              "targetW": 180,
+              "targetW": 200,
               "targetH": 48,
               "arrowFromX": 310,
               "arrowFromY": 26,
-              "label": "1. Upload JSON & Export PowerPoint"
+              "label": "1. Capture Leader Business Needs"
             }
           }
         },
@@ -939,65 +941,39 @@ window.FALLBACK_GUIDES_DB = {
     },
     "SOP-005": {
       "id": "SOP-005",
-      "title": "Prep Visual Board Metrics and Run the 15-Minute Tier 1 Stand-Up",
+      "title": "Phases 1 & 2: Score Assessment, Inspect Score Explainer & View Metro Journey / 4 Pillars",
       "processId": "PRC-003",
-      "roleId": "ROL-004",
-      "toolIds": ["TOL-006"],
-      "estimatedTime": "15 mins",
-      "stationLocation": "Cell SQDC Stand-Up Board (5 mins before shift)",
+      "roleId": "ROL-001",
+      "toolIds": ["TOL-007", "TOL-003"],
+      "estimatedTime": "45 mins",
+      "stationLocation": "PM Maturity Hub → Phase 1: Assess & Phase 2: Visualize",
       "kitBag": {
-        "leadRole": "Frontline Team Leader",
-        "supportRole": "Local Programme Manager (LPM)",
-        "mandatoryStatus": "Stages 1–2 • Daily Shift Stand-Up",
-        "inputNeeded": "Shift Handover Log",
-        "outputProduced": "Updated SQDC Board & Immediate Containment Actions"
+        "leadRole": "Lead: Local Programme Manager (LPM)",
+        "supportRole": "Optional Support: Lean Core Team partner",
+        "mandatoryStatus": "PM Maturity Hub • Phases 1 & 2",
+        "inputNeeded": "Completed Site Maturity Assessment (.json or .csv)",
+        "outputProduced": "Score Explainer Breakdown, Metro Journey & The 4 Pillars Visualisations"
       },
-      "userGoal": "Update Safety, Quality, Delivery, and Cost metrics before shift start and run a sharp 15-minute stand-up that assigns containment actions to every red miss.",
+      "userGoal": "Load your assessment into the standalone PM Maturity Hub to inspect Gateway ceilings in Score Explainer and visualise roadblocks on Metro Journey and The 4 Pillars.",
       "gettingStarted": [
-        "Arrive at the cell board 5 minutes before the shift handover horn with the outgoing shift log.",
-        "Ensure green and red markers (or digital status tiles) are ready before calling the team together."
+        "Open PM Maturity Hub and click 'Load JSON / CSV' in the bottom-left Session Data box (or score directly in Maturity Assessment).",
+        "Open Score Explainer under Phase 1: Assess, then expand Phase 2: Visualize to open Metro Journey and The 4 Pillars."
       ],
       "steps": [
         {
           "stepNumber": 1,
-          "action": "Write yesterday's safety, quality, delivery, and cost numbers on the board before shift starts.",
-          "detail": "Mark each metric green when it meets target or red when it misses target.",
-          "toolId": "TOL-006",
-          "coachingTip": "Never waste stand-up time writing numbers while the team watches—have every metric colored red or green 5 minutes early.",
+          "action": "Click 'Load JSON / CSV' in the PM Maturity Hub sidebar and open Score Explainer.",
+          "detail": "Score Explainer walks through the 4-step scoring check: Gateway Ceiling, Blinkers Filter, Raw Valid Average, and Compressed Score.",
+          "toolId": "TOL-003",
+          "coachingTip": "If Gateway #10 (Pilot Experiments) scores 2/5, your Operating Level is locked at Level 1 (e.g., 1.6/4.0) even if Level 2 questions score 4.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "Stage 1 — Prep Visual SQDC Board 5 Minutes Before Shift",
+            "caption": "PM Maturity Hub — Score Explainer (lean_score_explainer.html)",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "Tier 1 Visual Stand-Up Board • Pre-Shift Check (-5 Mins)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Safety: 0 Incidents (GREEN ✓)", "x": 35, "y": 58, "w": 200, "h": 48, "state": "success" },
-              { "id": "c2", "kind": "button", "label": "Delivery: -2 Units Behind (RED ✗)", "x": 250, "y": 58, "w": 210, "h": 48, "state": "danger" },
-              { "id": "c3", "kind": "badge", "label": "Rule: All SQDC cells must be colored Red or Green before the horn sounds", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 250,
-              "targetY": 58,
-              "targetW": 210,
-              "targetH": 48,
-              "arrowFromX": 295,
-              "arrowFromY": 26,
-              "label": "1. Mark Missed Targets in Red Early"
-            }
-          }
-        },
-        {
-          "stepNumber": 2,
-          "action": "Walk through Safety, Quality, Delivery, and Cost in 15 minutes focusing on red misses.",
-          "detail": "Spend five seconds acknowledging green targets and focus discussion on red misses and today's risks.",
-          "toolId": "TOL-006",
-          "coachingTip": "Stand physically in front of the board—when the leader touches the red number on the board, the whole team focuses on the gap.",
-          "visual": {
-            "type": "ui-mockup",
-            "caption": "Stage 2 — 15-Minute Tier 1 Stand-Up Cadence",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "15-Minute Tier 1 Huddle • Focus on Red Exceptions", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Green Targets: 5-Sec Check ✓", "x": 35, "y": 58, "w": 195, "h": 48, "state": "default" },
-              { "id": "c2", "kind": "button", "label": "Red Misses: Log Containment Now", "x": 245, "y": 58, "w": 215, "h": 48, "state": "active" },
-              { "id": "c3", "kind": "badge", "label": "Strict Timebox: 15 Minutes Max • Park deep root-cause debates for offline", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
+              { "id": "w1", "kind": "window", "label": "Score Explainer • Compressed = OperatingLevel + [(RawValidAvg - 1) / 4]", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Level 0 Gateways (Q1–Q5 >= 3) ✓", "x": 35, "y": 58, "w": 195, "h": 48, "state": "success" },
+              { "id": "c2", "kind": "button", "label": "Gateway Q10 = 2/5 ✗ (Ceiling L1)", "x": 245, "y": 58, "w": 215, "h": 48, "state": "danger" },
+              { "id": "c3", "kind": "badge", "label": "Blinkers Filter Active: Levels 2–4 Ignored Until Q10 >= 3 • Final: 1.6", "x": 35, "y": 122, "w": 425, "h": 36, "state": "active" }
             ],
             "annotation": {
               "targetX": 245,
@@ -1006,150 +982,124 @@ window.FALLBACK_GUIDES_DB = {
               "targetH": 48,
               "arrowFromX": 295,
               "arrowFromY": 26,
-              "label": "2. Focus Time on Red Exceptions"
-            }
-          }
-        },
-        {
-          "stepNumber": 3,
-          "action": "Write a named owner and 24-hour fix time next to every red item.",
-          "detail": "If the team cannot fix a blocker within 2 hours, attach a Red Escalation Tag for Tier 2.",
-          "toolId": "TOL-006",
-          "coachingTip": "Never write 'Team' as the owner—write a single person's name and exact hour when the check will happen.",
-          "visual": {
-            "type": "ui-mockup",
-            "caption": "Stage 2 Output — Immediate Containment & Red Tag Trigger",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Tier 1 Action Strip • Single Owner & 24-Hour Due Time", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Fixable in Cell: Assign @Owner (24h)", "x": 35, "y": 58, "w": 210, "h": 48, "state": "success" },
-              { "id": "c2", "kind": "button", "label": "Blocked >2h: Attach Red Tag ↑", "x": 260, "y": 58, "w": 200, "h": 48, "state": "danger" },
-              { "id": "c3", "kind": "badge", "label": "Handoff: Red Escalation Tags move to Tier 2 Triage before 09:00 AM", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 260,
-              "targetY": 58,
-              "targetW": 200,
-              "targetH": 48,
-              "arrowFromX": 300,
-              "arrowFromY": 26,
-              "label": "3. Tag Cross-Team Blockers (>2h)"
-            }
-          }
-        }
-      ],
-      "troubleshooting": [
-        {
-          "symptom": "Team members stay silent when asked about obstacles on the shift.",
-          "cause": "Questions are too vague ('Any issues?') instead of pointing to a specific target condition.",
-          "fix": "Ask a direct target-condition question: 'We lost 40 minutes on station 3 yesterday—what blocked the handoff?'"
-        }
-      ]
-    },
-    "SOP-006": {
-      "id": "SOP-006",
-      "title": "Filter Blockers to Tier 2 and Close the 24-Hour Countermeasure Loop",
-      "processId": "PRC-003",
-      "roleId": "ROL-001",
-      "toolIds": ["TOL-007"],
-      "estimatedTime": "20 mins",
-      "stationLocation": "Tier 2 Operations Board (09:00 AM Daily)",
-      "kitBag": {
-        "leadRole": "Local Programme Manager (LPM) & Site Leadership Sponsor",
-        "supportRole": "Lean Core Team Partner",
-        "mandatoryStatus": "Stages 3–4 • Tier 2 Escalation & Close-Loop",
-        "inputNeeded": "Tier 1 Red Escalation Tags",
-        "outputProduced": "Max 3 Escalated Red Blockers & Signed Countermeasure Log"
-      },
-      "userGoal": "Filter Tier 1 red tags down to a maximum of 3 critical cross-department escalations and lock 24-hour leadership countermeasures.",
-      "gettingStarted": [
-        "Gather all Red Escalation Tags from the Tier 1 boards 15 minutes before the 09:00 AM Tier 2 meeting.",
-        "Open the Escalation Triage Filter to separate cell-level fixes from true cross-department blockers."
-      ],
-      "steps": [
-        {
-          "stepNumber": 1,
-          "action": "Filter incoming Tier 1 red tags down to at most three cross-department blockers.",
-          "detail": "Return local single-team issues to the cell leader and keep only safety, quality, or delivery stops needing cross-team help.",
-          "toolId": "TOL-007",
-          "coachingTip": "Escalating ten minor items paralyzes Tier 2—capping escalations at three forces leaders to solve the real bottleneck today.",
-          "visual": {
-            "type": "ui-mockup",
-            "caption": "Stage 3 — Escalation Triage Filter (Max 3 Red Blockers)",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Escalation Triage Filter • Pre-Tier 2 Screening", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Local Cell Issue → Return to Tier 1", "x": 35, "y": 58, "w": 205, "h": 48, "state": "default" },
-              { "id": "c2", "kind": "button", "label": "Lock Max 3 Cross-Team Red Tags", "x": 255, "y": 58, "w": 205, "h": 48, "state": "active" },
-              { "id": "c3", "kind": "badge", "label": "Priority Order: 1. Safety Stop -> 2. Customer Line Stop -> 3. Quality Hold", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 255,
-              "targetY": 58,
-              "targetW": 205,
-              "targetH": 48,
-              "arrowFromX": 295,
-              "arrowFromY": 26,
-              "label": "1. Cap Tier 2 Escalations at Max 3"
+              "label": "1. Inspect Gateway Ceiling & Cap"
             }
           }
         },
         {
           "stepNumber": 2,
-          "action": "Assign a support department owner and 24-hour countermeasure for each escalated blocker.",
-          "detail": "The Site Leadership Sponsor assigns engineering, quality, or logistics leads to clear the obstacle within 24 hours.",
-          "toolId": "TOL-007",
-          "coachingTip": "Confirm the support owner physically visits the shop-floor cell before noon rather than replying by email.",
+          "action": "Open Metro Journey and The 4 Pillars (Live) under Phase 2: Visualize.",
+          "detail": "Metro Journey displays your Digital Twin train stopping at the exact failed Gateway station alongside The 4 Pillars view.",
+          "toolId": "TOL-003",
+          "coachingTip": "Colleagues grasp the subway map in ten seconds—point directly to the red station blocking the train from advancing.",
           "visual": {
             "type": "ui-mockup",
-            "caption": "Stage 4 — Assign 24-Hour Countermeasure & Support Owner",
+            "caption": "PM Maturity Hub — Phase 2: Visualize (Metro Journey & The 4 Pillars)",
             "elements": [
-              { "id": "w1", "kind": "window", "label": "Tier 2 Countermeasure Log • Leadership Commitment", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "Red Tag #1: Torque Tool Calibration", "x": 35, "y": 58, "w": 205, "h": 48, "state": "danger" },
-              { "id": "c2", "kind": "button", "label": "Assign @MaintLead (Fix < 24h) ✓", "x": 255, "y": 58, "w": 205, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Sponsor Sign-Off: Verifies resource commitment at the Tier 2 board", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
+              { "id": "w1", "kind": "window", "label": "Phase 2: Visualize • Metro Journey & The 4 Pillars (Live)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Metro Line: L0 PASS ──● Q10 STOP", "x": 35, "y": 60, "w": 235, "h": 48, "state": "active" },
+              { "id": "c2", "kind": "button", "label": "The 4 Pillars (Live) View", "x": 285, "y": 60, "w": 175, "h": 48, "state": "success" },
+              { "id": "c3", "kind": "badge", "label": "4 Pillars: Strategy & Alignment • Leadership • Daily Execution • Scaling", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
             ],
             "annotation": {
-              "targetX": 255,
-              "targetY": 58,
-              "targetW": 205,
+              "targetX": 285,
+              "targetY": 60,
+              "targetW": 175,
               "targetH": 48,
-              "arrowFromX": 295,
+              "arrowFromX": 315,
               "arrowFromY": 26,
-              "label": "2. Lock 24h Support Owner at Tier 2"
-            }
-          }
-        },
-        {
-          "stepNumber": 3,
-          "action": "Walk back to the cell board before 10:00 AM and write the agreed fix time.",
-          "detail": "Close the communication loop so frontline operators see their escalated blocker has an active owner.",
-          "toolId": "TOL-007",
-          "coachingTip": "Nothing builds frontline trust faster than seeing a Tier 2 countermeasure written on their cell board within an hour.",
-          "visual": {
-            "type": "ui-mockup",
-            "caption": "Stage 4 Close-Loop — 10:00 AM Shop-Floor Feedback",
-            "elements": [
-              { "id": "w1", "kind": "window", "label": "Close the Loop • Tier 2 Back to Tier 1 Cell Board", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
-              { "id": "c1", "kind": "card", "label": "09:15 AM: Tier 2 Decision Locked", "x": 35, "y": 58, "w": 200, "h": 48, "state": "default" },
-              { "id": "c2", "kind": "button", "label": "10:00 AM: Update Tier 1 Board ✓", "x": 250, "y": 58, "w": 210, "h": 48, "state": "success" },
-              { "id": "c3", "kind": "badge", "label": "Output: Signed Countermeasure Log & Verified Cell Feedback", "x": 35, "y": 122, "w": 425, "h": 36, "state": "default" }
-            ],
-            "annotation": {
-              "targetX": 250,
-              "targetY": 58,
-              "targetW": 210,
-              "targetH": 48,
-              "arrowFromX": 295,
-              "arrowFromY": 26,
-              "label": "3. Post Fix Time on Cell Board <10:00"
+              "label": "2. View Metro Journey & 4 Pillars"
             }
           }
         }
       ],
       "troubleshooting": [
         {
-          "symptom": "Tier 2 board is flooded with 12 red tags every morning.",
-          "cause": "Tier 1 leaders are escalating issues before attempting a 2-hour cell containment.",
-          "fix": "Use the Escalation Triage Filter before the meeting to return cell-fixable items and enforce the Max 3 Red Blockers cap."
+          "symptom": "High scores on Level 2 and Level 3 questions did not raise our 1.6 total score.",
+          "cause": "A Level 1 Gateway question (such as Q10) scored below 3, locking your Operating Level ceiling at Level 1.",
+          "fix": "Open Score Explainer to inspect the Gateway Ceiling and Blinkers Filter, then raise the failed Gateway to 3 across 70% of teams."
+        }
+      ]
+    },
+    "SOP-006": {
+      "id": "SOP-006",
+      "title": "Phase 3 & Utilities: Build Local Plans in Strategy Builder, Test Simulator & Fix CSVs",
+      "processId": "PRC-003",
+      "roleId": "ROL-001",
+      "toolIds": ["TOL-006"],
+      "estimatedTime": "30 mins",
+      "stationLocation": "PM Maturity Hub → Phase 3: Plan & Utilities",
+      "kitBag": {
+        "leadRole": "Lead: Local Programme Manager (LPM)",
+        "supportRole": "Optional Support: Lean Core Team partner",
+        "mandatoryStatus": "PM Maturity Hub • Phase 3 & Utilities",
+        "inputNeeded": "Loaded Site Assessment Session",
+        "outputProduced": "Simulated Score Lift & Local Strategy Builder Plan"
+      },
+      "userGoal": "Select Light, Standard, Intense, or Custom initiative templates in Strategy Builder, test score improvements in the Simulator Sandbox, and repair legacy Excel CSV files.",
+      "gettingStarted": [
+        "Ensure 'Data Active' is shown in the PM Maturity Hub sidebar.",
+        "Select 'Strategy Builder' or 'Simulator' under Phase 3: Plan, or 'CSV to JSON Fixer' under Utilities."
+      ],
+      "steps": [
+        {
+          "stepNumber": 1,
+          "action": "Select initiative templates inside Strategy Builder and test score sliders in the Simulator.",
+          "detail": "Choose Light, Standard, Intense, or Custom initiative cards for 2–3 priority Gateway gaps and model the score lift in Simulator.",
+          "toolId": "TOL-006",
+          "coachingTip": "Keep your simulation focused on 2 to 3 key capability actions at a time—raising Q10 from 2 to 3 immediately unlocks all Level-2 questions.",
+          "visual": {
+            "type": "ui-mockup",
+            "caption": "PM Maturity Hub — Phase 3: Strategy Builder & Simulator",
+            "elements": [
+              { "id": "w1", "kind": "window", "label": "Strategy Builder & Simulator (lean_strategy_builder.html)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Gap Q10 → [Standard Template ✓]", "x": 35, "y": 60, "w": 230, "h": 48, "state": "active" },
+              { "id": "c2", "kind": "button", "label": "Test in Simulator Sandbox", "x": 280, "y": 60, "w": 180, "h": 48, "state": "success" },
+              { "id": "c3", "kind": "badge", "label": "Simulator Sliders: Fixing Q10 Unlocks Level 2 Ceiling (1.6 → 2.6)", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
+            ],
+            "annotation": {
+              "targetX": 280,
+              "targetY": 60,
+              "targetW": 180,
+              "targetH": 48,
+              "arrowFromX": 315,
+              "arrowFromY": 26,
+              "label": "1. Pick Template & Test Simulator"
+            }
+          }
+        },
+        {
+          "stepNumber": 2,
+          "action": "Open 'CSV to JSON Fixer' under Utilities if a legacy Excel file fails to load.",
+          "detail": "Upload any semicolon-delimited Excel CSV into CSV to JSON Fixer and download a clean JSON file.",
+          "toolId": "TOL-006",
+          "coachingTip": "Regional European Excel settings often export semicolons instead of commas—CSV to JSON Fixer repairs the file in one click.",
+          "visual": {
+            "type": "ui-mockup",
+            "caption": "PM Maturity Hub — Utilities: CSV to JSON Fixer (CSV_2_JSON.html)",
+            "elements": [
+              { "id": "w1", "kind": "window", "label": "Utilities • CSV to JSON Fixer (CSV_2_JSON.html)", "x": 20, "y": 15, "w": 460, "h": 165, "state": "default" },
+              { "id": "c1", "kind": "card", "label": "Upload Legacy ';' Excel CSV", "x": 35, "y": 60, "w": 210, "h": 48, "state": "default" },
+              { "id": "c2", "kind": "button", "label": "Download Clean Assessment JSON ✓", "x": 260, "y": 60, "w": 200, "h": 48, "state": "success" },
+              { "id": "c3", "kind": "badge", "label": "Fixes regional delimiter errors so files load cleanly into all tools", "x": 35, "y": 124, "w": 425, "h": 34, "state": "default" }
+            ],
+            "annotation": {
+              "targetX": 260,
+              "targetY": 60,
+              "targetW": 200,
+              "targetH": 48,
+              "arrowFromX": 310,
+              "arrowFromY": 26,
+              "label": "2. Convert Legacy CSV to Clean JSON"
+            }
+          }
+        }
+      ],
+      "troubleshooting": [
+        {
+          "symptom": "Uploading the Excel .csv file into Score Explainer or Strategy Builder gives a format error.",
+          "cause": "Excel saved semicolons (;) instead of commas (,).",
+          "fix": "Click 'CSV to JSON Fixer' under Utilities in the PM Maturity Hub to convert the file to a clean .json."
         }
       ]
     },
@@ -1422,7 +1372,8 @@ window.FALLBACK_GUIDES_DB = {
       "filingRule": "Save finished .csv and .json files in '600 Maturity Submissions'. Never move or delete files in that folder.",
       "processIds": ["PRC-001", "PRC-002"],
       "sopIds": ["SOP-001", "SOP-002", "SOP-003", "SOP-004"],
-      "toolIds": ["TOL-001", "TOL-002", "TOL-003", "TOL-004", "TOL-005"],
+      "toolIds": ["TOL-001", "TOL-002", "TOL-004", "TOL-005"],
+      "liveToolIds": ["LIVE-PORTAL", "LIVE-NAVIGATOR"],
       "chooserLabel": "Which part of the journey are you working on today?",
       "rulesKey": {
         "title": "Before You Start: 3 Helpful Principles for Scoring & Prioritising",
@@ -1469,23 +1420,24 @@ window.FALLBACK_GUIDES_DB = {
             "supportRoleId": "ROL-003",
             "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
             "toolId": "TOL-001",
-            "toolLabel": "PM Maturity Hub (Assessment)",
-            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
-            "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+            "toolLabel": "Navigator Toolkit / GS Lean Maturity (Maturity Assessment)",
+            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/gs-lean-maturity/",
+            "secondaryLiveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
+            "secondaryLiveLabel": "Navigator Toolkit ↗",
             "outputArtifact": "Baseline picture of current Lean capability & gaps",
             "targetView": { "type": "sop", "id": "SOP-001", "cta": "Open Stage 1 Assessment Guide →" }
           },
           {
             "stageNumber": 2,
             "title": "Analysis",
-            "summary": "Understand strengths, gaps, and foundation gateway caps. Load your assessment into the analysis view and keep it focused—aim for 2 or 3 key capability actions at a time, not a huge list.",
+            "summary": "Understand strengths, gaps, and foundation gateway caps. Load your assessment into the Analysis Report view and keep it focused—aim for 2 or 3 key capability actions at a time, not a huge list.",
             "whoIsInvolved": "Lead: Local Programme Manager (LPM) • Optional Support: Lean Core Team partner",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-002",
             "involvedRoleIds": ["ROL-001", "ROL-002"],
             "toolId": "TOL-002",
-            "toolLabel": "PM Maturity Hub (Dashboard & Score Explainer)",
-            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
+            "toolLabel": "Navigator Toolkit (Analysis Report)",
+            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
             "outputArtifact": "Focused view of 2–3 priority capability gaps & foundation gateway caps",
             "targetView": { "type": "sop", "id": "SOP-002", "cta": "Open Stage 2 Analysis Guide →" }
           },
@@ -1498,7 +1450,7 @@ window.FALLBACK_GUIDES_DB = {
             "supportRoleId": "ROL-003",
             "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
             "toolId": "TOL-004",
-            "toolLabel": "Navigator Toolkit (Strategy Builder VOC Input)",
+            "toolLabel": "Navigator Toolkit (VOC Input)",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
             "outputArtifact": "Clear business priorities & leadership pain points (VOC)",
             "targetView": { "type": "sop", "id": "SOP-003", "cta": "Open Stage 3 VOC Guide →" }
@@ -1507,12 +1459,12 @@ window.FALLBACK_GUIDES_DB = {
             "stageNumber": 4,
             "title": "Navigator Workshop",
             "summary": "Bring Lean capability [Stages 1–2] and Business need [Stage 3] together in the leadership workshop to establish why we are using Lean, the current situation, and our strategic direction.",
-            "whoIsInvolved": "Owner & Lead: Local Programme Manager (LPM) with Site Leadership Team • Optional Support: Lean Core Team (if facilitation is requested)",
+            "whoIsInvolved": "Owner & Lead: Local Programme Manager (LPM) with Site Leadership Team • Optional Support: Lean Core Team",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-003",
             "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
             "toolId": "TOL-005",
-            "toolLabel": "Navigator Toolkit (Metro Journey & 4 Pillars)",
+            "toolLabel": "Navigator Toolkit (Workshop Guide)",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
             "outputArtifact": "Aligned strategic direction connecting Lean capability to business problems",
             "targetView": { "type": "sop", "id": "SOP-004", "cta": "Open Stage 4 Workshop Guide →" }
@@ -1526,7 +1478,7 @@ window.FALLBACK_GUIDES_DB = {
             "supportRoleId": "ROL-003",
             "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
             "toolId": "TOL-005",
-            "toolLabel": "Navigator Toolkit (Strategy Builder Charter & PPTX Export)",
+            "toolLabel": "Navigator Toolkit (Charter Input)",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
             "outputArtifact": "Agreed 1-Page Navigator Charter with 2–3 focus initiatives",
             "targetView": { "type": "template", "id": "TPL-001", "cta": "Open Stage 5 Charter →" }
@@ -1535,12 +1487,12 @@ window.FALLBACK_GUIDES_DB = {
             "stageNumber": 6,
             "title": "Action Plan",
             "summary": "Assign clear owners, target dates, and a local visual roadmap. Present and manage your improvement plan in the visual format that works best for your local organisation.",
-            "whoIsInvolved": "Owner: Local Programme Manager (LPM) & Action Owners • Optional Support: Lean Core Team Coach",
+            "whoIsInvolved": "Owner: Local Programme Manager (LPM) & Action Owners • Optional Support: Lean Core Team",
             "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-002",
             "involvedRoleIds": ["ROL-001", "ROL-002"],
             "toolId": "TOL-005",
-            "toolLabel": "Navigator Toolkit (Action Matrix & Local Visual Roadmap)",
+            "toolLabel": "Navigator Toolkit (Action Log)",
             "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/navigator-toolkit/",
             "outputArtifact": "Active improvement plan with owners, target dates & local visual roadmap",
             "targetView": { "type": "sop", "id": "SOP-004", "cta": "Open Stage 6 Action Plan Guide →" }
@@ -1821,7 +1773,7 @@ window.FALLBACK_GUIDES_DB = {
           "id": "REF-001",
           "navTitle": "All 28 Questions & 17 Gateways (★)",
           "eyebrow": "Site Assessment Reference",
-          "badge": "PM Maturity Hub",
+          "badge": "Navigator Toolkit / GS Lean Maturity",
           "title": "All 28 Assessment Questions & 17 Gateways",
           "subtitle": "Starred Gateway questions (★ Yes) must score at least 3 across roughly 70% of the site before higher-level questions count toward your final score.",
           "filterAllLabel": "All Questions (28)",
@@ -1861,123 +1813,121 @@ window.FALLBACK_GUIDES_DB = {
       ]
     },
     {
-      "id": "PLB-002",
-      "code": "PLB-002",
-      "title": "Tiered Daily Management & Escalation Meetings",
-      "eyebrow": "Siemens Energy • Lean@GS Playbook #2",
-      "subtitle": "Run crisp 15-minute shift stand-up meetings, filter cross-department blockers down to at most 3 red tags, and lock 24-hour countermeasures.",
+      "id": "PLB-PMHUB",
+      "code": "PLB-PMHUB",
+      "title": "PM Maturity Hub (Standalone Programme Manager Tools)",
+      "shortTitle": "PM Maturity Hub (Standalone Tools)",
+      "eyebrow": "Siemens Energy • Standalone Programme Manager Suite",
+      "subtitle": "Guides for the standalone PM Maturity Hub web app—covering Score Explainer, Metro Journey & The 4 Pillars, Strategy Builder, Simulator, and the CSV to JSON Fixer utility.",
       "goldenPrinciple": {
-        "quote": "The goal of a daily stand-up isn't to report numbers. The goal is to unblock the shift.",
-        "explanation": "Green metrics take five seconds. Spend your 15 minutes assigning clear 24-hour owners to cell-level misses and escalating at most three cross-department blockers to Tier 2."
+        "quote": "Use PM Maturity Hub to visualise 4-pillar capability, simulate gateway unlocks, and convert legacy CSV files.",
+        "explanation": "PM Maturity Hub is a standalone Programme Manager suite. It provides interactive visualisations (Metro Journey & 4 Pillars), what-if score simulation, and CSV-to-JSON conversion—completely separate from the 6-stage Navigator Workshop."
       },
       "convergenceBanner": {
-        "input1Title": "Input 1: Shop-Floor Exceptions (Stages 1 & 2)",
-        "input1Desc": "Where did we miss safety, quality, delivery, or cost targets today?",
-        "input2Title": "Input 2: Escalation Triage (Stage 3)",
-        "input2Desc": "Which blockers cannot be fixed inside the cell within 2 hours?",
-        "combinedTitle": "Combined in Stage 4 (Tier 2 Close-Loop)",
-        "combinedDesc": "Locking 24-hour cross-department countermeasures and writing the fix time back on the cell board by 10:00 AM."
+        "input1Title": "Phase 1 & 2: Assess & Visualise (Stages 1–3)",
+        "input1Desc": "Review Score Explainer math and inspect the Metro Journey & 4 Pillars (Live) views.",
+        "input2Title": "Phase 3 & Utilities: Plan & Convert (Stage 4)",
+        "input2Desc": "Test what-if gateway unlocks in Simulator, build strategies, or repair legacy CSV exports.",
+        "combinedTitle": "Standalone PM Maturity Hub Suite",
+        "combinedDesc": "Interactive Programme Manager utilities hosted at the PM Maturity Hub corporate intranet address."
       },
-      "filingRule": "Post signed Tier 2 Countermeasure Logs on the Operations Board and archive weekly inside '200 Daily Management Logs'.",
+      "filingRule": "Export converted JSON files or Strategy Builder slides to your local Programme Manager folder.",
       "processIds": ["PRC-003"],
       "sopIds": ["SOP-005", "SOP-006"],
-      "toolIds": ["TOL-006", "TOL-007"],
-      "chooserLabel": "Which daily management task are you running right now?",
+      "toolIds": ["TOL-007", "TOL-003", "TOL-006"],
+      "liveToolIds": ["LIVE-HUB"],
+      "chooserLabel": "Which PM Maturity Hub module are you using today?",
       "rulesKey": {
-        "title": "Before You Start: The 3 Rules of Tiered Daily Management",
-        "subtitle": "How shift stand-ups and escalations work in plain English",
+        "title": "Before You Start: 3 Tips for Using PM Maturity Hub",
+        "subtitle": "How the standalone PM Maturity Hub modules work",
         "items": [
           {
-            "term": "⏱ 1. The 15-Minute Rule",
-            "desc": "Update numbers 5 minutes before the horn. Spend 5 seconds on green metrics and focus the 15-minute stand-up strictly on red misses."
+            "term": "🧭 1. Separate from the Navigator Process",
+            "desc": "PM Maturity Hub is a standalone exploration and simulation suite for Programme Managers. For the official 6-stage Navigator Process, use Navigator Toolkit (Playbook #1)."
           },
           {
-            "term": "🏷️ 2. The 2-Hour Red-Tag Trigger",
-            "desc": "If a cell team cannot contain a safety, quality, or delivery obstacle within 2 hours, attach a Red Escalation Tag for Tier 2."
+            "term": "🚇 2. Metro Journey & The 4 Pillars (Live)",
+            "desc": "Load an assessment file into Phase 2: Visualize to view the interactive Metro Journey map and live 4-pillar capability breakdown."
           },
           {
-            "term": "🔄 3. Max 3 Escalations & 10:00 AM Loop",
-            "desc": "Filter Tier 2 escalations to at most 3 critical cross-team blockers per shift and write the agreed fix time back on the cell board by 10:00 AM."
+            "term": "🛠️ 3. Simulator & CSV to JSON Fixer",
+            "desc": "Use the Simulator to test how raising starred Gateway scores unlocks higher maturity levels, or use the CSV to JSON Fixer utility to convert legacy spreadsheet files."
           }
         ]
       },
       "journeyMap": {
-        "formulaBanner": "Spot Red Exceptions Early → Contain in Cell (<2h) → Triage Max 3 Blockers to Tier 2 → Close Loop by 10:00 AM",
-        "mapHeading": "End-to-End 4-Stage Daily Management & Escalation Map",
+        "formulaBanner": "1. Maturity Assessment & Explainer → 2. Score Explainer → 3. Metro Journey & 4 Pillars → 4. Strategy Builder, Simulator & CSV Fixer",
+        "mapHeading": "The 4 Standalone Modules Inside PM Maturity Hub",
         "roleFilters": [
           { "id": "all", "label": "All Roles" },
-          { "id": "ROL-004", "label": "Highlight Team Leader Tasks" },
-          { "id": "ROL-001", "label": "Highlight LPM Tasks" },
-          { "id": "ROL-003", "label": "Highlight Site Sponsor Tasks" }
+          { "id": "ROL-001", "label": "Local Programme Manager (LPM)" },
+          { "id": "ROL-003", "label": "Site Leadership Team" },
+          { "id": "ROL-002", "label": "Lean Core Team (Optional Support)" }
         ],
-        "briefingButtonLabel": "⏱ Explain Tiered Stand-Ups (60-Sec Pitch)",
-        "briefingTitle": "60-Second Floor Briefing: Why We Run Tier 1 & Tier 2 Stand-Ups",
-        "briefingEquation": "5-Min Board Prep + 15-Min Red-Miss Focus + Max 3 Tier 2 Red Tags = 24-Hour Countermeasure Loop",
+        "briefingButtonLabel": "⏱ Overview of PM Maturity Hub (60-Sec Pitch)",
+        "briefingTitle": "60-Second Overview: What Is Inside PM Maturity Hub?",
+        "briefingEquation": "Phase 1: Assess (Score Explainer) + Phase 2: Visualize (Metro & 4 Pillars) + Phase 3: Plan (Strategy Builder & Simulator) + Utilities (CSV Fixer)",
         "briefingBullets": [
-          "1. Where we are: Every shift starts with a 15-minute check at the visual SQDC board—numbers are colored Red or Green 5 minutes before the horn so we never waste meeting time writing.",
-          "2. What matters: We don't debate root causes at the stand-up board. Cell-fixable misses get a named 24-hour owner; cross-team blockers breaching 2 hours get a Red Escalation Tag.",
-          "3. Our next step: The Local Programme Manager filters red tags down to a maximum of 3 critical blockers for the 09:00 AM Tier 2 huddle and writes the agreed fix back on the cell board by 10:00 AM."
+          "1. Phase 1 (Assess): Includes Maturity Assessment, Maturity Explainer, and Score Explainer to show how the 17 starred Gateways cap the overall score.",
+          "2. Phase 2 (Visualize): Includes the interactive Metro Journey map, The 4 Pillars (Live), and Pillars (Static) views for visualising capability across the 4 Lean pillars.",
+          "3. Phase 3 (Plan) & Utilities: Includes Strategy Builder, Simulator for testing what-if score changes, and the CSV to JSON Fixer utility."
         ],
         "stages": [
           {
             "stageNumber": 1,
-            "title": "Prep Visual Board Metrics Before Shift",
-            "summary": "Update yesterday's safety, quality, delivery, and cost numbers 5 minutes before the shift horn sounds.",
-            "whoIsInvolved": "Frontline Team Leader (5 mins before shift)",
-            "whoAndDuration": "Frontline Team Leader • 5 mins before shift",
-            "leadRoleId": "ROL-004",
-            "leadRoleLabel": "Frontline Team Leader",
-            "supportRoleId": "ROL-001",
-            "supportRoleLabel": "Local Programme Manager",
-            "toolId": "TOL-006",
-            "toolLabel": "Visual Stand-Up Board (SQDC)",
-            "outputArtifact": "Updated visual stand-up board",
-            "targetView": { "type": "sop", "id": "SOP-005", "cta": "Open Stage 1–2 Guide →" }
+            "title": "Maturity Assessment & Explainer",
+            "summary": "Open Phase 1: Assess in PM Maturity Hub to review the 28 assessment questions and read the Maturity Explainer level descriptions.",
+            "whoIsInvolved": "Lead: Local Programme Manager (LPM) • Optional Support: Lean Core Team",
+            "leadRoleId": "ROL-001",
+            "supportRoleId": "ROL-002",
+            "involvedRoleIds": ["ROL-001", "ROL-002"],
+            "toolId": "TOL-007",
+            "toolLabel": "PM Maturity Hub (Assessment & Explainer)",
+            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
+            "outputArtifact": "Completed or loaded assessment in PM Maturity Hub",
+            "targetView": { "type": "sop", "id": "SOP-005", "cta": "Open Phase 1 & 2 Guide →" }
           },
           {
             "stageNumber": 2,
-            "title": "Run 15-Minute Tier 1 Stand-Up Meeting",
-            "summary": "Focus the 15-minute team check on missed targets and assign a 24-hour owner to every red item.",
-            "whoIsInvolved": "Frontline Team Leader + Cell Team (15 mins)",
-            "whoAndDuration": "Frontline Team Leader + Cell Team • 15 mins",
-            "leadRoleId": "ROL-004",
-            "leadRoleLabel": "Frontline Team Leader",
-            "supportRoleId": "ROL-001",
-            "supportRoleLabel": "Local Programme Manager",
-            "toolId": "TOL-006",
-            "toolLabel": "Visual Stand-Up Board (SQDC)",
-            "outputArtifact": "Immediate cell containment actions",
-            "targetView": { "type": "sop", "id": "SOP-005", "cta": "Open Tier 1 Stand-Up SOP →" }
+            "title": "Score Explainer",
+            "summary": "Inspect the Score Explainer tab in Phase 1: Assess to see which starred Gateway questions are capping the current maturity level.",
+            "whoIsInvolved": "Lead: Local Programme Manager (LPM) • Optional Support: Lean Core Team",
+            "leadRoleId": "ROL-001",
+            "supportRoleId": "ROL-002",
+            "involvedRoleIds": ["ROL-001", "ROL-002"],
+            "toolId": "TOL-007",
+            "toolLabel": "PM Maturity Hub (Score Explainer)",
+            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
+            "outputArtifact": "Clear view of active Gateway score caps",
+            "targetView": { "type": "sop", "id": "SOP-005", "cta": "Open Score Explainer Guide →" }
           },
           {
             "stageNumber": 3,
-            "title": "Filter & Escalate Blockers to Tier 2",
-            "summary": "Screen red tags before 09:00 AM so at most 3 cross-department blockers go to the Tier 2 huddle.",
-            "whoIsInvolved": "Local Programme Manager (10 mins before Tier 2)",
-            "whoAndDuration": "Local Programme Manager • 10 mins",
+            "title": "Metro Journey & 4 Pillars",
+            "summary": "Switch to Phase 2: Visualize to explore the interactive Metro Journey map, The 4 Pillars (Live), and Pillars (Static) capability views.",
+            "whoIsInvolved": "Lead: Local Programme Manager (LPM) with Site Leadership Team • Optional Support: Lean Core Team",
             "leadRoleId": "ROL-001",
-            "leadRoleLabel": "Local Programme Manager",
-            "supportRoleId": "ROL-004",
-            "supportRoleLabel": "Frontline Team Leader",
-            "toolId": "TOL-007",
-            "toolLabel": "Escalation Triage Filter",
-            "outputArtifact": "Max 3 escalated red blockers",
-            "targetView": { "type": "decision", "id": "DEC-003", "cta": "Open Escalation Triage Filter →" }
+            "supportRoleId": "ROL-003",
+            "involvedRoleIds": ["ROL-001", "ROL-003", "ROL-002"],
+            "toolId": "TOL-003",
+            "toolLabel": "PM Maturity Hub (Metro Journey & 4 Pillars)",
+            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
+            "outputArtifact": "Visual Metro Journey & 4-Pillar capability snapshot",
+            "targetView": { "type": "sop", "id": "SOP-005", "cta": "Open Metro & 4 Pillars Guide →" }
           },
           {
             "stageNumber": 4,
-            "title": "Assign 24-Hour Countermeasures & Close Loop",
-            "summary": "Assign support department owners at Tier 2 and write the agreed fix time back on the cell board by 10:00 AM.",
-            "whoIsInvolved": "Site Leadership Sponsor + Local Programme Manager (20 mins)",
-            "whoAndDuration": "Site Leadership Sponsor + Programme Manager • 20 mins",
-            "leadRoleId": "ROL-003",
-            "leadRoleLabel": "Site Leadership Sponsor",
+            "title": "Strategy Builder, Simulator & CSV Fixer",
+            "summary": "Use Phase 3: Plan to test what-if score changes in Simulator, draft priorities in Strategy Builder, or convert legacy files with CSV to JSON Fixer.",
+            "whoIsInvolved": "Lead: Local Programme Manager (LPM) • Optional Support: Lean Core Team",
+            "leadRoleId": "ROL-001",
             "supportRoleId": "ROL-002",
-            "supportRoleLabel": "Lean Core Team Partner",
-            "toolId": "TOL-007",
-            "toolLabel": "24-Hour Countermeasure Log",
-            "outputArtifact": "Signed countermeasure log & 10:00 AM cell feedback",
-            "targetView": { "type": "sop", "id": "SOP-006", "cta": "Open Tier 2 Close-Loop SOP →" }
+            "involvedRoleIds": ["ROL-001", "ROL-002"],
+            "toolId": "TOL-006",
+            "toolLabel": "PM Maturity Hub (Strategy Builder, Simulator & CSV Fixer)",
+            "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
+            "outputArtifact": "Simulated score scenario, Strategy Builder slide, or repaired JSON",
+            "targetView": { "type": "sop", "id": "SOP-006", "cta": "Open Simulator & CSV Fixer Guide →" }
           }
         ]
       },
@@ -1985,128 +1935,100 @@ window.FALLBACK_GUIDES_DB = {
         {
           "id": "DEC-003",
           "kind": "prioritiser-funnel",
-          "navTitle": "Meeting Escalation & Red-Tag Triage Filter",
-          "eyebrow": "Stage 3 Triage Funnel • Protect Tier 2 Focus",
-          "badge": "Max 3 Red Blockers Rule",
-          "title": "Meeting Escalation & Red-Tag Triage Filter (Tier 1 → Tier 2)",
-          "subtitle": "Never flood the 09:00 AM Tier 2 operations huddle with 15 minor cell issues. Filter today's incoming shift blockers down to a maximum of 3 critical cross-department escalations.",
-          "maxCapacity": 3,
+          "navTitle": "PM Maturity Hub Simulation Prioritiser (2–3 Key Gateways)",
+          "eyebrow": "Phase 3 Simulator Helper • Test Gateway Unlocks",
+          "badge": "Recommended: 2–3 Gateways • Max 5 Ceiling",
+          "title": "PM Maturity Hub Simulation Prioritiser (Select 2–3 Gateways to Test)",
+          "subtitle": "Before adjusting sliders in the PM Maturity Hub Simulator, select 2 to 3 starred Gateway capabilities to test how unlocking them lifts your overall maturity level.",
+          "recommendedMin": 2,
+          "recommendedMax": 3,
+          "maxCapacity": 5,
           "targetTemplateId": "TPL-002",
-          "sendButtonLabel": "Tier 2 Stand-Up Board Agenda",
-          "overLimitWarning": "⚠️ Stop: Escalating more than 3 red blockers stalls the 15-minute Tier 2 meeting. Return single-department items to Tier 1 containment.",
-          "withinLimitMessage": "✓ Tier 2 Escalation Tray Ready (Max 3 Cross-Department Red Blockers Locked for 09:00 AM)",
+          "sendButtonLabel": "PM Hub Strategy Summary",
+          "overLimitWarning": "⚠️ Over Max 5 Ceiling: Simulating more than 5 simultaneous capability changes is unrealistic. Focus on 2–3 key Gateways.",
+          "withinLimitMessage": "✓ Ready to test in PM Maturity Hub Simulator & Strategy Builder",
           "filter1": {
-            "badge": "Triage Step 1 • Line-Stop & Safety Gate",
-            "title": "1. Prioritise Immediate Line Stops & Safety Risks (★)",
-            "desc": "Any red tag halting customer delivery or safety breaches the 2-hour cell rule and must go to Tier 2 first.",
-            "allLabel": "Show All Shift Red Tags",
-            "flaggedLabel": "★ Only Line-Stop / >2h Breaches",
-            "priorityBadgeText": "PRIORITY 1: LINE STOP / >2H CELL BREACH"
+            "badge": "Step 1 • Starred Gateways",
+            "title": "1. Filter by Starred Gateway Status (★)",
+            "desc": "Prioritise starred Gateways that are currently capping your maturity level.",
+            "allLabel": "Show All Simulated Items",
+            "flaggedLabel": "★ Only Starred Gateways",
+            "priorityBadgeText": "STARRED GATEWAY CAP (★)"
           },
           "filter2": {
-            "badge": "Triage Step 2 • SQDC Category",
-            "title": "2. Filter by SQDC Board Pillar",
-            "desc": "Match the blocker to the affected SQDC pillar so the right support lead (Safety, Quality, Maintenance, Logistics) is ready.",
-            "allLabel": "All SQDC Pillars",
-            "columnLabel": "SQDC Board Pillar",
-            "options": ["Safety", "Quality", "Delivery", "Cost / Equipment"]
+            "badge": "Step 2 • 4 Pillars View",
+            "title": "2. Filter by PM Maturity Hub Pillar",
+            "desc": "Match the capability to one of the 4 Pillars in PM Maturity Hub.",
+            "allLabel": "All 4 Pillars",
+            "columnLabel": "4-Pillar Category",
+            "options": ["Foundation & Strategy", "Tools & KPIs", "Daily Management", "Leadership & Learning"]
           },
           "filter3": {
-            "badge": "Triage Step 3 • Resolution Scope",
-            "title": "3. Filter by Resolution Ownership Scope",
-            "desc": "Escalate Cross-Dept Blockers to Tier 2; keep Cell-Level Fixes at Tier 1.",
-            "allLabel": "All Scopes",
-            "options": ["Tier 2 Cross-Dept", "Supplier / External", "Contain in Cell (Tier 1)"]
+            "badge": "Step 3 • Simulation Horizon",
+            "title": "3. Filter by Effort vs. Score Lift",
+            "desc": "Choose between Quick Wins and Major Step unlocks.",
+            "allLabel": "All Effort Levels",
+            "options": ["Quick Win", "Major Step", "Fill-In"]
           },
           "candidates": [
             {
-              "id": "ESC-01",
-              "codeLabel": "RED-TAG #1 (Bay 4 Assembly ★)",
+              "id": "SIM-01",
+              "codeLabel": "Q10 (Level 1 ★ Gateway)",
               "isPriorityFlagged": true,
-              "liftLabel": "Stops Main Line in 2h",
-              "title": "Torque controller calibration fault halting Bay 4 final casing bolt-up",
-              "draftText": "Dispatch Maintenance Calibration Lead to swap backup controller on Bay 4 before 11:00 AM",
-              "tags": ["Quality", "Delivery"],
-              "quadrant": "Tier 2 Cross-Dept",
-              "effort": "Cross-Team Needed",
-              "impact": "Unblocks Shift Output",
-              "defaultDue": "11:00 AM",
-              "defaultOwner": "@MaintLead",
+              "liftLabel": "+1.0 Level 1 Unlock",
+              "title": "Simulate raising Q10 (Structured Pilot Experiments) from 2 to 3 in Simulator",
+              "draftText": "Raise Q10 (Pilot Experiments) from 2/5 to 3/5 across 70% of teams by Q2",
+              "tags": ["Tools & KPIs"],
+              "quadrant": "Quick Win",
+              "effort": "Low Effort",
+              "impact": "Unlocks Level 2",
+              "defaultDue": "Q2",
+              "defaultOwner": "@ProgrammeMgr",
               "selectedByDefault": true
             },
             {
-              "id": "ESC-02",
-              "codeLabel": "RED-TAG #2 (Test Cell B ★)",
+              "id": "SIM-02",
+              "codeLabel": "Q12 (Level 2 ★ Gateway)",
               "isPriorityFlagged": true,
-              "liftLabel": "High Safety Priority",
-              "title": "Overhead crane limit switch intermittent trip during rotor lift",
-              "draftText": "Lock out Secondary Hoist B and complete EHS & Electrical inspection before afternoon shift",
-              "tags": ["Safety", "Cost / Equipment"],
-              "quadrant": "Tier 2 Cross-Dept",
-              "effort": "EHS + Facilities",
-              "impact": "Zero-Harm Mandatory",
-              "defaultDue": "13:00 PM",
-              "defaultOwner": "@EHSLead",
+              "liftLabel": "+0.35 Level 2 Lift",
+              "title": "Simulate raising Q12 (Visual KPIs Discussed in Work Area) from 2 to 3",
+              "draftText": "Raise Q12 (Work-Area KPIs) from 2/5 to 3/5 across 75% of cells by Q2",
+              "tags": ["Tools & KPIs", "Daily Management"],
+              "quadrant": "Quick Win",
+              "effort": "Low Effort",
+              "impact": "High Pillar Lift",
+              "defaultDue": "Q2",
+              "defaultOwner": "@OpsLeader",
               "selectedByDefault": true
             },
             {
-              "id": "ESC-03",
-              "codeLabel": "RED-TAG #3 (Sub-Assembly 2 ★)",
+              "id": "SIM-03",
+              "codeLabel": "Q14 (Level 2 ★ Gateway)",
               "isPriorityFlagged": true,
-              "liftLabel": "3 Shifts Delayed",
-              "title": "Missing kitted seal rings from central warehouse holding 4 customer units",
-              "draftText": "Expedite bonded inspection release of seal batch #4402 from Warehouse to Sub-Assembly 2 by 14:00",
-              "tags": ["Delivery", "Quality"],
-              "quadrant": "Tier 2 Cross-Dept",
-              "effort": "Logistics + QA",
-              "impact": "Saves +4 Units OTD",
-              "defaultDue": "14:00 PM",
-              "defaultOwner": "@MaterialsMgr",
+              "liftLabel": "+0.45 Level 2 Lift",
+              "title": "Simulate raising Q14 (Consistent Daily Huddles) from 2 to 3",
+              "draftText": "Raise Q14 (Daily Huddles) from 2/5 to 3/5 across 75% of shift teams by Q3",
+              "tags": ["Daily Management"],
+              "quadrant": "Quick Win",
+              "effort": "Low Effort",
+              "impact": "High Pillar Lift",
+              "defaultDue": "Q3",
+              "defaultOwner": "@ProgrammeMgr",
               "selectedByDefault": true
             },
             {
-              "id": "ESC-04",
-              "codeLabel": "RED-TAG #4 (Machining Cell 1)",
+              "id": "SIM-04",
+              "codeLabel": "Q16 (Level 2 ★ Gateway)",
               "isPriorityFlagged": false,
-              "liftLabel": "Vendor Batch Issue",
-              "title": "Surface burr on incoming cast brackets requiring 15 mins extra deburring",
-              "draftText": "Issue 24-hour supplier containment alert and sort current pallet with Quality Tech",
-              "tags": ["Quality", "Cost / Equipment"],
-              "quadrant": "Supplier / External",
-              "effort": "Supplier QA",
-              "impact": "Saves 2h Rework/Shift",
-              "defaultDue": "Tomorrow 09:00",
-              "defaultOwner": "@SupplierQA",
-              "selectedByDefault": false
-            },
-            {
-              "id": "ESC-05",
-              "codeLabel": "RED-TAG #5 (Pack Station)",
-              "isPriorityFlagged": false,
-              "liftLabel": "Fixable in Cell (<30m)",
-              "title": "Label printer ribbon roll depleted at Station 2 packing bench",
-              "draftText": "Return to Tier 1 Team Leader: restock ribbon from cell kanban cabinet within 15 minutes",
-              "tags": ["Delivery"],
-              "quadrant": "Contain in Cell (Tier 1)",
-              "effort": "Cell Operator",
-              "impact": "No Tier 2 Needed",
-              "defaultDue": "08:30 AM",
-              "defaultOwner": "@TeamLeader",
-              "selectedByDefault": false
-            },
-            {
-              "id": "ESC-06",
-              "codeLabel": "RED-TAG #6 (Weld Booth 3)",
-              "isPriorityFlagged": false,
-              "liftLabel": "Fixable in Cell (<1h)",
-              "title": "Shadow board 10mm socket missing after night shift handover",
-              "draftText": "Return to Tier 1 Team Leader: replace from tool crib and audit shift-end 5S checklist",
-              "tags": ["Cost / Equipment"],
-              "quadrant": "Contain in Cell (Tier 1)",
-              "effort": "Cell Team",
-              "impact": "No Tier 2 Needed",
-              "defaultDue": "09:30 AM",
-              "defaultOwner": "@TeamLeader",
+              "liftLabel": "+0.50 Level 3 Unlock",
+              "title": "Simulate raising Q16 (Structured Reflection) from 2 to 3",
+              "draftText": "Raise Q16 (Structured Reflection) from 2/5 to 3/5 across 70% of teams by Q3",
+              "tags": ["Leadership & Learning"],
+              "quadrant": "Major Step",
+              "effort": "Medium Effort",
+              "impact": "Unlocks Level 3",
+              "defaultDue": "Q3",
+              "defaultOwner": "@OpsLeader",
               "selectedByDefault": false
             }
           ]
@@ -2116,59 +2038,62 @@ window.FALLBACK_GUIDES_DB = {
         {
           "id": "TPL-002",
           "kind": "action-charter",
-          "navTitle": "Tier 1 / Tier 2 Stand-up Board Agenda Template",
-          "eyebrow": "Stage 4 Output Template • Pre-Filled from Escalation Triage Filter",
-          "badge": "Daily Management Suite",
-          "title": "Tier 1 / Tier 2 Stand-Up Board Agenda & 24-Hour Countermeasure Log",
+          "navTitle": "PM Maturity Hub Strategy Builder Summary",
+          "eyebrow": "PHASE 3 STRATEGY BUILDER SUMMARY • STANDALONE PM MATURITY HUB",
+          "badge": "PM Maturity Hub",
+          "liveUrl": "https://megblcntpvc72.ad101.siemens-energy.net/pm-maturity-hub/",
+          "liveLabel": "Launch PM Maturity Hub ↗",
+          "title": "PM Maturity Hub Strategy Builder & Simulation Summary",
           "linkedDecisionId": "DEC-003",
           "metaFields": [
-            { "label": "Site / Cell Area", "value": "[Insert Cell / Value Stream]" },
-            { "label": "Shift & Date", "value": "[Day Shift • YYYY-MM-DD]" },
-            { "label": "Tier 1 Team Leader", "value": "@[TeamLeader]" },
-            { "label": "Tier 2 Chair (LPM / Sponsor)", "value": "@[OpsSponsor]" }
+            { "label": "Site / Area", "value": "[Insert Site]" },
+            { "label": "Date", "value": "[YYYY-MM-DD]" },
+            { "label": "Local Programme Manager", "value": "@[Name]" },
+            { "label": "Simulated Score Lift", "value": "[1.6 → 2.6]" }
           ],
-          "leftBoxTitle": "1. Standard 15-Minute Tier 1 / Tier 2 Stand-Up Agenda",
+          "leftBoxTitle": "1. 4-Pillar Capability Highlights (Metro Journey & 4 Pillars)",
           "leftBoxBullets": [
-            "00–03 Mins (Safety & People): Check zero-harm status, ergonomic risks, and shift staffing.",
-            "03–08 Mins (Quality & Delivery): Review red misses only; verify 24h cell containment owners.",
-            "08–15 Mins (Cost & Escalations): Lock max 3 Red Tags for Tier 2 and confirm 10:00 AM feedback."
+            "Foundation & Strategy: Level 0 Gateways unlocked; Q7 & Q8 active.",
+            "Tools & KPIs: Q10 (Pilot Experiments) identified as primary Level 1 cap.",
+            "Daily Management: Q12 & Q14 targeted for next wave in Simulator."
           ],
-          "rightBoxTitle": "2. Shift SQDC Status & Escalation Cap Summary",
-          "rightBoxPrimary": "Tier 2 Escalation Cap: Max 3 Cross-Department Red Blockers",
-          "rightBoxSecondaryPrefix": "Active Red Tags Escalated Today",
+          "rightBoxTitle": "2. Simulated Score Impact (PM Maturity Hub Simulator)",
+          "rightBoxPrimary": "Simulated Score: 1.6 → 2.6 (Unlocks Level 2)",
+          "rightBoxSecondaryPrefix": "Simulated Gateway Actions",
           "tableHeaders": {
-            "code": "Tag #",
-            "action": "24-Hour Countermeasure & Shop-Floor Verification ([Action] + [Location] + [Fix Window])",
-            "lift": "Operational Impact",
-            "tag": "SQDC Pillar",
-            "due": "Fix By",
-            "owner": "24h Owner"
+            "code": "#",
+            "action": "Simulated Capability Action ([Gateway] from [Current] to [Target] by [Date])",
+            "lift": "Simulated Lift",
+            "tag": "4-Pillar Area",
+            "due": "Target",
+            "owner": "Owner"
           },
-          "objectiveRowCode": "TIER 2",
-          "objectiveRowText": "Escalated Cross-Department Blockers (Filtered via Tier 2 Red-Tag Triage — 10:00 AM Feedback Rule)",
-          "rowCodePrefix": "CM-"
+          "objectiveRowCode": "SIM 1",
+          "objectiveRowText": "Simulated Gateway Unlocks (Tested in PM Maturity Hub Simulator & Strategy Builder)",
+          "rowCodePrefix": "SIM 1."
         }
       ],
       "referenceTables": [
         {
           "id": "REF-002",
-          "navTitle": "Standard SQDC Escalation Matrix",
-          "eyebrow": "Daily Management Reference",
-          "badge": "Daily Management Suite",
-          "title": "Standard Tier 1 → Tier 3 Escalation Matrix & Response Times",
-          "subtitle": "Clear rules for when a shop-floor issue stays in the cell (Tier 1) versus when it must be escalated with a Red Tag to Tier 2 or Tier 3.",
-          "filterAllLabel": "All Triggers (8)",
-          "filterFlaggedLabel": "★ Immediate Tier 2 Red-Tag Triggers Only (5)",
-          "columns": ["Code", "Shop-Floor Trigger Condition", "Pillar", "Target Tier", "Red-Tag Rule"],
+          "navTitle": "PM Maturity Hub Navigation & Module Guide",
+          "eyebrow": "Standalone Application Reference",
+          "badge": "PM Maturity Hub",
+          "title": "PM Maturity Hub Sidebar Modules & When to Use Each",
+          "subtitle": "Quick reference for all 4 sidebar groups inside the standalone PM Maturity Hub application.",
+          "filterAllLabel": "All Modules (9)",
+          "filterFlaggedLabel": "★ Core Interactive Views (5)",
+          "columns": ["Phase", "Sidebar Tab Name", "Primary Purpose", "Input Needed", "Core View?"],
           "rows": [
-            { "code": "ESC-S1", "col1": "First-aid injury, near-miss with high potential, or unsafe lifting/hoist equipment condition", "col2": "Safety", "col3": "Tier 2 & EHS Immediately", "flagged": true, "flagLabel": "★ Red Tag Now" },
-            { "code": "ESC-S2", "col1": "Minor 5S housekeeping or walkway clutter fixable by cell operators within 15 minutes", "col2": "Safety", "col3": "Tier 1 Cell Containment", "flagged": false, "flagLabel": "Cell Fix (<15m)" },
-            { "code": "ESC-Q1", "col1": "Repeat critical-to-quality defect or calibrated torque/test tool out of tolerance", "col2": "Quality", "col3": "Tier 2 (<2 Hours)", "flagged": true, "flagLabel": "★ Red Tag (>2h)" },
-            { "code": "ESC-Q2", "col1": "Single cosmetic blemish with documented standard rework instruction in cell", "col2": "Quality", "col3": "Tier 1 Cell Containment", "flagged": false, "flagLabel": "Cell Fix (<2h)" },
-            { "code": "ESC-D1", "col1": "Main line or test bay stopped >2 hours waiting on warehouse parts, crane, or engineering", "col2": "Delivery", "col3": "Tier 2 (09:00 AM Huddle)", "flagged": true, "flagLabel": "★ Red Tag (>2h)" },
-            { "code": "ESC-D2", "col1": "Customer shipment at risk of missing weekly commit date after 24h Tier 2 containment", "col2": "Delivery", "col3": "Tier 3 Plant Director", "flagged": true, "flagLabel": "★ Escalate Tier 3" },
-            { "code": "ESC-C1", "col1": "Key bottleneck machine breakdown exceeding 2 hours without maintenance replacement", "col2": "Cost / Equipment", "col3": "Tier 2 (<2 Hours)", "flagged": true, "flagLabel": "★ Red Tag (>2h)" },
-            { "code": "ESC-C2", "col1": "Consumable kanban bin or label roll depleted with backup stock available in cell", "col2": "Cost / Equipment", "col3": "Tier 1 Cell Containment", "flagged": false, "flagLabel": "Cell Fix (<30m)" }
+            { "code": "P1-A", "col1": "Maturity Assessment", "col2": "Score the 28 maturity questions inside PM Maturity Hub", "col3": "Site evidence", "flagged": true, "flagLabel": "★ Core View" },
+            { "code": "P1-B", "col1": "Maturity Explainer", "col2": "Read plain-English descriptions of Maturity Levels 0 to 4", "col3": "None", "flagged": false, "flagLabel": "Reference" },
+            { "code": "P1-C", "col1": "Score Explainer", "col2": "See how the 17 starred Gateways cap the overall score", "col3": "Assessment file", "flagged": true, "flagLabel": "★ Core View" },
+            { "code": "P2-A", "col1": "Metro Journey", "col2": "Visualise the 28 questions as stations on a Metro Journey map", "col3": "Assessment file", "flagged": true, "flagLabel": "★ Core View" },
+            { "code": "P2-B", "col1": "The 4 Pillars (Live)", "col2": "Interactive live breakdown across the 4 Lean pillars", "col3": "Assessment file", "flagged": true, "flagLabel": "★ Core View" },
+            { "code": "P2-C", "col1": "Pillars (Static)", "col2": "Static reference poster of the 4 Lean pillars", "col3": "None", "flagged": false, "flagLabel": "Reference" },
+            { "code": "P3-A", "col1": "Strategy Builder", "col2": "Combine capability gaps with priorities and export a summary", "col3": "Assessment file", "flagged": true, "flagLabel": "★ Core View" },
+            { "code": "P3-B", "col1": "Simulator", "col2": "Drag score sliders to test what-if Gateway unlocks", "col3": "Assessment file", "flagged": false, "flagLabel": "Utility" },
+            { "code": "UTIL", "col1": "CSV to JSON Fixer", "col2": "Convert legacy CSV exports into clean JSON assessment files", "col3": "Legacy .csv file", "flagged": false, "flagLabel": "Utility" }
           ]
         }
       ]
@@ -2196,6 +2121,7 @@ window.FALLBACK_GUIDES_DB = {
       "processIds": ["PRC-004"],
       "sopIds": ["SOP-007", "SOP-008"],
       "toolIds": ["TOL-008"],
+      "liveToolIds": [],
       "chooserLabel": "Which part of the morning brew round are you doing right now?",
       "rulesKey": {
         "title": "Before You Boil: 3 Golden Rules for the Office Brew Run",

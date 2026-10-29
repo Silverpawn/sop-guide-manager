@@ -33,7 +33,7 @@ let state = {
   studioSavedSvgVisual: null
 };
 
-const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V9";
+const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V10";
 let DEFAULT_DB_SNAPSHOT = null;
 
 async function initApp() {
@@ -104,6 +104,18 @@ function getActiveTools() {
   const plb = getActivePlaybook();
   if (!plb) return Object.values(DB?.tools || {});
   return (plb.toolIds || []).map((id) => DB.tools[id]).filter(Boolean);
+}
+
+function getActiveLiveTools(plb) {
+  const allLive = DB?.meta?.liveTools || [];
+  const activePlb = plb || getActivePlaybook();
+  if (!activePlb) return allLive;
+  if (Array.isArray(activePlb.liveToolIds)) {
+    return activePlb.liveToolIds
+      .map((id) => allLive.find((lt) => lt.id === id))
+      .filter(Boolean);
+  }
+  return allLive;
 }
 
 function escapeHtml(str) {
@@ -504,10 +516,10 @@ function renderSidebar() {
 
     <div>
       ${
-        (DB.meta?.liveTools || []).length > 0
+        getActiveLiveTools(plb).length > 0
           ? `<div class="sidebar-launcher-card" aria-label="Live Lean@GS Intranet Tool Launcher">
               <div class="sidebar-launcher-title">🚀 Live Lean@GS Tool Launcher</div>
-              ${(DB.meta.liveTools || [])
+              ${getActiveLiveTools(plb)
                 .map(
                   (lt) => `
                 <a href="${escapeHtml(lt.url)}" target="_blank" rel="noopener noreferrer" class="sidebar-launcher-link" title="${escapeHtml(lt.description || lt.name)}">
@@ -598,14 +610,14 @@ function renderJourneyPage(plb, canvas) {
 
       <!-- Stage 7: Live Lean@GS Corporate Intranet Tool Launcher Bar -->
       ${
-        plb.id === "PLB-001" && (DB.meta?.liveTools || []).length > 0
+        getActiveLiveTools(plb).length > 0
           ? `
         <div class="live-tool-launcher-bar" role="region" aria-label="Live Lean@GS Intranet Tool Launcher">
           <div class="live-tool-launcher-label">
             <span>🚀 Live Lean@GS Intranet Tools</span>
           </div>
           <div class="live-tool-launcher-links">
-            ${(DB.meta.liveTools || [])
+            ${getActiveLiveTools(plb)
               .map(
                 (lt) => `
               <a href="${escapeHtml(lt.url)}" target="_blank" rel="noopener noreferrer" class="live-tool-btn" title="${escapeHtml(
@@ -745,8 +757,8 @@ function renderJourneyPage(plb, canvas) {
                         }
                         ${
                           secondaryLiveUrl
-                            ? `<a href="${escapeHtml(secondaryLiveUrl)}" target="_blank" rel="noopener noreferrer" class="live-tool-btn secondary compact" title="Open GS Lean Maturity Portal in a new browser tab">
-                                GS Portal ↗
+                            ? `<a href="${escapeHtml(secondaryLiveUrl)}" target="_blank" rel="noopener noreferrer" class="live-tool-btn secondary compact" title="Open secondary live tool in a new browser tab">
+                                ${escapeHtml(st.secondaryLiveLabel || toolObj?.secondaryLiveLabel || "Secondary Portal ↗")}
                               </a>`
                             : ""
                         }

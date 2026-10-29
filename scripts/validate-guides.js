@@ -94,6 +94,27 @@ for (const plb of db.playbooks || []) {
         }
       });
     }
+
+    // Strict Tool Boundary Rule: PLB-001 must never reference PM Maturity Hub or its sub-tools
+    const plb001BannedPattern = /PM Maturity Hub|pm-maturity-hub|Metro Journey|CSV to JSON Fixer/i;
+    for (const st of stages) {
+      const stageRaw = JSON.stringify(st);
+      if (plb001BannedPattern.test(stageRaw)) {
+        errors.push(`[PLB-001 Stage ${st.stageNumber}] Violates Strict Tool Boundary Rule (references PM Maturity Hub inside PLB-001).`);
+      }
+    }
+    for (const tId of plb.toolIds || []) {
+      const toolRaw = JSON.stringify(db.tools?.[tId] || {});
+      if (plb001BannedPattern.test(toolRaw)) {
+        errors.push(`[PLB-001 Tool ${tId}] Violates Strict Tool Boundary Rule (references PM Maturity Hub inside PLB-001).`);
+      }
+    }
+    for (const sId of plb.sopIds || []) {
+      const sopRaw = JSON.stringify(db.sops?.[sId] || {});
+      if (plb001BannedPattern.test(sopRaw)) {
+        errors.push(`[PLB-001 SOP ${sId}] Violates Strict Tool Boundary Rule (references PM Maturity Hub inside PLB-001).`);
+      }
+    }
   }
   for (const st of stages) {
     stats.journeyStagesChecked++;
