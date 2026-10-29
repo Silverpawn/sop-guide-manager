@@ -33,7 +33,8 @@ let stats = {
   tools: Object.keys(db.tools || {}).length,
   roles: Object.keys(db.roles || {}).length,
   sops: Object.keys(db.sops || {}).length,
-  stepsChecked: 0
+  stepsChecked: 0,
+  visualModes: { svg: 0, image: 0, none: 0 }
 };
 
 // 1. Validate Process relational links
@@ -104,11 +105,31 @@ for (const [sopId, sop] of Object.entries(db.sops || {})) {
       }
     }
 
-    // Rule: Visual-First Annotation
-    if (!step.visual || !step.visual.annotation || !step.visual.annotation.label) {
+    // Rule: Coaching Tip Required
+    if (!step.coachingTip || !String(step.coachingTip).trim()) {
       errors.push(
-        `[${sopId} Step ${step.stepNumber}] Missing Visual-First annotation (arrow + highlight box required).`
+        `[${sopId} Step ${step.stepNumber}] Missing 'coachingTip' (Value-add coaching required on every step).`
       );
+    }
+
+    // Rule: 3-Mode Visual Support (Optional / Custom Image / Declarative SVG)
+    const vis = step.visual;
+    if (!vis || vis.type === "none") {
+      stats.visualModes.none++;
+    } else if (vis.type === "image" || Boolean(vis.imageSrc)) {
+      stats.visualModes.image++;
+      if (!vis.imageSrc || !String(vis.imageSrc).trim()) {
+        errors.push(`[${sopId} Step ${step.stepNumber}] Visual mode 'image' requires a non-empty 'imageSrc'.`);
+      }
+    } else if (Array.isArray(vis.elements)) {
+      stats.visualModes.svg++;
+      if (!vis.annotation || !vis.annotation.label) {
+        errors.push(
+          `[${sopId} Step ${step.stepNumber}] Declarative SVG visual requires 'visual.annotation.label' (arrow + highlight box).`
+        );
+      }
+    } else {
+      stats.visualModes.none++;
     }
   }
 }
@@ -120,7 +141,9 @@ console.log(`Processes (Central Hubs) : ${stats.processes}`);
 console.log(`Tools (Reusable Nodes)   : ${stats.tools}`);
 console.log(`Roles (RACI Nodes)       : ${stats.roles}`);
 console.log(`SOPs (Leaf Runbooks)     : ${stats.sops}`);
-console.log(`Total Steps Audited      : ${stats.stepsChecked}`);
+console.log(
+  `Total Steps Audited      : ${stats.stepsChecked} (SVG: ${stats.visualModes.svg}, Custom Image: ${stats.visualModes.image}, Text+Coaching: ${stats.visualModes.none})`
+);
 console.log("--------------------------------------------------------------");
 
 if (warnings.length > 0) {
@@ -136,7 +159,7 @@ if (errors.length > 0) {
   console.log("✅ ALL CHECKS PASSED:");
   console.log("   • 100% Relational Snowflake links intact (Processes <-> Tools <-> Roles <-> SOPs)");
   console.log(`   • 100% Steps obey the <= ${MAX_WORDS}-word Simplified Technical English rule`);
-  console.log("   • 100% Steps use active voice and zero raw acronyms");
-  console.log("   • 100% Steps include annotated visual diagrams with arrows & callouts");
+  console.log("   • 100% Steps use active voice, zero raw acronyms, and value-add coaching tips");
+  console.log("   • 100% Steps valid across 3 visual modes (Custom Image / Declarative SVG / Optional Text-Only)");
   console.log("   • 100% Guides include 'Getting Started' and 'Troubleshooting' anchors");
 }

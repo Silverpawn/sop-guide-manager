@@ -74,16 +74,113 @@
     <main class="content-stage" id="mainCanvas"></main>
   </div>
 
-  <!-- Admin JSON Payload Loader & Validator Modal (Hidden Behind Gear Icon) -->
+  <!-- Guide Authoring Studio & JSON Manager Modal (Hidden Behind Gear Icon) -->
   <div id="jsonModal" class="modal-backdrop hidden">
-    <div class="modal-dialog">
+    <div class="modal-dialog studio-modal-dialog">
       <div class="modal-top">
-        <div>
-          <strong>Admin: Manage Guide Payload (`data/guides.json`)</strong>
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+          <strong>⚙️ Lean@GS Guide Authoring Studio &amp; M365 Manager</strong>
+          <div class="studio-tab-group" role="tablist">
+            <button type="button" class="studio-tab-btn active" id="tabBtnStudioVisual" onclick="switchStudioTab('visual')">
+              Tab A: Visual Step &amp; Screenshot Editor (No-Code)
+            </button>
+            <button type="button" class="studio-tab-btn" id="tabBtnStudioRaw" onclick="switchStudioTab('raw')">
+              Tab B: Raw JSON Payload Loader
+            </button>
+          </div>
         </div>
-        <button type="button" class="header-btn secondary" id="closeModalBtn">Close ✕</button>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button type="button" class="header-btn" onclick="downloadUpdatedGuidesJson()" title="Download complete guides.json for SharePoint, OneDrive, or Git">
+            ⬇ Download Updated guides.json
+          </button>
+          <button type="button" class="header-btn secondary" id="closeModalBtn">Close ✕</button>
+        </div>
       </div>
-      <div class="modal-grid">
+
+      <!-- TAB A: No-Code Visual Step & Screenshot Authoring Studio -->
+      <div id="studioTabVisual" class="studio-body">
+        <div class="studio-selectors-bar">
+          <div class="studio-field-inline">
+            <label for="studioPlaybookSelect">Playbook:</label>
+            <select id="studioPlaybookSelect" class="studio-select" onchange="onStudioPlaybookChange(this.value)"></select>
+          </div>
+          <div class="studio-field-inline">
+            <label for="studioSopSelect">SOP Guide:</label>
+            <select id="studioSopSelect" class="studio-select" onchange="onStudioSopChange(this.value)"></select>
+          </div>
+          <div class="studio-field-inline">
+            <label for="studioStepSelect">Step:</label>
+            <select id="studioStepSelect" class="studio-select" onchange="onStudioStepChange(this.value)"></select>
+          </div>
+          <button type="button" class="header-btn" style="background:#009999;" onclick="addNewSopStepInStudio()">
+            + New SOP Step
+          </button>
+        </div>
+
+        <div class="studio-grid">
+          <!-- Left Column: Step Text, Guardrails, Coaching Tip & Visual Mode Radio Pills -->
+          <div class="studio-col">
+            <div class="studio-label-row">
+              <label for="studioActionInput" class="studio-label">1. Step Action Command (Max 20 Words • Active Verb):</label>
+              <span id="studioWordCounterPill" class="studio-guardrail-pill">0 / 20 words</span>
+            </div>
+            <input
+              type="text"
+              id="studioActionInput"
+              class="studio-input"
+              placeholder="e.g., Click 'Export Plan' and save the file in 600 Maturity Submissions."
+              oninput="onStudioStepFieldInput()"
+            />
+            <div id="studioGuardrailFeedback" class="studio-guardrail-feedback"></div>
+
+            <label for="studioDetailInput" class="studio-label" style="margin-top:12px;">2. Supporting Context / Detail (Optional):</label>
+            <input
+              type="text"
+              id="studioDetailInput"
+              class="studio-input"
+              placeholder="Short plain-English context for this step..."
+              oninput="onStudioStepFieldInput()"
+            />
+
+            <label for="studioCoachingInput" class="studio-label" style="margin-top:12px;">3. Good Practice Coaching Tip (Required Value-Add):</label>
+            <textarea
+              id="studioCoachingInput"
+              class="studio-textarea"
+              rows="2"
+              placeholder="Why this step matters or how to avoid a common mistake..."
+              oninput="onStudioStepFieldInput()"
+            ></textarea>
+
+            <div class="studio-label" style="margin-top:14px;">4. Visual Mode for This Step:</div>
+            <div class="studio-mode-pills" role="radiogroup" aria-label="Step Visual Mode">
+              <button type="button" class="studio-mode-pill" id="modePillNone" onclick="setStudioVisualMode('none')">
+                📝 No Image (Text + Coaching Only)
+              </button>
+              <button type="button" class="studio-mode-pill" id="modePillImage" onclick="setStudioVisualMode('image')">
+                📸 Custom Screenshot (Paste Ctrl+V / Upload)
+              </button>
+              <button type="button" class="studio-mode-pill" id="modePillSvg" onclick="setStudioVisualMode('svg')">
+                📐 Built-in UI Diagram (Declarative SVG)
+              </button>
+            </div>
+
+            <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:12px;border-top:1px solid #D7E4EE;">
+              <button type="button" class="header-btn secondary" style="color:#1B1534;border-color:#B8CEDB;" onclick="resetSavedLocalStorageGuides()">
+                ↺ Reset Local Browser Edits
+              </button>
+              <button type="button" class="header-btn" style="padding:10px 20px;font-size:13.5px;" onclick="saveStudioStepChanges()">
+                ✓ Save &amp; Apply to Live Guide
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Column: Interactive Screenshot Dropzone (Ctrl+V) & Click-to-Place Hotspot Canvas -->
+          <div class="studio-col" id="studioVisualRightCol"></div>
+        </div>
+      </div>
+
+      <!-- TAB B: Raw JSON Payload Loader -->
+      <div id="studioTabRaw" class="modal-grid hidden">
         <div>
           <textarea id="jsonEditor" class="code-editor" spellcheck="false" aria-label="JSON Payload Editor"></textarea>
         </div>
@@ -98,9 +195,14 @@
               <input type="file" id="jsonFileInput" accept=".json" style="font-size:12px;color:#54646E;" />
             </div>
           </div>
-          <button type="button" class="header-btn" id="applyJsonBtn" style="padding:11px;font-size:13.5px;">
-            Apply Changes
-          </button>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <button type="button" class="header-btn secondary" style="color:#1B1534;border-color:#B8CEDB;padding:9px;" onclick="resetSavedLocalStorageGuides()">
+              ↺ Reset to Default Payload
+            </button>
+            <button type="button" class="header-btn" id="applyJsonBtn" style="padding:11px;font-size:13.5px;">
+              Apply Raw JSON Changes
+            </button>
+          </div>
         </div>
       </div>
     </div>

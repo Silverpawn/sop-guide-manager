@@ -17,15 +17,40 @@ let state = {
   funnelQuadrantFilter: "ALL",
   selectedCandidatesByDecisionId: {}, // { "DEC-001": [...], "DEC-003": [...] }
   openInlineToolId: null,
-  sidebarToolsOpen: false
+  sidebarToolsOpen: false,
+
+  // Stage 4 Authoring Studio State:
+  studioTab: "visual", // "visual" | "raw"
+  studioPlaybookId: "PLB-001",
+  studioSopId: "SOP-001",
+  studioStepIndex: 0,
+  studioDraftVisualMode: "svg", // "none" | "image" | "svg"
+  studioDraftImageSrc: "",
+  studioDraftCaption: "",
+  studioDraftHotspot: null, // { xPercent, yPercent, widthPercent, heightPercent, label }
+  studioSavedSvgVisual: null
 };
+
+const LOCAL_STORAGE_KEY = "SE_LEAN_GS_GUIDES_DB_V4";
+let DEFAULT_DB_SNAPSHOT = null;
 
 async function initApp() {
   try {
     const res = await fetch("./data/guides.json");
-    DB = await res.json();
+    DEFAULT_DB_SNAPSHOT = await res.json();
   } catch (e) {
-    DB = window.FALLBACK_GUIDES_DB;
+    DEFAULT_DB_SNAPSHOT = window.FALLBACK_GUIDES_DB;
+  }
+
+  const savedRaw = localStorage.getItem(LOCAL_STORAGE_KEY);
+  if (savedRaw) {
+    try {
+      DB = JSON.parse(savedRaw);
+    } catch (err) {
+      DB = JSON.parse(JSON.stringify(DEFAULT_DB_SNAPSHOT));
+    }
+  } else {
+    DB = JSON.parse(JSON.stringify(DEFAULT_DB_SNAPSHOT));
   }
 
   initializePlaybookDefaults();
@@ -225,10 +250,51 @@ function renderSEArchitecturalCard(proc) {
 }
 
 /**
- * Renders the annotated step diagram using Siemens Energy colours
+ * Stage 4: 3-Mode Step Visual Renderer
+ * - Mode 1: Custom Image / Screenshot (`visual.imageSrc` or `visual.type === "image"`) with optional percentage `hotspot` overlay
+ * - Mode 2: Declarative SVG (`visual.elements`)
+ * - Mode 3: No Visual / Text-Only Step (`!step.visual` or `step.visual.type === "none"`)
  */
+function getStepVisualMode(step) {
+  const vis = step?.visual;
+  if (!vis || vis.type === "none") return "none";
+  if (vis.type === "image" || Boolean(vis.imageSrc)) return "image";
+  if (Array.isArray(vis.elements)) return "svg";
+  return "none";
+}
+
 function renderStepIllustrationCard(step) {
+  const mode = getStepVisualMode(step);
   const visual = step.visual || {};
+
+  // Mode 1: Custom Screenshot / Image with Optional Percentage Hotspot Overlay
+  if (mode === "image") {
+    const hs = visual.hotspot;
+    return `
+    <div class="illustration-card" style="padding:18px;">
+      <div class="custom-image-stage">
+        <img src="${escapeHtml(visual.imageSrc || "")}" alt="${escapeHtml(visual.caption || step.action)}" />
+        ${
+          hs && typeof hs.xPercent === "number" && typeof hs.yPercent === "number"
+            ? `
+          <div class="hotspot-overlay-box"
+               style="left:${hs.xPercent}%;top:${hs.yPercent}%;width:${hs.widthPercent || 24}%;height:${hs.heightPercent || 20}%;">
+            <span class="hotspot-callout-pill">
+              <span class="petrol-dot" style="width:7px;height:7px;"></span>
+              <span>${escapeHtml(hs.label || `Step ${step.stepNumber}`)}</span>
+            </span>
+          </div>`
+            : ""
+        }
+      </div>
+      <div style="margin-top:8px;display:flex;justify-content:space-between;font-size:12px;color:#54646E;font-weight:600;">
+        <span>${escapeHtml(visual.caption || `Step ${step.stepNumber} Screenshot`)}</span>
+        <span style="color:#007A7A;">📸 Custom Screenshot</span>
+      </div>
+    </div>`;
+  }
+
+  // Mode 2: Declarative SVG
   const els = visual.elements || [];
   const ann = visual.annotation || {};
 
@@ -877,16 +943,56 @@ function renderSOPPage(sop, plb, canvas) {
         </ul>
       </section>
 
-      <!-- Anchor 2: Visual-First Action Steps -->
+      <!-- Anchor 2: 3-Mode Action Steps (Custom Image / Declarative SVG / Text + Elevated Coaching) -->
       <section class="editorial-section">
-        <h3 class="editorial-h3">2. Step-by-step instructions</h3>
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:14px;">
+          <h3 class="editorial-h3" style="margin-bottom:0;">2. Step-by-step instructions</h3>
+          <button type="button" class="breadcrumb-link" onclick="openStudioForSop('${escapeHtml(sop.id)}', 0)">
+            ⚙️ Edit Steps or Paste Screenshots in Studio →
+          </button>
+        </div>
         ${(sop.steps || [])
-          .map((st) => {
+          .map((st, idx) => {
+            const vMode = getStepVisualMode(st);
+
+            // Mode 3: No Visual / Text-Only Step -> Place elevated coachingTip card in right column
+            if (vMode === "none") {
+              return `
+              <div class="step-split-row">
+                <div>
+                  <div class="step-kicker">
+                    <span>STEP ${st.stepNumber} • TEXT &amp; COACHING STEP</span>
+                  </div>
+                  <h4 class="step-headline">${escapeHtml(st.action)}</h4>
+                  <p class="step-subtext" style="margin-bottom:0;">${escapeHtml(st.detail || "")}</p>
+                </div>
+                <div class="elevated-coaching-card">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                    <span style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#007A7A;">
+                      💡 Good Practice Coaching Tip
+                    </span>
+                    <button type="button" class="breadcrumb-link" style="font-size:11.5px;"
+                            onclick="openStudioForSop('${escapeHtml(sop.id)}', ${idx})">
+                      + Add Screenshot
+                    </button>
+                  </div>
+                  <div style="font-size:14px;color:#1B1534;line-height:1.55;">
+                    ${escapeHtml(st.coachingTip || "")}
+                  </div>
+                </div>
+              </div>`;
+            }
+
+            // Modes 1 & 2: Custom Screenshot or Declarative SVG
             return `
             <div class="step-split-row">
               <div>
-                <div class="step-kicker">
+                <div class="step-kicker" style="display:flex;align-items:center;justify-content:space-between;">
                   <span>STEP ${st.stepNumber}</span>
+                  <button type="button" class="breadcrumb-link" style="font-size:11.5px;text-transform:none;letter-spacing:0;"
+                          onclick="openStudioForSop('${escapeHtml(sop.id)}', ${idx})">
+                    Edit Step / Screenshot
+                  </button>
                 </div>
                 <h4 class="step-headline">${escapeHtml(st.action)}</h4>
                 <p class="step-subtext">${escapeHtml(st.detail || "")}</p>
@@ -1750,10 +1856,520 @@ function setActiveTopTab(tabName) {
 }
 
 function openAdminModal() {
+  state.studioPlaybookId = state.playbookId || "PLB-001";
+  const plb = getPlaybooks().find((p) => p.id === state.studioPlaybookId) || getPlaybooks()[0];
+  if (state.view === "sop" && state.selectedId && DB.sops[state.selectedId]) {
+    state.studioSopId = state.selectedId;
+  } else {
+    state.studioSopId = plb?.sopIds?.[0] || Object.keys(DB.sops || {})[0];
+  }
+  state.studioStepIndex = 0;
+
   const raw = JSON.stringify(DB, null, 2);
   document.getElementById("jsonEditor").value = raw;
   runLiveJsonAudit(raw);
+
+  switchStudioTab("visual");
+  populateStudioSelectors();
+  loadStudioStepIntoForm();
   document.getElementById("jsonModal").classList.remove("hidden");
+}
+
+function openStudioForSop(sopId, stepIdx) {
+  const sop = DB.sops[sopId];
+  if (!sop) return;
+  const ownerPlb = getPlaybooks().find((p) => (p.sopIds || []).includes(sopId));
+  state.studioPlaybookId = ownerPlb ? ownerPlb.id : state.playbookId;
+  state.studioSopId = sopId;
+  state.studioStepIndex = typeof stepIdx === "number" ? stepIdx : 0;
+
+  const raw = JSON.stringify(DB, null, 2);
+  document.getElementById("jsonEditor").value = raw;
+  runLiveJsonAudit(raw);
+
+  switchStudioTab("visual");
+  populateStudioSelectors();
+  loadStudioStepIntoForm();
+  document.getElementById("jsonModal").classList.remove("hidden");
+}
+
+function switchStudioTab(tab) {
+  state.studioTab = tab;
+  document.getElementById("tabBtnStudioVisual").classList.toggle("active", tab === "visual");
+  document.getElementById("tabBtnStudioRaw").classList.toggle("active", tab === "raw");
+  document.getElementById("studioTabVisual").classList.toggle("hidden", tab !== "visual");
+  document.getElementById("studioTabRaw").classList.toggle("hidden", tab !== "raw");
+
+  if (tab === "raw") {
+    const raw = JSON.stringify(DB, null, 2);
+    document.getElementById("jsonEditor").value = raw;
+    runLiveJsonAudit(raw);
+  }
+}
+
+function populateStudioSelectors() {
+  const plbSel = document.getElementById("studioPlaybookSelect");
+  const sopSel = document.getElementById("studioSopSelect");
+  const stepSel = document.getElementById("studioStepSelect");
+  if (!plbSel || !sopSel || !stepSel) return;
+
+  const playbooks = getPlaybooks();
+  plbSel.innerHTML = playbooks
+    .map(
+      (p) =>
+        `<option value="${escapeHtml(p.id)}" ${p.id === state.studioPlaybookId ? "selected" : ""}>${escapeHtml(
+          p.code
+        )} • ${escapeHtml(p.title)}</option>`
+    )
+    .join("");
+
+  const activePlb = playbooks.find((p) => p.id === state.studioPlaybookId) || playbooks[0];
+  const sopIds = activePlb?.sopIds || Object.keys(DB.sops || {});
+  if (!sopIds.includes(state.studioSopId)) {
+    state.studioSopId = sopIds[0];
+    state.studioStepIndex = 0;
+  }
+
+  sopSel.innerHTML = sopIds
+    .map((id) => {
+      const s = DB.sops[id];
+      return s
+        ? `<option value="${escapeHtml(s.id)}" ${s.id === state.studioSopId ? "selected" : ""}>${escapeHtml(
+            s.id
+          )} • ${escapeHtml(s.title)}</option>`
+        : "";
+    })
+    .join("");
+
+  const currentSop = DB.sops[state.studioSopId];
+  const steps = currentSop?.steps || [];
+  if (state.studioStepIndex >= steps.length) {
+    state.studioStepIndex = Math.max(0, steps.length - 1);
+  }
+
+  stepSel.innerHTML = steps
+    .map(
+      (st, idx) =>
+        `<option value="${idx}" ${idx === state.studioStepIndex ? "selected" : ""}>Step ${st.stepNumber}: ${escapeHtml(
+          st.action.slice(0, 48)
+        )}...</option>`
+    )
+    .join("");
+}
+
+function onStudioPlaybookChange(plbId) {
+  state.studioPlaybookId = plbId;
+  const plb = getPlaybooks().find((p) => p.id === plbId);
+  state.studioSopId = plb?.sopIds?.[0] || Object.keys(DB.sops || {})[0];
+  state.studioStepIndex = 0;
+  populateStudioSelectors();
+  loadStudioStepIntoForm();
+}
+
+function onStudioSopChange(sopId) {
+  state.studioSopId = sopId;
+  state.studioStepIndex = 0;
+  populateStudioSelectors();
+  loadStudioStepIntoForm();
+}
+
+function onStudioStepChange(stepIdxStr) {
+  state.studioStepIndex = parseInt(stepIdxStr, 10) || 0;
+  loadStudioStepIntoForm();
+}
+
+function loadStudioStepIntoForm() {
+  const sop = DB.sops[state.studioSopId];
+  const step = sop?.steps?.[state.studioStepIndex];
+  if (!step) return;
+
+  document.getElementById("studioActionInput").value = step.action || "";
+  document.getElementById("studioDetailInput").value = step.detail || "";
+  document.getElementById("studioCoachingInput").value = step.coachingTip || "";
+
+  const mode = getStepVisualMode(step);
+  state.studioDraftVisualMode = mode;
+
+  if (Array.isArray(step.visual?.elements)) {
+    state.studioSavedSvgVisual = JSON.parse(JSON.stringify(step.visual));
+  } else {
+    state.studioSavedSvgVisual = {
+      type: "ui-mockup",
+      caption: `Step ${step.stepNumber} Visual Guide`,
+      elements: [
+        { id: "w1", kind: "window", label: `${sop.id} • Step ${step.stepNumber}`, x: 20, y: 15, w: 460, h: 165, state: "default" },
+        { id: "c1", kind: "button", label: step.action.slice(0, 32), x: 140, y: 65, w: 220, h: 48, state: "active" }
+      ],
+      annotation: {
+        targetX: 140,
+        targetY: 65,
+        targetW: 220,
+        targetH: 48,
+        arrowFromX: 250,
+        arrowFromY: 26,
+        label: `Step ${step.stepNumber}: Key Action`
+      }
+    };
+  }
+
+  state.studioDraftImageSrc = step.visual?.imageSrc || "";
+  state.studioDraftCaption = step.visual?.caption || `${sop.id} • Step ${step.stepNumber}`;
+  state.studioDraftHotspot = step.visual?.hotspot
+    ? JSON.parse(JSON.stringify(step.visual.hotspot))
+    : null;
+
+  onStudioStepFieldInput();
+  renderStudioVisualModeUI();
+}
+
+const BANNED_ACRONYMS_LIST = ["CV", "SSO", "PR", "PPE", "LOTO", "KPI", "SLA"];
+const COMMON_IMPERATIVE_VERBS = [
+  "click", "open", "review", "apply", "download", "upload", "select", "type", "run",
+  "write", "walk", "filter", "assign", "check", "verify", "confirm", "mark", "pair",
+  "load", "save", "export", "use", "ask", "place", "drag", "turn", "attach", "lock"
+];
+
+function onStudioStepFieldInput() {
+  const actionVal = (document.getElementById("studioActionInput")?.value || "").trim();
+  const coachingVal = (document.getElementById("studioCoachingInput")?.value || "").trim();
+  const words = countWords(actionVal);
+  const maxW = DB?.meta?.strictWordLimit || 20;
+
+  const pill = document.getElementById("studioWordCounterPill");
+  if (pill) {
+    pill.textContent = `${words} / ${maxW} words`;
+    pill.classList.toggle("over", words > maxW || words === 0);
+  }
+
+  const firstWord = (actionVal.split(/\s+/)[0] || "").replace(/[^a-zA-Z]/g, "").toLowerCase();
+  const startsWithVerb = COMMON_IMPERATIVE_VERBS.includes(firstWord) || (firstWord.length > 2 && !firstWord.endsWith("ing"));
+
+  const foundAcronyms = BANNED_ACRONYMS_LIST.filter((acr) => new RegExp(`\\b${acr}\\b`).test(actionVal));
+
+  const fbEl = document.getElementById("studioGuardrailFeedback");
+  if (fbEl) {
+    const verbBadge = startsWithVerb
+      ? `<span style="color:#007A7A;font-weight:700;">✓ Active Verb Start</span>`
+      : `<span style="color:#E66E00;font-weight:700;">⚠️ Start with a direct action verb (e.g., Click, Open, Write)</span>`;
+    const acrBadge =
+      foundAcronyms.length === 0
+        ? `<span style="color:#007A7A;font-weight:700;">✓ Zero Raw Acronyms</span>`
+        : `<span style="color:#DA1E28;font-weight:700;">✗ Spell out acronym: ${foundAcronyms.join(", ")}</span>`;
+    const coachBadge =
+      coachingVal.length > 0
+        ? `<span style="color:#007A7A;font-weight:700;">✓ Coaching Tip Included</span>`
+        : `<span style="color:#DA1E28;font-weight:700;">✗ Coaching Tip Required</span>`;
+
+    fbEl.innerHTML = `${verbBadge} <span>•</span> ${acrBadge} <span>•</span> ${coachBadge}`;
+  }
+}
+
+function setStudioVisualMode(mode) {
+  state.studioDraftVisualMode = mode;
+  renderStudioVisualModeUI();
+}
+
+function renderStudioVisualModeUI() {
+  document.getElementById("modePillNone")?.classList.toggle("active", state.studioDraftVisualMode === "none");
+  document.getElementById("modePillImage")?.classList.toggle("active", state.studioDraftVisualMode === "image");
+  document.getElementById("modePillSvg")?.classList.toggle("active", state.studioDraftVisualMode === "svg");
+
+  const rightCol = document.getElementById("studioVisualRightCol");
+  if (!rightCol) return;
+
+  if (state.studioDraftVisualMode === "none") {
+    rightCol.innerHTML = `
+      <div class="elevated-coaching-card" style="margin-top:8px;">
+        <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#007A7A;margin-bottom:6px;">
+          📝 Mode 1 Preview: No Image (Text + Coaching Only)
+        </div>
+        <p style="font-size:13.5px;color:#1B1534;line-height:1.55;">
+          This step will render cleanly without an empty placeholder box. Your <strong>Good Practice Coaching Tip</strong> will sit in the right-hand column to keep the 2-column rhythm balanced, and <code>validate-guides.js</code> will pass 100%.
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  if (state.studioDraftVisualMode === "svg") {
+    const previewStep = {
+      stepNumber: state.studioStepIndex + 1,
+      toolId: DB.sops[state.studioSopId]?.toolIds?.[0] || "TOL-001",
+      visual: state.studioSavedSvgVisual
+    };
+    rightCol.innerHTML = `
+      <div>
+        <div class="studio-label">Built-in Declarative SVG Diagram Preview:</div>
+        ${renderStepIllustrationCard(previewStep)}
+      </div>
+    `;
+    return;
+  }
+
+  // Mode: Custom Screenshot (Paste Ctrl+V or Upload + Click-to-Place Hotspot)
+  const hs = state.studioDraftHotspot;
+  rightCol.innerHTML = `
+    <div>
+      <div class="paste-dropzone">
+        <div style="font-size:14px;font-weight:700;color:#1B1534;margin-bottom:4px;">
+          📸 Press <kbd style="background:#1B1534;color:#FFF;padding:2px 6px;border-radius:4px;">Ctrl+V</kbd> Anywhere to Paste from Windows Snipping Tool
+        </div>
+        <div style="font-size:12px;color:#54646E;margin-bottom:10px;">
+          Auto-compresses to a lightweight ≤900px Base64 Data URI so <code>guides.json</code> works offline in SharePoint/OneDrive.
+        </div>
+        <input type="file" id="studioImageFileInput" accept="image/*" style="font-size:12px;" onchange="onStudioImageFileSelect(event)" />
+      </div>
+
+      <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div>
+          <label class="studio-label" style="font-size:11.5px;">Caption Below Image:</label>
+          <input type="text" class="studio-input" style="padding:6px 9px;font-size:12.5px;"
+                 value="${escapeHtml(state.studioDraftCaption)}"
+                 oninput="state.studioDraftCaption = this.value" />
+        </div>
+        <div>
+          <label class="studio-label" style="font-size:11.5px;">Callout Label (Click Image to Place):</label>
+          <div style="display:flex;gap:6px;">
+            <input type="text" id="studioHotspotLabelInput" class="studio-input" style="padding:6px 9px;font-size:12.5px;"
+                   placeholder="e.g., 1. Click 'Save PDF'"
+                   value="${escapeHtml(hs?.label || `Step ${state.studioStepIndex + 1} Target`)}"
+                   oninput="onStudioHotspotLabelInput(this.value)" />
+            ${
+              hs
+                ? `<button type="button" class="header-btn secondary" style="color:#DA1E28;border-color:#FECDD3;padding:4px 8px;font-size:11px;"
+                           onclick="clearStudioHotspot()">Clear Box</button>`
+                : ""
+            }
+          </div>
+        </div>
+      </div>
+
+      ${
+        state.studioDraftImageSrc
+          ? `
+        <div style="margin-top:8px;font-size:11.5px;color:#007A7A;font-weight:700;">
+          👆 Click anywhere on the screenshot below to place the Bright Purple (#8A00E5) highlight box:
+        </div>
+        <div class="hotspot-preview-wrap" id="studioHotspotPreviewStage" onclick="onStudioPreviewImageClick(event)">
+          <img src="${escapeHtml(state.studioDraftImageSrc)}" alt="Custom step screenshot preview" />
+          ${
+            hs
+              ? `<div class="hotspot-overlay-box"
+                      style="left:${hs.xPercent}%;top:${hs.yPercent}%;width:${hs.widthPercent}%;height:${hs.heightPercent}%;">
+                   <span class="hotspot-callout-pill">
+                     <span class="petrol-dot" style="width:6px;height:6px;"></span>
+                     <span>${escapeHtml(hs.label)}</span>
+                   </span>
+                 </div>`
+              : ""
+          }
+        </div>`
+          : `<div style="margin-top:12px;padding:18px;text-align:center;background:#F8FAFC;border:1px solid #D7E4EE;border-radius:8px;font-size:12.5px;color:#54646E;">
+               No screenshot loaded yet. Take a snip with <kbd>Win + Shift + S</kbd> and press <kbd>Ctrl + V</kbd>, or choose an image file above.
+             </div>`
+      }
+    </div>
+  `;
+}
+
+function compressImageElementToDataUrl(img) {
+  const MAX_WIDTH = 900;
+  let w = img.naturalWidth || img.width || 800;
+  let h = img.naturalHeight || img.height || 500;
+  if (w > MAX_WIDTH) {
+    h = Math.round((h * MAX_WIDTH) / w);
+    w = MAX_WIDTH;
+  }
+  const canvas = document.createElement("canvas");
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillRect(0, 0, w, h);
+  ctx.drawImage(img, 0, 0, w, h);
+
+  let dataUrl = canvas.toDataURL("image/webp", 0.8);
+  if (!dataUrl.startsWith("data:image/webp")) {
+    dataUrl = canvas.toDataURL("image/jpeg", 0.82);
+  }
+  return dataUrl;
+}
+
+function handleStudioImageBlob(fileOrBlob) {
+  if (!fileOrBlob) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const img = new Image();
+    img.onload = () => {
+      state.studioDraftVisualMode = "image";
+      state.studioDraftImageSrc = compressImageElementToDataUrl(img);
+      if (!state.studioDraftHotspot) {
+        state.studioDraftHotspot = {
+          xPercent: 32,
+          yPercent: 30,
+          widthPercent: 28,
+          heightPercent: 22,
+          label: `${state.studioStepIndex + 1}. Target Action`
+        };
+      }
+      renderStudioVisualModeUI();
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(fileOrBlob);
+}
+
+function onStudioImageFileSelect(event) {
+  const file = event.target?.files?.[0];
+  if (file) handleStudioImageBlob(file);
+}
+
+function onStudioPreviewImageClick(event) {
+  const wrap = document.getElementById("studioHotspotPreviewStage");
+  if (!wrap) return;
+  const rect = wrap.getBoundingClientRect();
+  const clickXPct = ((event.clientX - rect.left) / rect.width) * 100;
+  const clickYPct = ((event.clientY - rect.top) / rect.height) * 100;
+
+  const boxW = 28;
+  const boxH = 22;
+  const xPercent = Math.max(2, Math.min(98 - boxW, Math.round(clickXPct - boxW / 2)));
+  const yPercent = Math.max(8, Math.min(96 - boxH, Math.round(clickYPct - boxH / 2)));
+  const labelInput = document.getElementById("studioHotspotLabelInput");
+  const currentLabel = labelInput?.value || `${state.studioStepIndex + 1}. Target Action`;
+
+  state.studioDraftHotspot = {
+    xPercent,
+    yPercent,
+    widthPercent: boxW,
+    heightPercent: boxH,
+    label: currentLabel
+  };
+  renderStudioVisualModeUI();
+}
+
+function onStudioHotspotLabelInput(val) {
+  if (state.studioDraftHotspot) {
+    state.studioDraftHotspot.label = val;
+    const pillSpan = document.querySelector("#studioHotspotPreviewStage .hotspot-callout-pill span:last-child");
+    if (pillSpan) pillSpan.textContent = val;
+  }
+}
+
+function clearStudioHotspot() {
+  state.studioDraftHotspot = null;
+  renderStudioVisualModeUI();
+}
+
+function addNewSopStepInStudio() {
+  const sop = DB.sops[state.studioSopId];
+  if (!sop) return;
+  if (!Array.isArray(sop.steps)) sop.steps = [];
+  const nextNum = sop.steps.length + 1;
+  sop.steps.push({
+    stepNumber: nextNum,
+    action: "Verify the updated metric on the board and record the owner.",
+    detail: "Confirm the target condition and next check time with the team.",
+    toolId: sop.toolIds?.[0] || "TOL-001",
+    coachingTip: "Keep the step brief and action-focused so anyone on shift can follow it in seconds.",
+    visual: { type: "none" }
+  });
+  state.studioStepIndex = sop.steps.length - 1;
+  populateStudioSelectors();
+  loadStudioStepIntoForm();
+}
+
+function saveStudioStepChanges() {
+  const sop = DB.sops[state.studioSopId];
+  const step = sop?.steps?.[state.studioStepIndex];
+  if (!step) return;
+
+  const actionVal = (document.getElementById("studioActionInput")?.value || "").trim();
+  const detailVal = (document.getElementById("studioDetailInput")?.value || "").trim();
+  const coachingVal = (document.getElementById("studioCoachingInput")?.value || "").trim();
+
+  const words = countWords(actionVal);
+  const maxW = DB?.meta?.strictWordLimit || 20;
+  if (words === 0 || words > maxW) {
+    alert(`20-Word Rule Guardrail: Step action has ${words} words (maximum allowed is ${maxW}). Please shorten the sentence before saving.`);
+    return;
+  }
+  if (!coachingVal) {
+    alert("Value-Add Coaching Guardrail: Please include a Good Practice Coaching Tip before saving.");
+    return;
+  }
+  for (const acr of BANNED_ACRONYMS_LIST) {
+    if (new RegExp(`\\b${acr}\\b`).test(actionVal)) {
+      alert(`Zero-Acronym Guardrail: Please spell out '${acr}' in plain English.`);
+      return;
+    }
+  }
+
+  step.action = actionVal;
+  step.detail = detailVal;
+  step.coachingTip = coachingVal;
+
+  if (state.studioDraftVisualMode === "none") {
+    step.visual = { type: "none" };
+  } else if (state.studioDraftVisualMode === "image") {
+    if (!state.studioDraftImageSrc) {
+      alert("Please paste (Ctrl+V) or upload a screenshot image, or switch Visual Mode to 'No Image (Text + Coaching Only)'.");
+      return;
+    }
+    step.visual = {
+      type: "image",
+      imageSrc: state.studioDraftImageSrc,
+      caption: state.studioDraftCaption || `${sop.id} • Step ${step.stepNumber}`,
+      hotspot: state.studioDraftHotspot
+    };
+  } else {
+    step.visual = state.studioSavedSvgVisual;
+  }
+
+  try {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(DB));
+  } catch (e) {
+    console.warn("Could not persist to localStorage:", e);
+  }
+
+  state.playbookId = state.studioPlaybookId;
+  state.view = "sop";
+  state.selectedId = sop.id;
+  renderPlaybookSwitcher();
+  renderTopTabs();
+  renderSidebar();
+  renderMain();
+  document.getElementById("jsonModal").classList.add("hidden");
+}
+
+function downloadUpdatedGuidesJson() {
+  const raw = JSON.stringify(DB, null, 2);
+  const blob = new Blob([raw], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "guides.json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function resetSavedLocalStorageGuides() {
+  localStorage.removeItem(LOCAL_STORAGE_KEY);
+  if (DEFAULT_DB_SNAPSHOT) {
+    DB = JSON.parse(JSON.stringify(DEFAULT_DB_SNAPSHOT));
+  }
+  initializePlaybookDefaults();
+  renderPlaybookSwitcher();
+  renderTopTabs();
+  renderSidebar();
+  renderMain();
+  populateStudioSelectors();
+  loadStudioStepIntoForm();
+  const raw = JSON.stringify(DB, null, 2);
+  document.getElementById("jsonEditor").value = raw;
+  runLiveJsonAudit(raw);
 }
 
 function bindEvents() {
@@ -1777,9 +2393,24 @@ function bindEvents() {
   });
 
   window.addEventListener("keydown", (e) => {
-    if (e.key === "/" && document.activeElement !== searchInput) {
+    if (e.key === "/" && document.activeElement !== searchInput && document.getElementById("jsonModal")?.classList.contains("hidden")) {
       e.preventDefault();
       searchInput.focus();
+    }
+  });
+
+  // Global Ctrl+V Clipboard Screenshot Paste inside the Guide Authoring Studio
+  window.addEventListener("paste", (e) => {
+    const modal = document.getElementById("jsonModal");
+    if (!modal || modal.classList.contains("hidden") || state.studioTab !== "visual") return;
+    const items = e.clipboardData?.items || [];
+    for (const item of items) {
+      if (item.type && item.type.startsWith("image/")) {
+        e.preventDefault();
+        const blob = item.getAsFile();
+        handleStudioImageBlob(blob);
+        break;
+      }
     }
   });
 
@@ -1796,6 +2427,11 @@ function bindEvents() {
   document.getElementById("applyJsonBtn").addEventListener("click", () => {
     try {
       DB = JSON.parse(document.getElementById("jsonEditor").value);
+      try {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(DB));
+      } catch (storageErr) {
+        console.warn("Could not persist to localStorage:", storageErr);
+      }
       initializePlaybookDefaults();
       renderPlaybookSwitcher();
       renderTopTabs();
@@ -1836,7 +2472,7 @@ function runLiveJsonAudit(rawText) {
     const plbCount = Array.isArray(candidate.playbooks) ? candidate.playbooks.length : 0;
     reportEl.innerHTML =
       issues.length === 0
-        ? `<div style="color:#007A7A;font-weight:700;">✓ Valid Multi-Playbook Payload (${plbCount} Playbooks, ${steps} steps checked, all ≤ ${maxW} words, zero raw acronyms).</div>`
+        ? `<div style="color:#007A7A;font-weight:700;">✓ Valid Multi-Playbook Payload (${plbCount} Playbooks, ${steps} steps checked, all ≤ ${maxW} words, zero raw acronyms, 3-mode visuals ready).</div>`
         : `<div style="color:#DA1E28;">${issues.join("<br/>")}</div>`;
   } catch (e) {
     reportEl.innerHTML = `<div style="color:#DA1E28;">Syntax Error: ${escapeHtml(e.message)}</div>`;
@@ -1856,6 +2492,21 @@ window.toggleAccordion = toggleAccordion;
 window.setReferenceFilter = setReferenceFilter;
 window.copyCharterText = copyCharterText;
 window.openAdminModal = openAdminModal;
+window.openStudioForSop = openStudioForSop;
+window.switchStudioTab = switchStudioTab;
+window.onStudioPlaybookChange = onStudioPlaybookChange;
+window.onStudioSopChange = onStudioSopChange;
+window.onStudioStepChange = onStudioStepChange;
+window.onStudioStepFieldInput = onStudioStepFieldInput;
+window.setStudioVisualMode = setStudioVisualMode;
+window.onStudioImageFileSelect = onStudioImageFileSelect;
+window.onStudioPreviewImageClick = onStudioPreviewImageClick;
+window.onStudioHotspotLabelInput = onStudioHotspotLabelInput;
+window.clearStudioHotspot = clearStudioHotspot;
+window.addNewSopStepInStudio = addNewSopStepInStudio;
+window.saveStudioStepChanges = saveStudioStepChanges;
+window.downloadUpdatedGuidesJson = downloadUpdatedGuidesJson;
+window.resetSavedLocalStorageGuides = resetSavedLocalStorageGuides;
 window.setJourneyRoleFilter = setJourneyRoleFilter;
 window.toggleLpmPitch = toggleLpmPitch;
 window.openJourneyStage = openJourneyStage;
